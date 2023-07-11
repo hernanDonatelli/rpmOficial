@@ -12,12 +12,12 @@ import CounterComponent from '../components/CounterComponent.vue'
       <div class="hero__capa"></div>
 
       <div class="hero__countdown">
-        <h1 class="text-h3 text-uppercase text-center text-grey-8 q-my-sm">Miami GP</h1>
+        <h1 class="text-h3 text-uppercase text-weight-bold text-center text-grey-8 q-my-sm">Miami GP</h1>
 
         <CounterComponent
         :year="2023"
         :month="6"
-        :date="12"
+        :date="20"
         :hour="22"
         :minutes="0"
         :seconds="0"

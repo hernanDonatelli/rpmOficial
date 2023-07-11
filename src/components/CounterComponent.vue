@@ -75,19 +75,19 @@ const showRemaining = () => {
         {{ displayDays }}
         <div class="label text-caption text-center">dias</div>
       </div>
-      <span class="leading-snug">:</span>
+      <span class="leading-snug text-grey-8">:</span>
 
       <div class="hours mx-2 relative text-grey-8">
         {{ displayHours }}
         <div class="label text-caption text-center">horas</div>
       </div>
-      <span class="leading-snug">:</span>
+      <span class="leading-snug text-grey-8">:</span>
 
       <div class="minutes mx-2 relative text-grey-8">
         {{ displayMinutes }}
         <div class="label text-caption text-center">min</div>
       </div>
-      <span class="leading-snug">:</span>
+      <span class="leading-snug text-grey-8">:</span>
 
       <div class="seconds ml-2 relative text-grey-8">
         {{ displaySeconds }}
