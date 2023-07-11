@@ -39,7 +39,6 @@
     height: 100%;
     background: black;
     opacity: 0.85;
-    // mix-blend-mode: overlay;
   }
 }
 

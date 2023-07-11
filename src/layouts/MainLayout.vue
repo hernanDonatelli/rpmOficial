@@ -1,60 +1,114 @@
-<template>
-  <q-layout view="hHr lpR fFf">
-
-    <q-header elevated class="header text-white" height-hint="98">
-       <q-toolbar class="toolbarMenu">
-        <q-toolbar-title>
-          <div class="row">
-            <q-avatar>
-              <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg">
-            </q-avatar>
-            <h4 class="q-my-none q-ml-md"><a class="rpm text-white" href="/">RPMRacingLeague</a></h4>
-
-          </div>
-        </q-toolbar-title>
-
-        <q-btn dense flat round icon="las la-bars" @click="toggleRightDrawer" />
-      </q-toolbar>
-
-      <q-tabs align="left">
-        <q-route-tab to="/" label="Home" />
-        <q-route-tab to="/torneos" label="Torneos" />
-        <q-route-tab to="/nosotros" label="Nosotros" />
-        <q-route-tab to="/multimedia" label="Multimedia" />
-        <q-route-tab to="/contacto" label="Contacto" />
-      </q-tabs>
-    </q-header>
-
-    <q-drawer v-model="rightDrawerOpen" side="right" behavior="mobile" elevated>
-      <!-- drawer content -->
-    </q-drawer>
-
-    <q-page-container id="main-container">
-      <router-view />
-    </q-page-container>
-
-  </q-layout>
-</template>
-
 <script setup>
 import { ref } from 'vue'
 
-const rightDrawerOpen = ref(false)
+const leftDrawerOpen = ref(false)
 
-const toggleRightDrawer = () => {
-  rightDrawerOpen.value = !rightDrawerOpen.value
+const toggleLeftDrawer = () => {
+  leftDrawerOpen.value = !leftDrawerOpen.value
 }
 
 </script>
 
+<template>
+  <q-layout view="lHh Lpr lFf" class="bg-white">
+    <q-header class="header__nav">
+      <q-toolbar>
+        <q-btn class="text-red-13" flat dense round @click="toggleLeftDrawer" aria-label="Menu" icon="las la-bars" />
+
+        <q-toolbar-title class="text-red-13">
+          RPMRACINGLEAGUE
+        </q-toolbar-title>
+      </q-toolbar>
+    </q-header>
+
+    <q-drawer v-model="leftDrawerOpen" show-if-above elevated class="drawer__menu">
+      <q-list>
+        <q-item-label header>Menu</q-item-label>
+        <q-item clickable to="/" class="text-white" active-class="menu__link" exact>
+          <q-item-section avatar>
+            <q-icon name="las la-home" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Home</q-item-label>
+            <q-item-label caption class="text-grey-8">Ir al inicio de la web</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item clickable to="/nosotros" active-class="menu__link">
+          <q-item-section avatar>
+            <q-icon name="las la-users" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Nosotros</q-item-label>
+            <q-item-label caption class="text-grey-8">Acerca de RPM Racing League</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item clickable href="#" active-class="menu__link">
+          <q-item-section avatar>
+            <q-icon name="las la-trophy" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Campeonatos</q-item-label>
+            <q-item-label caption class="text-grey-8">Nuestras competiciones aquí</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item clickable to="/multimedia" active-class="menu__link">
+          <q-item-section avatar>
+            <q-icon name="las la-photo-video" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Multimedia</q-item-label>
+            <q-item-label caption class="text-grey-8">YouTube - Imagenes</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item clickable target="_blank" rel="noopener" href="https://www.youtube.com/@rpmracingleague7342" active-class="menu__link">
+          <q-item-section avatar>
+            <q-icon name="lab la-youtube" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>YouTube</q-item-label>
+            <q-item-label caption class="text-grey-8">@rpmracingleague7342</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item clickable to="/contacto" active-class="menu__link">
+          <q-item-section avatar>
+            <q-icon name="las la-envelope" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Contacto</q-item-label>
+            <q-item-label caption class="text-grey-8">Escribenos por cualquier inquietud</q-item-label>
+          </q-item-section>
+        </q-item>
+      </q-list>
+    </q-drawer>
+
+    <q-page-container id="main__container">
+      <router-view />
+    </q-page-container>
+  </q-layout>
+</template>
+
 <style lang="scss">
-.header{
-  background-color: $dark-page;
-}
-#main-container{
+#main__container {
   padding-top: 0 !important;
 }
-.rpm {
-  text-decoration: none;
+
+.header__nav{
+  background-color: $transparent;
+}
+
+.drawer__menu{
+  background-color: rgba($color: #000000, $alpha: 0.98);
+}
+
+.q-list a{
+  color: white;
+
+}
+
+.menu__link{
+  color: red;
+  background-color: $grey-10;
 }
 </style>
+
+
