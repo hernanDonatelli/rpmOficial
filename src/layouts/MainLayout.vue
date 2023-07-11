@@ -60,7 +60,8 @@ const toggleLeftDrawer = () => {
             <q-item-label caption class="text-grey-8">YouTube - Imagenes</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item clickable target="_blank" rel="noopener" href="https://www.youtube.com/@rpmracingleague7342" active-class="menu__link">
+        <q-item clickable target="_blank" rel="noopener" href="https://www.youtube.com/@rpmracingleague7342"
+          active-class="menu__link">
           <q-item-section avatar>
             <q-icon name="lab la-youtube" />
           </q-item-section>
@@ -92,20 +93,20 @@ const toggleLeftDrawer = () => {
   padding-top: 0 !important;
 }
 
-.header__nav{
+.header__nav {
   background-color: $transparent;
 }
 
-.drawer__menu{
+.drawer__menu {
   background-color: rgba($color: #000000, $alpha: 0.98);
 }
 
-.q-list a{
+.q-list a {
   color: white;
 
 }
 
-.menu__link{
+.menu__link {
   color: red;
   background-color: $grey-10;
 }
