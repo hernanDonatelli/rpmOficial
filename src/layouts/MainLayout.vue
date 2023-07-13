@@ -1,5 +1,8 @@
 <script setup>
 import { ref } from 'vue'
+import { useUserStore } from '../stores/user'
+
+const userStore = useUserStore()
 
 const leftDrawerOpen = ref(false)
 
@@ -15,8 +18,14 @@ const toggleLeftDrawer = () => {
       <q-toolbar>
         <q-btn class="text-red-13" flat dense round @click="toggleLeftDrawer" aria-label="Menu" icon="las la-bars" />
 
-        <q-toolbar-title class="text-red-13">
-          <h4 class="q-my-md"><span>RPM</span>RacingLeague</h4>
+        <q-toolbar-title class="text-red-13 flex column items-center row-sm justify-sm-between">
+          <h4 class="q-my-none"><span>RPM</span>RacingLeague</h4>
+          <div class="btn-entrada q-my-xs">
+            <p class="inline-block q-mr-sm q-mb-none text-caption text-grey-13">{{ userStore.userData }}</p>
+            <q-btn class="q-mr-sm" size="sm" outline style="color: lightgrey" label="Login" />
+            <q-btn class="q-mr-sm" outline size="sm" style="color: lightgrey" label="Registrate" />
+            <q-btn class="q-mr-sm logout" outline size="sm" label="Salir" />
+          </div>
         </q-toolbar-title>
       </q-toolbar>
     </q-header>
@@ -94,6 +103,12 @@ const toggleLeftDrawer = () => {
   span{
     font-weight: 900;
 
+  }
+}
+.btn-entrada{
+
+  .logout{
+    color: $red-13;
   }
 }
 #main__container {
