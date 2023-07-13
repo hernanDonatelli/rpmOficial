@@ -31,7 +31,8 @@ const liveRacers = () => {
       <div class="hero__capa"></div>
 
       <div class="hero__countdown">
-        <h1 class="text-h3 text-uppercase text-weight-bold text-center text-grey-8 q-my-sm">Miami GP</h1>
+        <p class="text-grey-13 text-center q-my-none text-weight-light ">Proximo Evento</p>
+        <h1 class="text-h3 text-uppercase text-weight-bold text-center text-red-13 q-my-none">Miami GP</h1>
 
         <CounterComponent :year="2023" :month="6" :date="20" :hour="22" :minutes="0" :seconds="0" />
       </div>
@@ -47,11 +48,13 @@ const liveRacers = () => {
         </div>
         <div class="intro__blumb col-10 q-mx-auto col-md-4 q-py-lg">
           <h4 class="text-h4 q-my-none text-center"><span class="text-h2 text-white">2.</span> Inscribite</h4>
-          <p class="text-center text-body2 q-px-xl">Una vez registrado, elegí un torneo, abonas la inscripción y ya estas listo para correr.</p>
+          <p class="text-center text-body2 q-px-xl">Una vez registrado, elegí un torneo, abonas la inscripción y ya estas
+            listo para correr.</p>
         </div>
         <div class="intro__blumb col-10 q-mx-auto col-md-4 q-py-lg">
           <h4 class="text-h4 q-my-none text-center"><span class="text-h2 text-white">3.</span> A Correr!</h4>
-          <p class="text-center text-body2 q-px-xl">Ya estas habilitado para poder comenzar a disfrutar de los torneos en RPM Racing League.</p>
+          <p class="text-center text-body2 q-px-xl">Ya estas habilitado para poder comenzar a disfrutar de los torneos en
+            RPM Racing League.</p>
         </div>
       </div>
     </section>
@@ -61,6 +64,78 @@ const liveRacers = () => {
       <h1 class="text-h2 text-uppercase fontCustomTitle text-weight-bold text-center text-grey-10 q-my-none q-py-xl">
         Servidores Online</h1>
       <div id="lr-servers" class="rpmdark horizontal" orientation="horizontal"></div>
+    </section>
+
+    <!-- CAMPEONATOS -->
+    <section id="campeonatos">
+      <div class="torneo-1">
+        <div class="overlay"></div>
+
+        <!-- Cabecera de torneo -->
+        <div class="torneo-1__header">
+          <div class="titleLogo flex items-center">
+            <h3 class="text-h3 text-uppercase text-weight-bold text-white q-pl-md">Formula 1</h3>
+            <img src="../assets/logo_rf2.png" alt="">
+          </div>
+        </div>
+
+        <!-- Tabla Resumen Campeonato -->
+        <div class="tablePos q-pa-md">
+          <h5 class="text-h6 text-weight-light text-grey-13 text-center q-my-none">Campeonato</h5>
+          <q-markup-table>
+            <thead>
+              <tr>
+                <th class="text-center">Posicion</th>
+                <th class="text-center">Piloto</th>
+                <th class="text-center">Puntos</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-center">1</td>
+                <td class="text-center">Charly Ramos</td>
+                <td class="text-center">159</td>
+              </tr>
+              <tr>
+                <td class="text-center">2</td>
+                <td class="text-center">Massi Kaillera</td>
+                <td class="text-center">150</td>
+              </tr>
+              <tr>
+                <td class="text-center">3</td>
+                <td class="text-center">Sebastian Campagnolo</td>
+                <td class="text-center">136</td>
+              </tr>
+              <tr>
+                <td class="text-center">4</td>
+                <td class="text-center">Matias Machuca</td>
+                <td class="text-center">110</td>
+              </tr>
+              <tr>
+                <td class="text-center">5</td>
+                <td class="text-center">Pez Donux</td>
+                <td class="text-center">90</td>
+              </tr>
+
+            </tbody>
+          </q-markup-table>
+        </div>
+
+        <!-- Footer de torneo -->
+        <div class="torneo-1__footer flex justify-between">
+          <div class="buttons flex items-center">
+            <q-btn class="q-mr-md" icon="lab la-wpforms" outline style="color: lightgrey;" label="Inscripción" />
+            <q-btn class="q-mr-md" icon="las la-trophy" outline style="color: lightgrey;" label="Campeonato" />
+            <q-btn class="q-mr-md" icon="las la-external-link-alt" outline style="color: lightgrey;" label="Foro" />
+          </div>
+          <div class="next">
+            <p class="text-grey-13 text-center q-my-none text-weight-light ">Proximo Evento</p>
+            <h4 class="text-h4 text-uppercase text-weight-bold text-center text-red-13 q-my-none">Zandvoort GP</h4>
+            <CounterComponent :year="2023" :month="7" :date="20" :hour="22" :minutes="0" :seconds="0" />
+          </div>
+        </div>
+
+      </div>
     </section>
 
   </q-page>
@@ -93,9 +168,10 @@ const liveRacers = () => {
   &__countdown {
     position: absolute;
     bottom: 0;
-    padding: 1.5%;
+    padding: 1%;
     width: 100%;
     height: auto;
+    align-items: stretch;
     background-color: rgba($color: #000000, $alpha: .6);
 
     &__regresiveCero {
@@ -103,6 +179,10 @@ const liveRacers = () => {
       font-size: 2rem;
       font-weight: lighter;
       background-color: red;
+    }
+
+    p{
+      letter-spacing: .75rem;
     }
   }
 }
@@ -118,7 +198,7 @@ const liveRacers = () => {
       display: none !important;
     }
 
-    .lr-servers-content{
+    .lr-servers-content {
       display: flex;
       justify-content: space-around;
       flex-wrap: wrap;
@@ -138,9 +218,80 @@ const liveRacers = () => {
   padding: 7% 0;
   background-color: #2DC241;
 
-  .intro__row{
+  .intro__row {
     max-width: 1280px;
     margin: 0 auto;
+  }
+}
+
+#campeonatos {
+  position: relative;
+
+  .torneo-1 {
+    position: relative;
+    height: 100vh;
+    background-image: url('../assets/hero.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+
+    &__header {
+      position: relative;
+      z-index: 10;
+      padding-top: 3%;
+
+      img {
+        width: 120px;
+        height: auto;
+        margin-left: 2%;
+      }
+    }
+
+    .tablePos{
+      width: 30%;
+      position: absolute;
+      top: 15%;
+      right: 0;
+
+      .q-table th,
+      .q-table td{
+        border-bottom: 1px solid $grey-10;
+      }
+
+      .q-table__card{
+        background-color: transparent;
+        color: $grey-13;
+        box-shadow: none;
+      }
+    }
+
+    &__footer {
+      position: absolute;
+      bottom: 0;
+      padding: 1.5%;
+      width: 100%;
+      height: auto;
+      align-items: stretch;
+      background-color: rgba($color: #000000, $alpha: .6);
+
+      .next{
+        width: 30%;
+
+        p{
+          letter-spacing: .75rem;
+        }
+      }
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #000000;
+      opacity: .9;
+    }
   }
 }
 

@@ -10,18 +10,18 @@ const toggleLeftDrawer = () => {
 </script>
 
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="hHh lpR fFf">
     <q-header class="header__nav">
       <q-toolbar>
         <q-btn class="text-red-13" flat dense round @click="toggleLeftDrawer" aria-label="Menu" icon="las la-bars" />
 
         <q-toolbar-title class="text-red-13">
-          <h4><span>RPM</span>RacingLeague</h4>
+          <h4 class="q-my-md"><span>RPM</span>RacingLeague</h4>
         </q-toolbar-title>
       </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="leftDrawerOpen" show-if-above elevated class="drawer__menu">
+    <q-drawer v-model="leftDrawerOpen" side="left" overlay show-if-above elevated class="drawer__menu">
       <q-list>
         <q-item-label header>Menu</q-item-label>
         <q-item clickable to="/" class="text-white" active-class="menu__link" exact>
@@ -42,7 +42,7 @@ const toggleLeftDrawer = () => {
             <q-item-label caption class="text-grey-8">Acerca de RPM Racing League</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item clickable href="#" active-class="menu__link">
+        <q-item clickable href="#campeonatos" active-class="menu__link">
           <q-item-section avatar>
             <q-icon name="las la-trophy" />
           </q-item-section>
@@ -100,9 +100,9 @@ const toggleLeftDrawer = () => {
   padding-top: 0 !important;
 }
 
-.header__nav {
-  background-color: $transparent;
-}
+ .header__nav {
+   background-color: $blue-grey-10;
+ }
 
 .drawer__menu {
   background-color: rgba($color: #000000, $alpha: 0.98);
