@@ -10,13 +10,13 @@ const toggleLeftDrawer = () => {
 </script>
 
 <template>
-  <q-layout view="lHh Lpr lFf" class="bg-white">
+  <q-layout view="lHh Lpr lFf">
     <q-header class="header__nav">
       <q-toolbar>
         <q-btn class="text-red-13" flat dense round @click="toggleLeftDrawer" aria-label="Menu" icon="las la-bars" />
 
         <q-toolbar-title class="text-red-13">
-          RPMRACINGLEAGUE
+          <h4><span>RPM</span>RacingLeague</h4>
         </q-toolbar-title>
       </q-toolbar>
     </q-header>
@@ -89,6 +89,13 @@ const toggleLeftDrawer = () => {
 </template>
 
 <style lang="scss">
+.q-toolbar__title{
+
+  span{
+    font-weight: 900;
+
+  }
+}
 #main__container {
   padding-top: 0 !important;
 }

@@ -1,1 +1,9 @@
 // app global css in SCSS form
+@font-face {
+  font-family: 'Roboto Condensed Italic';
+  src: url(./fonts/RobotoCondensed-BoldItalic.ttf);
+}
+
+.fontCustomTitle{
+  font-family: 'Roboto Condensed Italic';
+}
