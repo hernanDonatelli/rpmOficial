@@ -1,10 +1,14 @@
 <script setup>
 import { ref } from 'vue'
 import { useUserStore } from '../stores/user'
+import LoginModalComponent from '../components/LoginModalComponent.vue'
+import RegisterFormComponent from '../components/RegisterModalComponent.vue'
 
 const userStore = useUserStore()
 
 const leftDrawerOpen = ref(false)
+const openModal = ref(false)
+const openModalRegister = ref(false)
 
 const toggleLeftDrawer = () => {
   leftDrawerOpen.value = !leftDrawerOpen.value
@@ -19,11 +23,11 @@ const toggleLeftDrawer = () => {
         <q-btn class="text-red-13" flat dense round @click="toggleLeftDrawer" aria-label="Menu" icon="las la-bars" />
 
         <q-toolbar-title class="text-red-13 flex column items-center row-sm justify-sm-between">
-          <h4 class="q-my-none"><span>RPM</span>RacingLeague</h4>
+          <h4 class="q-my-none text-h5 text-weight-light"><span>RPM</span>RacingLeague</h4>
           <div class="btn-entrada q-my-xs">
             <p class="inline-block q-mr-sm q-mb-none text-caption text-grey-13">{{ userStore.userData }}</p>
-            <q-btn class="q-mr-sm" size="sm" outline style="color: lightgrey" label="Login" />
-            <q-btn class="q-mr-sm" outline size="sm" style="color: lightgrey" label="Registrate" />
+            <login-modal-component />
+            <register-form-component />
             <q-btn class="q-mr-sm logout" outline size="sm" label="Salir" />
           </div>
         </q-toolbar-title>
