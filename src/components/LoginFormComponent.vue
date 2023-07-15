@@ -1,7 +1,11 @@
 <script setup>
 import { useQuasar } from "quasar";
 import { ref } from "vue";
+import { useUserStore } from '../stores/user'
+import { useRouter } from "vue-router";
 
+const router = useRouter()
+const userStore = useUserStore()
 const $q = useQuasar();
 
 //Variables
@@ -18,8 +22,8 @@ const rulesPassword = [
   (v) => v.length >= 6 || "Min 6 caracteres",
 ];
 //Metodos
-const onSubmit = () => {
-  if (!email || !password) {
+const onSubmit = async() => {
+  if (!email.value || !password.value) {
     $q.notify({
       color: "red-5",
       textColor: "white",
@@ -27,14 +31,22 @@ const onSubmit = () => {
       message: "Debe completar ambos campos",
     });
   } else {
-    $q.notify({
-      color: "green-4",
-      textColor: "white",
-      icon: "cloud_done",
-      message: "Submitted",
-    });
-    console.log("inicio exitoso");
+    setTimeout(() => {
+        $q.notify({
+          color: "green-4",
+          textColor: "white",
+          icon: "cloud_done",
+          message: "Ingreso exitoso!",
+          timeout: 1000
+        });
+
+      }, 1000)
+
+      await userStore.loginUser(email.value, password.value)
+
+      await router.push('/')
   }
+
 };
 
 const onReset = () => {
@@ -50,7 +62,7 @@ const onReset = () => {
       dense
       color="cyan-6"
       type="email"
-      v-model="email"
+      v-model.trim="email"
       label="Tu email *"
       lazy-rules
       :rules="rulesEmail"
@@ -60,7 +72,7 @@ const onReset = () => {
       dense
       color="cyan-6"
       type="password"
-      v-model="password"
+      v-model.trim="password"
       label="Ingrese una contraseña *"
       lazy-rules
       :rules="rulesPassword"

@@ -3,15 +3,23 @@ import { ref } from 'vue'
 import { useUserStore } from '../stores/user'
 import LoginModalComponent from '../components/LoginModalComponent.vue'
 import RegisterFormComponent from '../components/RegisterModalComponent.vue'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const userStore = useUserStore()
 
 const leftDrawerOpen = ref(false)
-const openModal = ref(false)
-const openModalRegister = ref(false)
 
 const toggleLeftDrawer = () => {
   leftDrawerOpen.value = !leftDrawerOpen.value
+}
+
+const logout = async () => {
+  await userStore.logoutUser()
+
+  setTimeout(() => {
+    router.push('/')
+  }, 1000);
 }
 
 </script>
@@ -26,9 +34,10 @@ const toggleLeftDrawer = () => {
           <h4 class="q-my-none text-h5 text-weight-light"><span>RPM</span>RacingLeague</h4>
           <div class="btn-entrada q-my-xs">
             <p class="inline-block q-mr-sm q-mb-none text-caption text-grey-13">{{ userStore.userData }}</p>
-            <login-modal-component />
-            <register-form-component />
-            <q-btn class="q-mr-sm logout" outline size="sm" label="Salir" />
+            <login-modal-component v-if="userStore.userData == null" />
+            <register-form-component v-if="userStore.userData == null" />
+            <q-btn v-if="userStore.userData !== null" @click="logout" class="q-mr-sm logout" outline size="sm"
+              label="Salir" />
           </div>
         </q-toolbar-title>
       </q-toolbar>
@@ -102,26 +111,28 @@ const toggleLeftDrawer = () => {
 </template>
 
 <style lang="scss">
-.q-toolbar__title{
+.q-toolbar__title {
 
-  span{
+  span {
     font-weight: 900;
 
   }
 }
-.btn-entrada{
 
-  .logout{
+.btn-entrada {
+
+  .logout {
     color: $red-13;
   }
 }
+
 #main__container {
   padding-top: 0 !important;
 }
 
- .header__nav {
-   background-color: $blue-grey-10;
- }
+.header__nav {
+  background-color: $blue-grey-10;
+}
 
 .drawer__menu {
   background-color: rgba($color: #000000, $alpha: 0.98);

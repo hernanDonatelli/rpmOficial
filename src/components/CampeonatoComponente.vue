@@ -9,16 +9,16 @@ import CounterComponent from '../components/CounterComponent.vue'
         <div class="overlay"></div>
 
         <!-- Cabecera de torneo -->
-        <div class="torneo-1__header column row-md justify-between items-center">
-          <div class="titleLogo">
+        <div class="torneo-1__header flex justify-between items-center row-md">
+          <div class="titleLogo column justify-center items-center justify-sm-center col-12 col-sm-6 column-md justify-md-start">
             <h3 class="text-h3 text-center text-uppercase text-weight-bold text-white q-my-none q-pl-md">Formula 1</h3>
             <p class="text-h5 text-grey-8 q-mb-none text-center">(rfactor 2)</p>
           </div>
-          <div class="buttons flex justify-around items-center q-mt-md">
-            <q-btn class="q-mx-lg btn-links" icon="lab la-wpforms" outline style="color: lightgrey;"
+          <div class="buttons flex row justify-around items-center q-mt-md col-sm-6 col-md-6 justify-md-end">
+            <q-btn class="q-mx-lg q-my-xs btn-links col-8 col-sm-6 col-md-3" icon="lab la-wpforms" outline style="color: lightgrey;"
               label="Inscripción" />
-            <q-btn class="q-mx-lg btn-links" icon="las la-trophy" outline style="color: lightgrey;" label="Campeonato" />
-            <q-btn class="q-mx-lg btn-links" icon="las la-external-link-alt" outline style="color: lightgrey;"
+            <q-btn class="q-mx-lg q-my-xs btn-links col-8 col-sm-6 col-md-3" icon="las la-trophy" outline style="color: lightgrey;" label="Campeonato" />
+            <q-btn class="q-mx-lg q-my-xs btn-links col-8 col-sm-6 col-md-3" icon="las la-external-link-alt" outline style="color: lightgrey;"
               label="Foro" />
           </div>
         </div>
@@ -106,7 +106,7 @@ import CounterComponent from '../components/CounterComponent.vue'
       z-index: 10;
       padding-top: 3%;
 
-      .titleLogo {
+      .titleLogo{
         width: 100%;
       }
 
@@ -140,7 +140,7 @@ import CounterComponent from '../components/CounterComponent.vue'
         background-color: transparent;
         color: $grey-13;
         box-shadow: none;
-        width: 70%;
+        width: 100%;
       }
     }
 
@@ -196,6 +196,10 @@ import CounterComponent from '../components/CounterComponent.vue'
   #campeonatos .torneo-1__header .buttons{
     width: 60%;
   }
+
+  #campeonatos .torneo-1__header .titleLogo{
+        width: 40%;
+      }
 
   .torneo-container {
     max-width: 992px;
