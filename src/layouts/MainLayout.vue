@@ -14,13 +14,16 @@ const toggleLeftDrawer = () => {
   leftDrawerOpen.value = !leftDrawerOpen.value
 }
 
-const logout = async () => {
-  await userStore.logoutUser()
+userStore.currentUser();
 
-  setTimeout(() => {
-    router.push('/')
-  }, 1000);
-}
+ const logout = async () => {
+   await userStore.logoutUser()
+
+   setTimeout(() => {
+     router.push('/')
+   }, 1000);
+ }
+
 
 </script>
 
@@ -32,12 +35,15 @@ const logout = async () => {
 
         <q-toolbar-title class="text-red-13 flex column items-center row-sm justify-sm-between">
           <h4 class="q-my-none text-h5 text-weight-light"><span>RPM</span>RacingLeague</h4>
-          <div class="btn-entrada q-my-xs">
-            <p class="inline-block q-mr-sm q-mb-none text-caption text-grey-13">{{ userStore.userData }}</p>
-            <login-modal-component v-if="userStore.userData == null" />
-            <register-form-component v-if="userStore.userData == null" />
-            <q-btn v-if="userStore.userData !== null" @click="logout" class="q-mr-sm logout" outline size="sm"
+          <div v-if="!userStore.loadingSession" class="btn-entrada q-my-xs">
+            <p class="inline-block q-mr-sm q-mb-none text-caption text-grey-13">{{ userStore.userData?.email }}</p>
+            <login-modal-component v-if="!userStore.userData" />
+            <register-form-component v-if="!userStore.userData" />
+            <q-btn v-if="userStore.userData" @click="logout" class="q-mr-sm logout" outline size="sm"
               label="Salir" />
+          </div>
+          <div v-else>
+            loading user...
           </div>
         </q-toolbar-title>
       </q-toolbar>

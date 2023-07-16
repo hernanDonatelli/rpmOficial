@@ -127,7 +127,7 @@ const onReset = () => {
       </div>
     </div>
     <div>
-      <q-btn label="Registrarse" type="submit" color="primary" />
+      <q-btn :disabled="userStore.loadingUser" label="Registrarse" type="submit" color="primary" />
       <q-btn label="Limpiar Formulario" type="reset" color="primary" flat class="q-ml-sm" />
     </div>
   </q-form>

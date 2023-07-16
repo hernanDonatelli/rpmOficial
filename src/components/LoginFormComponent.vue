@@ -22,7 +22,7 @@ const rulesPassword = [
   (v) => v.length >= 6 || "Min 6 caracteres",
 ];
 //Metodos
-const onSubmit = async() => {
+const handleSubmit = async() => {
   if (!email.value || !password.value) {
     $q.notify({
       color: "red-5",
@@ -56,7 +56,7 @@ const onReset = () => {
 </script>
 
 <template>
-  <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
+  <q-form @submit.prevent="handleSubmit" @reset="onReset" class="q-gutter-md">
     <h5 class="text-h5 text-uppercase">Login</h5>
     <q-input
       dense
@@ -79,7 +79,7 @@ const onReset = () => {
     />
 
     <div>
-      <q-btn label="Ingresar" type="submit" color="primary" />
+      <q-btn :disabled="userStore.loadingUser" label="Ingresar" type="submit" color="primary" />
       <q-btn label="Limpiar Campos" type="reset" color="primary" flat class="q-ml-sm" />
     </div>
   </q-form>
