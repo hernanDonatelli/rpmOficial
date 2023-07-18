@@ -43,7 +43,7 @@ const passwordRules = [
 ];
 
 //Metodos
-const onSubmit = async() => {
+const onSubmit = async () => {
   if (!nombre.value || !apellido.value || !email.value || !password.value || !repassword.value || !mobile.value) {
     $q.notify({
       color: "red-5",

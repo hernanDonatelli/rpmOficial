@@ -1,28 +1,46 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, onActivated } from 'vue'
 import { useUserStore } from '../stores/user'
 import LoginModalComponent from '../components/LoginModalComponent.vue'
 import RegisterFormComponent from '../components/RegisterModalComponent.vue'
 import { useRouter } from 'vue-router'
+import { userDatabaseStore } from '../stores/database'
 
 const router = useRouter()
 const userStore = useUserStore()
+const databaseStore = userDatabaseStore()
 
 const leftDrawerOpen = ref(false)
 
+
+//Menu lateral
 const toggleLeftDrawer = () => {
   leftDrawerOpen.value = !leftDrawerOpen.value
 }
 
-userStore.currentUser();
+onMounted(() => {
+  userStore.currentUserLog();
+})
 
- const logout = async () => {
-   await userStore.logoutUser()
+const checkUser = async () => {
+  const userStore = useUserStore();
+  userStore.loadingSession = true;
+  userStore.user = await userStore.currentUserLog()
 
-   setTimeout(() => {
-     router.push('/')
-   }, 1000);
- }
+  await databaseStore.getUsers();
+
+  userStore.loadingSession = false;
+}
+checkUser()
+
+//Salir de la sesion
+const logout = async () => {
+  await userStore.logoutUser()
+
+  setTimeout(() => {
+    router.push('/')
+  }, 1000);
+}
 
 
 </script>
@@ -36,14 +54,14 @@ userStore.currentUser();
         <q-toolbar-title class="text-red-13 flex column items-center row-sm justify-sm-between">
           <h4 class="q-my-none text-h5 text-weight-light"><span>RPM</span>RacingLeague</h4>
           <div v-if="!userStore.loadingSession" class="btn-entrada q-my-xs">
-            <p class="inline-block q-mr-sm q-mb-none text-caption text-grey-13">{{ userStore.userData?.email }}</p>
+            <p v-for="user of databaseStore.documents" :key="user.id" class="inline-block q-mr-sm q-mb-none text-caption text-grey-13">{{ user.nombre }} {{ user.apellido }}</p>
+            <!-- <p class="inline-block q-mr-sm q-mb-none text-caption text-grey-13">{{ userStore.userData?.email }}</p> -->
             <login-modal-component v-if="!userStore.userData" />
             <register-form-component v-if="!userStore.userData" />
-            <q-btn v-if="userStore.userData" @click="logout" class="q-mr-sm logout" outline size="sm"
-              label="Salir" />
+            <q-btn v-if="userStore.userData" @click="logout" class="q-mr-sm logout" outline size="sm" label="Salir" />
           </div>
           <div v-else>
-            loading user...
+            <p class="text-caption text-white text-weight-normal text-grey-13 q-mb-none">comprobando usuario...</p>
           </div>
         </q-toolbar-title>
       </q-toolbar>
