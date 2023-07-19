@@ -23,7 +23,8 @@ const routes = [
       { path: '/torneos', component: () => import('pages/TorneosPage.vue') },
       { path: '/multimedia', component: () => import('pages/MultimediaPage.vue') },
       { path: '/nosotros', component: () => import('pages/AboutPage.vue') },
-      { path: '/contacto', component: () => import('pages/ContactPage.vue'), beforeEnter: requireAuth}
+      { path: '/contacto', component: () => import('pages/ContactPage.vue'), beforeEnter: requireAuth},
+      { path: '/denuncias', component: () => import('pages/DenunciaPage.vue'), beforeEnter: requireAuth},
     ]
   },
 

@@ -1,4 +1,4 @@
-import { query, collection, getDocs, where } from 'firebase/firestore/lite';
+import { query, collection, getDocs, where, addDoc } from 'firebase/firestore/lite';
 import { db } from '../firebaseConfig'
 import { auth } from 'src/firebaseConfig';
 import { defineStore } from 'pinia'
@@ -11,17 +11,15 @@ export const userDatabaseStore = defineStore('database', {
   actions: {
 
     async getUsers() {
-
       if(this.documents.length !== 0){
         return
       }
 
       try {
-        const q = query(collection(db, "usuarios"), where("userID", "==", auth.currentUser.uid))
+        const q = query(collection(db, "usuarios"), where("uid", "==", auth.currentUser.uid))
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
           this.documents.push({
-            id: doc.id,
             ...doc.data()
           });
 
@@ -29,6 +27,18 @@ export const userDatabaseStore = defineStore('database', {
       } catch (error) {
         console.log(error);
       } finally {
+
+      }
+    },
+
+    async addUser(objetoDoc){
+      try {
+
+        const docRef = await addDoc(collection(db, "usuarios"), objetoDoc)
+        console.log(docRef);
+      } catch (error) {
+        console.log(error);
+      }finally{
 
       }
     }

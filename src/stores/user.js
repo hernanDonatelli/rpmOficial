@@ -10,16 +10,32 @@ export const useUserStore = defineStore('userStore', {
     loadingSession: false
   }),
   actions: {
-    async registerUser(email, password) {
+    async registerUser(email, password, nombre, apellido, movil) {
+      const userDatabase = userDatabaseStore()
       this.loadingUser = true
 
       try {
+        const data = {
+          nombre: nombre,
+          apellido: apellido,
+          movil: movil,
+          isAdmin: false
+        }
+
         const { user } = await createUserWithEmailAndPassword(auth, email, password)
 
         this.userData = {
           email: user.email,
-          uid: user.uid
+          uid: user.uid,
+          nombre: data.nombre,
+          apellido: data.apellido,
+          movil: data.movil,
+          isAdmin: data.isAdmin
         }
+
+
+        await userDatabase.addUser(this.userData)
+
 
       } catch (error) {
         console.log(error);
@@ -77,7 +93,7 @@ export const useUserStore = defineStore('userStore', {
         unsuscribe();
 
       })
-    },
+    }
 
   }
 })

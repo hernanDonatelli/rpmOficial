@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onActivated } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useUserStore } from '../stores/user'
 import LoginModalComponent from '../components/LoginModalComponent.vue'
 import RegisterFormComponent from '../components/RegisterModalComponent.vue'
@@ -20,11 +20,13 @@ const toggleLeftDrawer = () => {
 
 onMounted(() => {
   userStore.currentUserLog();
+
 })
 
 const checkUser = async () => {
   const userStore = useUserStore();
   userStore.loadingSession = true;
+
   userStore.user = await userStore.currentUserLog()
 
   await databaseStore.getUsers();
@@ -54,14 +56,15 @@ const logout = async () => {
         <q-toolbar-title class="text-red-13 flex column items-center row-sm justify-sm-between">
           <h4 class="q-my-none text-h5 text-weight-light"><span>RPM</span>RacingLeague</h4>
           <div v-if="!userStore.loadingSession" class="btn-entrada q-my-xs">
-            <p v-for="user of databaseStore.documents" :key="user.id" class="inline-block q-mr-sm q-mb-none text-caption text-grey-13">{{ user.nombre }} {{ user.apellido }}</p>
-            <!-- <p class="inline-block q-mr-sm q-mb-none text-caption text-grey-13">{{ userStore.userData?.email }}</p> -->
+            <p v-for="user of databaseStore.documents" :key="user.id"
+              class="inline-block q-mr-sm q-mb-none text-caption text-grey-13">{{ user.nombre }} {{ user.apellido }}</p>
+
             <login-modal-component v-if="!userStore.userData" />
             <register-form-component v-if="!userStore.userData" />
             <q-btn v-if="userStore.userData" @click="logout" class="q-mr-sm logout" outline size="sm" label="Salir" />
           </div>
           <div v-else>
-            <p class="text-caption text-white text-weight-normal text-grey-13 q-mb-none">comprobando usuario...</p>
+            <p class="text-caption text-white text-weight-normal text-grey-13 q-mb-none">Validando usuario...</p>
           </div>
         </q-toolbar-title>
       </q-toolbar>
@@ -123,6 +126,15 @@ const logout = async () => {
           <q-item-section>
             <q-item-label>Contacto</q-item-label>
             <q-item-label caption class="text-grey-8">Escribenos por cualquier inquietud</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item  v-if="userStore.userData" clickable to="/denuncias" active-class="menu__link">
+          <q-item-section avatar>
+            <q-icon name="las la-exclamation-triangle" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Denuncia</q-item-label>
+            <q-item-label caption class="text-grey-8">Tuviste un incidente? Denuncialo.</q-item-label>
           </q-item-section>
         </q-item>
       </q-list>

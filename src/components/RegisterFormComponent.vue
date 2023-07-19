@@ -14,7 +14,7 @@ const apellido = ref(null);
 const email = ref(null);
 const password = ref(null);
 const repassword = ref(null);
-const mobile = ref(null);
+const movil = ref(null);
 
 //Validaciones
 const nombreRules = [
@@ -44,7 +44,7 @@ const passwordRules = [
 
 //Metodos
 const onSubmit = async () => {
-  if (!nombre.value || !apellido.value || !email.value || !password.value || !repassword.value || !mobile.value) {
+  if (!nombre.value || !apellido.value || !email.value || !password.value || !repassword.value || !movil.value) {
     $q.notify({
       color: "red-5",
       textColor: "white",
@@ -75,7 +75,8 @@ const onSubmit = async () => {
       }, 1750)
     }
   }
-  await userStore.registerUser(email.value, password.value)
+
+  await userStore.registerUser(email.value, password.value, nombre.value, apellido.value, movil.value)
 
   router.push('/')
 };
@@ -86,7 +87,7 @@ const onReset = () => {
   email.value = null;
   password.value = null;
   repassword.value = null;
-  mobile.value = null;
+  movil.value = null;
 };
 </script>
 
@@ -112,7 +113,7 @@ const onReset = () => {
           hint="Debe contener @ y dominio válido" lazy-rules :rules="emailRules" />
       </div>
       <div class="col-12 col-sm-5">
-        <q-input dense type="number" color="cyan-6" v-model.trim="mobile" label="Móvil *"
+        <q-input dense type="number" color="cyan-6" v-model.trim="movil" label="Móvil *"
           hint="Con codigo de area, sin el 15" lazy-rules :rules="mobileRules" />
       </div>
     </div>
