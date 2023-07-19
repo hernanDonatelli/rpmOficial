@@ -35,7 +35,7 @@ const liveRacers = () => {
         <p class="text-grey-13 text-center q-my-none text-weight-light ">Proximo Evento</p>
         <h1 class="text-h3 text-uppercase text-weight-bold text-center text-red-13 q-my-none">Miami GP</h1>
 
-        <CounterComponent :year="2023" :month="6" :date="20" :hour="22" :minutes="0" :seconds="0" />
+        <CounterComponent :year="2023" :month="6" :date="27" :hour="22" :minutes="0" :seconds="0" />
       </div>
     </div>
 
@@ -43,18 +43,18 @@ const liveRacers = () => {
     <section id="intro">
       <div class="row intro__row">
         <div class="intro__blumb col-10 q-mx-auto col-md-4 q-py-lg">
-          <h4 class="text-h4 q-my-none text-center"><span class="text-h2 text-white">1.</span> Registrate</h4>
-          <p class="text-center text-body2 q-px-xl">Registrate en RPM Racing League para poder acceder al contenido y
+          <h4 class="text-h4 q-my-none text-center text-white text-uppercase"><span class="text-h2 text-white">1.</span> Registrate</h4>
+          <p class="text-center text-body2 q-px-xl text-grey-7">Registrate en RPM Racing League para poder acceder al contenido y
             empezar a competir en la Liga.</p>
         </div>
         <div class="intro__blumb col-10 q-mx-auto col-md-4 q-py-lg">
-          <h4 class="text-h4 q-my-none text-center"><span class="text-h2 text-white">2.</span> Inscribite</h4>
-          <p class="text-center text-body2 q-px-xl">Una vez registrado, elegí un torneo, abonas la inscripción y ya estas
+          <h4 class="text-h4 q-my-none text-center text-white text-uppercase"><span class="text-h2 text-white">2.</span> Inscribite</h4>
+          <p class="text-center text-body2 q-px-xl text-grey-7">Una vez registrado, elegí un torneo, abonas la inscripción y ya estas
             listo para correr.</p>
         </div>
         <div class="intro__blumb col-10 q-mx-auto col-md-4 q-py-lg">
-          <h4 class="text-h4 q-my-none text-center"><span class="text-h2 text-white">3.</span> A Correr!</h4>
-          <p class="text-center text-body2 q-px-xl">Ya estas habilitado para poder comenzar a disfrutar de los torneos en
+          <h4 class="text-h4 q-my-none text-center text-white text-uppercase"><span class="text-h2 text-white">3.</span> A Correr!</h4>
+          <p class="text-center text-body2 q-px-xl text-grey-7">Ya estas habilitado para poder comenzar a disfrutar de los torneos en
             RPM Racing League.</p>
         </div>
       </div>
@@ -148,7 +148,7 @@ const liveRacers = () => {
 
 #intro {
   padding: 7% 0;
-  background-color: #2DC241;
+  background-color: #000000;
 
   .intro__row {
     max-width: 1280px;

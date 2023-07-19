@@ -64,7 +64,12 @@ const logout = async () => {
             <q-btn v-if="userStore.userData" @click="logout" class="q-mr-sm logout" outline size="sm" label="Salir" />
           </div>
           <div v-else>
-            <p class="text-caption text-white text-weight-normal text-grey-13 q-mb-none">Validando usuario...</p>
+            <p class="text-caption text-white text-weight-normal text-grey-13 q-mb-none">
+            <div>
+              Validando Usuario...
+              <q-spinner-gears color="grey-6" size="2em" />
+            </div>
+            </p>
           </div>
         </q-toolbar-title>
       </q-toolbar>
@@ -128,13 +133,22 @@ const logout = async () => {
             <q-item-label caption class="text-grey-8">Escribenos por cualquier inquietud</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item  v-if="userStore.userData" clickable to="/denuncias" active-class="menu__link">
+        <q-item v-if="userStore.userData" clickable to="/denuncias" active-class="menu__link">
           <q-item-section avatar>
             <q-icon name="las la-exclamation-triangle" />
           </q-item-section>
           <q-item-section>
-            <q-item-label>Denuncia</q-item-label>
+            <q-item-label>Denuncias</q-item-label>
             <q-item-label caption class="text-grey-8">Tuviste un incidente? Denuncialo.</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item v-if="userStore.userData" clickable to="/mi-cuenta" active-class="menu__link">
+          <q-item-section avatar>
+            <q-icon name="las la-user-circle" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Mi Cuenta</q-item-label>
+            <q-item-label caption class="text-grey-8">Modifica tus datos aquí</q-item-label>
           </q-item-section>
         </q-item>
       </q-list>
