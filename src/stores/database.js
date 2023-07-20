@@ -19,9 +19,13 @@ export const userDatabaseStore = defineStore('database', {
         const q = query(collection(db, "usuarios"), where("uid", "==", auth.currentUser.uid))
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
-          this.documents.push({
-            ...doc.data()
-          });
+          if(this.documents.length == 0){
+            this.documents.push({
+              id: doc.id,
+              ...doc.data()
+            });
+          }
+
 
         })
       } catch (error) {
