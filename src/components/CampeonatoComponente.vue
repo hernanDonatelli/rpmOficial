@@ -1,25 +1,30 @@
 <script setup>
 import CounterComponent from '../components/CounterComponent.vue'
+import { useApiStore } from 'src/stores/api';
+const apiStore = useApiStore();
 </script>
 
 <template>
   <section id="campeonatos">
-    <div class="torneo-1">
+    <div v-for="torneo in apiStore.torneos" :key="torneo.id" class="torneo-1">
       <div class="torneo-container">
         <div class="overlay"></div>
 
         <!-- Cabecera de torneo -->
         <div class="torneo-1__header flex justify-between items-center row-md">
-          <div class="titleLogo column justify-center items-center justify-sm-center col-12 col-sm-6 column-md justify-md-start">
-            <h3 class="text-h3 text-center text-uppercase text-weight-bold text-white q-my-none q-pl-md">Formula 1</h3>
-            <p class="text-h5 text-grey-8 q-mb-none text-center">(rfactor 2)</p>
+          <div
+            class="titleLogo column justify-center items-center justify-sm-center col-12 col-sm-6 column-md justify-md-start">
+            <h3 class="text-h3 text-center text-uppercase text-weight-bold text-white q-my-none q-pl-md">{{ torneo.name }}
+            </h3>
+            <p class="text-h5 text-grey-8 q-mb-none text-center">({{ torneo.simulator }})</p>
           </div>
           <div class="buttons flex row justify-around items-center q-mt-md col-sm-6 col-md-6 justify-md-end">
-            <q-btn class="q-mx-lg q-my-xs btn-links col-8 col-sm-6 col-md-3" icon="lab la-wpforms" outline style="color: lightgrey;"
-              label="Inscripción" />
-            <q-btn class="q-mx-lg q-my-xs btn-links col-8 col-sm-6 col-md-3" icon="las la-trophy" outline style="color: lightgrey;" label="Campeonato" />
-            <q-btn class="q-mx-lg q-my-xs btn-links col-8 col-sm-6 col-md-3" icon="las la-external-link-alt" outline style="color: lightgrey;"
-              label="Foro" />
+            <q-btn class="q-mx-lg q-my-xs btn-links col-8 col-sm-6 col-md-3" icon="lab la-wpforms" outline
+              style="color: lightgrey;" label="Inscripción" />
+            <q-btn :to="{ name: 'torneo', params: { id: torneo.name } }" class="q-mx-lg q-my-xs btn-links col-8 col-sm-6 col-md-3"
+              icon="las la-trophy" outline style="color: lightgrey;" label="Campeonato" />
+            <q-btn class="q-mx-lg q-my-xs btn-links col-8 col-sm-6 col-md-3" icon="las la-external-link-alt" outline
+              style="color: lightgrey;" label="Foro" />
           </div>
         </div>
 
@@ -106,7 +111,7 @@ import CounterComponent from '../components/CounterComponent.vue'
       z-index: 10;
       padding-top: 3%;
 
-      .titleLogo{
+      .titleLogo {
         width: 100%;
       }
 
@@ -169,37 +174,40 @@ import CounterComponent from '../components/CounterComponent.vue'
 }
 
 @media screen and (min-width: 767.98px) {
-  #campeonatos .torneo-1 .tablePos{
+  #campeonatos .torneo-1 .tablePos {
     width: 50%;
 
-    .q-table__container{
+    .q-table__container {
       width: 100%;
     }
   }
-  #campeonatos .torneo-1 .next{
+
+  #campeonatos .torneo-1 .next {
     width: 50%;
   }
-  .buttons{
+
+  .buttons {
     width: 80%;
   }
 
 }
 
-@media screen and (min-width: 991.98px){
-  #campeonatos .torneo-1 .tablePos{
+@media screen and (min-width: 991.98px) {
+  #campeonatos .torneo-1 .tablePos {
     width: 40%;
 
-    .q-table__container{
+    .q-table__container {
       width: 100%;
     }
   }
-  #campeonatos .torneo-1__header .buttons{
+
+  #campeonatos .torneo-1__header .buttons {
     width: 60%;
   }
 
-  #campeonatos .torneo-1__header .titleLogo{
-        width: 40%;
-      }
+  #campeonatos .torneo-1__header .titleLogo {
+    width: 40%;
+  }
 
   .torneo-container {
     max-width: 992px;
@@ -210,20 +218,21 @@ import CounterComponent from '../components/CounterComponent.vue'
   }
 }
 
-@media screen and (min-width: 1279.98px){
-  #campeonatos .torneo-1 .tablePos{
+@media screen and (min-width: 1279.98px) {
+  #campeonatos .torneo-1 .tablePos {
     width: 35%;
 
   }
 
-  #campeonatos .torneo-1 .next{
+  #campeonatos .torneo-1 .next {
     width: 33%;
   }
 
-  #campeonatos .torneo-1__header .titleLogo{
+  #campeonatos .torneo-1__header .titleLogo {
     width: 33%;
   }
-  .buttons{
+
+  .buttons {
     width: 33%;
   }
 
@@ -238,9 +247,7 @@ import CounterComponent from '../components/CounterComponent.vue'
 }
 
 @media screen and (min-width: 1599.98px) {
-  #campeonatos .torneo-1 .tablePos{
+  #campeonatos .torneo-1 .tablePos {
     width: 40%;
   }
-}
-
-</style>
+}</style>

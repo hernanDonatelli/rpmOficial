@@ -26,6 +26,7 @@ const routes = [
       { path: '/contacto', component: () => import('pages/ContactPage.vue'), beforeEnter: requireAuth},
       { path: '/denuncias', component: () => import('pages/DenunciaPage.vue'), beforeEnter: requireAuth},
       { path: '/mi-cuenta', component: () => import('pages/MiCuentaPage.vue'), beforeEnter: requireAuth},
+      { path: '/torneo/:id', name: 'torneo', component: () => import('pages/TorneoPage.vue')},
     ]
   },
 

@@ -2,99 +2,90 @@
 import { useQuasar } from 'quasar'
 import { ref } from 'vue'
 import { userDatabaseStore } from '../stores/database';
+import { useUserStore } from 'src/stores/user';
 
+const userStore = useUserStore();
 const databaseStore = userDatabaseStore();
-databaseStore.getUsers();
 
 const $q = useQuasar()
 
-const nombre = ref(null)
-const apellido = ref(null)
-const email = ref(null)
-const movil = ref(null)
+const nombre = ref('')
+const apellido = ref('')
+const email = ref('')
+const movil = ref('')
 
 //Validaciones
-const nombreRules = [
-  (v) => !!v || "Nombre es requerido",
-  (v) =>
-    (v && v.length <= 20) || "El nombre debe contener menos de 20 caracteres",
+const nombreRules = [,
+    (v) =>
+        (v && v.length <= 20) || "El nombre debe contener menos de 20 caracteres",
 ];
 const apellidoRules = [
-  (v) => !!v || "Apellido es requerido",
-  (v) =>
-    (v && v.length <= 20) || "El apellido debe contener menos de 20 caracteres",
+    (v) =>
+        (v && v.length <= 20) || "El apellido debe contener menos de 20 caracteres",
 ];
 const mobileRules = [
-  (v) => !!v || "El numero de móvil es requerido",
-  (v) =>
-    (v && v.length >= 1 && v.length <= 10) ||
-    "El movil debe ser de 10 caracteres",
-];
-const emailRules = [
-  (v) => !!v || "E-mail es requerido",
-  (v) => /.+@.+\..+/.test(v) || "E-mail debe ser válido",
-];
-const passwordRules = [
-  (value) => !!value || "Requerido.",
-  (v) => v.length >= 6 || "Min 6 caracteres",
+    (v) =>
+        (v && v.length >= 1 && v.length <= 10) ||
+        "El movil debe ser de 10 caracteres",
 ];
 
 //Metodos
 const onSubmitEdit = async () => {
-  if (!nombre.value || !apellido.value || !email.value || !movil.value) {
-    $q.notify({
-      color: "red-5",
-      textColor: "white",
-      icon: "warning",
-      message: "Debe completar todos los campos",
-      timeout: 1000
-    });
-  }
-//   else {
+    // if (!nombre.value || !apellido.value || !email.value || !movil.value) {
+    //     $q.notify({
+    //         color: "red-5",
+    //         textColor: "white",
+    //         icon: "warning",
+    //         message: "Debe completar todos los campos",
+    //         timeout: 1000
+    //     });
+    // }
+    //   else {
 
-//     if (password.value != repassword.value) {
-//       $q.notify({
-//         color: "red-5",
-//         textColor: "white",
-//         icon: "warning",
-//         message: "Las contraseñas no coinciden",
-//         timeout: 1000
-//       });
-//     } else {
-//       setTimeout(() => {
-//         $q.notify({
-//           color: "green-4",
-//           textColor: "white",
-//           icon: "cloud_done",
-//           message: "El Registro fue exitoso!",
-//           timeout: 1000
-//         });
+    //     if (password.value != repassword.value) {
+    //       $q.notify({
+    //         color: "red-5",
+    //         textColor: "white",
+    //         icon: "warning",
+    //         message: "Las contraseñas no coinciden",
+    //         timeout: 1000
+    //       });
+    //     } else {
+    //       setTimeout(() => {
+    //         $q.notify({
+    //           color: "green-4",
+    //           textColor: "white",
+    //           icon: "cloud_done",
+    //           message: "El Registro fue exitoso!",
+    //           timeout: 1000
+    //         });
 
-//       }, 1750)
-//     }
-//   }
+    //       }, 1750)
+    //     }
+    //   }
 
-  const editUser = {
-    nombre: nombre.value,
-    apellido: apellido.value,
-    email: email.value,
-    movil: movil.value,
-  }
-  console.log(editUser);
+    const editUser = {
+        nombre: nombre.value,
+        apellido: apellido.value,
+        email: email.value,
+        movil: movil.value,
+    }
+    console.log(editUser);
 
-//   await userStore.registerUser(email.value, password.value, nombre.value, apellido.value, movil.value)
+    //   await userStore.registerUser(email.value, password.value, nombre.value, apellido.value, movil.value)
 
-//   router.push('/')
+    //   router.push('/')
 };
 
 const onResetEdit = () => {
-  nombre.value = null;
-  apellido.value = null;
-  email.value = null;
-  password.value = null;
-  repassword.value = null;
-  movil.value = null;
+    nombre.value = null;
+    apellido.value = null;
+    email.value = null;
+    password.value = null;
+    repassword.value = null;
+    movil.value = null;
 };
+
 </script>
 
 <template>
@@ -124,6 +115,7 @@ const onResetEdit = () => {
                     </p>
                 </li>
             </ul>
+            <q-btn label="Editar Información" type="submit" color="primary" />
         </div>
 
         <!-- Formulario de edicion -->
@@ -135,30 +127,28 @@ const onResetEdit = () => {
                 <div v-for="usuario in databaseStore.documents" :key="usuario.id">
                     <div class="row flex justify-between q-mb-lg">
                         <div class="col-12 col-sm-5">
-                            <q-input filled dense color="cyan-6" v-model.trim="nombre" :label="usuario.nombre"
-                                hint="Hasta 20 caracteres" lazy-rules :rules="nombreRules">
-                            </q-input>
+                            <q-input filled dense color="red-10" label="nombre" v-model="nombre" hint="Hasta 20 caracteres"
+                                lazy-rules />
                         </div>
                         <div class="col-12 col-sm-5">
-                            <q-input filled dense color="cyan-6" v-model.trim="apellido" :label="usuario.apellido"
-                                hint="Hasta 20 caracteres" lazy-rules :rules="apellidoRules" />
+                            <q-input filled dense color="red-10" label="apellido" v-model="apellido"
+                                hint="Hasta 20 caracteres" lazy-rules />
                         </div>
                     </div>
 
                     <div class="row flex justify-between q-mb-lg">
                         <div class="col-12 col-sm-5">
-                            <q-input filled dense color="cyan-6" type="email" v-model.trim="email" :label="usuario.email"
-                                hint="Debe contener @ y dominio válido" lazy-rules :rules="emailRules" />
+                            <q-input disable filled dense color="red-10" type="email" label="email" v-model="email" />
                         </div>
                         <div class="col-12 col-sm-5">
-                            <q-input filled dense type="number" color="cyan-6" v-model.trim="movil" :label="usuario.movil"
-                                hint="Con codigo de area, sin el 15" lazy-rules :rules="mobileRules" />
+                            <q-input filled dense type="number" color="red-10" label="movil" v-model="movil"
+                                hint="Con codigo de area, sin el 15" />
                         </div>
                     </div>
                 </div>
 
                 <div>
-                    <q-btn label="Submit" type="submit" color="primary" />
+                    <q-btn label="Editar" type="submit" color="primary" />
                     <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
                 </div>
             </q-form>

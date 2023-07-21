@@ -20,7 +20,7 @@ const toggleLeftDrawer = () => {
 
 onMounted(() => {
   userStore.currentUserLog();
-
+  getTorneos();
 })
 
 const checkUser = async () => {
@@ -42,6 +42,24 @@ const logout = async () => {
   setTimeout(() => {
     router.push('/')
   }, 1000);
+}
+
+//////////////////////////////Torneos//////////////////////////
+import { useApiStore } from 'src/stores/api';
+const apiStore = useApiStore();
+
+//Generador de token y comprobacion de usuario
+const loginUserApi = async() => {
+    await apiStore.loginApi();
+    await apiStore.getUser(apiStore.tokenApi);
+}
+
+//Traer torneos y sus datos de la API
+const getTorneos = async() => {
+    await loginUserApi();
+    const torneos = await apiStore.getTorneosApi(apiStore.tokenApi);
+
+    apiStore.torneos = torneos;
 }
 
 
@@ -103,6 +121,15 @@ const logout = async () => {
           <q-item-section>
             <q-item-label>Campeonatos</q-item-label>
             <q-item-label caption class="text-grey-8">Nuestras competiciones aquí</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item clickable to="/torneo" active-class="menu__link">
+          <q-item-section avatar>
+            <q-icon name="las la-trophy" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Torneo</q-item-label>
+            <q-item-label caption class="text-grey-8">Torneo Individual</q-item-label>
           </q-item-section>
         </q-item>
         <q-item clickable to="/multimedia" active-class="menu__link">

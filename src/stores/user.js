@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateProfile } from 'firebase/auth';
 import { defineStore } from 'pinia'
 import { auth } from 'src/firebaseConfig';
 import { userDatabaseStore } from './database';
@@ -79,6 +79,7 @@ export const useUserStore = defineStore('userStore', {
       return new Promise((resolve, reject) => {
         const unsuscribe = onAuthStateChanged(auth, user => {
           if (user) {
+            // console.log(user);
             this.userData = { email: user.email, uid: user.uid };
 
           } else {
@@ -93,7 +94,17 @@ export const useUserStore = defineStore('userStore', {
         unsuscribe();
 
       })
-    }
+    },
+    // async updateUser(displayName){
+    //   try {
+    //     await updateProfile(auth.currentUser, {
+    //       displayName
+    //     })
+    //   } catch (error) {
+    //     console.log(error);
+    //     return error.code;
+    //   }
+    // }
 
   }
 })
