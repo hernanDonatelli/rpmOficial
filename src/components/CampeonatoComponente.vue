@@ -5,7 +5,7 @@ const apiStore = useApiStore();
 </script>
 
 <template>
-  <section id="campeonatos">
+
     <div v-for="torneo in apiStore.torneos" :key="torneo.id" class="torneo-1">
       <div class="torneo-container">
         <div class="overlay"></div>
@@ -21,7 +21,7 @@ const apiStore = useApiStore();
           <div class="buttons flex row justify-around items-center q-mt-md col-sm-6 col-md-6 justify-md-end">
             <q-btn class="q-mx-lg q-my-xs btn-links col-8 col-sm-6 col-md-3" icon="lab la-wpforms" outline
               style="color: lightgrey;" label="Inscripción" />
-            <q-btn :to="{ name: 'torneo', params: { id: torneo.name } }" class="q-mx-lg q-my-xs btn-links col-8 col-sm-6 col-md-3"
+            <q-btn :to="`torneo/${torneo.id}`" class="q-mx-lg q-my-xs btn-links col-8 col-sm-6 col-md-3"
               icon="las la-trophy" outline style="color: lightgrey;" label="Campeonato" />
             <q-btn class="q-mx-lg q-my-xs btn-links col-8 col-sm-6 col-md-3" icon="las la-external-link-alt" outline
               style="color: lightgrey;" label="Foro" />
@@ -81,7 +81,6 @@ const apiStore = useApiStore();
         </div>
       </div>
     </div>
-  </section>
 </template>
 
 <style lang="scss">

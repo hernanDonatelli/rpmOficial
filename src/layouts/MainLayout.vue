@@ -123,15 +123,7 @@ const getTorneos = async() => {
             <q-item-label caption class="text-grey-8">Nuestras competiciones aquí</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item clickable to="/torneo" active-class="menu__link">
-          <q-item-section avatar>
-            <q-icon name="las la-trophy" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Torneo</q-item-label>
-            <q-item-label caption class="text-grey-8">Torneo Individual</q-item-label>
-          </q-item-section>
-        </q-item>
+
         <q-item clickable to="/multimedia" active-class="menu__link">
           <q-item-section avatar>
             <q-icon name="las la-photo-video" />
@@ -188,6 +180,9 @@ const getTorneos = async() => {
 </template>
 
 <style lang="scss">
+.q-item__label .q-item__label--caption .text-caption{
+  color: $grey-8 !important;
+}
 .q-toolbar__title {
 
   span {

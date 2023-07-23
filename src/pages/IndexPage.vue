@@ -68,7 +68,9 @@ const liveRacers = () => {
     </section>
 
     <!-- CAMPEONATOS -->
-    <CampeonatoComponente />
+    <section id="campeonatos">
+      <CampeonatoComponente />
+    </section>
 
   </q-page>
 </template>

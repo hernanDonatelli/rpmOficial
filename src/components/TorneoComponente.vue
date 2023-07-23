@@ -2,6 +2,8 @@
 import { useApiStore } from 'src/stores/api';
 import { onMounted } from 'vue';
 const apiStore = useApiStore();
+import { useRoute } from 'vue-router';
+const route = useRoute();
 
 //Generador de token y comprobacion de usuario
 const loginUserApi = async() => {
@@ -12,9 +14,16 @@ const loginUserApi = async() => {
 //Traer calendario de la API
 const getCalendar = async() => {
     await loginUserApi();
-    const calendario = await apiStore.getCalendarioApi(apiStore.tokenApi);
 
-    apiStore.calendar = calendario;
+    const idURL = route.params.id;
+
+    const calendarios = await apiStore.getCalendarioApi(apiStore.tokenApi, idURL);
+
+    const nombreTorneo = apiStore.torneos.forEach(torneo => {
+        if(torneo.id == idURL){
+            apiStore.torneo = torneo;
+        }
+    })
 }
 
 //Traer torneos y sus datos de la API
@@ -36,8 +45,9 @@ onMounted(() => {
         <div class="hero__champ">
             <div class="row">
                 <div class="col-12">
-                    <!-- <pre>{{ apiStore.torneos }}</pre> -->
-                    <h2>Nombre Torneo</h2>
+                    <h3 class="text-uppercase text-center text-weight-bold fontCustomTitle text-blue-grey-8 q-mb-none">
+                        {{ apiStore.torneo.name }}
+                    </h3>
                 </div>
             </div>
         </div>
@@ -47,7 +57,7 @@ onMounted(() => {
                 <div class="col-12 col-md-6">
                     <!-- Tabla Resumen Campeonato -->
                     <div>
-                        <h5 class="text-h6 text-weight-light text-grey-13 text-center q-my-none">Calendario</h5>
+                        <h5 class="text-uppercase text-weight-light text-blue-grey-8 text-center q-mt-lg q-mb-sm">Calendario</h5>
                         <q-markup-table dense>
                             <thead>
                                 <tr>
@@ -74,4 +84,11 @@ onMounted(() => {
 </template>
 
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.hero__champ{
+
+    h3{
+        margin-top: 4rem;
+    }
+}
+</style>

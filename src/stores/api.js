@@ -3,8 +3,9 @@ import { defineStore } from "pinia";
 export const useApiStore = defineStore('useApiStore', {
   state: () => ({
     tokenApi: null,
-    calendar: null,
-    torneos: null
+    calendar: [],
+    torneos: [],
+    torneo: []
   }),
   actions: {
     async loginApi() {
@@ -51,7 +52,7 @@ export const useApiStore = defineStore('useApiStore', {
       return respuesta;
     },
 
-    async getCalendarioApi(token) {
+    async getCalendarioApi(token, idTorneo) {
       const optionsCrearTablasCalendario = {
         method: "POST",
         headers: {
@@ -59,7 +60,7 @@ export const useApiStore = defineStore('useApiStore', {
           "Content-Type": "application/json",
           "X-Requested-With": "XMLHttpRequest",
         },
-        body: `{"idTorneo": "2"}`,
+        body: `{"idTorneo": "${idTorneo}"}`,
       };
 
       const fetchGetCalendario = await fetch(
@@ -71,7 +72,7 @@ export const useApiStore = defineStore('useApiStore', {
       const calendarioTorneos = response.data;
       calendarioTorneos.sort((a, b) => a.order - b.order);
 
-      return calendarioTorneos;
+      this.calendar = calendarioTorneos;
     },
 
     async getTorneosApi(token) {
