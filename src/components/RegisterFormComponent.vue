@@ -49,6 +49,7 @@ const onSubmit = async () => {
       color: "red-5",
       textColor: "white",
       icon: "warning",
+      position: "center",
       message: "Debe completar todos los campos",
       timeout: 1000
     });
@@ -59,24 +60,27 @@ const onSubmit = async () => {
         color: "red-5",
         textColor: "white",
         icon: "warning",
+        position: "center",
         message: "Las contraseñas no coinciden",
         timeout: 1000
       });
     } else {
+      await userStore.registerUser(email.value, password.value, nombre.value, apellido.value, movil.value)
+
       setTimeout(() => {
         $q.notify({
           color: "green-4",
           textColor: "white",
           icon: "cloud_done",
-          message: "El Registro fue exitoso!",
+          position: "center",
+          message: "El Registro del usuario fue exitoso!",
           timeout: 1000
         });
 
-      }, 1750)
+      }, 1000)
     }
   }
 
-  await userStore.registerUser(email.value, password.value, nombre.value, apellido.value, movil.value)
 
   router.push('/')
 };

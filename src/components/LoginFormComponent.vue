@@ -27,6 +27,7 @@ const handleSubmit = async() => {
     $q.notify({
       color: "red-5",
       textColor: "white",
+      position: "center",
       icon: "warning",
       message: "Debe completar ambos campos",
     });
@@ -36,7 +37,8 @@ const handleSubmit = async() => {
           color: "green-4",
           textColor: "white",
           icon: "cloud_done",
-          message: "Ingreso exitoso!",
+          position: "center",
+          message: "Inicio de sesión exitoso!",
           timeout: 1000
         });
 

@@ -1,18 +1,21 @@
 <script setup>
 import { useApiStore } from 'src/stores/api';
-import { onMounted } from 'vue';
+import { onMounted, onBeforeUnmount } from 'vue';
+import { useQuasar, QSpinnerFacebook } from 'quasar'
 const apiStore = useApiStore();
 import { useRoute } from 'vue-router';
 const route = useRoute();
 
+const $q = useQuasar()
+let timer;
 //Generador de token y comprobacion de usuario
-const loginUserApi = async() => {
+const loginUserApi = async () => {
     await apiStore.loginApi();
     await apiStore.getUser(apiStore.tokenApi);
 }
 
 //Traer calendario de la API
-const getCalendar = async() => {
+const getCalendar = async () => {
     apiStore.loadingSession = true;
 
     await loginUserApi();
@@ -23,7 +26,7 @@ const getCalendar = async() => {
     const calendarios = await apiStore.getCalendarioApi(apiStore.tokenApi, idURL);
 
     const nombreTorneo = apiStore.torneos.forEach(torneo => {
-        if(torneo.id == idURL){
+        if (torneo.id == idURL) {
             apiStore.torneo = torneo;
 
             apiStore.loadingSession = false;
@@ -33,7 +36,7 @@ const getCalendar = async() => {
 }
 
 //Traer torneos y sus datos de la API
-const getTorneos = async() => {
+const getTorneos = async () => {
     apiStore.loadingSession = true;
 
     await loginUserApi();
@@ -45,16 +48,41 @@ const getTorneos = async() => {
 }
 
 onMounted(() => {
-    getCalendar();
-    getTorneos();
+    showLoading()
 })
+onBeforeUnmount(() => {
+    if (timer !== void 0) {
+        clearTimeout(timer)
+        $q.loading.hide()
+    }
+})
+
+const showLoading = async () => {
+
+    $q.loading.show({
+        spinner: QSpinnerFacebook,
+        spinnerColor: 'red-13',
+        spinnerSize: 140,
+        backgroundColor: 'bg-grey-10',
+        message: 'Cargando información...',
+        messageColor: 'black'
+    })
+
+    await getTorneos();
+    await getCalendar();
+
+    // hiding in 1s
+    timer = setTimeout(() => {
+        $q.loading.hide()
+        timer = void 0
+    }, 1000)
+}
+
+
 </script>
 
 <template>
-    <q-spinner-gears v-if="apiStore.loadingSession"
-      color="primary"
-      size="6em"
-    />
+    <!-- <q-spinner-gears v-if="apiStore.loadingSession" color="primary" size="6em" /> -->
     <section id="torneo">
         <div class="hero__champ">
             <div class="row">
@@ -69,9 +97,10 @@ onMounted(() => {
         <div class="calendario">
             <div class="row flex justify-center">
                 <div class="col-12 col-md-6">
-                    <!-- Tabla Resumen Campeonato -->
+                    <!-- Calendario -->
                     <div>
-                        <h5 class="text-uppercase text-weight-light text-blue-grey-8 text-center q-mt-lg q-mb-sm">Calendario</h5>
+                        <h5 class="text-uppercase text-weight-light text-blue-grey-8 text-center q-mt-lg q-mb-sm">Calendario
+                        </h5>
                         <q-markup-table dense>
                             <thead>
                                 <tr>
@@ -93,13 +122,43 @@ onMounted(() => {
                     </div>
                 </div>
             </div>
+
+            <div class="row flex justify-center">
+                <div class="col-12 col-md-6">
+                    <!-- tabla de Posiciones -->
+                    <div>
+                        <h5 class="text-uppercase text-weight-light text-blue-grey-8 text-center q-mt-lg q-mb-sm">Posiciones Campeonato
+                        </h5>
+                        <q-markup-table dense>
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Posición</th>
+                                    <th class="text-center">Piloto</th>
+                                    <th class="text-center">Carreras</th>
+                                    <th class="text-center">Victorias</th>
+                                    <th class="text-center">Puntos</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-center">1</td>
+                                    <td class="text-center">Massi Kaillera</td>
+                                    <td class="text-center">6</td>
+                                    <td class="text-center">2</td>
+                                    <td class="text-center">78</td>
+                                </tr>
+                            </tbody>
+                        </q-markup-table>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 </template>
 
 
 <style lang="scss" scoped>
-.q-spinner{
+.q-spinner {
     height: 100vh;
     position: absolute;
     top: 50%;
@@ -107,9 +166,10 @@ onMounted(() => {
     transform: translate(0, -50%);
     z-index: 100;
 }
-.hero__champ{
 
-    h3{
+.hero__champ {
+
+    h3 {
         margin-top: 4rem;
     }
 }

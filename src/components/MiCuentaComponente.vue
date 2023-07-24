@@ -29,63 +29,66 @@ const mobileRules = [
         "El movil debe ser de 10 caracteres",
 ];
 
+
 //Metodos
+const getInfoUser = () => {
+    userStore.loadingUser = true;
+
+    databaseStore.documents.forEach(user => {
+        nombre.value = user.nombre;
+        apellido.value = user.apellido;
+        email.value = user.email;
+        movil.value = user.movil
+    });
+
+}
+// getInfoUser()
 const onSubmitEdit = async () => {
-    // if (!nombre.value || !apellido.value || !email.value || !movil.value) {
-    //     $q.notify({
-    //         color: "red-5",
-    //         textColor: "white",
-    //         icon: "warning",
-    //         message: "Debe completar todos los campos",
-    //         timeout: 1000
-    //     });
-    // }
-    //   else {
+    if (!nombre.value || !apellido.value || !email.value || !movil.value) {
+        $q.notify({
+            color: "red-5",
+            textColor: "white",
+            icon: "warning",
+            position: "center",
+            message: "Debe completar todos los campos",
+            timeout: 1500
+        });
+    } else {
+        const editUser = {
+            nombre: nombre.value,
+            apellido: apellido.value,
+            movil: movil.value,
+        }
+        // console.log(editUser);
+        await databaseStore.updateUser(editUser);
 
-    //     if (password.value != repassword.value) {
-    //       $q.notify({
-    //         color: "red-5",
-    //         textColor: "white",
-    //         icon: "warning",
-    //         message: "Las contraseñas no coinciden",
-    //         timeout: 1000
-    //       });
-    //     } else {
-    //       setTimeout(() => {
-    //         $q.notify({
-    //           color: "green-4",
-    //           textColor: "white",
-    //           icon: "cloud_done",
-    //           message: "El Registro fue exitoso!",
-    //           timeout: 1000
-    //         });
+        msgEditOk();
 
-    //       }, 1750)
-    //     }
-    //   }
 
-    const editUser = {
-        nombre: nombre.value,
-        apellido: apellido.value,
-        email: email.value,
-        movil: movil.value,
     }
-    console.log(editUser);
 
-    //   await userStore.registerUser(email.value, password.value, nombre.value, apellido.value, movil.value)
-
-    //   router.push('/')
 };
 
 const onResetEdit = () => {
     nombre.value = null;
     apellido.value = null;
-    email.value = null;
-    password.value = null;
-    repassword.value = null;
     movil.value = null;
 };
 
+const msgEditOk = () => {
+    setTimeout(() => {
+        $q.notify({
+            color: "green-4",
+            textColor: "white",
+            position: "center",
+            icon: "cloud_done",
+            message: "El Usuario ha sido editado exitosamente!",
+            timeout: 1000
+        });
+
+    }, 1750)
+
+}
 </script>
 
 <template>
@@ -115,7 +118,7 @@ const onResetEdit = () => {
                     </p>
                 </li>
             </ul>
-            <q-btn label="Editar Información" type="submit" color="primary" />
+
         </div>
 
         <!-- Formulario de edicion -->
@@ -123,8 +126,8 @@ const onResetEdit = () => {
 
             <h5>Editar Cuenta</h5>
 
-            <q-form @submit="onSubmitEdit" @reset="onResetEdit" class="q-gutter-md">
-                <div v-for="usuario in databaseStore.documents" :key="usuario.id">
+            <q-form @reset="onResetEdit" class="q-gutter-md">
+                <div>
                     <div class="row flex justify-between q-mb-lg">
                         <div class="col-12 col-sm-5">
                             <q-input filled dense color="red-10" label="nombre" v-model="nombre" hint="Hasta 20 caracteres"
@@ -147,8 +150,9 @@ const onResetEdit = () => {
                     </div>
                 </div>
 
-                <div>
-                    <q-btn label="Editar" type="submit" color="primary" />
+                <div class="row flex justify-around">
+                    <q-btn @click.prevent="getInfoUser" label="Cargar Datos" type="submit" color="dark" />
+                    <q-btn @click.prevent="onSubmitEdit" :disable="!userStore.loadingUser" label="Editar Usuario" type="submit" color="green-10" />
                     <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
                 </div>
             </q-form>

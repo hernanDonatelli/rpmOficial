@@ -1,7 +1,8 @@
-import { query, collection, getDocs, where, addDoc } from 'firebase/firestore/lite';
+import { query, collection, getDocs, where, addDoc, setDoc, doc, updateDoc } from 'firebase/firestore/lite';
 import { db } from '../firebaseConfig'
 import { auth } from 'src/firebaseConfig';
 import { defineStore } from 'pinia'
+import { useUserStore } from './user';
 
 
 export const userDatabaseStore = defineStore('database', {
@@ -45,6 +46,18 @@ export const userDatabaseStore = defineStore('database', {
       }finally{
 
       }
+    },
+
+    async updateUser(userObj) {
+      let usuario;
+
+      this.documents.forEach(user => {
+        usuario = user.id
+      })
+
+      const userDB = doc(db, "usuarios", usuario);
+      await updateDoc(userDB, userObj);
+
     }
   }
 })
