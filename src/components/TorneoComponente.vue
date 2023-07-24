@@ -13,7 +13,10 @@ const loginUserApi = async() => {
 
 //Traer calendario de la API
 const getCalendar = async() => {
+    apiStore.loadingSession = true;
+
     await loginUserApi();
+
 
     const idURL = route.params.id;
 
@@ -22,16 +25,23 @@ const getCalendar = async() => {
     const nombreTorneo = apiStore.torneos.forEach(torneo => {
         if(torneo.id == idURL){
             apiStore.torneo = torneo;
+
+            apiStore.loadingSession = false;
         }
-    })
+    });
+
 }
 
 //Traer torneos y sus datos de la API
 const getTorneos = async() => {
+    apiStore.loadingSession = true;
+
     await loginUserApi();
     const torneos = await apiStore.getTorneosApi(apiStore.tokenApi);
 
     apiStore.torneos = torneos;
+
+    apiStore.loadingSession = false;
 }
 
 onMounted(() => {
@@ -41,6 +51,10 @@ onMounted(() => {
 </script>
 
 <template>
+    <q-spinner-gears v-if="apiStore.loadingSession"
+      color="primary"
+      size="6em"
+    />
     <section id="torneo">
         <div class="hero__champ">
             <div class="row">
@@ -85,6 +99,14 @@ onMounted(() => {
 
 
 <style lang="scss" scoped>
+.q-spinner{
+    height: 100vh;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(0, -50%);
+    z-index: 100;
+}
 .hero__champ{
 
     h3{

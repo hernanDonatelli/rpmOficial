@@ -5,7 +5,8 @@ export const useApiStore = defineStore('useApiStore', {
     tokenApi: null,
     calendar: [],
     torneos: [],
-    torneo: []
+    torneo: [],
+    loadingSession: false
   }),
   actions: {
     async loginApi() {
