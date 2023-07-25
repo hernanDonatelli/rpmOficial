@@ -1,7 +1,7 @@
 {
   "name": "rpmracingleagueq",
   "version": "0.0.1",
-  "description": "A Quasar Project",
+  "description": "Liga Argentina de Simracing",
   "productName": "RPM Racing League",
   "author": "Hernan Donatelli <hernandonatelli@gmail.com>",
   "private": true,
