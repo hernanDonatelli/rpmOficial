@@ -4,8 +4,6 @@ import MiCuentaComponente from 'src/components/MiCuentaComponente.vue';
 
 <template>
     <q-page padding>
-        <h2>Mi Cuenta</h2>
-
         <MiCuentaComponente />
 
     </q-page>
