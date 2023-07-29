@@ -3,7 +3,10 @@ import { useQuasar } from 'quasar'
 import { ref } from 'vue'
 import { userDatabaseStore } from '../stores/database';
 import { useUserStore } from 'src/stores/user';
+import { useRouter } from 'vue-router';
+import { route } from 'quasar/wrappers';
 
+const router = useRouter();
 const userStore = useUserStore();
 const databaseStore = userDatabaseStore();
 
@@ -62,8 +65,12 @@ const onSubmitEdit = async () => {
         // console.log(editUser);
         await databaseStore.updateUser(editUser);
 
-        msgEditOk();
+        await msgEditOk();
 
+        setTimeout(() => {
+            window.location.reload();
+
+        }, 3000);
 
     }
 
@@ -75,7 +82,7 @@ const onResetEdit = () => {
     movil.value = null;
 };
 
-const msgEditOk = () => {
+const msgEditOk = async() => {
     setTimeout(() => {
         $q.notify({
             color: "green-4",
@@ -86,7 +93,8 @@ const msgEditOk = () => {
             timeout: 1000
         });
 
-    }, 1750)
+    }, 1000);
+
 
 }
 </script>

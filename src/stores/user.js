@@ -60,12 +60,12 @@ export const useUserStore = defineStore('userStore', {
           .then((userCredentials) => {
             const user = userCredentials.user;
 
-            if(user.emailVerified){
+            if (user.emailVerified) {
               this.userData = { email: user.email, uid: user.uid, emailVerified: user.emailVerified }
 
               databaseStore.getUsers()
 
-            }else{
+            } else {
               alert("debes validar tu correo electronico para ingresar")
             }
           })
@@ -98,7 +98,7 @@ export const useUserStore = defineStore('userStore', {
           const databaseStore = userDatabaseStore();
 
           if (user.emailVerified) {
-            console.log(user);
+            // console.log(user);
             this.userData = { email: user.email, uid: user.uid, emailVerified: user.emailVerified };
 
             databaseStore.getUsers();

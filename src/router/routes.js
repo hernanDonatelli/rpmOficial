@@ -3,9 +3,9 @@ import { useUserStore } from '../stores/user'
 const requireAuth = async (to, from, next) => {
   const userStore = useUserStore();
   userStore.loadingSession = true;
-  // userStore.user = await userStore.currentUserLog()
+  userStore.user = await userStore.currentUserLog()
 
-  if (!userStore.userData) {
+  if (!userStore.user) {
     next('/login')
   } else {
     await userStore.currentUserLog();
