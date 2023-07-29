@@ -23,18 +23,6 @@ onMounted(() => {
   getTorneos();
 })
 
-// const checkUser = async () => {
-//   const userStore = useUserStore();
-//   userStore.loadingSession = true;
-
-//   userStore.user = await userStore.currentUserLog()
-
-//   await databaseStore.getUsers();
-
-//   userStore.loadingSession = false;
-// }
-// checkUser()
-
 //Salir de la sesion
 const logout = async () => {
   await userStore.logoutUser()
@@ -145,7 +133,7 @@ const getTorneos = async () => {
             <q-item-label caption class="text-grey-8">@rpmracingleague7342</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item clickable to="/contacto" active-class="menu__link">
+        <q-item v-if="userStore.userData" clickable to="/contacto" active-class="menu__link">
           <q-item-section avatar>
             <q-icon name="las la-envelope" />
           </q-item-section>

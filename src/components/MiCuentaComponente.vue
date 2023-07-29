@@ -3,10 +3,7 @@ import { useQuasar } from 'quasar'
 import { ref } from 'vue'
 import { userDatabaseStore } from '../stores/database';
 import { useUserStore } from 'src/stores/user';
-import { useRouter } from 'vue-router';
-import { route } from 'quasar/wrappers';
 
-const router = useRouter();
 const userStore = useUserStore();
 const databaseStore = userDatabaseStore();
 
@@ -66,11 +63,6 @@ const onSubmitEdit = async () => {
         await databaseStore.updateUser(editUser);
 
         await msgEditOk();
-
-        setTimeout(() => {
-            window.location.reload();
-
-        }, 3000);
 
     }
 

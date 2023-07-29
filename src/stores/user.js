@@ -2,12 +2,14 @@ import { createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerificati
 import { defineStore } from 'pinia'
 import { auth } from 'src/firebaseConfig';
 import { userDatabaseStore } from './database';
+import { Notify } from 'quasar';
 
 export const useUserStore = defineStore('userStore', {
   state: () => ({
     userData: null,
     loadingUser: false,
-    loadingSession: false
+    loadingSession: false,
+    userLoged: false
   }),
   actions: {
     async registerUser(email, password, nombre, apellido, movil) {
@@ -40,7 +42,19 @@ export const useUserStore = defineStore('userStore', {
                   isAdmin: data.isAdmin
                 }
 
-                userDatabase.addUser(userToRegister)
+                userDatabase.addUser(userToRegister);
+
+                Notify.create({
+                  color: "green-4",
+                  textColor: "white",
+                  icon: "cloud_done",
+                  multiline: true,
+                  html: true,
+                  position: "center",
+                  message: "<p style='text-align: center;'>El Registro del usuario fue exitoso!<br> Se ha enviado un email de verificación para validar la cuenta.</p>",
+                  timeout: 4000
+                });
+
               });
           })
 
@@ -54,28 +68,40 @@ export const useUserStore = defineStore('userStore', {
     async loginUser(email, password) {
       const databaseStore = userDatabaseStore()
       this.loadingUser = true
+      // this.userLoged = true
 
-      try {
-        signInWithEmailAndPassword(auth, email, password)
-          .then((userCredentials) => {
-            const user = userCredentials.user;
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredentials) => {
+          const user = userCredentials.user;
 
-            if (user.emailVerified) {
-              this.userData = { email: user.email, uid: user.uid, emailVerified: user.emailVerified }
+          if (user.emailVerified) {
 
-              databaseStore.getUsers()
+            this.userData = { email: user.email, uid: user.uid, emailVerified: user.emailVerified }
 
-            } else {
-              alert("debes validar tu correo electronico para ingresar")
-            }
-          })
+            databaseStore.getUsers()
+
+            Notify.create({
+              color: "green-4",
+              textColor: "white",
+              icon: "cloud_done",
+              position: "center",
+              message: "Inicio de sesión exitoso!",
+              timeout: 1500
+            });
+
+          } else {
+            Notify.create({
+              color: "red-13",
+              textColor: "white",
+              icon: "warning",
+              position: "center",
+              message: "Debes validar tu correo electrónico para ingresar",
+              timeout: 1500
+            });
+          }
+        })
 
 
-      } catch (error) {
-        console.log(error);
-      } finally {
-        this.loadingUser = false
-      }
     },
 
     async logoutUser() {
@@ -89,6 +115,8 @@ export const useUserStore = defineStore('userStore', {
 
       } catch (error) {
         console.log();
+      } finally {
+        this.userLoged = false
       }
     },
 
@@ -96,7 +124,7 @@ export const useUserStore = defineStore('userStore', {
       return new Promise((resolve, reject) => {
         const unsuscribe = onAuthStateChanged(auth, user => {
           const databaseStore = userDatabaseStore();
-
+          console.log(user);
           if (user.emailVerified) {
             // console.log(user);
             this.userData = { email: user.email, uid: user.uid, emailVerified: user.emailVerified };

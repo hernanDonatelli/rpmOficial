@@ -65,22 +65,10 @@ const onSubmit = async () => {
         timeout: 1000
       });
     } else {
+
       await userStore.registerUser(email.value, password.value, nombre.value, apellido.value, movil.value)
 
-      setTimeout(() => {
-        $q.notify({
-          color: "green-4",
-          textColor: "white",
-          icon: "cloud_done",
-          multiline: true,
-          html: true,
-          position: "center",
-          message: "<p style='text-align: center;'>El Registro del usuario fue exitoso!<br> Se ha enviado un email de verificación para validar la cuenta.</p>",
-          timeout: 4000
-        });
-
-        // router.push('/')
-      }, 1000);
+      await router.push('/')
     }
   }
 

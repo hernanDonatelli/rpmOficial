@@ -22,31 +22,20 @@ const rulesPassword = [
   (v) => v.length >= 6 || "Min 6 caracteres",
 ];
 //Metodos
-const handleSubmit = async() => {
+const handleSubmit = async () => {
   if (!email.value || !password.value) {
     $q.notify({
-      color: "red-5",
+      color: "red-13",
       textColor: "white",
       position: "center",
       icon: "warning",
       message: "Debe completar ambos campos",
     });
+
   } else {
-    setTimeout(() => {
-        $q.notify({
-          color: "green-4",
-          textColor: "white",
-          icon: "cloud_done",
-          position: "center",
-          message: "Inicio de sesión exitoso!",
-          timeout: 1000
-        });
+    await userStore.loginUser(email.value, password.value);
 
-      }, 1000)
-
-      await userStore.loginUser(email.value, password.value)
-
-      await router.push('/')
+    await router.push('/');
   }
 
 };
@@ -60,25 +49,10 @@ const onReset = () => {
 <template>
   <q-form @submit.prevent="handleSubmit" @reset="onReset" class="q-gutter-md">
     <h5 class="text-h5 text-uppercase">Login</h5>
-    <q-input
-      dense
-      color="cyan-6"
-      type="email"
-      v-model.trim="email"
-      label="Tu email *"
-      lazy-rules
-      :rules="rulesEmail"
-    />
+    <q-input dense color="cyan-6" type="email" v-model.trim="email" label="Tu email *" lazy-rules :rules="rulesEmail" />
 
-    <q-input
-      dense
-      color="cyan-6"
-      type="password"
-      v-model.trim="password"
-      label="Ingrese una contraseña *"
-      lazy-rules
-      :rules="rulesPassword"
-    />
+    <q-input dense color="cyan-6" type="password" v-model.trim="password" label="Ingrese una contraseña *" lazy-rules
+      :rules="rulesPassword" />
 
     <div>
       <q-btn :disabled="userStore.loadingUser" label="Ingresar" type="submit" color="primary" />
