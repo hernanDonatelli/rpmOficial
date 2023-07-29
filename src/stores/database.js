@@ -1,9 +1,7 @@
-import { query, collection, getDocs, where, addDoc, setDoc, doc, updateDoc } from 'firebase/firestore/lite';
+import { query, collection, getDocs, where, addDoc, doc, updateDoc } from 'firebase/firestore/lite';
 import { db } from '../firebaseConfig'
 import { auth } from 'src/firebaseConfig';
 import { defineStore } from 'pinia'
-import { useUserStore } from './user';
-
 
 export const userDatabaseStore = defineStore('database', {
   state: () => ({

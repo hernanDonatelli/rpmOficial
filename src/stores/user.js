@@ -1,7 +1,6 @@
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateProfile } from 'firebase/auth';
-import { doc, getDoc } from 'firebase/firestore/lite';
+import { createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { defineStore } from 'pinia'
-import { auth, db } from 'src/firebaseConfig';
+import { auth } from 'src/firebaseConfig';
 import { userDatabaseStore } from './database';
 
 export const useUserStore = defineStore('userStore', {
@@ -23,20 +22,27 @@ export const useUserStore = defineStore('userStore', {
           isAdmin: false
         }
 
-        const { user } = await createUserWithEmailAndPassword(auth, email, password)
+        createUserWithEmailAndPassword(auth, email, password)
+          .then((userCredentials) => {
 
-        this.userData = {
-          email: user.email,
-          uid: user.uid,
-          nombre: data.nombre,
-          apellido: data.apellido,
-          movil: data.movil,
-          isAdmin: data.isAdmin
-        }
+            sendEmailVerification(auth.currentUser)
+              .then(() => {
 
+                const user = userCredentials.user
 
-        await userDatabase.addUser(this.userData)
+                const userToRegister = {
+                  email: user.email,
+                  uid: user.uid,
+                  emailVerified: user.emailVerified,
+                  nombre: data.nombre,
+                  apellido: data.apellido,
+                  movil: data.movil,
+                  isAdmin: data.isAdmin
+                }
 
+                userDatabase.addUser(userToRegister)
+              });
+          })
 
       } catch (error) {
         console.log(error);
@@ -50,10 +56,20 @@ export const useUserStore = defineStore('userStore', {
       this.loadingUser = true
 
       try {
-        const { user } = await signInWithEmailAndPassword(auth, email, password)
+        signInWithEmailAndPassword(auth, email, password)
+          .then((userCredentials) => {
+            const user = userCredentials.user;
 
-        this.userData = { email: user.email, uid: user.uid }
-        databaseStore.getUsers()
+            if(user.emailVerified){
+              this.userData = { email: user.email, uid: user.uid, emailVerified: user.emailVerified }
+
+              databaseStore.getUsers()
+
+            }else{
+              alert("debes validar tu correo electronico para ingresar")
+            }
+          })
+
 
       } catch (error) {
         console.log(error);
@@ -79,9 +95,13 @@ export const useUserStore = defineStore('userStore', {
     currentUserLog() {
       return new Promise((resolve, reject) => {
         const unsuscribe = onAuthStateChanged(auth, user => {
-          if (user) {
-            // console.log(user);
-            this.userData = { email: user.email, uid: user.uid };
+          const databaseStore = userDatabaseStore();
+
+          if (user.emailVerified) {
+            console.log(user);
+            this.userData = { email: user.email, uid: user.uid, emailVerified: user.emailVerified };
+
+            databaseStore.getUsers();
 
           } else {
             this.userData = null;
@@ -96,16 +116,6 @@ export const useUserStore = defineStore('userStore', {
 
       })
     },
-    // async updateUser(displayName){
-    //   try {
-    //     await updateProfile(auth.currentUser, {
-    //       displayName
-    //     })
-    //   } catch (error) {
-    //     console.log(error);
-    //     return error.code;
-    //   }
-    // }
 
   }
 })

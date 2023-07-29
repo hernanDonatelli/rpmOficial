@@ -72,17 +72,19 @@ const onSubmit = async () => {
           color: "green-4",
           textColor: "white",
           icon: "cloud_done",
+          multiline: true,
+          html: true,
           position: "center",
-          message: "El Registro del usuario fue exitoso!",
-          timeout: 1000
+          message: "<p style='text-align: center;'>El Registro del usuario fue exitoso!<br> Se ha enviado un email de verificación para validar la cuenta.</p>",
+          timeout: 4000
         });
 
-      }, 1000)
+        // router.push('/')
+      }, 1000);
     }
   }
 
 
-  router.push('/')
 };
 
 const onReset = () => {

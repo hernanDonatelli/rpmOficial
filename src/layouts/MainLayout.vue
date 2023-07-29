@@ -23,17 +23,17 @@ onMounted(() => {
   getTorneos();
 })
 
-const checkUser = async () => {
-  const userStore = useUserStore();
-  userStore.loadingSession = true;
+// const checkUser = async () => {
+//   const userStore = useUserStore();
+//   userStore.loadingSession = true;
 
-  userStore.user = await userStore.currentUserLog()
+//   userStore.user = await userStore.currentUserLog()
 
-  await databaseStore.getUsers();
+//   await databaseStore.getUsers();
 
-  userStore.loadingSession = false;
-}
-checkUser()
+//   userStore.loadingSession = false;
+// }
+// checkUser()
 
 //Salir de la sesion
 const logout = async () => {
@@ -49,17 +49,17 @@ import { useApiStore } from 'src/stores/api';
 const apiStore = useApiStore();
 
 //Generador de token y comprobacion de usuario
-const loginUserApi = async() => {
-    await apiStore.loginApi();
-    await apiStore.getUser(apiStore.tokenApi);
+const loginUserApi = async () => {
+  await apiStore.loginApi();
+  await apiStore.getUser(apiStore.tokenApi);
 }
 
 //Traer torneos y sus datos de la API
-const getTorneos = async() => {
-    await loginUserApi();
-    const torneos = await apiStore.getTorneosApi(apiStore.tokenApi);
+const getTorneos = async () => {
+  await loginUserApi();
+  const torneos = await apiStore.getTorneosApi(apiStore.tokenApi);
 
-    apiStore.torneos = torneos;
+  apiStore.torneos = torneos;
 }
 
 
@@ -75,7 +75,9 @@ const getTorneos = async() => {
           <h4 class="q-my-none text-h5 text-weight-light"><span>RPM</span>RacingLeague</h4>
           <div v-if="!userStore.loadingSession" class="btn-entrada q-my-xs">
             <p v-for="user of databaseStore.documents" :key="user.id"
-              class="inline-block q-mr-sm q-mb-none text-caption text-grey-13">{{ user.nombre }} {{ user.apellido }}</p>
+              class="inline-block q-mr-sm q-mb-none text-caption text-grey-13">
+              {{ user.nombre }} {{ user.apellido }}
+            </p>
 
             <login-modal-component v-if="!userStore.userData" />
             <register-form-component v-if="!userStore.userData" />
@@ -180,9 +182,10 @@ const getTorneos = async() => {
 </template>
 
 <style lang="scss">
-.q-item__label .q-item__label--caption .text-caption{
+.q-item__label .q-item__label--caption .text-caption {
   color: $grey-8 !important;
 }
+
 .q-toolbar__title {
 
   span {
