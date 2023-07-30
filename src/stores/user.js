@@ -52,10 +52,12 @@ export const useUserStore = defineStore('userStore', {
                   html: true,
                   position: "center",
                   message: "<p style='text-align: center;'>El Registro del usuario fue exitoso!<br> Se ha enviado un email de verificación para validar la cuenta.</p>",
-                  timeout: 4000
+                  timeout: 3000
                 });
 
               });
+
+
           })
 
       } catch (error) {
