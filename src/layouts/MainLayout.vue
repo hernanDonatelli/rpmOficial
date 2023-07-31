@@ -172,6 +172,7 @@ const getTorneos = async () => {
 </template>
 
 <style lang="scss">
+
 .q-item__label .q-item__label--caption .text-caption {
   color: $grey-8 !important;
 }
@@ -191,7 +192,7 @@ const getTorneos = async () => {
   }
 }
 
-#main__container {
+#main__container.q-page-container {
   padding-top: 0 !important;
 }
 

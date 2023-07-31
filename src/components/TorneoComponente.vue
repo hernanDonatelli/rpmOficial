@@ -84,10 +84,11 @@ const showLoading = async () => {
 <template>
     <!-- <q-spinner-gears v-if="apiStore.loadingSession" color="primary" size="6em" /> -->
     <section id="torneo">
-        <div class="hero__champ">
+        <div class="hero__champ"
+            style="background: repeating-linear-gradient(#ffffff8e, rgba(153, 153, 153, 0.761)), url(http://rpm.studioatlantic.com.ar/assets/wall_4.jpg);">
             <div class="row">
                 <div class="col-12">
-                    <h3 class="text-uppercase text-center text-weight-bold fontCustomTitle text-blue-grey-8 q-mb-none">
+                    <h3 class="text-uppercase text-center text-weight-bold fontCustomTitle text-red-13 q-mb-none">
                         {{ apiStore.torneo.name }}
                     </h3>
                 </div>
@@ -127,7 +128,8 @@ const showLoading = async () => {
                 <div class="col-12 col-md-6">
                     <!-- tabla de Posiciones -->
                     <div>
-                        <h5 class="text-uppercase text-weight-light text-blue-grey-8 text-center q-mt-lg q-mb-sm">Posiciones Campeonato
+                        <h5 class="text-uppercase text-weight-light text-blue-grey-8 text-center q-mt-lg q-mb-sm">Posiciones
+                            Campeonato
                         </h5>
                         <q-markup-table dense>
                             <thead>
@@ -168,6 +170,11 @@ const showLoading = async () => {
 }
 
 .hero__champ {
+    height: 100vh;
+    // background-image: url(../assets/wall_4.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center left;
 
     h3 {
         margin-top: 4rem;

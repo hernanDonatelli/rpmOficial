@@ -3,9 +3,8 @@ import MiCuentaComponente from 'src/components/MiCuentaComponente.vue';
 </script>
 
 <template>
-    <q-page padding>
+    <q-page>
         <MiCuentaComponente />
-
     </q-page>
 </template>
 
