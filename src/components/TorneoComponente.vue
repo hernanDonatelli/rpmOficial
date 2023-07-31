@@ -85,7 +85,7 @@ const showLoading = async () => {
     <!-- <q-spinner-gears v-if="apiStore.loadingSession" color="primary" size="6em" /> -->
     <section id="torneo">
         <div class="hero__champ"
-            style="background: repeating-linear-gradient(#ffffff8e, rgba(153, 153, 153, 0.761)), url(/assets/wall_4.jpg);">
+            style="background: repeating-linear-gradient(#ffffff8e, rgba(153, 153, 153, 0.761)), url(assets/wall_4.jpg);">
             <div class="row">
                 <div class="col-12">
                     <h3 class="text-uppercase text-center text-weight-bold fontCustomTitle text-red-13 q-mb-none">
