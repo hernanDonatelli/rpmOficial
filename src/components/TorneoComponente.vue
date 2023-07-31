@@ -8,6 +8,7 @@ const route = useRoute();
 
 const $q = useQuasar()
 let timer;
+
 //Generador de token y comprobacion de usuario
 const loginUserApi = async () => {
     await apiStore.loginApi();
@@ -85,7 +86,7 @@ const showLoading = async () => {
     <!-- <q-spinner-gears v-if="apiStore.loadingSession" color="primary" size="6em" /> -->
     <section id="torneo">
         <div class="hero__champ"
-            style="background: repeating-linear-gradient(#ffffff8e, rgba(153, 153, 153, 0.761)), url(assets/wall_4.jpg);">
+            style="background: repeating-linear-gradient(#ffffff8e, rgba(153, 153, 153, 0.761)),url('assets/wall_4.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center left;">
             <div class="row">
                 <div class="col-12">
                     <h3 class="text-uppercase text-center text-weight-bold fontCustomTitle text-red-13 q-mb-none">
@@ -170,11 +171,9 @@ const showLoading = async () => {
 }
 
 .hero__champ {
+    position: relative;
     height: 100vh;
-    // background-image: url(../assets/wall_4.jpg);
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center left;
+
 
     h3 {
         margin-top: 4rem;
