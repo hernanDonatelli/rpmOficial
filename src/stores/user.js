@@ -3,6 +3,9 @@ import { defineStore } from 'pinia'
 import { auth } from 'src/firebaseConfig';
 import { userDatabaseStore } from './database';
 import { Notify } from 'quasar';
+import { query, collection, where, getDocs } from 'firebase/firestore/lite';
+import { db } from 'src/firebaseConfig';
+import { useRoute } from 'vue-router';
 
 export const useUserStore = defineStore('userStore', {
   state: () => ({
@@ -55,6 +58,8 @@ export const useUserStore = defineStore('userStore', {
                   timeout: 3000
                 });
 
+                this.userData = "Resta validar Usuario"
+
               });
 
 
@@ -62,46 +67,68 @@ export const useUserStore = defineStore('userStore', {
 
       } catch (error) {
         console.log(error);
-      } finally {
-        this.loadingUser = false
       }
     },
 
     async loginUser(email, password) {
       const databaseStore = userDatabaseStore()
       this.loadingUser = true
-      // this.userLoged = true
 
-      signInWithEmailAndPassword(auth, email, password)
-        .then((userCredentials) => {
-          const user = userCredentials.user;
 
-          if (user.emailVerified) {
+      //Comprueba si el usuario existe o no
+      const q = query(collection(db, "usuarios"), where("email", "==", email))
 
-            this.userData = { email: user.email, uid: user.uid, emailVerified: user.emailVerified }
+      const querySnapshot = await getDocs(q)
 
-            databaseStore.getUsers()
+      if(querySnapshot.empty){ //NO EXISTE el usuario
 
-            Notify.create({
-              color: "green-4",
-              textColor: "white",
-              icon: "cloud_done",
-              position: "center",
-              message: "Inicio de sesión exitoso!",
-              timeout: 1500
-            });
+        Notify.create({
+          color: "red-13",
+          textColor: "white",
+          icon: "warning",
+          position: "center",
+          message: "El usuario no existe. Registrate para ingresar.",
+          timeout: 1500
+        });
 
-          } else {
-            Notify.create({
-              color: "red-13",
-              textColor: "white",
-              icon: "warning",
-              position: "center",
-              message: "Debes validar tu correo electrónico para ingresar",
-              timeout: 1500
-            });
-          }
-        })
+        setTimeout(() => {
+          window.location.reload()
+        }, 1750);
+
+      }else{ //EXISTE el usuario
+
+        signInWithEmailAndPassword(auth, email, password)
+          .then((userCredentials) => {
+            const user = userCredentials.user;
+
+            if (user.emailVerified) {
+
+              this.userData = { email: user.email, uid: user.uid, emailVerified: user.emailVerified }
+
+              databaseStore.getUsers()
+
+              Notify.create({
+                color: "green-4",
+                textColor: "white",
+                icon: "cloud_done",
+                position: "center",
+                message: "Inicio de sesión exitoso!",
+                timeout: 1500
+              });
+
+            } else {
+              Notify.create({
+                color: "red-13",
+                textColor: "white",
+                icon: "warning",
+                position: "center",
+                message: "Debes validar tu correo electrónico para ingresar",
+                timeout: 1500
+              });
+            }
+          })
+      }
+
 
 
     },

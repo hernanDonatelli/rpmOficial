@@ -67,9 +67,11 @@ const getTorneos = async () => {
               {{ user.nombre }} {{ user.apellido }}
             </p>
 
-            <login-modal-component v-if="!userStore.userData" />
-            <register-form-component v-if="!userStore.userData" />
-            <q-btn v-if="userStore.userData" @click="logout" class="q-mr-sm logout" outline size="sm" label="Salir" />
+            <login-modal-component v-if="databaseStore.documents == ''" />
+
+            <register-form-component v-if="databaseStore.documents == ''" />
+
+            <q-btn v-if="databaseStore.documents != ''" @click="logout" class="q-mr-sm logout" outline size="sm" label="Salir" />
           </div>
           <div v-else>
             <p class="text-caption text-white text-weight-normal text-grey-13 q-mb-none">

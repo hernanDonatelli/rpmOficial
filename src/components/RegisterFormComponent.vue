@@ -68,7 +68,8 @@ const onSubmit = async () => {
 
       await userStore.registerUser(email.value, password.value, nombre.value, apellido.value, movil.value)
 
-      await router.push('/registro-ok')
+      await router.push('/');
+      // await router.push('/registro-ok')
 
     }
   }
