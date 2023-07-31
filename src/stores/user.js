@@ -58,7 +58,9 @@ export const useUserStore = defineStore('userStore', {
                   timeout: 3000
                 });
 
-                this.userData = "Resta validar Usuario"
+                setTimeout(() => {
+                  window.location.reload()
+                }, 4000);
 
               });
 
@@ -77,7 +79,6 @@ export const useUserStore = defineStore('userStore', {
 
       //Comprueba si el usuario existe o no
       const q = query(collection(db, "usuarios"), where("email", "==", email))
-
       const querySnapshot = await getDocs(q)
 
       if(querySnapshot.empty){ //NO EXISTE el usuario
@@ -88,7 +89,7 @@ export const useUserStore = defineStore('userStore', {
           icon: "warning",
           position: "center",
           message: "El usuario no existe. Registrate para ingresar.",
-          timeout: 1500
+          timeout: 2000
         });
 
         setTimeout(() => {
@@ -125,6 +126,10 @@ export const useUserStore = defineStore('userStore', {
                 message: "Debes validar tu correo electrónico para ingresar",
                 timeout: 1500
               });
+
+              setTimeout(() => {
+                window.location.reload()
+              }, 2500);
             }
           })
       }
@@ -153,7 +158,7 @@ export const useUserStore = defineStore('userStore', {
       return new Promise((resolve, reject) => {
         const unsuscribe = onAuthStateChanged(auth, user => {
           const databaseStore = userDatabaseStore();
-          console.log(user);
+          // console.log(user);
           if (user.emailVerified) {
             // console.log(user);
             this.userData = { email: user.email, uid: user.uid, emailVerified: user.emailVerified };

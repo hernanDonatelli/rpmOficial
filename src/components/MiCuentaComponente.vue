@@ -3,6 +3,7 @@ import { useQuasar } from 'quasar'
 import { ref } from 'vue'
 import { userDatabaseStore } from '../stores/database';
 import { useUserStore } from 'src/stores/user';
+import { query, collection, getDocs, where } from 'firebase/firestore/lite';
 
 const userStore = useUserStore();
 const databaseStore = userDatabaseStore();
@@ -64,6 +65,8 @@ const onSubmitEdit = async () => {
 
         await msgEditOk();
 
+        await resetPage();
+
     }
 
 };
@@ -74,7 +77,7 @@ const onResetEdit = () => {
     movil.value = null;
 };
 
-const msgEditOk = async() => {
+const msgEditOk = async () => {
     setTimeout(() => {
         $q.notify({
             color: "green-4",
@@ -86,8 +89,12 @@ const msgEditOk = async() => {
         });
 
     }, 1000);
+}
 
-
+const resetPage = async() => {
+    setTimeout(() => {
+        window.location.reload()
+    }, 3500);
 }
 </script>
 
@@ -132,8 +139,8 @@ const msgEditOk = async() => {
                 <div>
                     <div class="row flex justify-center q-mb-lg">
                         <div class="col-12 col-sm-3">
-                            <q-input class="q-mx-sm" filled dense color="red-10" label="nombre" v-model="nombre" hint="Hasta 20 caracteres"
-                                lazy-rules />
+                            <q-input class="q-mx-sm" filled dense color="red-10" label="nombre" v-model="nombre"
+                                hint="Hasta 20 caracteres" lazy-rules />
                         </div>
                         <div class="col-12 col-sm-3">
                             <q-input class="q-mx-sm" filled dense color="red-10" label="apellido" v-model="apellido"
@@ -143,7 +150,8 @@ const msgEditOk = async() => {
 
                     <div class="row flex justify-center q-mb-lg">
                         <div class="col-12 col-sm-3">
-                            <q-input class="q-mx-sm" disable filled dense color="red-10" type="email" label="email" v-model="email" />
+                            <q-input class="q-mx-sm" disable filled dense color="red-10" type="email" label="email"
+                                v-model="email" />
                         </div>
                         <div class="col-12 col-sm-3">
                             <q-input class="q-mx-sm" filled dense type="number" color="red-10" label="movil" v-model="movil"
@@ -154,10 +162,11 @@ const msgEditOk = async() => {
 
                 <div class="text-center">
                     <div class="col-12 col-sm-6 q-mt-xl">
-                    <q-btn @click.prevent="getInfoUser" label="Cargar Datos" type="submit" color="dark" />
-                    <q-btn @click.prevent="onSubmitEdit" :disable="!userStore.loadingUser" class="q-mx-xl" label="Editar Usuario" type="submit" color="green-10" />
-                    <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
-                </div>
+                        <q-btn @click.prevent="getInfoUser" label="Cargar Datos" type="submit" color="dark" />
+                        <q-btn @click.prevent="onSubmitEdit" :disable="!userStore.loadingUser" class="q-mx-xl"
+                            label="Editar Usuario" type="submit" color="green-10" />
+                        <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
+                    </div>
                 </div>
             </q-form>
 
@@ -170,11 +179,12 @@ const msgEditOk = async() => {
 ul li {
     width: 100%;
 
-    span{
+    span {
         display: inline-block;
         margin-left: 0.5rem;
         margin-right: 0.5rem;
     }
+
     .q-icon {
         font-size: 2rem;
     }
