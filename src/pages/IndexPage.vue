@@ -26,7 +26,7 @@ const liveRacers = () => {
     <!-- HERO CON MENU -->
     <div class="hero">
       <video class="hero__video" playsinline autoplay muted loop poster='/hero.jpg'>
-        <source src="assets/rpmintro.mp4" type='video/mp4'>
+        <source src="/rpmintro.mp4" type='video/mp4'>
       </video>
 
       <div class="hero__capa"></div>
