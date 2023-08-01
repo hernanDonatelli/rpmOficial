@@ -85,11 +85,12 @@ const showLoading = async () => {
     <!-- <q-spinner-gears v-if="apiStore.loadingSession" color="primary" size="6em" /> -->
     <section id="torneo">
         <div class="hero__champ" :style="{
-            backgroundImage: `repeating-linear-gradient(#ffffff8e, rgba(153, 153, 153, 0.761)),url(/wall_${apiStore.torneo.id}.jpg)`,
+            backgroundImage: `repeating-linear-gradient(#00000005, rgba(0, 0, 0, 0)),url(/imgTorneo_${apiStore.torneo.id}.jpg)`,
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center left'
         }">
+            <div class="overlay"></div>
             <div class="row">
                 <div class="col-12">
                     <h3 class="text-uppercase text-center text-weight-bold fontCustomTitle text-red-13 q-mb-none">
@@ -164,6 +165,17 @@ const showLoading = async () => {
 
 
 <style lang="scss" scoped>
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000000;
+    opacity: .9;
+    z-index: 10;
+}
+
 .q-spinner {
     height: 100vh;
     position: absolute;
@@ -180,6 +192,8 @@ const showLoading = async () => {
 
     h3 {
         margin-top: 4rem;
+        position: relative;
+        z-index: 20;
     }
 }
 </style>

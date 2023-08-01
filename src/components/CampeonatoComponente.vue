@@ -6,10 +6,10 @@ const apiStore = useApiStore();
 
 <template>
   <div v-for="torneo in apiStore.torneos" :key="torneo.id" class="torneo" :style="{
-    backgroundImage: `url(/wall_${torneo.id}.jpg)`,
+    backgroundImage: `repeating-linear-gradient(#00000005, rgba(0, 0, 0, 0)),url(/imgTorneo_${torneo.id}.jpg)`,
     backgroundRepeat: 'no-repeat',
-    backgroundSize: cover,
-    backgroundPosition: center
+    backgroundSize: 'cover',
+    backgroundPosition: 'center'
   }">
     <div class="torneo-container">
       <div class="overlay"></div>
