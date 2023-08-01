@@ -6,7 +6,7 @@ const apiStore = useApiStore();
 
 <template>
   <div v-for="torneo in apiStore.torneos" :key="torneo.id" class="torneo" :style="{
-    backgroundImage: `url(../src/assets/wall_${torneo.id}.jpg)`,
+    backgroundImage: `url(/wall_${torneo.id}.jpg)`,
     backgroundRepeat: 'no-repeat',
     backgroundSize: cover,
     backgroundPosition: center
