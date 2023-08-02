@@ -54,7 +54,7 @@ const getTorneos = async () => {
 </script>
 
 <template>
-  <q-layout view="hHh lpR fFf">
+  <q-layout id="home" view="hHh lpR fFf">
     <q-header class="header__nav">
       <q-toolbar>
         <q-btn class="text-red-13" flat dense round @click="toggleLeftDrawer" aria-label="Menu" icon="las la-bars" />
@@ -106,7 +106,7 @@ const getTorneos = async () => {
             <q-item-label caption class="text-grey-8">Acerca de RPM Racing League</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item clickable href="#campeonatos" active-class="menu__link">
+        <q-item clickable to="#campeonatos">
           <q-item-section avatar>
             <q-icon name="las la-trophy" />
           </q-item-section>
@@ -172,6 +172,9 @@ const getTorneos = async () => {
 </template>
 
 <style lang="scss">
+.q-item.q-router-link--active, .q-item--active{
+  color: white;
+}
 
 .q-item__label .q-item__label--caption .text-caption {
   color: $grey-8 !important;

@@ -20,7 +20,7 @@ const routes = [
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/IndexPage.vue') },
+      { path: '/', component: () => import('pages/IndexPage.vue') },
       { path: 'login', component: () => import('pages/LoginPage.vue') },
       { path: 'registro-ok', component: () => import('pages/RegistroOkPage.vue') },
       { path: 'multimedia', component: () => import('pages/MultimediaPage.vue') },
