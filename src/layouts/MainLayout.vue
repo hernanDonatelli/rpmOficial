@@ -163,6 +163,20 @@ const getTorneos = async () => {
           </q-item-section>
         </q-item>
       </q-list>
+
+      <!-- Seccion Administrador -->
+      <q-list>
+        <q-item v-if="userStore.userData" clickable to="/administrar-torneos" active-class="menu__link">
+          <q-item-section avatar>
+            <q-icon name="las la-trophy" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Torneos</q-item-label>
+            <q-item-label caption class="text-grey-8">Administrar los Torneos</q-item-label>
+          </q-item-section>
+        </q-item>
+
+      </q-list>
     </q-drawer>
 
     <q-page-container id="main__container">

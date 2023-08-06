@@ -29,8 +29,12 @@ const routes = [
       { path: 'denuncias', component: () => import('pages/DenunciaPage.vue'), beforeEnter: requireAuth },
       { path: 'mi-cuenta', component: () => import('pages/MiCuentaPage.vue'), beforeEnter: requireAuth },
       { path: 'torneo/:id', name: 'torneo', component: () => import('pages/TorneoPage.vue') },
+      { path: '/administrar-torneos', component: () => import('pages/AdminTorneosPage.vue'), beforeEnter: requireAuth }
     ]
   },
+
+
+
 
   // Always leave this as last one,
   // but you can also remove it
