@@ -5,7 +5,9 @@ import LoginModalComponent from '../components/LoginModalComponent.vue'
 import RegisterFormComponent from '../components/RegisterModalComponent.vue'
 import { useRouter } from 'vue-router'
 import { userDatabaseStore } from '../stores/database'
+import { useApiStore } from 'src/stores/api';
 
+const apiStore = useApiStore();
 const router = useRouter()
 const userStore = useUserStore()
 const databaseStore = userDatabaseStore()
@@ -18,9 +20,10 @@ const toggleLeftDrawer = () => {
   leftDrawerOpen.value = !leftDrawerOpen.value
 }
 
-onMounted(() => {
+onMounted(async () => {
   userStore.currentUserLog();
   getTorneos();
+  databaseStore.getAdmin();
 })
 
 //Salir de la sesion
@@ -33,8 +36,6 @@ const logout = async () => {
 }
 
 //////////////////////////////Torneos//////////////////////////
-import { useApiStore } from 'src/stores/api';
-const apiStore = useApiStore();
 
 //Generador de token y comprobacion de usuario
 const loginUserApi = async () => {
@@ -71,7 +72,8 @@ const getTorneos = async () => {
 
             <register-form-component v-if="databaseStore.documents == ''" />
 
-            <q-btn v-if="databaseStore.documents != ''" @click="logout" class="q-mr-sm logout" outline size="sm" label="Salir" />
+            <q-btn v-if="databaseStore.documents != ''" @click="logout" class="q-mr-sm logout" outline size="sm"
+              label="Salir" />
           </div>
           <div v-else>
             <p class="text-caption text-white text-weight-normal text-grey-13 q-mb-none">
@@ -165,8 +167,8 @@ const getTorneos = async () => {
       </q-list>
 
       <!-- Seccion Administrador -->
-      <q-list>
-        <q-item v-if="userStore.userData" clickable to="/administrar-torneos" active-class="menu__link">
+      <q-list v-for="item in databaseStore.admin" :key="item.id">
+        <q-item v-if="item.isAdmin" clickable to="/administrar-torneos" active-class="menu__link">
           <q-item-section avatar>
             <q-icon name="las la-trophy" />
           </q-item-section>
@@ -186,7 +188,8 @@ const getTorneos = async () => {
 </template>
 
 <style lang="scss">
-.q-item.q-router-link--active, .q-item--active{
+.q-item.q-router-link--active,
+.q-item--active {
   color: white;
 }
 

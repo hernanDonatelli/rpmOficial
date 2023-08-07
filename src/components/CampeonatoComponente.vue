@@ -6,7 +6,7 @@ const apiStore = useApiStore();
 
 <template>
   <div v-for="torneo in apiStore.torneos" :key="torneo.id" class="torneo" :style="{
-    backgroundImage: `repeating-linear-gradient(#00000005, rgba(0, 0, 0, 0)),url(/imgTorneo_${torneo.id}.jpg)`,
+    backgroundImage: `repeating-linear-gradient(#00000005, rgba(0, 0, 0, 0)),url(https://rpmracingleague.net/images/laravel-torneos/${torneo.image})`,
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
     backgroundPosition: 'center'

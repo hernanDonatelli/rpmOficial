@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { Notify } from "quasar";
 
 export const useApiStore = defineStore('useApiStore', {
   state: () => ({
@@ -6,11 +7,13 @@ export const useApiStore = defineStore('useApiStore', {
     calendar: [],
     torneos: [],
     torneo: [],
-    loadingSession: false
+    plataformas: [],
+    loadingSession: false,
+    url: 'https://rpm.studioatlantic.com.ar/pezls/public/api/v1'
   }),
   actions: {
     async loginApi() {
-      const optionsCalendar = {
+      const optionsLogin = {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -19,11 +22,8 @@ export const useApiStore = defineStore('useApiStore', {
         body: '{"email":"organizacionrpm@gmail.com","password":"Mr*Charles-2023"}',
       };
 
-      const fetchCalendar = await fetch(
-        "https://rpm.studioatlantic.com.ar/pezls/public/api/v1/login",
-        optionsCalendar
-      );
-      const response = await fetchCalendar.json();
+      const fetchLogin = await fetch(`${this.url}/login`, optionsLogin);
+      const response = await fetchLogin.json();
       const token = response.token;
 
       //Guardado de token en localStorage
@@ -43,18 +43,19 @@ export const useApiStore = defineStore('useApiStore', {
         body: `{"token": "${token}"}`,
       };
 
-      const fetchGetUser = await fetch(
-        "https://rpm.studioatlantic.com.ar/pezls/public/api/v1/get-user",
-        optionsGetUser
-      );
-      const response = await fetchGetUser.json();
-      const respuesta = response.status;
-      // console.log(respuesta);
-      return respuesta;
+      try {
+        const fetchGetUser = await fetch(`${this.url}/get-user`, optionsGetUser);
+        const response = await fetchGetUser.json();
+
+        return response;
+
+      } catch (error) {
+        console.log(error);
+      }
     },
 
     async getCalendarioApi(token, idTorneo) {
-      const optionsCrearTablasCalendario = {
+      const optionsCalendario = {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -64,10 +65,7 @@ export const useApiStore = defineStore('useApiStore', {
         body: `{"idTorneo": "${idTorneo}"}`,
       };
 
-      const fetchGetCalendario = await fetch(
-        "https://rpm.studioatlantic.com.ar/pezls/public/api/v1/getCalendario",
-        optionsCrearTablasCalendario
-      );
+      const fetchGetCalendario = await fetch(`${this.url}/getCalendario`, optionsCalendario);
       const response = await fetchGetCalendario.json();
 
       const calendarioTorneos = response.data;
@@ -77,7 +75,7 @@ export const useApiStore = defineStore('useApiStore', {
     },
 
     async getTorneosApi(token) {
-      const optionsMostrarTorneos = {
+      const optionsTorneos = {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -85,10 +83,71 @@ export const useApiStore = defineStore('useApiStore', {
           'X-Requested-With': 'XMLHttpRequest'
         }
       };
-      const traerTorneos = await fetch('https://rpm.studioatlantic.com.ar/pezls/public/api/v1/mostrarTorneos', optionsMostrarTorneos);
+      const traerTorneos = await fetch(`${this.url}/mostrarTorneos`, optionsTorneos);
       const respuesta = await traerTorneos.json();
-
+console.log(respuesta);
       return respuesta;
     },
+
+    async getPlataformas(token) {
+      const optionsGetPlataforma = {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: ''
+      }
+
+      const fetchGetPlataforma = await fetch('https://rpm.studioatlantic.com.ar/pezls/public/api/v1/getPlataformas', optionsGetPlataforma);
+      const response = await fetchGetPlataforma.json();
+      const plataformas = response.data;
+
+      this.plataformas = Object.keys(plataformas);
+
+    },
+
+    async createTorneoApi(token, datos){
+      const optionsCreateTorneo = {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'X-Requested-With': 'XMLHttpRequest',
+          Authorization: `Bearer ${token}`
+        },
+        body: datos
+      };
+
+      await fetch('https://rpm.studioatlantic.com.ar/pezls/public/api/v1/consumirTorneo', optionsCreateTorneo)
+      .then((res) => res.json())
+      .then(data => {
+        if(data.success){
+          Notify.create({
+            color: "green-13",
+            textColor: "white",
+            icon: "cloud_done",
+            html: true,
+            position: "center",
+            message: `<p style='text-align: center;'>${data.message}</p>`,
+            timeout: 3000
+          });
+        }else{
+          Notify.create({
+            color: "red-13",
+            textColor: "white",
+            icon: "warning",
+            html: true,
+            position: "center",
+            message: `<p style='text-align: center;'>${data.message}</p>`,
+            timeout: 3000
+          });
+        }
+      })
+
+      // const jsonResponse = await response.json();
+
+      // return jsonResponse
+    }
   }
 })

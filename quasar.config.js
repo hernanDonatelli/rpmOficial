@@ -10,6 +10,7 @@
 
 
 const { configure } = require('quasar/wrappers');
+// const { default: axios } = require('src/boot/axios');
 
 
 module.exports = configure(function (/* ctx */) {

@@ -6,9 +6,28 @@ import { useUserStore } from './user';
 
 export const userDatabaseStore = defineStore('database', {
   state: () => ({
-    documents: []
+    documents: [],
+    admin: []
   }),
   actions: {
+    async getAdmin(){
+      try {
+        const q = query(collection(db, "usuarios"), where("isAdmin", "==", true))
+        const querySnapshot = await getDocs(q);
+
+        querySnapshot.forEach((doc) => {
+          if (this.admin.length == 0) {
+            this.admin.push({
+              id: doc.id,
+              isAdmin: doc.isAdmin,
+              ...doc.data()
+            });
+          }
+        })
+      } catch (error) {
+        console.log(error);
+      }
+    },
 
     async getUsers() {
       const userStore = useUserStore()
