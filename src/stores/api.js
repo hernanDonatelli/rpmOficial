@@ -85,7 +85,7 @@ export const useApiStore = defineStore('useApiStore', {
       };
       const traerTorneos = await fetch(`${this.url}/mostrarTorneos`, optionsTorneos);
       const respuesta = await traerTorneos.json();
-console.log(respuesta);
+
       return respuesta;
     },
 
@@ -145,9 +145,53 @@ console.log(respuesta);
         }
       })
 
-      // const jsonResponse = await response.json();
+    },
 
-      // return jsonResponse
+    async editTorneoApi(token, torneoEditado) {
+
+      const optionsEditChamp = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(torneoEditado)
+      };
+
+      try {
+
+        await fetch('https://rpm.studioatlantic.com.ar/pezls/public/api/v1/editarTorneo', optionsEditChamp)
+        .then((res) => res.json())
+        .then(data => {
+          if (data.success) {
+            Notify.create({
+              color: "green-13",
+              textColor: "white",
+              icon: "cloud_done",
+              html: true,
+              position: "center",
+              message: `<p style='text-align: center;'>${data.message}</p>`,
+              timeout: 3000
+            });
+          } else {
+            Notify.create({
+              color: "red-13",
+              textColor: "white",
+              icon: "warning",
+              html: true,
+              position: "center",
+              message: `<p style='text-align: center;'>${data.message}</p>`,
+              timeout: 3000
+            });
+          }
+        })
+
+
+      } catch (error) {
+        console.log(error);
+      }
+
     }
   }
 })

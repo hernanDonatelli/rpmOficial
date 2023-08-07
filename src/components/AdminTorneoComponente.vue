@@ -4,40 +4,65 @@ import { useApiStore } from 'src/stores/api';
 
 onMounted(async () => {
     await useApi.getPlataformas(JSON.parse(localStorage.getItem('token')))
-    // const tokenStorage = localStorage.getItem('token')
-    // console.log(tokenStorage)
-    // if(tokenStorage){
-    //     const usuario = useApi.getUser(tokenStorage)
-    //     console.log(usuario)
 
-    // }
-    // useApi.loginApi()
 })
 
 const useApi = useApiStore()
 
+const selected = ref([])
 const nombre = ref(null)
 const plataforma = ref(null)
 const puntosClasifica = ref(null)
 const puntosCarreraCorta = ref(null)
 const puntosCarrera = ref(null)
 const imagen = ref([])
-const editNombre = ref(null)
-const editPlataforma = ref(null)
-const editPuntosClasifica = ref(null)
-const editPuntosCarreraCorta = ref(null)
-const editPuntosCarrera = ref(null)
-const editImagen = ref(null)
+const idTorneo = ref(null)
+let editNombre = ref(null)
+let editPlataforma = ref(null)
+let editPuntosClasifica = ref(null)
+let editPuntosCarreraCorta = ref(null)
+let editPuntosCarrera = ref(null)
+let editStatus = ref(null)
+const editImagen = ref([])
 
+///////////////////////////////////////////////////////////////
+
+//METODOS
 const crearTorneo = async () => {
 
     const formData = new FormData(formulario)
-    
+
     useApi.createTorneoApi(useApi.tokenApi, formData)
 }
 
-const editarTorneo = () => {
 
+const cargarTorneo = () => {
+    const save = selected
+    const datos = save.value
+
+    datos.forEach(item => {
+        idTorneo.value = item.id
+        editPlataforma.value = item.simulator
+        editNombre.value = item.name
+        editPuntosCarrera.value = item.racePoints
+        editPuntosClasifica.value = item.qualyPoints
+        editPuntosCarreraCorta.value = item.shortRacePoints
+        editStatus = item.status
+    });
+}
+
+const editarTorneo = () => {
+    const newObj = {
+        idTorneo: idTorneo.value,
+        nombre: editNombre.value,
+        plataforma: editPlataforma.value,
+        puntosCarrera: editPuntosCarrera.value,
+        puntosClasifica: editPuntosClasifica.value,
+        puntosCarreraCorta: editPuntosCarreraCorta.value,
+        status: editStatus
+    }
+    console.log(newObj);
+    useApi.editTorneoApi(useApi.tokenApi, newObj)
 }
 
 const onReset = () => {
@@ -48,6 +73,17 @@ const onReset = () => {
     puntosCarrera.value = null;
     imagen.value = null;
 };
+
+const columns = [
+    { name: 'ID', required: true, label: 'ID', align: 'center', field: row => row.id, format: val => `${val}`, sortable: true },
+    { name: 'nombre', align: 'center', label: 'Nombre', field: row => row.name },
+    { name: 'plataforma', align: 'center', label: 'Plataforma', field: row => row.simulator },
+    { name: 'puntosQualy', align: 'center', label: 'Ptos. Qualy', field: row => row.qualyPoints },
+    { name: 'puntosCarreraCorta', align: 'center', label: 'Ptos. Serie/ShortRace', field: row => row.shortRacePoints },
+    { name: 'puntosCarrera', align: 'center', label: 'Ptos. Carrera', field: row => row.racePoints },
+    { name: 'status', align: 'center', label: 'Status', field: row => row.status ? 'Activo' : 'Finalizado' },
+    { name: 'actualizado', align: 'center', label: 'Actualizado', field: row => row.updated_at },
+]
 
 </script>
 
@@ -113,55 +149,55 @@ const onReset = () => {
         <!-- Formulario de Edicion de Torneo -->
         <div class="col-4">
             <h5 class="text-uppercase q-mt-none">Editar Torneo</h5>
-            <q-form method="POST" enctype="multipart/form-data" @submit.prevent="editarTorneo" @reset="onReset"
-                class="q-gutter-md">
-                <input type="hidden" name="idTorneo" id="idTorneo" />
+            <q-form id="editTorneoForm" method="POST" enctype="multipart/form-data" @submit.prevent="editarTorneo"
+                @reset="onReset" class="q-gutter-md">
 
                 <div class="form-group">
-                    <q-select filled dense v-model="editPlataforma" :options="useApi.plataformas"
-                        hint="Seleccionar una opción" label="Plataforma" />
+                    <q-input disable="disable" filled dense name="idTorneo" v-model="idTorneo" label="ID Torneo"
+                        hint="No modificable" />
 
                 </div>
                 <div class="form-group">
-                    <q-input filled dense v-model="editNombre" label="Nombre de Torneo" hint="Texto y numeros" />
+                    <q-select filled dense name="plataforma" v-model="editPlataforma" :options="useApi.plataformas" emit-value
+                        hint="Seleccionar una opción" label="Plataforma" /> {{ editPlataforma }}
+
+                </div>
+                <div class="form-group">
+                    <q-input filled dense name="nombre" v-model="editNombre" label="Nombre de Torneo"
+                        hint="Texto y numeros" />
 
                 </div>
 
                 <div class="form-group">
-                    <q-input filled dense v-model="editPuntosClasifica" label="Puntos de Qualy"
+                    <q-input filled dense name="puntosClasifica" v-model="editPuntosClasifica" label="Puntos de Qualy"
                         hint="Numeros (separados por coma)" />
                 </div>
 
                 <div class="form-group">
-                    <q-input filled dense v-model="editPuntosCarreraCorta" label="Puntos de Series/Carrera Corta"
+                    <q-input filled dense name="puntosCarreraCorta" v-model="editPuntosCarreraCorta"
+                        label="Puntos de Series/Carrera Corta" hint="Numeros (separados por coma)" />
+                </div>
+
+                <div class="form-group">
+                    <q-input filled dense name="puntosCarrera" v-model="editPuntosCarrera" label="Puntos de Carrera/Final"
                         hint="Numeros (separados por coma)" />
                 </div>
 
                 <div class="form-group">
-                    <q-input filled dense v-model="editPuntosCarrera" label="Puntos de Carrera/Final"
-                        hint="Numeros (separados por coma)" />
+                    <q-input filled dense name="status" v-model="editStatus" label="Status"
+                        hint="0 Finalizado - 1 Activo" />
                 </div>
 
-                <div class="form-group">
-                    <q-file filled dense bottom-slots v-model="editImagen" label="Buscar imagen" counter max-files="1">
-                        <template v-slot:before>
-                            <q-icon name="attachment" />
-                        </template>
-
-                        <template v-slot:append>
-                            <q-icon v-if="imagen !== null" name="close" @click.stop.prevent="imagen = null"
-                                class="cursor-pointer" />
-                            <q-icon name="search" @click.stop.prevent />
-                        </template>
-
-                        <template v-slot:hint>
-                            Formatos: .jpg .png
-                        </template>
-                    </q-file>
-                </div>
-                <q-btn color="grey-13" text-color="black" label="Cargar datos" />
-                <q-btn color="green-13" text-color="black" label="Editar Torneo" />
+                <q-btn type="button" @click="cargarTorneo" color="grey-13" text-color="black" label="Cargar Torneo" />
+                <q-btn type="submit" color="green-13" text-color="black" label="Editar Torneo" />
             </q-form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 q-pa-md">
+            <q-table title="TORNEOS" :rows="useApi.torneos" v-model:selected="selected" selection="single"
+                :columns="columns" :loading="useApi.torneos.length == 0 ? true : false" row-key="id" />
         </div>
     </div>
 </template>
