@@ -192,6 +192,49 @@ export const useApiStore = defineStore('useApiStore', {
         console.log(error);
       }
 
+    },
+
+    async deleteTorneoApi (token, idTorneo)  {
+      const optionsDeleteTorneo = {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: `{"idTorneo": "${idTorneo}"}`
+      };
+
+      await fetch('https://rpm.studioatlantic.com.ar/pezls/public/api/v1/eliminarTorneo', optionsDeleteTorneo)
+      .then((res) => res.json())
+      .then(data => {
+        if (data.success) {
+          Notify.create({
+            color: "green-13",
+            textColor: "white",
+            icon: "cloud_done",
+            html: true,
+            position: "center",
+            message: `<p style='text-align: center;'>${data.message}</p>`,
+            timeout: 3000
+          });
+        } else {
+          Notify.create({
+            color: "red-13",
+            textColor: "white",
+            icon: "warning",
+            html: true,
+            position: "center",
+            message: `<p style='text-align: center;'>${data.message}</p>`,
+            timeout: 3000
+          });
+        }
+      })
+
+      setTimeout(() => {
+        window.location.reload()
+      }, 3000);
+
     }
   }
 })

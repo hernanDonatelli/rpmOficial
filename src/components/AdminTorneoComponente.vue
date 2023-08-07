@@ -23,7 +23,7 @@ let editPuntosClasifica = ref(null)
 let editPuntosCarreraCorta = ref(null)
 let editPuntosCarrera = ref(null)
 let editStatus = ref(null)
-const editImagen = ref([])
+const confirm = ref(false)
 
 ///////////////////////////////////////////////////////////////
 
@@ -37,8 +37,7 @@ const crearTorneo = async () => {
 
 
 const cargarTorneo = () => {
-    const save = selected
-    const datos = save.value
+    const datos = selected.value
 
     datos.forEach(item => {
         idTorneo.value = item.id
@@ -63,6 +62,14 @@ const editarTorneo = () => {
     }
     console.log(newObj);
     useApi.editTorneoApi(useApi.tokenApi, newObj)
+}
+
+const deleteTorneo = () => {
+    const datos = selected.value
+
+    datos.forEach(item => {
+        useApi.deleteTorneoApi(useApi.tokenApi, item.id)
+    });
 }
 
 const onReset = () => {
@@ -141,13 +148,13 @@ const columns = [
                         </template>
                     </q-file>
                 </div>
-                <q-btn type="submit" color="green-13" text-color="black" label="Crear Torneo" />
+                <q-btn type="submit" color="green-13" text-color="white" label="Crear Torneo" />
                 <q-btn type="reset" color="red-13" text-color="white" label="Limpiar Campos" />
             </q-form>
         </div>
 
         <!-- Formulario de Edicion de Torneo -->
-        <div class="col-4">
+        <div class="col-5">
             <h5 class="text-uppercase q-mt-none">Editar Torneo</h5>
             <q-form id="editTorneoForm" method="POST" enctype="multipart/form-data" @submit.prevent="editarTorneo"
                 @reset="onReset" class="q-gutter-md">
@@ -158,8 +165,8 @@ const columns = [
 
                 </div>
                 <div class="form-group">
-                    <q-select filled dense name="plataforma" v-model="editPlataforma" :options="useApi.plataformas" emit-value
-                        hint="Seleccionar una opción" label="Plataforma" /> {{ editPlataforma }}
+                    <q-select filled dense disable="disable" name="plataforma" v-model="editPlataforma"
+                        :options="useApi.plataformas" emit-value hint="No modificable" label="Plataforma" />
 
                 </div>
                 <div class="form-group">
@@ -188,14 +195,31 @@ const columns = [
                         hint="0 Finalizado - 1 Activo" />
                 </div>
 
-                <q-btn type="button" @click="cargarTorneo" color="grey-13" text-color="black" label="Cargar Torneo" />
-                <q-btn type="submit" color="green-13" text-color="black" label="Editar Torneo" />
+                <q-btn type="button" @click="cargarTorneo" color="black" text-color="white" label="Cargar Torneo" />
+                <q-btn type="submit" color="green-13" text-color="white" label="Editar Torneo" />
+
             </q-form>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-12 q-pa-md">
+        <div class="col-12 q-pa-md tabla-torneos">
+            <q-dialog v-model="confirm" persistent>
+                <q-card>
+                    <q-card-section class="row items-center">
+                        <q-avatar icon="warning" color="primary" text-color="white" />
+                        <span class="q-ml-sm">Vas a eliminar el torneo seleccionado. Continuar?</span>
+                    </q-card-section>
+
+                    <q-card-actions align="right">
+                        <q-btn flat label="Cancelar" color="primary" v-close-popup />
+                        <q-btn type="button" @click="deleteTorneo" flat label="Si, eliminarlo!" color="primary"
+                            v-close-popup />
+                    </q-card-actions>
+                </q-card>
+            </q-dialog>
+
+            <q-btn class="btn-del" type="button" @click="confirm = true" color="red-13" text-color="white" label="Eliminar Torneo" />
             <q-table title="TORNEOS" :rows="useApi.torneos" v-model:selected="selected" selection="single"
                 :columns="columns" :loading="useApi.torneos.length == 0 ? true : false" row-key="id" />
         </div>
@@ -203,4 +227,15 @@ const columns = [
 </template>
 
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.tabla-torneos{
+    position: relative;
+
+    .btn-del{
+        position: absolute;
+        top: 5%;
+        right: 5%;
+        z-index: 20;
+    }
+}
+</style>
