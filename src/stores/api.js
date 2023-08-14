@@ -7,6 +7,7 @@ export const useApiStore = defineStore('useApiStore', {
     calendar: [],
     torneos: [],
     torneo: [],
+    torneoOpt: [],
     plataformas: [],
     loadingSession: false,
     url: 'https://rpm.studioatlantic.com.ar/pezls/public/api/v1'
@@ -65,13 +66,47 @@ export const useApiStore = defineStore('useApiStore', {
         body: `{"idTorneo": "${idTorneo}"}`,
       };
 
-      const fetchGetCalendario = await fetch(`${this.url}/getCalendario`, optionsCalendario);
-      const response = await fetchGetCalendario.json();
+      await fetch(`${this.url}/getCalendario`, optionsCalendario)
+        .then((res) => res.json())
+        .then(response => {
+          this.calendar = []
+          
+          if(response.data.length == 0){
+            Notify.create({
+              color: "red-13",
+              textColor: "white",
+              icon: "warning",
+              html: true,
+              position: "center",
+              message: `<p style='text-align: center;'>El Campeonato no tiene definido un Calendario aún</p>`,
+              timeout: 3000
+            });
+          }else{
+            const calendarioTorneos = response.data;
+            calendarioTorneos.sort((a, b) => a.order - b.order);
 
-      const calendarioTorneos = response.data;
-      calendarioTorneos.sort((a, b) => a.order - b.order);
+            this.calendar = calendarioTorneos;
 
-      this.calendar = calendarioTorneos;
+            Notify.create({
+              color: "green-13",
+              textColor: "white",
+              icon: "cloud_done",
+              html: true,
+              position: "center",
+              message: `<p style='text-align: center;'>El Calendario ha sido cargado.</p>`,
+              timeout: 3000
+            });
+          }
+
+        })
+
+      // const fetchGetCalendario = await fetch(`${this.url}/getCalendario`, optionsCalendario);
+      // const response = await fetchGetCalendario.json();
+
+      // const calendarioTorneos = response.data;
+      // calendarioTorneos.sort((a, b) => a.order - b.order);
+
+      // this.calendar = calendarioTorneos;
     },
 
     async getTorneosApi(token) {

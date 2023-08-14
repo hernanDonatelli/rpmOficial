@@ -13,22 +13,12 @@ onMounted(async () => {
 
 const useApi = useApiStore()
 
-// const selected = ref([])
 const nombre = ref(null)
 const plataforma = ref(null)
 const puntosClasifica = ref(null)
 const puntosCarreraCorta = ref(null)
 const puntosCarrera = ref(null)
 const imagen = ref([])
-
-// const idTorneo = ref(null)
-// let editNombre = ref(null)
-// let editPlataforma = ref(null)
-// let editPuntosClasifica = ref(null)
-// let editPuntosCarreraCorta = ref(null)
-// let editPuntosCarrera = ref(null)
-// let editStatus = ref(null)
-// const confirm = ref(false)
 
 ///////////////////////////////////////////////////////////////
 
@@ -77,12 +67,6 @@ const editarTorneo = (id, name, simulator, qualyPoints, shortRacePoints, racePoi
     useApi.editTorneoApi(useApi.tokenApi, torneoEditado)
 
 }
-
-// const deleteTorneo = (id) => {
-//     console.log(`"Eliminar torneo ${id}"`);
-//     // useApi.deleteTorneoApi(useApi.tokenApi, item.id)
-
-// }
 
 const deleteConfirm = (nombre, id) => {
     $q.dialog({
@@ -148,14 +132,11 @@ const columns = [
                         <div class="form-group q-mb-md">
                             <q-select filled dense name="plataforma" v-model="plataforma" :options="useApi.plataformas"
                                 hint="Seleccionar una opción" label="Plataforma" />
-
                         </div>
                         <div class="form-group q-mb-md">
                             <q-input filled dense name="nombre" v-model="nombre" label="Nombre de Torneo"
                                 hint="Texto y numeros" />
-
                         </div>
-
                         <div class="form-group q-mb-md">
                             <q-input filled dense name="puntosClasifica" v-model="puntosClasifica" label="Puntos de Qualy"
                                 hint="Numeros (separados por coma)" />
@@ -167,12 +148,10 @@ const columns = [
                             <q-input filled dense name="puntosCarreraCorta" v-model="puntosCarreraCorta"
                                 label="Puntos de Series/Carrera Corta" hint="Numeros (separados por coma)" />
                         </div>
-
                         <div class="form-group q-mb-md">
                             <q-input filled dense name="puntosCarrera" v-model="puntosCarrera"
                                 label="Puntos de Carrera/Final" hint="Numeros (separados por coma)" />
                         </div>
-
                         <div class="form-group q-mb-md">
                             <q-file filled dense bottom-slots name="imagen" v-model="imagen" label="Buscar imagen" counter
                                 max-files="1">
@@ -196,7 +175,7 @@ const columns = [
 
                 <div class="row q-mt-xl">
                     <div class="col-12 text-center">
-                        <q-btn class="q-mr-lg" type="submit" color="green-13" text-color="white" label="Crear Torneo" />
+                        <q-btn class="q-mr-lg" type="submit" color="teal-14" text-color="white" label="Crear Torneo" />
                         <q-btn class="q-ml-lg" type="reset" color="red-13" text-color="white" label="Limpiar Campos" />
                     </div>
                 </div>
@@ -216,7 +195,7 @@ const columns = [
                         <q-td key="id" :props="props" class="text-center" id="editedId">
                             {{ props.row.id }}
                         </q-td>
-                        <q-td key="nombre" :props="props" id="editedName">
+                        <q-td class="cursor-pointer" key="nombre" :props="props" id="editedName">
                             {{ props.row.name }}
                             <q-popup-edit v-model="props.row.name" title="Editar Nombre" buttons label-set="Ok"
                                 label-cancel="Cancelar" v-slot="scope" auto-save>
@@ -228,35 +207,35 @@ const columns = [
                             {{ props.row.simulator }}
                             <q-popup-edit v-model="props.row.simulator" v-slot="scope" disable />
                         </q-td>
-                        <q-td key="puntosQualy" :props="props" id="editedQualyPoints">
+                        <q-td class="cursor-pointer" key="puntosQualy" :props="props" id="editedQualyPoints">
                             {{ props.row.qualyPoints }}
                             <q-popup-edit v-model="props.row.qualyPoints" title="Puntos de Qualy" buttons label-set="Ok"
                                 label-cancel="Cancelar" v-slot="scope">
                                 <q-input type="text" v-model="scope.value" dense autofocus />
                             </q-popup-edit>
                         </q-td>
-                        <q-td key="puntosCarreraCorta" :props="props" id="editedShortRacePoints">
+                        <q-td class="cursor-pointer" key="puntosCarreraCorta" :props="props" id="editedShortRacePoints">
                             {{ props.row.shortRacePoints }}
                             <q-popup-edit v-model="props.row.shortRacePoints" title="Puntos de Serie/Short Race" buttons
                                 label-set="Ok" label-cancel="Cancelar" v-slot="scope">
                                 <q-input type="text" v-model="scope.value" dense autofocus />
                             </q-popup-edit>
                         </q-td>
-                        <q-td key="puntosCarrera" :props="props" id="editedRacePoints">
+                        <q-td class="cursor-pointer" key="puntosCarrera" :props="props" id="editedRacePoints">
                             {{ props.row.racePoints }}
                             <q-popup-edit v-model="props.row.racePoints" title="Puntos de Carrera" buttons label-set="Ok"
                                 label-cancel="Cancelar" v-slot="scope">
                                 <q-input type="text" v-model="scope.value" dense autofocus />
                             </q-popup-edit>
                         </q-td>
-                        <q-td key="status" :props="props" id="editedStatus">
-                            <q-badge :color="props.row.status ? 'green-13' : 'red-13'" text-color="black"
+                        <q-td class="cursor-pointer" key="status" :props="props" id="editedStatus">
+                            <q-badge :color="props.row.status ? 'teal-14' : 'red-13'" text-color="white"
                                 class="q-py-xs q-px-sm">
                                 {{ props.row.status ? 'Activo' : 'Finalizado' }}
                             </q-badge>
                             <q-popup-edit v-model="props.row.status" title="Status Torneo" buttons label-set="Ok"
                                 label-cancel="Cancelar" v-slot="scope">
-                                <q-input type="number" v-model="scope.value" dense autofocus
+                                <q-input type="number" min="0" max="1" v-model="scope.value" dense autofocus
                                     hint="Finalizado: 0 - Activo: 1" />
                             </q-popup-edit>
                         </q-td>

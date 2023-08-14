@@ -174,7 +174,17 @@ const getTorneos = async () => {
           </q-item-section>
           <q-item-section>
             <q-item-label>Torneos</q-item-label>
-            <q-item-label caption class="text-grey-8">Administrar los Torneos</q-item-label>
+            <q-item-label caption class="text-grey-8">Administración de Torneos</q-item-label>
+          </q-item-section>
+        </q-item>
+
+        <q-item v-if="item.isAdmin" clickable to="/administrar-calendarios" active-class="menu__link">
+          <q-item-section avatar>
+            <q-icon name="las la-calendar" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Calendarios</q-item-label>
+            <q-item-label caption class="text-grey-8">Administración de Calendarios</q-item-label>
           </q-item-section>
         </q-item>
 
