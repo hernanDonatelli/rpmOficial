@@ -7,7 +7,7 @@ const useApi = useApiStore()
 const $q = useQuasar()
 let timer;
 
-const createTorneo = ref(null)
+const createFecha = ref(null)
 const torneo = ref('')
 const fecha = ref(null)
 const circuito = ref(null)
@@ -37,8 +37,8 @@ const torneosApi = async () => {
     });
 }
 
-const createCalendar = () => {
-    const match = useApi.torneos.filter(item => item.name == createTorneo.value)
+const createCalendar = async() => {
+    const match = useApi.torneos.filter(item => item.name == createFecha.value)
 
     match.forEach(item => {
 
@@ -50,6 +50,7 @@ const createCalendar = () => {
         }
 
         useApi.createCalendarApi(JSON.parse(localStorage.getItem('token')), datosFecha, item.name)
+
     })
 
 }
@@ -75,18 +76,11 @@ const eliminarFecha = (id, order, circuit) => {
         message: `La fecha se eliminará de la base de datos.`,
         cancel: true,
         persistent: true
-    }).onOk(() => {
-        useApi.deleteFechaApi(useApi.tokenApi, id, order)
+    }).onOk( async() => {
+        await useApi.deleteFechaApi(useApi.tokenApi, id, order)
+
     }).onCancel(() => {
-        Notify.create({
-            color: "red-13",
-            textColor: "white",
-            icon: "cloud_done",
-            html: true,
-            position: "center",
-            message: `<span style='text-align: center;'>${data.message}</span>`,
-            timeout: 1000
-        });
+
 
     })
 
@@ -94,12 +88,10 @@ const eliminarFecha = (id, order, circuit) => {
 
 
 const onReset = () => {
-    nombre.value = null;
-    plataforma.value = null;
-    puntosClasifica.value = null;
-    puntosCarreraCorta.value = null;
-    puntosCarrera.value = null;
-    imagen.value = null;
+    createFecha.value = null;
+    orden.value = null;
+    fecha.value = null;
+    circuito.value = null;
 };
 
 const columns = [
@@ -125,7 +117,7 @@ const columns = [
                 <div class="row flex justify-evenly">
                     <div class="col-12">
                         <div class="form-group q-mb-md">
-                            <q-select filled dense name="createTorneo" v-model="createTorneo" :options="useApi.torneoOpt"
+                            <q-select filled dense name="createTorneo" v-model="createFecha" :options="useApi.torneoOpt"
                                 hint="Seleccionar una opción" label="Torneo" />
                         </div>
 
@@ -205,6 +197,10 @@ const columns = [
                             </q-td>
                         </q-tr>
                     </template>
+                </q-table>
+                <q-table v-else :title="`Calendario`" :rows="useApi.calendar"
+                    :columns="columns" row-key="name">
+
                 </q-table>
             </div>
         </div>

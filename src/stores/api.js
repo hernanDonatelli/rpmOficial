@@ -69,32 +69,21 @@ export const useApiStore = defineStore('useApiStore', {
       await fetch(`${this.url}/getCalendario`, optionsCalendario)
         .then((res) => res.json())
         .then(response => {
-          this.calendar = []
 
-          if(response.data.length == 0){
+          const calendarioTorneos = response.data;
+          calendarioTorneos.sort((a, b) => a.order - b.order);
+
+          this.calendar = calendarioTorneos;
+
+          if (this.calendar.length == 0) {
             Notify.create({
               color: "red-13",
               textColor: "white",
               icon: "warning",
               html: true,
-              position: "center",
+              position: "bottom",
               message: `<span style='text-align: center;'>No hay fechas programadas.</span>`,
               timeout: 1000
-            });
-          }else{
-            const calendarioTorneos = response.data;
-            calendarioTorneos.sort((a, b) => a.order - b.order);
-
-            this.calendar = calendarioTorneos;
-
-            Notify.create({
-              color: "teal-14",
-              textColor: "white",
-              icon: "done",
-              html: true,
-              position: "center",
-              message: `<span style='text-align: center;'>El Calendario ha sido cargado.</span>`,
-              timeout: 500
             });
           }
 
@@ -135,7 +124,7 @@ export const useApiStore = defineStore('useApiStore', {
 
     },
 
-    async createTorneoApi(token, datos){
+    async createTorneoApi(token, datos) {
       const optionsCreateTorneo = {
         method: 'POST',
         headers: {
@@ -147,30 +136,30 @@ export const useApiStore = defineStore('useApiStore', {
       };
 
       await fetch('https://rpm.studioatlantic.com.ar/pezls/public/api/v1/consumirTorneo', optionsCreateTorneo)
-      .then((res) => res.json())
-      .then(data => {
-        if(data.success){
-          Notify.create({
-            color: "green-13",
-            textColor: "white",
-            icon: "cloud_done",
-            html: true,
-            position: "center",
-            message: `<p style='text-align: center;'>${data.message}</p>`,
-            timeout: 3000
-          });
-        }else{
-          Notify.create({
-            color: "red-13",
-            textColor: "white",
-            icon: "warning",
-            html: true,
-            position: "center",
-            message: `<p style='text-align: center;'>${data.message}</p>`,
-            timeout: 3000
-          });
-        }
-      })
+        .then((res) => res.json())
+        .then(data => {
+          if (data.success) {
+            Notify.create({
+              color: "green-13",
+              textColor: "white",
+              icon: "done",
+              html: true,
+              position: "center",
+              message: `<span style='text-align: center;'>${data.message}</span>`,
+              timeout: 3000
+            });
+          } else {
+            Notify.create({
+              color: "red-13",
+              textColor: "white",
+              icon: "warning",
+              html: true,
+              position: "center",
+              message: `<span style='text-align: center;'>${data.message}</span>`,
+              timeout: 3000
+            });
+          }
+        })
 
     },
 
@@ -189,6 +178,50 @@ export const useApiStore = defineStore('useApiStore', {
       try {
 
         await fetch('https://rpm.studioatlantic.com.ar/pezls/public/api/v1/editarTorneo', optionsEditChamp)
+          .then((res) => res.json())
+          .then(data => {
+            if (data.success) {
+              Notify.create({
+                color: "green-13",
+                textColor: "white",
+                icon: "cloud_done",
+                html: true,
+                position: "center",
+                message: `<p style='text-align: center;'>${data.message}</p>`,
+                timeout: 3000
+              });
+            } else {
+              Notify.create({
+                color: "red-13",
+                textColor: "white",
+                icon: "warning",
+                html: true,
+                position: "center",
+                message: `<p style='text-align: center;'>${data.message}</p>`,
+                timeout: 3000
+              });
+            }
+          })
+
+
+      } catch (error) {
+        console.log(error);
+      }
+
+    },
+
+    async deleteTorneoApi(token, idTorneo) {
+      const optionsDeleteTorneo = {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: `{"idTorneo": "${idTorneo}"}`
+      };
+
+      await fetch('https://rpm.studioatlantic.com.ar/pezls/public/api/v1/eliminarTorneo', optionsDeleteTorneo)
         .then((res) => res.json())
         .then(data => {
           if (data.success) {
@@ -214,57 +247,13 @@ export const useApiStore = defineStore('useApiStore', {
           }
         })
 
-
-      } catch (error) {
-        console.log(error);
-      }
-
-    },
-
-    async deleteTorneoApi (token, idTorneo)  {
-      const optionsDeleteTorneo = {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-          'X-Requested-With': 'XMLHttpRequest'
-        },
-        body: `{"idTorneo": "${idTorneo}"}`
-      };
-
-      await fetch('https://rpm.studioatlantic.com.ar/pezls/public/api/v1/eliminarTorneo', optionsDeleteTorneo)
-      .then((res) => res.json())
-      .then(data => {
-        if (data.success) {
-          Notify.create({
-            color: "green-13",
-            textColor: "white",
-            icon: "cloud_done",
-            html: true,
-            position: "center",
-            message: `<p style='text-align: center;'>${data.message}</p>`,
-            timeout: 3000
-          });
-        } else {
-          Notify.create({
-            color: "red-13",
-            textColor: "white",
-            icon: "warning",
-            html: true,
-            position: "center",
-            message: `<p style='text-align: center;'>${data.message}</p>`,
-            timeout: 3000
-          });
-        }
-      })
-
       setTimeout(() => {
         window.location.reload()
       }, 3000);
 
     },
 
-    async createCalendarApi (token, fecha, nombre){
+    async createCalendarApi(token, fecha, nombre) {
       const optionsCreateCalendar = {
         method: "POST",
         headers: {
@@ -281,6 +270,8 @@ export const useApiStore = defineStore('useApiStore', {
           .then((res) => res.json())
           .then(data => {
 
+            const idTorneo = data.data[0].league_info_id
+
             if (data.success) {
               Notify.create({
                 color: "teal-14",
@@ -291,6 +282,9 @@ export const useApiStore = defineStore('useApiStore', {
                 message: `<span style='text-align: center;'>${data.message}</span>`,
                 timeout: 1000
               });
+
+              this.getCalendarioApi(token, idTorneo)
+
             } else {
               Notify.create({
                 color: "red-13",
@@ -298,8 +292,8 @@ export const useApiStore = defineStore('useApiStore', {
                 icon: "warning",
                 html: true,
                 position: "center",
-                message: `<p style='text-align: center;'>${data.message}</p>`,
-                timeout: 3000
+                message: `<span style='text-align: center;'>${data.message}</span>`,
+                timeout: 2000
               });
             }
           })
@@ -330,12 +324,15 @@ export const useApiStore = defineStore('useApiStore', {
             Notify.create({
               color: "teal-14",
               textColor: "white",
-              icon: "cloud_done",
+              icon: "done",
               html: true,
-              position: "center",
-              message: `<p style='text-align: center;'>${data.message}</p>`,
+              position: "bottom",
+              message: `<span style='text-align: center;'>${data.message}</span>`,
               timeout: 500
             });
+
+            this.getCalendarioApi(token, idTorneo)
+
           } else {
             Notify.create({
               color: "red-13",
@@ -343,7 +340,7 @@ export const useApiStore = defineStore('useApiStore', {
               icon: "warning",
               html: true,
               position: "center",
-              message: `<p style='text-align: center;'>${data.message}</p>`,
+              message: `<span style='text-align: center;'>${data.message}</span>`,
               timeout: 3000
             });
           }
