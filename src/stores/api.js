@@ -70,7 +70,7 @@ export const useApiStore = defineStore('useApiStore', {
         .then((res) => res.json())
         .then(response => {
           this.calendar = []
-          
+
           if(response.data.length == 0){
             Notify.create({
               color: "red-13",
@@ -78,8 +78,8 @@ export const useApiStore = defineStore('useApiStore', {
               icon: "warning",
               html: true,
               position: "center",
-              message: `<p style='text-align: center;'>El Campeonato no tiene definido un Calendario aún</p>`,
-              timeout: 3000
+              message: `<span style='text-align: center;'>No hay fechas programadas.</span>`,
+              timeout: 1000
             });
           }else{
             const calendarioTorneos = response.data;
@@ -88,25 +88,17 @@ export const useApiStore = defineStore('useApiStore', {
             this.calendar = calendarioTorneos;
 
             Notify.create({
-              color: "green-13",
+              color: "teal-14",
               textColor: "white",
-              icon: "cloud_done",
+              icon: "done",
               html: true,
               position: "center",
-              message: `<p style='text-align: center;'>El Calendario ha sido cargado.</p>`,
-              timeout: 3000
+              message: `<span style='text-align: center;'>El Calendario ha sido cargado.</span>`,
+              timeout: 500
             });
           }
 
         })
-
-      // const fetchGetCalendario = await fetch(`${this.url}/getCalendario`, optionsCalendario);
-      // const response = await fetchGetCalendario.json();
-
-      // const calendarioTorneos = response.data;
-      // calendarioTorneos.sort((a, b) => a.order - b.order);
-
-      // this.calendar = calendarioTorneos;
     },
 
     async getTorneosApi(token) {
@@ -270,6 +262,92 @@ export const useApiStore = defineStore('useApiStore', {
         window.location.reload()
       }, 3000);
 
-    }
+    },
+
+    async createCalendarApi (token, fecha, nombre){
+      const optionsCreateCalendar = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Requested-With": "XMLHttpRequest",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(fecha),
+      }
+
+      try {
+
+        await fetch('https://rpm.studioatlantic.com.ar/pezls/public/api/v1/crearCalendario', optionsCreateCalendar)
+          .then((res) => res.json())
+          .then(data => {
+
+            if (data.success) {
+              Notify.create({
+                color: "teal-14",
+                textColor: "white",
+                icon: "cloud_done",
+                html: true,
+                position: "center",
+                message: `<span style='text-align: center;'>${data.message}</span>`,
+                timeout: 1000
+              });
+            } else {
+              Notify.create({
+                color: "red-13",
+                textColor: "white",
+                icon: "warning",
+                html: true,
+                position: "center",
+                message: `<p style='text-align: center;'>${data.message}</p>`,
+                timeout: 3000
+              });
+            }
+          })
+
+
+      } catch (error) {
+        console.log(error);
+      }
+
+
+    },
+
+    async deleteFechaApi(token, idTorneo, fecha) {
+      const optionsDeleteFecha = {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: `{"idTorneo":"${idTorneo}","order":"${fecha}"}`
+      };
+
+      await fetch(`https://rpm.studioatlantic.com.ar/pezls/public/api/v1/eliminarFecha`, optionsDeleteFecha)
+        .then((res) => res.json())
+        .then(data => {
+          if (data.success) {
+            Notify.create({
+              color: "teal-14",
+              textColor: "white",
+              icon: "cloud_done",
+              html: true,
+              position: "center",
+              message: `<p style='text-align: center;'>${data.message}</p>`,
+              timeout: 500
+            });
+          } else {
+            Notify.create({
+              color: "red-13",
+              textColor: "white",
+              icon: "warning",
+              html: true,
+              position: "center",
+              message: `<p style='text-align: center;'>${data.message}</p>`,
+              timeout: 3000
+            });
+          }
+        })
+    },
   }
 })
