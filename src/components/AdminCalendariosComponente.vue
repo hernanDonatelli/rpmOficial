@@ -2,6 +2,7 @@
 import { onMounted, ref } from 'vue';
 import { useApiStore } from 'src/stores/api';
 import { useQuasar, Notify, QSpinnerGears } from 'quasar'
+import AdminResultComponent from './AdminResultComponent.vue';
 
 const useApi = useApiStore()
 const $q = useQuasar()
@@ -83,7 +84,6 @@ const eliminarFecha = (id, order, circuit) => {
 
 
     })
-
 }
 
 
@@ -109,7 +109,7 @@ const columns = [
 
     <div class="row flex justify-around q-mb-xl">
 
-        <!-- Formulario de Creacion de Torneo -->
+        <!-- Formulario de Creacion de Calendario -->
         <div class="col-4">
             <h5 class="text-uppercase q-mt-none text-center">Crear Fechas</h5>
             <q-form method="POST" @submit.prevent="createCalendar" @reset="onReset" class="q-gutter-md">
@@ -158,7 +158,7 @@ const columns = [
                             </div>
                         </div>
                         <q-btn type="submit" class="q-mr-lg" color="teal-14" text-color="white"
-                            label="Mostrar Calendario" />
+                            label="Buscar Calendario" />
                     </q-form>
 
                 </div>
@@ -174,20 +174,14 @@ const columns = [
                             <q-td key="orden" :props="props" class="text-center">
                                 {{ props.row.order }}
                             </q-td>
-                            <q-td class="cursor-pointer" key="circuito" :props="props">
+                            <q-td key="circuito" :props="props">
                                 {{ props.row.circuit }}
-                                <q-popup-edit v-model="props.row.circuit" title="Editar Circuito" buttons label-set="Ok"
-                                    label-cancel="Cancelar" v-slot="scope" auto-save>
-                                    <q-input type="text" :model-value="scope.value" v-model="scope.value" dense autofocus
-                                        @keyup.enter="scope.set" />
-                                </q-popup-edit>
                             </q-td>
                             <q-td key="fecha" :props="props">
                                 {{ props.row.date }}
-                                <q-popup-edit v-model="props.row.date" v-slot="scope" />
                             </q-td>
-                            <q-td class="cursor-pointer" key="resultados" :props="props">
-
+                            <q-td class="cursor-pointer" key="resultados">
+                                <AdminResultComponent :fecha="props.row.date" :torneo="torneoName" :circuit="props.row.circuit" :orden="props.row.order" :idTorneo="props.row.league_info_id"/>
                             </q-td>
 
                             <q-td class="flex justify-around align-center">

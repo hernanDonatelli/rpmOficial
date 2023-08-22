@@ -30,7 +30,8 @@ const routes = [
       { path: 'mi-cuenta', component: () => import('pages/MiCuentaPage.vue'), beforeEnter: requireAuth },
       { path: 'torneo/:id', name: 'torneo', component: () => import('pages/TorneoPage.vue') },
       { path: '/administrar-torneos', component: () => import('pages/AdminTorneosPage.vue'), beforeEnter: requireAuth },
-      { path: '/administrar-calendarios', component: () => import('pages/AdminCalendariosPage.vue'), beforeEnter: requireAuth }
+      { path: '/administrar-calendarios', component: () => import('pages/AdminCalendariosPage.vue'), beforeEnter: requireAuth },
+      { path: '/administrar-resultados', component: () => import('pages/AdminResultadosPage.vue'), beforeEnter: requireAuth }
     ]
   },
 

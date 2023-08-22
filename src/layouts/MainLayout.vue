@@ -188,6 +188,15 @@ const getTorneos = async () => {
           </q-item-section>
         </q-item>
 
+        <q-item v-if="item.isAdmin" clickable to="/administrar-resultados" active-class="menu__link">
+          <q-item-section avatar>
+            <q-icon name="las la-poll" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Resultados</q-item-label>
+            <q-item-label caption class="text-grey-8">Administración de Resultados</q-item-label>
+          </q-item-section>
+        </q-item>
       </q-list>
     </q-drawer>
 

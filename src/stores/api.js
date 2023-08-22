@@ -8,8 +8,13 @@ export const useApiStore = defineStore('useApiStore', {
     torneos: [],
     torneo: [],
     torneoOpt: [],
+    calendarOpt: [],
+    fechasOpt: [],
     plataformas: [],
     loadingSession: false,
+    tituloSesiones: [],
+    sesiones: [],
+    infoTabla: [],
     url: 'https://rpm.studioatlantic.com.ar/pezls/public/api/v1'
   }),
   actions: {
@@ -346,5 +351,112 @@ export const useApiStore = defineStore('useApiStore', {
           }
         })
     },
+
+    async uploadResult(token, resultados) {
+      const optionsUploadResult = {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'X-Requested-With': 'XMLHttpRequest',
+          Accept: 'application/json'
+        },
+        body: resultados
+      }
+
+      fetch(`https://rpm.studioatlantic.com.ar/pezls/public/api/v1/consumirResultado`, optionsUploadResult)
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            Notify.create({
+              color: "teal-14",
+              textColor: "white",
+              icon: "done",
+              html: true,
+              position: "top",
+              message: `<span style='text-align: center;'>${data.message}</span>`,
+              timeout: 500
+            });
+
+          } else {
+            Notify.create({
+              color: "red-13",
+              textColor: "white",
+              icon: "warning",
+              html: true,
+              position: "top",
+              message: `<span style='text-align: center;'>${data.message}</span>`,
+              timeout: 3000
+            });
+          }
+        })
+    },
+
+    async getResultsApi(token, idTorneo, order) {
+
+      const optionsGetResult = {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+          "X-Requested-With": "XMLHttpRequest",
+        },
+        body: `{"idTorneo": "${idTorneo}","orden": "${order}"}`,
+      };
+
+      await fetch("https://rpm.studioatlantic.com.ar/pezls/public/api/v1/getResultadosFecha", optionsGetResult)
+        .then(res => res.json())
+        .then(info => {
+          console.log(info);
+          const objSesiones = info.data[0]
+
+          for (let sesion in objSesiones) {
+
+            this.sesiones.push(objSesiones[sesion])
+
+            this.tituloSesiones.push(sesion)
+
+          }
+        })
+
+    },
+
+    async aplicarSancionApi(token, idDriver, time){
+      const optionsAplicarSancion = {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+          "X-Requested-With": "XMLHttpRequest",
+        },
+        body: `{"idDriverInfo": "${idDriver}","sancion": "${time}"}`,
+      }
+
+      await fetch("https://rpm.studioatlantic.com.ar/pezls/public/api/v1/aplicarSancion", optionsAplicarSancion)
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          Notify.create({
+            color: "teal-14",
+            textColor: "white",
+            icon: "done",
+            html: true,
+            position: "top",
+            message: `<span style='text-align: center;'>${data.message}</span>`,
+            timeout: 1500
+          });
+
+        } else {
+          Notify.create({
+            color: "red-13",
+            textColor: "white",
+            icon: "warning",
+            html: true,
+            position: "top",
+            message: `<span style='text-align: center;'>${data.message}</span>`,
+            timeout: 3000
+          });
+        }
+      })
+    }
   }
 })
