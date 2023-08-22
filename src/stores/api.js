@@ -104,7 +104,7 @@ export const useApiStore = defineStore('useApiStore', {
           'X-Requested-With': 'XMLHttpRequest'
         }
       };
-      const traerTorneos = await fetch(`${this.url}/mostrarTorneos`, optionsTorneos);
+      const traerTorneos = await fetch(`https://rpm.studioatlantic.com.ar/pezls/public/api/v1/mostrarTorneos`, optionsTorneos);
       const respuesta = await traerTorneos.json();
 
       return respuesta;
@@ -142,17 +142,19 @@ export const useApiStore = defineStore('useApiStore', {
 
       await fetch('https://rpm.studioatlantic.com.ar/pezls/public/api/v1/consumirTorneo', optionsCreateTorneo)
         .then((res) => res.json())
-        .then(data => {
-          if (data.success) {
+        .then(response => {
+
+          if (response.success) {
             Notify.create({
               color: "green-13",
               textColor: "white",
               icon: "done",
               html: true,
               position: "center",
-              message: `<span style='text-align: center;'>${data.message}</span>`,
+              message: `<span style='text-align: center;'>${response.message}</span>`,
               timeout: 3000
             });
+
           } else {
             Notify.create({
               color: "red-13",
@@ -160,7 +162,7 @@ export const useApiStore = defineStore('useApiStore', {
               icon: "warning",
               html: true,
               position: "center",
-              message: `<span style='text-align: center;'>${data.message}</span>`,
+              message: `<span style='text-align: center;'>${response.message}</span>`,
               timeout: 3000
             });
           }
@@ -185,6 +187,7 @@ export const useApiStore = defineStore('useApiStore', {
         await fetch('https://rpm.studioatlantic.com.ar/pezls/public/api/v1/editarTorneo', optionsEditChamp)
           .then((res) => res.json())
           .then(data => {
+
             if (data.success) {
               Notify.create({
                 color: "green-13",
@@ -195,6 +198,8 @@ export const useApiStore = defineStore('useApiStore', {
                 message: `<p style='text-align: center;'>${data.message}</p>`,
                 timeout: 3000
               });
+
+
             } else {
               Notify.create({
                 color: "red-13",
@@ -230,6 +235,7 @@ export const useApiStore = defineStore('useApiStore', {
         .then((res) => res.json())
         .then(data => {
           if (data.success) {
+
             Notify.create({
               color: "green-13",
               textColor: "white",
@@ -239,6 +245,7 @@ export const useApiStore = defineStore('useApiStore', {
               message: `<p style='text-align: center;'>${data.message}</p>`,
               timeout: 3000
             });
+
           } else {
             Notify.create({
               color: "red-13",
@@ -252,9 +259,9 @@ export const useApiStore = defineStore('useApiStore', {
           }
         })
 
-      setTimeout(() => {
-        window.location.reload()
-      }, 3000);
+      // setTimeout(() => {
+      //   window.location.reload()
+      // }, 3000);
 
     },
 
@@ -406,15 +413,39 @@ export const useApiStore = defineStore('useApiStore', {
       await fetch("https://rpm.studioatlantic.com.ar/pezls/public/api/v1/getResultadosFecha", optionsGetResult)
         .then(res => res.json())
         .then(info => {
-          console.log(info);
+
+          this.sesiones = []
+          this.tituloSesiones = []
+
           const objSesiones = info.data[0]
 
           for (let sesion in objSesiones) {
 
             this.sesiones.push(objSesiones[sesion])
 
-            this.tituloSesiones.push(sesion)
+              if (sesion == 'qualify') {
+                sesion = 'Clasificacion'
+              }
+              if (sesion == 'serie1') {
+                sesion = 'Serie 1'
+              }
+              if (sesion == 'serie2') {
+                sesion = 'Serie 2'
+              }
+              if (sesion == 'serie3') {
+                sesion = 'Serie 3'
+              }
+              if (sesion == 'carreraCorta1') {
+                sesion = 'Carrera 1'
+              }
+              if (sesion == 'carreraCorta2') {
+                sesion = 'Carrera 2'
+              }
+              if (sesion == 'race') {
+                sesion = 'Carrera'
+              }
 
+            this.tituloSesiones.push(sesion)
           }
         })
 
@@ -457,6 +488,46 @@ export const useApiStore = defineStore('useApiStore', {
           });
         }
       })
+    },
+
+    async finalizarTorneoApi(token, idTorneo){
+      const optionsFinalizarTorneo = {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+          "X-Requested-With": "XMLHttpRequest",
+        },
+        body: `{"idTorneo": "${idTorneo}"}`,
+      }
+
+      await fetch("https://rpm.studioatlantic.com.ar/pezls/public/api/v1/finalizarTorneo", optionsFinalizarTorneo)
+      .then(res => res.json())
+      .then(response => {
+        if (response.success) {
+          Notify.create({
+            color: "teal-14",
+            textColor: "white",
+            icon: "done",
+            html: true,
+            position: "top",
+            message: `<span style='text-align: center;'>${response.message}</span>`,
+            timeout: 1500
+          });
+
+        } else {
+          Notify.create({
+            color: "red-13",
+            textColor: "white",
+            icon: "warning",
+            html: true,
+            position: "top",
+            message: `<span style='text-align: center;'>${response.message}</span>`,
+            timeout: 3000
+          });
+        }
+      })
+
     }
   }
 })

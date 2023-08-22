@@ -31,7 +31,6 @@ const torneosApi = async () => {
     useApi.torneoOpt = []
 
     torneos.forEach(torneo => {
-
         useApi.torneoOpt.push(torneo.name)
         idTorneo.push(torneo.id)
 
@@ -167,7 +166,7 @@ const columns = [
 
             <div class="col-12 q-pa-md tabla-torneos">
                 <q-table v-if="useApi.calendar.length != 0" :title="`Calendario ${torneoName}`" :rows="useApi.calendar"
-                    :columns="columns" :loading="useApi.calendar.length == 0 ? true : false" row-key="name">
+                    :columns="columns" :loading="useApi.calendar.length == 0 ? true : false" row-key="name" :rows-per-page-options="[10,15]">
 
                     <template v-slot:body="props">
                         <q-tr v-if="useApi.calendar.length != 0" :props="props">
@@ -184,7 +183,7 @@ const columns = [
                                 <AdminResultComponent :fecha="props.row.date" :torneo="torneoName" :circuit="props.row.circuit" :orden="props.row.order" :idTorneo="props.row.league_info_id"/>
                             </q-td>
 
-                            <q-td class="flex justify-around align-center">
+                            <q-td>
                                 <q-btn size="sm"
                                     @click="eliminarFecha(props.row.league_info_id, props.row.order, props.row.circuit)"
                                     color="red-13" text-color="white" label="Eliminar" />

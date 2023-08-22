@@ -24,6 +24,7 @@ const imagen = ref([])
 
 //METODOS
 const showLoading = async (token, torneo) => {
+    useApi.torneos = []
 
     $q.loading.show({
         spinner: QSpinnerGears,
@@ -35,6 +36,13 @@ const showLoading = async (token, torneo) => {
     })
 
     await useApi.createTorneoApi(token, torneo)
+
+    const torneosApi = await useApi.getTorneosApi(token)
+
+    torneosApi.forEach(el => {
+        useApi.torneos.push(el)
+
+    });
 
     // hiding in 1s
     timer = setTimeout(() => {
@@ -68,24 +76,17 @@ const editarTorneo = (id, name, simulator, qualyPoints, shortRacePoints, racePoi
 
 }
 
-const deleteConfirm = (nombre, id) => {
+const deleteConfirm = async (nombre, id) => {
     $q.dialog({
         title: `Eliminar Torneo ${nombre}`,
         message: `Esta acción no tiene vuelta atrás y borrará toda información de la base de datos`,
         cancel: true,
         persistent: true
-    }).onOk(() => {
-        useApi.deleteTorneoApi(useApi.tokenApi, id)
-    }).onOk(() => {
-        Notify.create({
-            color: "green-13",
-            textColor: "white",
-            icon: "cloud_done",
-            html: true,
-            position: "center",
-            message: `<p style='text-align: center;'>${data.message}</p>`,
-            timeout: 3000
-        });
+    }).onOk(async () => {
+        await useApi.deleteTorneoApi(useApi.tokenApi, id)
+
+        await useApi.getTorneosApi(useApi.tokenApi)
+
     }).onCancel(() => {
         // console.log('>>>> Cancel')
     }).onDismiss(() => {
@@ -149,7 +150,7 @@ const columns = [
                                 label="Puntos de Series/Carrera Corta" hint="Numeros (separados por coma)" />
                         </div>
                         <div class="form-group q-mb-md">
-                            <q-input filled dense name="puntosCarrera" v-model="puntosCarrera"
+                            <q-input filled dense name="puntosCarrera" v-model.trim="puntosCarrera"
                                 label="Puntos de Carrera/Final" hint="Numeros (separados por coma)" />
                         </div>
                         <div class="form-group q-mb-md">
@@ -223,15 +224,15 @@ const columns = [
                         </q-td>
                         <q-td class="cursor-pointer" key="puntosCarrera" :props="props" id="editedRacePoints">
                             {{ props.row.racePoints }}
-                            <q-popup-edit v-model="props.row.racePoints" title="Puntos de Carrera" buttons label-set="Ok"
-                                label-cancel="Cancelar" v-slot="scope">
-                                <q-input type="text" v-model="scope.value" dense autofocus />
+                            <q-popup-edit v-model.trim="props.row.racePoints" title="Puntos de Carrera" buttons
+                                label-set="Ok" label-cancel="Cancelar" v-slot="scope">
+                                <q-input type="text" v-model.trim="scope.value" dense autofocus />
                             </q-popup-edit>
                         </q-td>
                         <q-td class="cursor-pointer" key="status" :props="props" id="editedStatus">
-                            <q-badge :color="props.row.status ? 'teal-14' : 'red-13'" text-color="white"
+                            <q-badge :color="props.row.status == 1 ? 'teal-14' : 'red-13'" text-color="white"
                                 class="q-py-xs q-px-sm">
-                                {{ props.row.status ? 'Activo' : 'Finalizado' }}
+                                {{ props.row.status == 1 ? 'Activo' : 'Finalizado' }}
                             </q-badge>
                             <q-popup-edit v-model="props.row.status" title="Status Torneo" buttons label-set="Ok"
                                 label-cancel="Cancelar" v-slot="scope">
@@ -240,14 +241,17 @@ const columns = [
                             </q-popup-edit>
                         </q-td>
                         <q-td key="actualizado" :props="props">
-                            {{ props.row.updated_at }}
+                            {{ props.row.updated }}
                         </q-td>
-                        <q-td class="flex justify-around align-center">
+                        <q-td class="flex column">
                             <q-btn
                                 @click="editarTorneo(props.row.id, props.row.name, props.row.simulator, props.row.qualyPoints, props.row.shortRacePoints, props.row.racePoints, props.row.status)"
                                 type="submit" size="sm" color="yellow-13" text-color="black" label="Editar" />
+                            <q-btn class="q-my-sm" size="sm" @click="useApi.finalizarTorneoApi(useApi.tokenApi, props.row.id)"
+                                color="blue-grey-13" text-color="white" label="Finalizar" />
                             <q-btn size="sm" @click="deleteConfirm(props.row.name, props.row.id)" color="red-13"
                                 text-color="white" label="Eliminar" />
+
                         </q-td>
                     </q-tr>
                 </template>
@@ -255,4 +259,10 @@ const columns = [
         </div>
     </div>
 </template>
+
+<style lang="scss" scoped>
+.q-table tbody td {
+    min-height: 100px
+}
+</style>
 

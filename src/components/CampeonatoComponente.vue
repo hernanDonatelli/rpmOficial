@@ -38,7 +38,7 @@ const apiStore = useApiStore();
         <div class="next">
           <p class="text-grey-13 text-center q-my-none text-weight-light ">Proximo Evento</p>
           <h4 class="text-h4 text-uppercase text-weight-bold text-center text-red-13 q-my-none">Zandvoort GP</h4>
-          <CounterComponent :year="2023" :month="7" :date="20" :hour="22" :minutes="0" :seconds="0" />
+          <CounterComponent :year="2023" :month="8" :date="30" :hour="22" :minutes="0" :seconds="0" />
         </div>
 
         <!-- Tabla Resumen Campeonato -->

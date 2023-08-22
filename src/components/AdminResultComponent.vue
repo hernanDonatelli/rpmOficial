@@ -34,7 +34,7 @@ const getResultsFecha = async (idTorneo, orden) => {
     }
 }
 
-const aplicarSancion = async (idDriver, key, idTorneo, orden) => {
+const aplicarSancion = async (idDriver, key) => {
     $q.dialog({
         title: 'Recargo',
         message: `Agregar los segundos de recargo al piloto ${key} (id: ${idDriver})`,
@@ -45,7 +45,7 @@ const aplicarSancion = async (idDriver, key, idTorneo, orden) => {
         cancel: true,
         persistent: true
     }).onOk(tiempo => {
-        const respuesta = `El piloto ${key} ha sido sancionado con ${tiempo}seg`
+        // const respuesta = `El piloto ${key} ha sido sancionado con ${tiempo}seg`
 
         useApi.aplicarSancionApi(useApi.tokenApi, idDriver, tiempo)
 
@@ -55,7 +55,6 @@ const aplicarSancion = async (idDriver, key, idTorneo, orden) => {
 
     })
 }
-
 
 </script>
 
@@ -89,11 +88,11 @@ const aplicarSancion = async (idDriver, key, idTorneo, orden) => {
                         <h4 class="text-blue-grey-12 text-uppercase text-weight-bolder q-px-lg q-pt-lg q-my-none">{{ torneo[0] }}</h4>
                     </div>
 
-                    <div class="text-black">
-                        <p class="q-mb-none" v-for="sancion in sanciones" :key="sancion.id">
-                            {{ sancion }}
+                    <!-- <div class="text-black">
+                        <p class="q-mb-none" v-for="recargo in sanciones" :key="recargo.id">
+                            {{ recargo }}
                         </p>
-                    </div>
+                    </div> -->
 
                     <q-card-section class="q-pt-none">
                         <div v-for="(infoSesion, index) in useApi.sesiones" :key="index.id" class="q-pa-md">
@@ -131,7 +130,7 @@ const aplicarSancion = async (idDriver, key, idTorneo, orden) => {
                                                 <q-btn @click="aplicarSancion(JSON.parse(value).idDriverInfo, key)" size="sm"
                                                     color="red-13" text-color="white" label="Sancionar" />
                                             </td>
-                                            <td class="text-center">+{{ JSON.parse(value).sancion }}s</td>
+                                            <td :class="JSON.parse(value).sancion != 0.000 ? 'bg-red-13 text-white' : ''" class="text-center">+{{ JSON.parse(value).sancion }}s</td>
                                         </tr>
                                     </template>
                                 </tbody>
