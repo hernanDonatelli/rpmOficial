@@ -82,17 +82,20 @@ const aplicarSancion = async (idDriver, key) => {
                         </q-btn>
                     </q-bar>
 
+                    <div class="row flex column">
+                        <h6 class="text-grey-8 text-center q-my-none">Sesiones cargadas</h6>
+                        <ul class="q-my-none q-px-none">
+                            <li v-for="sesion in useApi.tituloSesiones" :key="sesion.id" class="sesiones text-overline text-grey-8 text-center q-my-none q-mx-md">
+                                {{ sesion }}
+                            </li>
+                        </ul>
+                    </div>
+
                     <div class="row flex justify-between align-center">
                         <p class="fecha text-blue-grey-10 text-overline text-uppercase text-weight-bolder q-mb-none q-px-lg q-pt-lg">Fecha {{ orden }} - {{ circuit }} ({{ fecha }})
                         </p>
                         <h4 class="text-blue-grey-12 text-uppercase text-weight-bolder q-px-lg q-pt-lg q-my-none">{{ torneo[0] }}</h4>
                     </div>
-
-                    <!-- <div class="text-black">
-                        <p class="q-mb-none" v-for="recargo in sanciones" :key="recargo.id">
-                            {{ recargo }}
-                        </p>
-                    </div> -->
 
                     <q-card-section class="q-pt-none">
                         <div v-for="(infoSesion, index) in useApi.sesiones" :key="index.id" class="q-pa-md">
@@ -148,5 +151,14 @@ const aplicarSancion = async (idDriver, key) => {
 p.fecha{
     font-size: 1rem;
     line-height: 2.5rem;
+}
+ul{
+    text-align: center;
+}
+li.sesiones{
+    font-size: .85rem;
+    list-style: none;
+    display: inline-block;
+
 }
 </style>

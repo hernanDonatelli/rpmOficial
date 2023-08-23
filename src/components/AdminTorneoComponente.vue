@@ -77,6 +77,7 @@ const editarTorneo = (id, name, simulator, qualyPoints, shortRacePoints, racePoi
 }
 
 const deleteConfirm = async (nombre, id) => {
+
     $q.dialog({
         title: `Eliminar Torneo ${nombre}`,
         message: `Esta acción no tiene vuelta atrás y borrará toda información de la base de datos`,
@@ -85,10 +86,60 @@ const deleteConfirm = async (nombre, id) => {
     }).onOk(async () => {
         await useApi.deleteTorneoApi(useApi.tokenApi, id)
 
-        await useApi.getTorneosApi(useApi.tokenApi)
+        useApi.torneos = []
+
+        const torneosApi = await useApi.getTorneosApi(useApi.tokenApi)
+
+        torneosApi.forEach(el => {
+            useApi.torneos.push(el)
+
+        });
 
     }).onCancel(() => {
         // console.log('>>>> Cancel')
+    }).onDismiss(() => {
+        // console.log('I am triggered on both OK and Cancel')
+    })
+}
+
+const finalizarTorneo = async (token, id, name) => {
+    $q.dialog({
+        title: `Finalizar el Torneo ${name}`,
+        message: `Esta acción no tiene vuelta atrás y finalizará el Torneo sin vuelta atrás.`,
+        cancel: true,
+        persistent: true
+    }).onOk(async () => {
+        await useApi.finalizarTorneoApi(token, id)
+
+        $q.notify({
+            color: "teal-14",
+            textColor: "white",
+            icon: "done",
+            html: true,
+            position: "top",
+            message: `<span style='text-align: center;'>El Torneo ${name} ha sido Finalizado</span>`,
+            timeout: 1500
+        });
+
+        useApi.torneos = []
+
+        const torneosApi = await useApi.getTorneosApi(useApi.tokenApi)
+
+        torneosApi.forEach(el => {
+            useApi.torneos.push(el)
+
+        });
+
+    }).onCancel(() => {
+        $q.notify({
+            color: "red-13",
+            textColor: "white",
+            icon: "warning",
+            html: true,
+            position: "top",
+            message: `<span style='text-align: center;'>Acción cancelada. El Torneo ${name} no fue Finalizado</span>`,
+            timeout: 3000
+        });
     }).onDismiss(() => {
         // console.log('I am triggered on both OK and Cancel')
     })
@@ -229,16 +280,11 @@ const columns = [
                                 <q-input type="text" v-model.trim="scope.value" dense autofocus />
                             </q-popup-edit>
                         </q-td>
-                        <q-td class="cursor-pointer" key="status" :props="props" id="editedStatus">
+                        <q-td key="status" :props="props" id="editedStatus">
                             <q-badge :color="props.row.status == 1 ? 'teal-14' : 'red-13'" text-color="white"
                                 class="q-py-xs q-px-sm">
                                 {{ props.row.status == 1 ? 'Activo' : 'Finalizado' }}
                             </q-badge>
-                            <q-popup-edit v-model="props.row.status" title="Status Torneo" buttons label-set="Ok"
-                                label-cancel="Cancelar" v-slot="scope">
-                                <q-input type="number" min="0" max="1" v-model="scope.value" dense autofocus
-                                    hint="Finalizado: 0 - Activo: 1" />
-                            </q-popup-edit>
                         </q-td>
                         <q-td key="actualizado" :props="props">
                             {{ props.row.updated }}
@@ -247,7 +293,8 @@ const columns = [
                             <q-btn
                                 @click="editarTorneo(props.row.id, props.row.name, props.row.simulator, props.row.qualyPoints, props.row.shortRacePoints, props.row.racePoints, props.row.status)"
                                 type="submit" size="sm" color="yellow-13" text-color="black" label="Editar" />
-                            <q-btn class="q-my-sm" size="sm" @click="useApi.finalizarTorneoApi(useApi.tokenApi, props.row.id)"
+                            <q-btn class="q-my-sm" size="sm"
+                                @click="finalizarTorneo(useApi.tokenApi, props.row.id, props.row.name)"
                                 color="blue-grey-13" text-color="white" label="Finalizar" />
                             <q-btn size="sm" @click="deleteConfirm(props.row.name, props.row.id)" color="red-13"
                                 text-color="white" label="Eliminar" />
@@ -262,7 +309,7 @@ const columns = [
 
 <style lang="scss" scoped>
 .q-table tbody td {
-    min-height: 100px
+    min-height: 110px
 }
 </style>
 

@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { Notify } from "quasar";
+import { Notify, Dialog } from "quasar";
 
 export const useApiStore = defineStore('useApiStore', {
   state: () => ({
@@ -146,7 +146,7 @@ export const useApiStore = defineStore('useApiStore', {
 
           if (response.success) {
             Notify.create({
-              color: "green-13",
+              color: "teal-14",
               textColor: "white",
               icon: "done",
               html: true,
@@ -190,12 +190,12 @@ export const useApiStore = defineStore('useApiStore', {
 
             if (data.success) {
               Notify.create({
-                color: "green-13",
+                color: "teal-14",
                 textColor: "white",
                 icon: "cloud_done",
                 html: true,
                 position: "center",
-                message: `<p style='text-align: center;'>${data.message}</p>`,
+                message: `<span style='text-align: center;'>${data.message}</span>`,
                 timeout: 3000
               });
 
@@ -207,7 +207,7 @@ export const useApiStore = defineStore('useApiStore', {
                 icon: "warning",
                 html: true,
                 position: "center",
-                message: `<p style='text-align: center;'>${data.message}</p>`,
+                message: `<span style='text-align: center;'>${data.message}</span>`,
                 timeout: 3000
               });
             }
@@ -237,12 +237,12 @@ export const useApiStore = defineStore('useApiStore', {
           if (data.success) {
 
             Notify.create({
-              color: "green-13",
+              color: "teal-14",
               textColor: "white",
               icon: "cloud_done",
               html: true,
               position: "center",
-              message: `<p style='text-align: center;'>${data.message}</p>`,
+              message: `<span style='text-align: center;'>${data.message}</span>`,
               timeout: 3000
             });
 
@@ -253,16 +253,11 @@ export const useApiStore = defineStore('useApiStore', {
               icon: "warning",
               html: true,
               position: "center",
-              message: `<p style='text-align: center;'>${data.message}</p>`,
+              message: `<span style='text-align: center;'>${data.message}</span>`,
               timeout: 3000
             });
           }
         })
-
-      // setTimeout(() => {
-      //   window.location.reload()
-      // }, 3000);
-
     },
 
     async createCalendarApi(token, fecha, nombre) {
@@ -423,27 +418,27 @@ export const useApiStore = defineStore('useApiStore', {
 
             this.sesiones.push(objSesiones[sesion])
 
-              if (sesion == 'qualify') {
-                sesion = 'Clasificacion'
-              }
-              if (sesion == 'serie1') {
-                sesion = 'Serie 1'
-              }
-              if (sesion == 'serie2') {
-                sesion = 'Serie 2'
-              }
-              if (sesion == 'serie3') {
-                sesion = 'Serie 3'
-              }
-              if (sesion == 'carreraCorta1') {
-                sesion = 'Carrera 1'
-              }
-              if (sesion == 'carreraCorta2') {
-                sesion = 'Carrera 2'
-              }
-              if (sesion == 'race') {
-                sesion = 'Carrera'
-              }
+            if (sesion == 'qualify') {
+              sesion = 'Clasificacion'
+            }
+            if (sesion == 'serie1') {
+              sesion = 'Serie 1'
+            }
+            if (sesion == 'serie2') {
+              sesion = 'Serie 2'
+            }
+            if (sesion == 'serie3') {
+              sesion = 'Serie 3'
+            }
+            if (sesion == 'carreraCorta1') {
+              sesion = 'Carrera 1'
+            }
+            if (sesion == 'carreraCorta2') {
+              sesion = 'Carrera 2'
+            }
+            if (sesion == 'race') {
+              sesion = 'Carrera'
+            }
 
             this.tituloSesiones.push(sesion)
           }
@@ -451,7 +446,7 @@ export const useApiStore = defineStore('useApiStore', {
 
     },
 
-    async aplicarSancionApi(token, idDriver, time){
+    async aplicarSancionApi(token, idDriver, time) {
       const optionsAplicarSancion = {
         method: "POST",
         headers: {
@@ -463,34 +458,34 @@ export const useApiStore = defineStore('useApiStore', {
       }
 
       await fetch("https://rpm.studioatlantic.com.ar/pezls/public/api/v1/aplicarSancion", optionsAplicarSancion)
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          Notify.create({
-            color: "teal-14",
-            textColor: "white",
-            icon: "done",
-            html: true,
-            position: "top",
-            message: `<span style='text-align: center;'>${data.message}</span>`,
-            timeout: 1500
-          });
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            Notify.create({
+              color: "teal-14",
+              textColor: "white",
+              icon: "done",
+              html: true,
+              position: "top",
+              message: `<span style='text-align: center;'>${data.message}</span>`,
+              timeout: 1500
+            });
 
-        } else {
-          Notify.create({
-            color: "red-13",
-            textColor: "white",
-            icon: "warning",
-            html: true,
-            position: "top",
-            message: `<span style='text-align: center;'>${data.message}</span>`,
-            timeout: 3000
-          });
-        }
-      })
+          } else {
+            Notify.create({
+              color: "red-13",
+              textColor: "white",
+              icon: "warning",
+              html: true,
+              position: "top",
+              message: `<span style='text-align: center;'>${data.message}</span>`,
+              timeout: 3000
+            });
+          }
+        })
     },
 
-    async finalizarTorneoApi(token, idTorneo){
+    async finalizarTorneoApi(token, idTorneo) {
       const optionsFinalizarTorneo = {
         method: "POST",
         headers: {
@@ -502,31 +497,8 @@ export const useApiStore = defineStore('useApiStore', {
       }
 
       await fetch("https://rpm.studioatlantic.com.ar/pezls/public/api/v1/finalizarTorneo", optionsFinalizarTorneo)
-      .then(res => res.json())
-      .then(response => {
-        if (response.success) {
-          Notify.create({
-            color: "teal-14",
-            textColor: "white",
-            icon: "done",
-            html: true,
-            position: "top",
-            message: `<span style='text-align: center;'>${response.message}</span>`,
-            timeout: 1500
-          });
-
-        } else {
-          Notify.create({
-            color: "red-13",
-            textColor: "white",
-            icon: "warning",
-            html: true,
-            position: "top",
-            message: `<span style='text-align: center;'>${response.message}</span>`,
-            timeout: 3000
-          });
-        }
-      })
+        .then(res => res.json())
+        .then(response => response)
 
     }
   }

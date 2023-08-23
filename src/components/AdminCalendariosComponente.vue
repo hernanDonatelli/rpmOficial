@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import { useApiStore } from 'src/stores/api';
-import { useQuasar, Notify, QSpinnerGears } from 'quasar'
+import { useQuasar } from 'quasar'
 import AdminResultComponent from './AdminResultComponent.vue';
 
 const useApi = useApiStore()
