@@ -197,6 +197,16 @@ const getTorneos = async () => {
             <q-item-label caption class="text-grey-8">Administración de Resultados</q-item-label>
           </q-item-section>
         </q-item>
+
+        <q-item v-if="item.isAdmin" clickable to="/administrar-posiciones" active-class="menu__link">
+          <q-item-section avatar>
+            <q-icon name="las la-tachometer-alt" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Posiciones</q-item-label>
+            <q-item-label caption class="text-grey-8">Visualizar Tablas de Posiciones</q-item-label>
+          </q-item-section>
+        </q-item>
       </q-list>
     </q-drawer>
 

@@ -15,6 +15,8 @@ export const useApiStore = defineStore('useApiStore', {
     tituloSesiones: [],
     sesiones: [],
     infoTabla: [],
+    tablaPosiciones: [],
+    noTabla: '',
     url: 'https://rpm.studioatlantic.com.ar/pezls/public/api/v1'
   }),
   actions: {
@@ -500,6 +502,30 @@ export const useApiStore = defineStore('useApiStore', {
         .then(res => res.json())
         .then(response => response)
 
+    },
+
+    async getPosicionesApi(token, idTorneo)  {
+      const optionsPosiciones = {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: `{"idTorneo": "${idTorneo}"}`
+      }
+
+      await fetch('https://rpm.studioatlantic.com.ar/pezls/public/api/v1/posicionesTorneo', optionsPosiciones)
+      .then(res => res.json())
+      .then(response => {
+
+        if(response.data[0].length == 0){
+          this.noTabla = 'La Tabla no ha sido generada aún.'
+        }else{
+          this.tablaPosiciones.push(response.data[0])
+
+        }
+      })
     }
   }
 })

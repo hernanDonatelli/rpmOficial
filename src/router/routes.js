@@ -31,7 +31,8 @@ const routes = [
       { path: 'torneo/:id', name: 'torneo', component: () => import('pages/TorneoPage.vue') },
       { path: '/administrar-torneos', component: () => import('pages/AdminTorneosPage.vue'), beforeEnter: requireAuth },
       { path: '/administrar-calendarios', component: () => import('pages/AdminCalendariosPage.vue'), beforeEnter: requireAuth },
-      { path: '/administrar-resultados', component: () => import('pages/AdminResultadosPage.vue'), beforeEnter: requireAuth }
+      { path: '/administrar-resultados', component: () => import('pages/AdminResultadosPage.vue'), beforeEnter: requireAuth },
+      { path: '/administrar-posiciones', component: () => import('pages/AdminPosicionesPage.vue'), beforeEnter: requireAuth }
     ]
   },
 
