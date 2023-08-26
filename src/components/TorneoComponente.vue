@@ -1,13 +1,16 @@
 <script setup>
-import { useApiStore } from 'src/stores/api';
-import { onMounted, onBeforeUnmount } from 'vue';
-import { useQuasar, QSpinnerFacebook } from 'quasar'
+import { useApiStore } from 'src/stores/api'
+import { onMounted, onBeforeUnmount } from 'vue'
+import { useQuasar, QSpinnerGears } from 'quasar'
+import TorneoResultComponent from './TorneoResultComponent.vue'
+
 const apiStore = useApiStore();
 import { useRoute } from 'vue-router';
 const route = useRoute();
 
 const $q = useQuasar()
 let timer;
+let torneoName;
 
 //Generador de token y comprobacion de usuario
 const loginUserApi = async () => {
@@ -48,6 +51,16 @@ const getTorneos = async () => {
     apiStore.loadingSession = false;
 }
 
+const getPosiciones = async () => {
+
+    apiStore.tablaPosiciones = []
+
+    const idURL = route.params.id;
+
+    apiStore.getPosicionesApi(JSON.parse(localStorage.getItem('token')), idURL)
+
+}
+
 onMounted(() => {
     showLoading()
 })
@@ -61,7 +74,7 @@ onBeforeUnmount(() => {
 const showLoading = async () => {
 
     $q.loading.show({
-        spinner: QSpinnerFacebook,
+        spinner: QSpinnerGears,
         spinnerColor: 'red-13',
         spinnerSize: 140,
         backgroundColor: 'bg-grey-10',
@@ -69,8 +82,9 @@ const showLoading = async () => {
         messageColor: 'black'
     })
 
-    await getTorneos();
-    await getCalendar();
+    await getTorneos()
+    await getCalendar()
+    await getPosiciones()
 
     // hiding in 1s
     timer = setTimeout(() => {
@@ -78,6 +92,13 @@ const showLoading = async () => {
         timer = void 0
     }, 1000)
 }
+
+const columns = [
+    { name: 'fecha', required: true, label: 'Fecha', align: 'center', field: row => row.order, format: val => `${val}` },
+    { name: 'dia', align: 'center', label: 'Día', field: row => row.date },
+    { name: 'circuito', align: 'center', label: 'Circuito', field: row => row.circuit },
+    { name: 'resultados', align: 'center', label: 'Resultados' }
+]
 
 </script>
 
@@ -102,57 +123,63 @@ const showLoading = async () => {
 
         <div class="calendario">
             <div class="row flex justify-center">
-                <div class="col-12 col-md-6">
+                <div class="col-12 col-md-8">
                     <!-- Calendario -->
                     <div>
-                        <h5 class="text-uppercase text-weight-light text-blue-grey-8 text-center q-mt-lg q-mb-sm">Calendario
-                        </h5>
-                        <q-markup-table dense>
-                            <thead>
-                                <tr>
-                                    <th class="text-center">Fecha</th>
-                                    <th class="text-center">Dia</th>
-                                    <th class="text-center">Circuito</th>
-                                    <th class="text-center">Resultados</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="fecha in apiStore.calendar" :key="fecha.id">
-                                    <td class="text-center">{{ fecha.order }}</td>
-                                    <td class="text-center">{{ fecha.date }}</td>
-                                    <td class="text-center">{{ fecha.circuit }}</td>
-                                    <td class="text-center"><a href="#">Resultados</a></td>
-                                </tr>
-                            </tbody>
-                        </q-markup-table>
+                        <h4 class="titles text-uppercase text-weight-bolder text-blue-grey-8 text-center q-mt-lg q-mb-md">Calendario
+                        </h4>
+                        <q-table
+                        :table-header-style="{ fontFamily: 'Roboto Condensed Italic', textTransform: 'uppercase' }"
+                        flat dense :rows="apiStore.calendar" :columns="columns"
+                            :loading="apiStore.calendar.length == 0 ? true : false" row-key="name"
+                            :rows-per-page-options="[10, 15]">
+
+                            <template v-slot:body="props">
+                                <q-tr v-if="apiStore.calendar.length != 0" :props="props">
+                                    <q-td key="fecha" :props="props" class="text-center">
+                                        {{ props.row.order }}
+                                    </q-td>
+                                    <q-td key="fecha" :props="props">
+                                        {{ props.row.date }}
+                                    </q-td>
+                                    <q-td key="circuito" :props="props">
+                                        {{ props.row.circuit }}
+                                    </q-td>
+                                    <q-td class="cursor-pointer text-center" key="resultados">
+                                        <TorneoResultComponent :fecha="props.row.date" :torneo="torneoName"
+                                            :circuit="props.row.circuit" :orden="props.row.order"
+                                            :idTorneo="props.row.league_info_id" />
+                                    </q-td>
+                                </q-tr>
+                            </template>
+                        </q-table>
                     </div>
                 </div>
             </div>
 
             <div class="row flex justify-center">
-                <div class="col-12 col-md-6">
+                <div class="col-12 col-md-8">
                     <!-- tabla de Posiciones -->
                     <div>
-                        <h5 class="text-uppercase text-weight-light text-blue-grey-8 text-center q-mt-lg q-mb-sm">Posiciones
-                            Campeonato
-                        </h5>
-                        <q-markup-table dense>
+                        <h4 class="text-uppercase text-weight-bolder text-blue-grey-8 text-center q-mt-lg q-mb-md">
+                            Campeonato </h4>
+                        <q-markup-table flat dense>
                             <thead>
                                 <tr>
-                                    <th class="text-center">Posición</th>
-                                    <th class="text-center">Piloto</th>
-                                    <th class="text-center">Carreras</th>
-                                    <th class="text-center">Victorias</th>
-                                    <th class="text-center">Puntos</th>
+                                    <th class="text-center fontCustomTitle text-uppercase">Posición</th>
+                                    <th class="text-center fontCustomTitle text-uppercase">Piloto</th>
+                                    <th class="text-center fontCustomTitle text-uppercase">Carreras</th>
+                                    <th class="text-center fontCustomTitle text-uppercase">Victorias</th>
+                                    <th class="text-center fontCustomTitle text-uppercase">Puntos</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td class="text-center">1</td>
-                                    <td class="text-center">Massi Kaillera</td>
-                                    <td class="text-center">6</td>
-                                    <td class="text-center">2</td>
-                                    <td class="text-center">78</td>
+                                <tr v-for="(item, key) in apiStore.tablaPosiciones[0]" :key="item.id">
+                                    <td class="text-center">{{ JSON.parse(item).posicion }}</td>
+                                    <td class="text-center">{{ key }}</td>
+                                    <td class="text-center">{{ JSON.parse(item).carreras }}</td>
+                                    <td class="text-center">{{ JSON.parse(item).victorias }}</td>
+                                    <td class="text-center">{{ JSON.parse(item).puntos }}</td>
                                 </tr>
                             </tbody>
                         </q-markup-table>
@@ -188,6 +215,7 @@ const showLoading = async () => {
 .hero__champ {
     position: relative;
     height: 100vh;
+    margin-bottom: 2rem;
 
 
     h3 {
@@ -196,4 +224,6 @@ const showLoading = async () => {
         z-index: 20;
     }
 }
+
+
 </style>

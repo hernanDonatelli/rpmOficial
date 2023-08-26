@@ -166,9 +166,12 @@ const getTorneos = async () => {
         </q-item>
       </q-list>
 
+      <h6 class="text-h6 text-orange-6 text-weight-light q-mb-none q-mt-sm">Administración</h6>
+
       <!-- Seccion Administrador -->
       <q-list v-for="item in databaseStore.admin" :key="item.id">
-        <q-item v-if="item.isAdmin" clickable to="/administrar-torneos" active-class="menu__link">
+
+        <q-item v-if="item.isAdmin" clickable to="/administrar-torneos" class="text-orange-6" active-class="menu__link">
           <q-item-section avatar>
             <q-icon name="las la-trophy" />
           </q-item-section>
@@ -178,7 +181,7 @@ const getTorneos = async () => {
           </q-item-section>
         </q-item>
 
-        <q-item v-if="item.isAdmin" clickable to="/administrar-calendarios" active-class="menu__link">
+        <q-item v-if="item.isAdmin" clickable to="/administrar-calendarios" class="text-orange-6" active-class="menu__link">
           <q-item-section avatar>
             <q-icon name="las la-calendar" />
           </q-item-section>
@@ -188,7 +191,7 @@ const getTorneos = async () => {
           </q-item-section>
         </q-item>
 
-        <q-item v-if="item.isAdmin" clickable to="/administrar-resultados" active-class="menu__link">
+        <q-item v-if="item.isAdmin" clickable to="/administrar-resultados" class="text-orange-6" active-class="menu__link">
           <q-item-section avatar>
             <q-icon name="las la-poll" />
           </q-item-section>
@@ -198,7 +201,7 @@ const getTorneos = async () => {
           </q-item-section>
         </q-item>
 
-        <q-item v-if="item.isAdmin" clickable to="/administrar-posiciones" active-class="menu__link">
+        <q-item v-if="item.isAdmin" clickable to="/administrar-posiciones" class="text-orange-6" active-class="menu__link">
           <q-item-section avatar>
             <q-icon name="las la-tachometer-alt" />
           </q-item-section>
