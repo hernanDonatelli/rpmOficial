@@ -1,8 +1,9 @@
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, onUpdated } from 'vue';
 import { useApiStore } from 'src/stores/api';
-import { useQuasar, Notify, QSpinnerGears } from 'quasar'
+import { useQuasar, QSpinnerGears } from 'quasar'
 
+const useApi = useApiStore()
 const $q = useQuasar()
 let timer;
 
@@ -11,7 +12,15 @@ onMounted(async () => {
 
 })
 
-const useApi = useApiStore()
+onUpdated(() => {
+  // console.log('Updated');
+  // console.log(apiStore.torneos);
+  useApi.torneos.forEach(async el => {
+
+    el.posiciones = await useApi.createTablasPosicionesApi(useApi.tokenApi, el.id)
+
+  })
+})
 
 const nombre = ref(null)
 const plataforma = ref(null)

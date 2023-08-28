@@ -1,7 +1,29 @@
 <script setup>
 import CounterComponent from '../components/CounterComponent.vue'
 import { useApiStore } from 'src/stores/api';
+import { onBeforeMount, onMounted, onUpdated } from 'vue';
 const apiStore = useApiStore();
+
+onBeforeMount(() => {
+  console.log('Antes de Montar');
+})
+
+onMounted(() => {
+  console.log('Mounted');
+})
+
+onUpdated(() => {
+  // console.log('Updated');
+  // console.log(apiStore.torneos);
+  apiStore.torneos.forEach(async el => {
+
+    el.posiciones = await apiStore.createTablasPosicionesApi(apiStore.tokenApi, el.id)
+
+  })
+})
+
+
+
 </script>
 
 <template>
@@ -52,33 +74,13 @@ const apiStore = useApiStore();
                 <th class="text-center">Puntos</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <td class="text-center">1</td>
-                <td class="text-center">Charly Ramos</td>
-                <td class="text-center">159</td>
-              </tr>
-              <tr>
-                <td class="text-center">2</td>
-                <td class="text-center">Massi Kaillera</td>
-                <td class="text-center">150</td>
-              </tr>
-              <tr>
-                <td class="text-center">3</td>
-                <td class="text-center">Sebastian Campagnolo</td>
-                <td class="text-center">136</td>
-              </tr>
-              <tr>
-                <td class="text-center">4</td>
-                <td class="text-center">Matias Machuca</td>
-                <td class="text-center">110</td>
-              </tr>
-              <tr>
-                <td class="text-center">5</td>
-                <td class="text-center">Pez Donux</td>
-                <td class="text-center">90</td>
-              </tr>
+            <tbody v-for="(value, key, index) in torneo.posiciones" :key="index">
+              <tr v-if="index >= 0 && index < 5">
+                  <td class="text-center">{{ JSON.parse(value).posicion }}</td>
+                  <td class="text-center">{{ key }}</td>
+                  <td class="text-center">{{ JSON.parse(value).puntos }}</td>
 
+              </tr>
             </tbody>
           </q-markup-table>
         </div>

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onUpdated } from 'vue'
 import { useUserStore } from '../stores/user'
 import LoginModalComponent from '../components/LoginModalComponent.vue'
 import RegisterFormComponent from '../components/RegisterModalComponent.vue'
@@ -26,6 +26,16 @@ onMounted(async () => {
   databaseStore.getAdmin();
 })
 
+onUpdated(() => {
+  // console.log('Updated');
+  // console.log(apiStore.torneos);
+  apiStore.torneos.forEach(async el => {
+
+    el.posiciones = await apiStore.createTablasPosicionesApi(apiStore.tokenApi, el.id)
+
+  })
+})
+
 //Salir de la sesion
 const logout = async () => {
   await userStore.logoutUser()
@@ -49,6 +59,7 @@ const getTorneos = async () => {
   const torneos = await apiStore.getTorneosApi(apiStore.tokenApi);
 
   apiStore.torneos = torneos;
+
 }
 
 

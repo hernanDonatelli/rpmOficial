@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { Notify, Dialog } from "quasar";
+import { Notify } from "quasar";
 
 export const useApiStore = defineStore('useApiStore', {
   state: () => ({
@@ -16,6 +16,8 @@ export const useApiStore = defineStore('useApiStore', {
     sesiones: [],
     infoTabla: [],
     tablaPosiciones: [],
+    tablasHome: [],
+    posicionesTorneos: [],
     noTabla: '',
     url: 'https://rpm.studioatlantic.com.ar/pezls/public/api/v1'
   }),
@@ -30,7 +32,7 @@ export const useApiStore = defineStore('useApiStore', {
         body: '{"email":"organizacionrpm@gmail.com","password":"Mr*Charles-2023"}',
       };
 
-      const fetchLogin = await fetch(`${this.url}/login`, optionsLogin);
+      const fetchLogin = await fetch(`https://rpm.studioatlantic.com.ar/pezls/public/api/v1/login`, optionsLogin);
       const response = await fetchLogin.json();
       const token = response.token;
 
@@ -421,7 +423,10 @@ export const useApiStore = defineStore('useApiStore', {
             this.sesiones.push(objSesiones[sesion])
 
             if (sesion == 'qualify') {
-              sesion = 'Clasificacion'
+              sesion = 'Qualy 1'
+            }
+            if (sesion == 'qualify2') {
+              sesion = 'Qualy 2'
             }
             if (sesion == 'serie1') {
               sesion = 'Serie 1'
@@ -504,7 +509,7 @@ export const useApiStore = defineStore('useApiStore', {
 
     },
 
-    async getPosicionesApi(token, idTorneo)  {
+    async getPosicionesApi(token, idTorneo) {
       const optionsPosiciones = {
         method: 'POST',
         headers: {
@@ -516,16 +521,29 @@ export const useApiStore = defineStore('useApiStore', {
       }
 
       await fetch('https://rpm.studioatlantic.com.ar/pezls/public/api/v1/posicionesTorneo', optionsPosiciones)
-      .then(res => res.json())
-      .then(response => {
+        .then(res => res.json())
+        .then(response => {
 
-        if(response.data[0].length == 0){
-          this.noTabla = 'La Tabla no ha sido generada aún.'
-        }else{
           this.tablaPosiciones.push(response.data[0])
+        })
+    },
 
-        }
-      })
-    }
+    async createTablasPosicionesApi(token, idTorneo) {
+      const optionsPosiciones = {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: `{"idTorneo": "${idTorneo}"}`
+      }
+
+      const traerPosiciones = await fetch(`https://rpm.studioatlantic.com.ar/pezls/public/api/v1/posicionesTorneo`, optionsPosiciones);
+      const respuesta = await traerPosiciones.json();
+
+      return respuesta.data[0]
+
+    },
   }
 })

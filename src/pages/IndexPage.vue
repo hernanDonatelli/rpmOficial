@@ -33,9 +33,9 @@ const liveRacers = () => {
 
       <div class="hero__countdown">
         <p class="text-grey-13 text-center q-my-none text-weight-light ">Proximo Evento</p>
-        <h1 class="text-h3 text-uppercase text-weight-bold text-center text-red-13 q-my-none">Miami GP</h1>
+        <h1 class="text-h3 text-uppercase text-weight-bold text-center text-red-13 q-my-none">Termas de Rio Hondo</h1>
 
-        <CounterComponent :year="2023" :month="7" :date="27" :hour="22" :minutes="0" :seconds="0" />
+        <CounterComponent :year="2023" :month="8" :date="27" :hour="22" :minutes="0" :seconds="0" />
       </div>
     </div>
 
