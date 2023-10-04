@@ -5,6 +5,7 @@ import { useUserStore } from '../stores/user'
 import { useRouter } from "vue-router";
 import { userDatabaseStore } from "src/stores/database";
 import { useApiStore } from 'src/stores/api'
+import emailjs from '@emailjs/browser'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -49,15 +50,29 @@ const submitDenuncia = () => {
   } else {
     if (denuncia.usuario === userDatabase.documents[0].email) {
       console.log(denuncia);
+      emailjs.send('service_upde9ds', 'template_2le1vf6', {
+        usuario: denuncia.usuario,
+        mensaje: denuncia.mensaje,
+        nickname: denuncia.nickname,
+        tiempo: denuncia.tiempo,
+        torneo: denuncia.torneo,
+        denunciado: denuncia.denunciado
+      }, 'XcpFl9Ds8mQUrTjD6')
+        .then((response) => {
+          console.log('SUCCESS!', response.status, response.text);
+          $q.notify({
+            color: "green-6",
+            textColor: "white",
+            icon: "cloud_done",
+            message: "Denuncia enviada!",
+            timeout: 2000
+          });
+        }, (err) => {
+          console.log('FAILED...', err);
+        });
 
 
-      $q.notify({
-        color: "green-6",
-        textColor: "white",
-        icon: "cloud_done",
-        message: "Denuncia enviada!",
-        timeout: 2000
-      });
+
 
     } else {
       $q.notify({
