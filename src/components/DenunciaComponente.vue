@@ -27,7 +27,9 @@ const denuncia = reactive({
   torneo: '',
   mensaje: '',
   nickname: '',
-  denunciado: ''
+  evento: '',
+  denunciado: '',
+  sesion: ''
 })
 
 const rulesEmail = [
@@ -40,23 +42,26 @@ const rulesEmail = [
 //Metodos
 const submitDenuncia = () => {
   // console.log(instante.value);
-  if (!denuncia.usuario || !denuncia.tiempo || !denuncia.torneo) {
+  if (!denuncia.usuario || !denuncia.tiempo || !denuncia.torneo || !denuncia.mensaje || !denuncia.nickname || !denuncia.evento || !denuncia.denunciado || !denuncia.sesion) {
     $q.notify({
       color: "red-5",
       textColor: "white",
       icon: "warning",
+      position: "top",
       message: "Todos los campos son obligatorios",
     });
   } else {
     if (denuncia.usuario === userDatabase.documents[0].email) {
-      console.log(denuncia);
+
       emailjs.send('service_upde9ds', 'template_2le1vf6', {
         usuario: denuncia.usuario,
         mensaje: denuncia.mensaje,
         nickname: denuncia.nickname,
         tiempo: denuncia.tiempo,
         torneo: denuncia.torneo,
-        denunciado: denuncia.denunciado
+        denunciado: denuncia.denunciado,
+        evento: denuncia.evento,
+        sesion: denuncia.sesion
       }, 'XcpFl9Ds8mQUrTjD6')
         .then((response) => {
           console.log('SUCCESS!', response.status, response.text);
@@ -65,53 +70,28 @@ const submitDenuncia = () => {
             textColor: "white",
             icon: "cloud_done",
             message: "Denuncia enviada!",
+            position: "top",
             timeout: 2000
           });
+
+          setTimeout(() => {
+            router.push('/')
+          }, 3000);
+
         }, (err) => {
           console.log('FAILED...', err);
         });
-
-
-
 
     } else {
       $q.notify({
         color: "red-5",
         textColor: "white",
         icon: "warning",
-        message: "El usuario denunciante no coincide con la Sesión Activa.",
+        position: "top",
+        message: "El email debe ser el mismo que utilizas al ingresar.",
       });
     }
   }
-
-  setTimeout(() => {
-    router.push('/')
-  }, 3000);
-
-
-  // if (!email.value || !password.value) {
-  //   $q.notify({
-  //     color: "red-5",
-  //     textColor: "white",
-  //     icon: "warning",
-  //     message: "Debe completar ambos campos",
-  //   });
-  // } else {
-  //   setTimeout(() => {
-  //     $q.notify({
-  //       color: "green-4",
-  //       textColor: "white",
-  //       icon: "cloud_done",
-  //       message: "Ingreso exitoso!",
-  //       timeout: 1000
-  //     });
-
-  //   }, 1000)
-
-  //   // await userStore.loginUser(email.value, password.value)
-
-  //   // await router.push('/')
-  // }
 
 };
 
@@ -122,6 +102,8 @@ const limpiarCampos = () => {
   denuncia.mensaje = ''
   denuncia.nickname = ''
   denuncia.denunciado = ''
+  denuncia.evento = ''
+  denuncia.sesion = ''
 };
 
 //METODOS
@@ -143,22 +125,30 @@ const torneosApi = async () => {
 </script>
 
 <template>
-  <q-form @submit.prevent="submitDenuncia" @reset="onResetForm" class="q-gutter-md">
+  <q-form @submit.prevent="submitDenuncia" class="q-gutter-md">
     <h5 class="text-h5 text-uppercase">Denuncia</h5>
-    <q-input dense color="cyan-6" type="email" hint="Ingrese su email" lazy-rules v-model="denuncia.usuario" name="email"
-      :rules="rulesEmail" />
+    <q-input dense color="cyan-6" type="email" label="Tu email" hint="Debe contener dominio válido (xxxxxx@dominio.com)"
+      lazy-rules v-model="denuncia.usuario" name="email" :rules="rulesEmail" />
 
-    <q-select color="red-13" label-color="red-13" class="q-px-none" item-aligned filled dense name="torneo"
+
+    <q-input type="text" color="cyan-6" v-model="denuncia.nickname" label="Tu usuario en el Simulador" dense />
+
+    <q-select color="cyan-6" label-color="grey-8" class="q-px-none" item-aligned filled dense name="torneo"
       v-model="denuncia.torneo" :options="useApi.torneoOpt" hint="Seleccionar un Torneo"
       label="-- Seleccionar Torneo --" />
 
-    <q-input type="text" v-model="denuncia.nickname" hint="Tu usuario dentro del Simulador" dense />
+    <q-input color="cyan-6" type="text" v-model="denuncia.evento" hint="Ejemplo: Termas de Rio Hondo" label="Evento"
+      dense />
 
-    <q-input type="text" v-model="denuncia.denunciado" hint="Piloto denunciado" dense />
+    <q-input color="cyan-6" type="text" v-model="denuncia.sesion" hint="Ejemplo: Serie 1, Final, Carrera..."
+      label="Sesión" dense />
 
-    <q-input type="text" v-model="denuncia.tiempo" name="instante" hint="Instante del incidente. Ej: 2:32" dense />
+    <q-input color="cyan-6" type="text" v-model="denuncia.denunciado" label="Piloto denunciado" dense />
 
-    <q-input v-model="denuncia.mensaje" hint="Descripción del incidente" filled type="textarea" />
+    <q-input color="cyan-6" type="text" v-model="denuncia.tiempo" name="instante" hint="Ejemplo: 2:32"
+      label="Instante del Incidente" dense />
+
+    <q-input color="cyan-6" v-model="denuncia.mensaje" hint="Descripción del incidente" filled type="textarea" />
 
     <div>
       <q-btn label="Enviar Denuncia" type="submit" color="green-6" icon-right="mail" />
