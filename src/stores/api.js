@@ -98,6 +98,25 @@ export const useApiStore = defineStore('useApiStore', {
 
         })
     },
+    async getCalendarioHomeApi(token, idTorneo) {
+      const optionsCalendario = {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+          "X-Requested-With": "XMLHttpRequest",
+        },
+        body: `{"idTorneo": "${idTorneo}"}`,
+      };
+
+      const getCalendar = await fetch(`https://rpm.studioatlantic.com.ar/pezls/public/api/v1/getCalendario`, optionsCalendario)
+      const respuesta = await getCalendar.json()
+
+      respuesta.data.sort((a, b) => a.order - b.order);
+
+      return respuesta.data
+
+    },
 
     async getTorneosApi(token) {
       const optionsTorneos = {
@@ -541,6 +560,8 @@ export const useApiStore = defineStore('useApiStore', {
 
       const traerPosiciones = await fetch(`https://rpm.studioatlantic.com.ar/pezls/public/api/v1/posicionesTorneo`, optionsPosiciones);
       const respuesta = await traerPosiciones.json();
+
+      // this.posicionesTorneos.push(respuesta.data[0])
 
       return respuesta.data[0]
 

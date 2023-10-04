@@ -24,7 +24,7 @@ const liveRacers = () => {
 <template>
   <q-page>
     <!-- HERO CON MENU -->
-    <div class="hero">
+    <div id="hero" class="hero">
       <video class="hero__video" playsinline autoplay muted loop poster='/hero.jpg'>
         <source src="/rpmintro.mp4" type='video/mp4'>
       </video>
@@ -35,7 +35,7 @@ const liveRacers = () => {
         <p class="text-grey-13 text-center q-my-none text-weight-light ">Proximo Evento</p>
         <h1 class="text-h3 text-uppercase text-weight-bold text-center text-red-13 q-my-none">Termas de Rio Hondo</h1>
 
-        <CounterComponent :year="2023" :month="8" :date="27" :hour="22" :minutes="0" :seconds="0" />
+        <CounterComponent :year="2023" :month="9" :date="27" :hour="22" :minutes="0" :seconds="0" />
       </div>
     </div>
 
@@ -43,33 +43,51 @@ const liveRacers = () => {
     <section id="intro">
       <div class="row intro__row">
         <div class="intro__blumb col-10 q-mx-auto col-md-4 q-py-lg">
-          <h4 class="text-h4 q-my-none text-center text-white text-uppercase"><span class="text-h2 text-white">1.</span> Registrate</h4>
-          <p class="text-center text-body2 q-px-xl text-grey-7">Registrate en RPM Racing League para poder acceder al contenido y
+          <h4 class="text-h4 q-my-none text-center text-white text-uppercase"><span class="text-h2 text-white">1.</span>
+            Registrate</h4>
+          <p class="text-center text-body2 q-px-xl text-grey-7">Registrate en RPM Racing League para poder acceder al
+            contenido y
             empezar a competir en la Liga.</p>
         </div>
         <div class="intro__blumb col-10 q-mx-auto col-md-4 q-py-lg">
-          <h4 class="text-h4 q-my-none text-center text-white text-uppercase"><span class="text-h2 text-white">2.</span> Inscribite</h4>
-          <p class="text-center text-body2 q-px-xl text-grey-7">Una vez registrado, elegí un torneo, abonas la inscripción y ya estas
+          <h4 class="text-h4 q-my-none text-center text-white text-uppercase"><span class="text-h2 text-white">2.</span>
+            Inscribite</h4>
+          <p class="text-center text-body2 q-px-xl text-grey-7">Una vez registrado, elegí un torneo, abonas la inscripción
+            y ya estas
             listo para correr.</p>
         </div>
         <div class="intro__blumb col-10 q-mx-auto col-md-4 q-py-lg">
-          <h4 class="text-h4 q-my-none text-center text-white text-uppercase"><span class="text-h2 text-white">3.</span> A Correr!</h4>
-          <p class="text-center text-body2 q-px-xl text-grey-7">Ya estas habilitado para poder comenzar a disfrutar de los torneos en
+          <h4 class="text-h4 q-my-none text-center text-white text-uppercase"><span class="text-h2 text-white">3.</span> A
+            Correr!</h4>
+          <p class="text-center text-body2 q-px-xl text-grey-7">Ya estas habilitado para poder comenzar a disfrutar de los
+            torneos en
             RPM Racing League.</p>
         </div>
       </div>
     </section>
 
     <!-- LIVERACERS -->
-    <section id="liveracers">
+    <!-- <section id="liveracers">
       <h1 class="text-h2 text-uppercase fontCustomTitle text-weight-bold text-center text-grey-10 q-my-none q-py-xl">
         Servidores Online</h1>
       <div id="lr-servers" class="rpmdark horizontal" orientation="horizontal"></div>
-    </section>
+    </section> -->
 
     <!-- CAMPEONATOS -->
     <section id="campeonatos">
-        <CampeonatoComponente />
+      <CampeonatoComponente />
+    </section>
+
+    <section id="youTube">
+      <h1 class="text-h2 text-uppercase fontCustomTitle text-weight-bold text-center text-white q-my-none q-py-xl">
+        YouTube</h1>
+        <div class="row flex justify-center youtubeContainer">
+          <div class="col-12">
+            <div class="q-pa-md">
+              <q-video :ratio="16/9" src="https://www.youtube.com/embed/OZ1agrJL8e4" />
+            </div>
+          </div>
+        </div>
     </section>
 
   </q-page>
@@ -154,6 +172,15 @@ const liveRacers = () => {
 
   .intro__row {
     max-width: 1280px;
+    margin: 0 auto;
+  }
+}
+
+#youTube{
+  background-color: black;
+
+  .youtubeContainer{
+    max-width: 960px;
     margin: 0 auto;
   }
 }

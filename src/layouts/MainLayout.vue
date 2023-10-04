@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUpdated } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useUserStore } from '../stores/user'
 import LoginModalComponent from '../components/LoginModalComponent.vue'
 import RegisterFormComponent from '../components/RegisterModalComponent.vue'
@@ -14,6 +14,8 @@ const databaseStore = userDatabaseStore()
 
 const leftDrawerOpen = ref(false)
 
+const getTorneosStore = ref([])
+
 
 //Menu lateral
 const toggleLeftDrawer = () => {
@@ -24,16 +26,6 @@ onMounted(async () => {
   userStore.currentUserLog();
   getTorneos();
   databaseStore.getAdmin();
-})
-
-onUpdated(() => {
-  // console.log('Updated');
-  // console.log(apiStore.torneos);
-  apiStore.torneos.forEach(async el => {
-
-    el.posiciones = await apiStore.createTablasPosicionesApi(apiStore.tokenApi, el.id)
-
-  })
 })
 
 //Salir de la sesion
@@ -58,7 +50,7 @@ const getTorneos = async () => {
   await loginUserApi();
   const torneos = await apiStore.getTorneosApi(apiStore.tokenApi);
 
-  apiStore.torneos = torneos;
+  apiStore.torneos = torneos
 
 }
 
@@ -101,7 +93,7 @@ const getTorneos = async () => {
     <q-drawer v-model="leftDrawerOpen" side="left" overlay show-if-above elevated class="drawer__menu">
       <q-list>
         <q-item-label header>Menu</q-item-label>
-        <q-item clickable to="/" class="text-white" active-class="menu__link" exact>
+        <q-item clickable to="/#hero" class="text-white" active-class="menu__link" exact>
           <q-item-section avatar>
             <q-icon name="las la-home" />
           </q-item-section>
@@ -129,7 +121,7 @@ const getTorneos = async () => {
           </q-item-section>
         </q-item>
 
-        <q-item clickable to="/multimedia" active-class="menu__link">
+        <q-item clickable to="#youTube" active-class="menu__link">
           <q-item-section avatar>
             <q-icon name="las la-photo-video" />
           </q-item-section>
@@ -177,10 +169,10 @@ const getTorneos = async () => {
         </q-item>
       </q-list>
 
-      <h6 class="text-h6 text-orange-6 text-weight-light q-mb-none q-mt-sm">Administración</h6>
 
       <!-- Seccion Administrador -->
       <q-list v-for="item in databaseStore.admin" :key="item.id">
+        <h6 v-if="item.isAdmin" class="text-h6 text-orange-6 text-weight-light q-mb-none q-mt-sm">Administración</h6>
 
         <q-item v-if="item.isAdmin" clickable to="/administrar-torneos" class="text-orange-6" active-class="menu__link">
           <q-item-section avatar>

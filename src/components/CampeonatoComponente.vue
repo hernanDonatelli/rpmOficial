@@ -1,33 +1,63 @@
 <script setup>
 import CounterComponent from '../components/CounterComponent.vue'
 import { useApiStore } from 'src/stores/api';
-import { onBeforeMount, onMounted, onUpdated } from 'vue';
+import { onBeforeUpdate, ref } from 'vue';
 const apiStore = useApiStore();
 
-onBeforeMount(() => {
-  console.log('Antes de Montar');
-})
+const yearCounter = ref(2023)
+const monthCounter = ref(8)
+const dayCounter = ref(25)
+const fechasDay = ref([])
 
-onMounted(() => {
-  console.log('Mounted');
-})
-
-onUpdated(() => {
-  // console.log('Updated');
-  // console.log(apiStore.torneos);
+onBeforeUpdate(async () => {
   apiStore.torneos.forEach(async el => {
 
     el.posiciones = await apiStore.createTablasPosicionesApi(apiStore.tokenApi, el.id)
 
+    // el.fechas = await fechaCountdown(el.id)
+    await fechaCountdown(el.id)
+
   })
+
+
 })
+
+
+const fechaCountdown = async (id) => {
+  let arrFecha = []
+  let arrObjFecha = []
+  let newObj = {}
+
+  let calendario = await apiStore.getCalendarioHomeApi(apiStore.tokenApi, id)
+  // console.log(calendario);
+
+  calendario.forEach(item => {
+    arrFecha.push(item.date)
+  })
+
+  arrFecha.forEach(el => {
+    const fecha = el.split('-')
+
+    newObj = {
+      year: fecha[0],
+      month: fecha[1],
+      day: fecha[2]
+    }
+
+    arrObjFecha.push(newObj)
+
+  })
+console.log(arrObjFecha);
+  return arrObjFecha
+
+}
 
 
 
 </script>
 
 <template>
-  <div v-for="torneo in apiStore.torneos" :key="torneo.id" class="torneo" :style="{
+  <div v-for="(torneo, index) in apiStore.torneos" :key="index" class="torneo" :style="{
     backgroundImage: `repeating-linear-gradient(#00000005, rgba(0, 0, 0, 0)),url(https://rpmracingleague.net/images/laravel-torneos/${torneo.image})`,
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
@@ -60,12 +90,13 @@ onUpdated(() => {
         <div class="next">
           <p class="text-grey-13 text-center q-my-none text-weight-light ">Proximo Evento</p>
           <h4 class="text-h4 text-uppercase text-weight-bold text-center text-red-13 q-my-none">Zandvoort GP</h4>
-          <CounterComponent :year="2023" :month="8" :date="30" :hour="22" :minutes="0" :seconds="0" />
+
+          <!-- <CounterComponent :year="torneo.fechas[0].year" :month="torneo.fechas[0].month" :date="torneo.fechas[0].day" :hour="22" :minutes="0" :seconds="0" /> -->
         </div>
 
         <!-- Tabla Resumen Campeonato -->
         <div class="tablePos row flex-column justify-center align-center q-pa-md">
-          <h5 class="text-h6 text-weight-light text-grey-13 text-center q-my-none">Posiciones</h5>
+          <h5 class="text-h6 text-weight-bold text-grey-13 text-center q-my-none">Top 5 Posiciones</h5>
           <q-markup-table dense>
             <thead>
               <tr>
@@ -76,9 +107,9 @@ onUpdated(() => {
             </thead>
             <tbody v-for="(value, key, index) in torneo.posiciones" :key="index">
               <tr v-if="index >= 0 && index < 5">
-                  <td class="text-center">{{ JSON.parse(value).posicion }}</td>
-                  <td class="text-center">{{ key }}</td>
-                  <td class="text-center">{{ JSON.parse(value).puntos }}</td>
+                <td class="text-center">{{ JSON.parse(value).posicion }}</td>
+                <td class="text-center">{{ key }}</td>
+                <td class="text-center">{{ JSON.parse(value).puntos }}</td>
 
               </tr>
             </tbody>

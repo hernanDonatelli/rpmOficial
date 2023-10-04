@@ -96,7 +96,7 @@ const showRemaining = () => {
     </section>
 
     <section v-else>
-      <h3 class="countdown__regresiveCero">Carrera Disputandose!!</h3>
+      <h5 class="countdown__regresiveCero text-white">Carrera Disputandose!!</h5>
     </section>
   </div>
 </template>
