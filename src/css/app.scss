@@ -4,6 +4,22 @@
   src: url(./fonts/RobotoCondensed-BoldItalic.ttf);
 }
 
+@font-face {
+  font-family: 'Montserrat', sans-serif;
+  src: url(./fonts/Montserrat-Regular.ttf);
+}
+@font-face {
+  font-family: 'Montserrat', sans-serif;
+  src: url(./fonts/Montserrat-ExtraBold.ttf);
+}
+
 .fontCustomTitle{
   font-family: 'Roboto Condensed Italic';
+}
+.montserratRegular{
+  font-family: 'Montserrat', sans-serif;
+}
+.montserratExtraBold{
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
 }

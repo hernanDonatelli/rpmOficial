@@ -125,37 +125,69 @@ const torneosApi = async () => {
 </script>
 
 <template>
-  <q-form @submit.prevent="submitDenuncia" class="q-gutter-md">
-    <h5 class="text-h5 text-uppercase">Denuncia</h5>
-    <q-input dense color="cyan-6" type="email" label="Tu email" hint="Debe contener dominio válido (xxxxxx@dominio.com)"
-      lazy-rules v-model="denuncia.usuario" name="email" :rules="rulesEmail" />
+  <div class="col-12 col-sm-6 col-md-8 q-pa-md">
+    <q-form @submit.prevent="submitDenuncia" class="q-gutter-md">
+      <h4 class="text-h4 text-uppercase montserratExtraBold q-mb-none">Denuncia</h4>
+      <hr>
+      <div class="row flex justify-around q-mb-lg">
+        <div class="col-12 col-sm-3 col-md-5">
+          <q-input dense color="cyan-6" type="email" label="Tu email" hint="Debe contener dominio válido (xxxxxx@dominio.com)"
+            lazy-rules v-model="denuncia.usuario" name="email" :rules="rulesEmail" />
+        </div>
 
+        <div class="col-12 col-sm-3 col-md-5">
+          <q-input type="text" color="cyan-6" v-model="denuncia.nickname" label="Tu usuario en el Simulador" dense />
+        </div>
+      </div>
 
-    <q-input type="text" color="cyan-6" v-model="denuncia.nickname" label="Tu usuario en el Simulador" dense />
+      <div class="row flex justify-around q-mb-lg">
+        <div class="col-12 col-sm-3 col-md-5">
+          <q-select color="cyan-6" label-color="grey-8" class="q-px-none" item-aligned filled dense name="torneo"
+            v-model="denuncia.torneo" :options="useApi.torneoOpt" hint="Seleccionar un Torneo"
+            label="-- Seleccionar Torneo --" />
+        </div>
 
-    <q-select color="cyan-6" label-color="grey-8" class="q-px-none" item-aligned filled dense name="torneo"
-      v-model="denuncia.torneo" :options="useApi.torneoOpt" hint="Seleccionar un Torneo"
-      label="-- Seleccionar Torneo --" />
+        <div class="col-12 col-sm-3 col-md-5">
+          <q-input color="cyan-6" type="text" v-model="denuncia.evento" hint="Ejemplo: Termas de Rio Hondo" label="Evento"
+            dense />
+        </div>
+      </div>
 
-    <q-input color="cyan-6" type="text" v-model="denuncia.evento" hint="Ejemplo: Termas de Rio Hondo" label="Evento"
-      dense />
+      <div class="row flex justify-around q-mb-lg">
+        <div class="col-12 col-sm-3 col-md-5">
+          <q-input color="cyan-6" type="text" v-model="denuncia.sesion" hint="Ejemplo: Serie 1, Final, Carrera..."
+            label="Sesión" dense />
+        </div>
 
-    <q-input color="cyan-6" type="text" v-model="denuncia.sesion" hint="Ejemplo: Serie 1, Final, Carrera..."
-      label="Sesión" dense />
+        <div class="col-12 col-sm-3 col-md-5">
+          <q-input color="cyan-6" type="text" v-model="denuncia.denunciado" label="Piloto denunciado" dense />
+        </div>
+      </div>
 
-    <q-input color="cyan-6" type="text" v-model="denuncia.denunciado" label="Piloto denunciado" dense />
+      <div class="row flex justify-around q-mb-lg">
+        <div class="col-12 col-sm-3 col-md-5">
+          <q-input color="cyan-6" type="text" v-model="denuncia.tiempo" name="instante" hint="Ejemplo: 2:32"
+            label="Instante del Incidente" dense />
+        </div>
 
-    <q-input color="cyan-6" type="text" v-model="denuncia.tiempo" name="instante" hint="Ejemplo: 2:32"
-      label="Instante del Incidente" dense />
+        <div class="col-12 col-sm-3 col-md-5">
+          <q-input color="cyan-6" v-model="denuncia.mensaje" hint="Descripción del incidente" filled type="textarea" />
+        </div>
+      </div>
 
-    <q-input color="cyan-6" v-model="denuncia.mensaje" hint="Descripción del incidente" filled type="textarea" />
-
-    <div>
-      <q-btn label="Enviar Denuncia" type="submit" color="green-6" icon-right="mail" />
-      <q-btn @click="limpiarCampos" label="Limpiar Campos" type="reset" color="red-5" flat class="q-ml-sm" />
-    </div>
-  </q-form>
+      <div class="row flex justify-center">
+        <q-btn @click="limpiarCampos" label="Limpiar Campos" type="reset" color="red-5" flat class="q-mr-xl" />
+        <q-btn label="Enviar Denuncia" type="submit" color="green-6" icon-right="mail" />
+      </div>
+    </q-form>
+  </div>
 </template>
 
 
-<style lang="scss"></style>
+<style lang="scss">
+hr {
+  width: 10%;
+  border: 2.5px solid black;
+  margin-top: 2%;
+}
+</style>

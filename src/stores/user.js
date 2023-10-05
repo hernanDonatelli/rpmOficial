@@ -1,11 +1,10 @@
-import { createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification, signInWithEmailAndPassword, signOut, sendPasswordResetEmail } from 'firebase/auth';
 import { defineStore } from 'pinia'
 import { auth } from 'src/firebaseConfig';
 import { userDatabaseStore } from './database';
 import { Notify } from 'quasar';
 import { query, collection, where, getDocs } from 'firebase/firestore/lite';
 import { db } from 'src/firebaseConfig';
-import { useRoute } from 'vue-router';
 
 export const useUserStore = defineStore('userStore', {
   state: () => ({
@@ -15,6 +14,40 @@ export const useUserStore = defineStore('userStore', {
     userLoged: false
   }),
   actions: {
+
+    async cambiarPassword(email) {
+
+      sendPasswordResetEmail(auth, email)
+        .then(() => {
+          Notify.create({
+            color: "green-4",
+            textColor: "white",
+            icon: "cloud_done",
+            multiline: true,
+            html: true,
+            position: "top",
+            message: "<span style='text-align: center;'>Se ha enviado un email para modificar la Contraseña.</span>",
+            timeout: 2000
+          });
+
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+
+          Notify.create({
+            color: "red-13",
+            textColor: "white",
+            icon: "error",
+            multiline: true,
+            html: true,
+            position: "top",
+            message: `<span style='text-align: center;'>El email no es válido o no está registrado.</span>`,
+            timeout: 3000
+          });
+        });
+    },
+
     async registerUser(email, password, nombre, apellido, movil) {
       const userDatabase = userDatabaseStore()
       this.loadingUser = true
@@ -81,7 +114,7 @@ export const useUserStore = defineStore('userStore', {
       const q = query(collection(db, "usuarios"), where("email", "==", email))
       const querySnapshot = await getDocs(q)
 
-      if(querySnapshot.empty){ //NO EXISTE el usuario
+      if (querySnapshot.empty) { //NO EXISTE el usuario
 
         Notify.create({
           color: "red-13",
@@ -96,7 +129,7 @@ export const useUserStore = defineStore('userStore', {
           window.location.reload()
         }, 1750);
 
-      }else{ //EXISTE el usuario
+      } else { //EXISTE el usuario
 
         signInWithEmailAndPassword(auth, email, password)
           .then((userCredentials) => {
@@ -112,9 +145,9 @@ export const useUserStore = defineStore('userStore', {
                 color: "green-4",
                 textColor: "white",
                 icon: "cloud_done",
-                position: "center",
+                position: "top",
                 message: "Inicio de sesión exitoso!",
-                timeout: 1500
+                timeout: 2000
               });
 
             } else {
@@ -151,6 +184,7 @@ export const useUserStore = defineStore('userStore', {
         console.log();
       } finally {
         this.userLoged = false
+        this.loadingUser = false
       }
     },
 

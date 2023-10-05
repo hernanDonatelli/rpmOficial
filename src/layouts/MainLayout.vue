@@ -25,7 +25,7 @@ const toggleLeftDrawer = () => {
 onMounted(async () => {
   userStore.currentUserLog();
   getTorneos();
-  databaseStore.getAdmin();
+  // databaseStore.getAdmin();
 })
 
 //Salir de la sesion
@@ -93,7 +93,7 @@ const getTorneos = async () => {
     <q-drawer v-model="leftDrawerOpen" side="left" overlay show-if-above elevated class="drawer__menu">
       <q-list>
         <q-item-label header>Menu</q-item-label>
-        <q-item clickable to="/#hero" class="text-white" active-class="menu__link" exact>
+        <q-item clickable to="/" class="text-white" active-class="menu__link" exact>
           <q-item-section avatar>
             <q-icon name="las la-home" />
           </q-item-section>
@@ -121,7 +121,7 @@ const getTorneos = async () => {
           </q-item-section>
         </q-item>
 
-        <q-item clickable to="#youTube" active-class="menu__link">
+        <q-item clickable to="#youTube">
           <q-item-section avatar>
             <q-icon name="las la-photo-video" />
           </q-item-section>
@@ -170,9 +170,9 @@ const getTorneos = async () => {
       </q-list>
 
 
-      <!-- Seccion Administrador -->
-      <q-list v-for="item in databaseStore.admin" :key="item.id">
-        <h6 v-if="item.isAdmin" class="text-h6 text-orange-6 text-weight-light q-mb-none q-mt-sm">Administración</h6>
+      <q-list v-for="item in databaseStore.documents" :key="item.id">
+        <!-- Seccion Administrador -->
+        <h6 v-if="item.isAdmin" class="text-h6 text-orange-6 text-weight-light q-mb-none q-mt-sm q-pl-md">Administración</h6>
 
         <q-item v-if="item.isAdmin" clickable to="/administrar-torneos" class="text-orange-6" active-class="menu__link">
           <q-item-section avatar>
