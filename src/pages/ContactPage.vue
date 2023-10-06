@@ -1,26 +1,19 @@
 <script setup>
-
+import ContactoComponente from 'src/components/ContactoComponente.vue';
 </script>
 
 <template>
-  <h1>Contacto</h1>
-  <q-page padding>
-    <h3>Row</h3>
-    <div class="row">
-      <div class="col-12 col-md-4">
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Est, perspiciatis. Ex ducimus obcaecati impedit, temporibus quis expedita excepturi placeat. Nobis rem quia pariatur magnam facilis odit, fuga quae qui voluptatum!</p>
-      </div>
-      <div class="col-12 col-md-4">
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Est, perspiciatis. Ex ducimus obcaecati impedit, temporibus quis expedita excepturi placeat. Nobis rem quia pariatur magnam facilis odit, fuga quae qui voluptatum!</p>
-      </div>
-      <div class="col-12 col-md-4">
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Est, perspiciatis. Ex ducimus obcaecati impedit, temporibus quis expedita excepturi placeat. Nobis rem quia pariatur magnam facilis odit, fuga quae qui voluptatum!</p>
-      </div>
-    </div>
-  </q-page>
+  <q-page>
+        <div class="contacto-container row justify-center items-center q-mt-xl">
+            <ContactoComponente />
+        </div>
+    </q-page>
 </template>
 
 
-<style>
-
+<style lang="scss" scoped>
+.contacto-container{
+    height: 100vh;
+    margin-top: 0;
+}
 </style>

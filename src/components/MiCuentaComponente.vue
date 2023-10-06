@@ -99,81 +99,78 @@ const resetPage = async () => {
 
 <template>
     <section id="mi-cuenta">
-        <div class="row flex justify-center q-mt-lg">
-            <div class="col-12 col-sm-6 col-md-8">
-                <div class="flex column">
-                    <h4 class="text-h4 text-uppercase montserratExtraBold q-mb-none">Mi Cuenta</h4>
-                    <hr class="q-ml-none">
-                    <!-- Tabla de datos actuales -->
-                    <div class="col-12 col-sm-6 q-pa-md">
-                        <ul class="q-pl-none flex justify-center" style="list-style: none;">
-                            <li v-for="usuario in databaseStore.documents" :key="usuario.id"
-                                class="w-100 flex justify-center">
-                                <span>
-                                    <q-icon color="red-13" name="las la-file-signature" />
-                                    Nombre: <strong>{{ usuario.nombre }}</strong>
-                                </span>
-                                <span>
-                                    <q-icon color="red-13" name="las la-signature" />
-                                    Apellido: <strong>{{ usuario.apellido }}</strong>
-                                </span>
+        <div class="row items-center mi-cuenta-container">
+            <div class="col-12 col-sm-6 col-md-5">
 
-                                <span>
-                                    <q-icon color="red-13" name="las la-envelope" />
-                                    Email: <strong>{{ usuario.email }}</strong>
-                                </span>
+                <h4 class="text-h4 text-center text-uppercase montserratExtraBold q-mb-none">Mi Cuenta</h4>
+                <hr>
+                <!-- Tabla de datos actuales -->
 
-                                <span>
-                                    <q-icon color="red-13" name="las la-mobile-alt" />
-                                    Movil: <strong>{{ usuario.movil }}</strong>
-                                </span>
-                            </li>
-                        </ul>
+                    <ul class="q-pl-none flex justify-center" style="list-style: none;">
+                        <li v-for="usuario in databaseStore.documents" :key="usuario.id" class="w-100 flex column justify-center">
+                            <span>
+                                <q-icon color="red-13" name="las la-file-signature" />
+                                Nombre: <strong>{{ usuario.nombre }}</strong>
+                            </span>
+                            <span>
+                                <q-icon color="red-13" name="las la-signature" />
+                                Apellido: <strong>{{ usuario.apellido }}</strong>
+                            </span>
 
+                            <span>
+                                <q-icon color="red-13" name="las la-envelope" />
+                                Email: <strong>{{ usuario.email }}</strong>
+                            </span>
+
+                            <span>
+                                <q-icon color="red-13" name="las la-mobile-alt" />
+                                Movil: <strong>{{ usuario.movil }}</strong>
+                            </span>
+                        </li>
+                    </ul>
+            </div>
+
+            <!-- Formulario de edicion -->
+            <div class="col-12 col-sm-6 col-md-7">
+
+                <h5 class="text-h5 text-center text-uppercase montserratRegular text-weight-light q-mt-none">Editar Cuenta
+                </h5>
+
+                <q-form @reset="onResetEdit" class="q-gutter-md">
+                    <div>
+                        <div class="row flex justify-center q-mb-lg">
+                            <div class="col-12 col-sm-3 col-md-5">
+                                <q-input class="q-mx-sm" filled dense color="red-13" label="nombre" v-model="nombre"
+                                    hint="Hasta 20 caracteres" lazy-rules />
+                            </div>
+                            <div class="col-12 col-sm-3 col-md-5">
+                                <q-input class="q-mx-sm" filled dense color="red-13" label="apellido" v-model="apellido"
+                                    hint="Hasta 20 caracteres" lazy-rules />
+                            </div>
+                        </div>
+
+                        <div class="row flex justify-center q-mb-lg">
+                            <div class="col-12 col-sm-3 col-md-5">
+                                <q-input class="q-mx-sm" disable filled dense color="red-13" type="email" label="email"
+                                    v-model="email" hint="No puedes modificar el email" />
+                            </div>
+                            <div class="col-12 col-sm-3 col-md-5">
+                                <q-input class="q-mx-sm" filled dense type="number" color="red-13" label="movil"
+                                    v-model="movil" hint="Con codigo de area, sin el 15" />
+                            </div>
+                        </div>
                     </div>
-                </div>
 
-                <!-- Formulario de edicion -->
-                <div class="col-12 col-sm-6 col-md-5 q-pa-md">
-
-                    <h5 class="text-h5 text-center text-uppercase montserratRegular text-weight-light q-mt-none">Editar Cuenta</h5>
-
-                    <q-form @reset="onResetEdit" class="q-gutter-md">
-                        <div>
-                            <div class="row flex justify-center q-mb-lg">
-                                <div class="col-12 col-sm-3 col-md-5">
-                                    <q-input class="q-mx-sm" filled dense color="red-13" label="nombre" v-model="nombre"
-                                        hint="Hasta 20 caracteres" lazy-rules />
-                                </div>
-                                <div class="col-12 col-sm-3 col-md-5">
-                                    <q-input class="q-mx-sm" filled dense color="red-13" label="apellido" v-model="apellido"
-                                        hint="Hasta 20 caracteres" lazy-rules />
-                                </div>
-                            </div>
-
-                            <div class="row flex justify-center q-mb-lg">
-                                <div class="col-12 col-sm-3 col-md-5">
-                                    <q-input class="q-mx-sm" disable filled dense color="red-13" type="email" label="email"
-                                        v-model="email" hint="No puedes modificar el email" />
-                                </div>
-                                <div class="col-12 col-sm-3 col-md-5">
-                                    <q-input class="q-mx-sm" filled dense type="number" color="red-13" label="movil"
-                                        v-model="movil" hint="Con codigo de area, sin el 15" />
-                                </div>
-                            </div>
+                    <div class="text-center">
+                        <div class="col-12 col-sm-6 q-mt-xl">
+                            <q-btn @click.prevent="getInfoUser" label="Cargar Datos" type="submit" color="dark" />
+                            <q-btn @click.prevent="onSubmitEdit" :disable="!userStore.loadingUser" class="q-mx-xl"
+                                label="Editar Usuario" type="submit" color="green-14" />
+                            <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
                         </div>
+                    </div>
+                </q-form>
 
-                        <div class="text-center">
-                            <div class="col-12 col-sm-6 q-mt-xl">
-                                <q-btn @click.prevent="getInfoUser" label="Cargar Datos" type="submit" color="dark" />
-                                <q-btn @click.prevent="onSubmitEdit" :disable="!userStore.loadingUser" class="q-mx-xl"
-                                    label="Editar Usuario" type="submit" color="green-14" />
-                                <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
-                            </div>
-                        </div>
-                    </q-form>
-
-                </div>
             </div>
 
         </div>
@@ -188,6 +185,12 @@ const resetPage = async () => {
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center left;
+
+    .mi-cuenta-container{
+        max-width: 95%;
+        margin: 0 auto;
+        height: 100vh;
+    }
 
     .wraper {
         padding-top: 5.5rem;

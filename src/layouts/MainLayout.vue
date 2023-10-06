@@ -249,6 +249,7 @@ const getTorneos = async () => {
 
 #main__container.q-page-container {
   padding-top: 0 !important;
+  
 }
 
 .header__nav {
