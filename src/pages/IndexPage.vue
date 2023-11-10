@@ -1,24 +1,11 @@
 <script setup>
-import { onMounted } from 'vue';
+import { ref } from 'vue';
 import CounterComponent from '../components/CounterComponent.vue'
 import CampeonatoComponente from '../components/CampeonatoComponente.vue'
 
-onMounted(() => {
-  liveRacers()
-})
+const slide = ref(1)
+const autoplay = ref(true)
 
-//Metodos
-const liveRacers = () => {
-  window._lr = {
-    url: 'https://liveracers.com',
-    domains: ['rpmracingleague'] //or multiple domains: ['domain1', 'domain2']
-  };
-  (function () {
-    var lr = document.createElement('script'); lr.type = 'text/javascript'; lr.async = true;
-    lr.src = window._lr.url + '/Scripts/api.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(lr, s);
-  })();
-}
 </script>
 
 <template>
@@ -33,9 +20,9 @@ const liveRacers = () => {
 
       <div class="hero__countdown">
         <p class="text-grey-13 text-center q-my-none text-weight-light ">Proximo Evento</p>
-        <h1 class="text-h3 text-uppercase text-weight-bold text-center text-red-13 q-my-none">Termas de Rio Hondo</h1>
+        <h1 class="text-h3 text-uppercase montserratExtraBold text-center text-red-13 q-my-none">Termas de Rio Hondo</h1>
 
-        <CounterComponent :year="2023" :month="9" :date="27" :hour="22" :minutes="0" :seconds="0" />
+        <CounterComponent :year="2023" :month="11" :date="27" :hour="22" :minutes="0" :seconds="0" />
       </div>
     </div>
 
@@ -66,30 +53,115 @@ const liveRacers = () => {
       </div>
     </section>
 
-    <!-- LIVERACERS -->
-    <!-- <section id="liveracers">
-      <h1 class="text-h2 text-uppercase fontCustomTitle text-weight-bold text-center text-grey-10 q-my-none q-py-xl">
-        Servidores Online</h1>
-      <div id="lr-servers" class="rpmdark horizontal" orientation="horizontal"></div>
-    </section> -->
-
     <!-- CAMPEONATOS -->
     <section id="campeonatos">
       <CampeonatoComponente />
     </section>
 
     <section id="youTube">
-      <h1 class="text-h2 text-uppercase fontCustomTitle text-weight-bold text-center text-white q-my-none q-py-xl">
+      <h1 class="text-h2 text-uppercase montserratExtraBold text-weight-bold text-center text-white q-my-none q-py-xl">
         YouTube</h1>
-        <div class="row flex justify-center youtubeContainer">
-          <div class="col-12">
-            <div class="q-pa-md">
-              <q-video :ratio="16/9" src="https://www.youtube.com/embed/OZ1agrJL8e4" />
+      <div class="row flex justify-center youtubeContainer">
+        <div class="col-12">
+          <div class="q-pa-md">
+            <q-video :ratio="16 / 9" src="https://www.youtube.com/embed/OZ1agrJL8e4" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GALERIA -->
+    <section id="gallery">
+      <h1
+        class="gallery-title text-h2 text-uppercase montserratExtraBold text-weight-bold text-center text-white q-my-none q-py-xl">
+        Galería</h1>
+
+      <div class="overlay"></div>
+
+      <div class="gallery">
+        <q-carousel swipeable animated v-model="slide" :autoplay="autoplay" @mouseenter="autoplay = false"
+          @mouseleave="autoplay = true" thumbnails infinite>
+
+          <q-carousel-slide :name="1" img-src="https://cdn.quasar.dev/img/mountains.jpg">
+            <div class="absolute-bottom custom-caption">
+              <div class="text-h4 text-white text-uppercase text-bold">First stop</div>
+              <div class="text-caption">
+                <span class="text-white">
+                  Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                  industry's standard dummy text ever since the 1400s, when an unknown printer took a galley of type and
+                  scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap
+                  into electronic typesetting, remaining essentially unchanged.
+                </span>
+              </div>
+            </div>
+          </q-carousel-slide>
+
+          <q-carousel-slide :name="2" img-src="https://cdn.quasar.dev/img/parallax1.jpg">
+            <div class="absolute-bottom custom-caption">
+              <div class="text-h4 text-white text-uppercase text-bold">Second stop</div>
+              <div class="text-caption">
+                <span class="text-white">
+                  Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                  industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                  scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap
+                  into electronic typesetting, remaining essentially unchanged.
+                </span>
+              </div>
+            </div>
+          </q-carousel-slide>
+          <q-carousel-slide :name="3" img-src="https://cdn.quasar.dev/img/parallax2.jpg" />
+          <q-carousel-slide :name="4" img-src="https://cdn.quasar.dev/img/quasar.jpg" />
+          <q-carousel-slide :name="5" img-src="https://cdn.quasar.dev/img/mountains.jpg" />
+          <q-carousel-slide :name="6" img-src="https://cdn.quasar.dev/img/parallax1.jpg" />
+          <q-carousel-slide :name="7" img-src="https://cdn.quasar.dev/img/parallax2.jpg" />
+          <q-carousel-slide :name="8" img-src="https://cdn.quasar.dev/img/quasar.jpg" />
+
+        </q-carousel>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <section id="footer" class="q-py-lg">
+      <div class="q-px-lg">
+        <div class="row">
+          <div class="col-12 flex justify-between items-center">
+
+            <div class="col-2 logo-img">
+              <img src="../assets/logo_rpm_png.png" alt="RPM RacingLeague">
+            </div>
+
+            <div class="col-8 rrss">
+              <h6 class="text-h6 text-uppercase montserratExtraBold text-center text-white q-my-none">
+                Nuestras redes</h6>
+              <div class="row flex justify-between">
+                <a href="https://www.facebook.com/RPMRacingLeague" target="_blanck">
+                  <q-icon color="red-13" name="lab la-facebook" />
+                </a>
+                <a href="https://www.instagram.com/rpm.racing.league/" target="_blank">
+                  <q-icon color="red-13" name="lab la-instagram" />
+                </a>
+                <a href="https://www.youtube.com/@rpmracingleague7342" target="_blank">
+                  <q-icon color="red-13" name="lab la-youtube" />
+                </a>
+                <q-icon color="red-13" name="lab la-discord" />
+                <q-icon color="red-13" name="lab la-teamspeak" />
+              </div>
+              <div class="row">
+                <p class="text-caption text-center text-white q-mb-none q-mt-sm">Copyright 2023 - Desarrolló
+                  Studioatlantic</p>
+              </div>
+            </div>
+
+            <div class="col-2 fiscal">
+              <a href="http://qr.afip.gob.ar/?qr=RhTCFLYM06YNGdo6rMjBhA,," target="_F960AFIPInfo">
+                <img src="http://www.afip.gob.ar/images/f960/DATAWEB.jpg" alt="fiscal">
+              </a>
             </div>
           </div>
         </div>
-    </section>
 
+      </div>
+    </section>
   </q-page>
 </template>
 
@@ -139,33 +211,6 @@ const liveRacers = () => {
   }
 }
 
-#liveracers {
-  width: 100%;
-  background-color: #F2F3F4;
-  padding: 1% 0 3% 0;
-
-  #lr-servers {
-
-    .lr-servers-header {
-      display: none !important;
-    }
-
-    .lr-servers-content {
-      display: flex;
-      justify-content: space-around;
-      flex-wrap: wrap;
-      margin: 0 auto;
-    }
-
-    &.horizontal {
-      // max-width: 1200px;
-      // padding: 0% 5% 5%;
-      margin: 0 auto;
-    }
-
-  }
-}
-
 #intro {
   padding: 7% 0;
   background-color: #000000;
@@ -176,58 +221,114 @@ const liveRacers = () => {
   }
 }
 
-#youTube{
+#youTube {
   background-color: black;
 
-  .youtubeContainer{
+  .youtubeContainer {
     max-width: 960px;
     margin: 0 auto;
   }
 }
 
+#gallery {
+  position: relative;
+  height: 100vh;
 
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000000;
+    opacity: 0.75;
+    z-index: 20;
+  }
 
-@media screen and (min-width: 767.98px) {
-
-  .lr-servers-content {
-    display: block;
-    width: 70%;
+  .gallery {
+    height: 100vh;
+    position: relative;
     margin: 0 auto;
+
+    .absolute-bottom.custom-caption {
+      position: absolute;
+      bottom: 13%;
+      left: 50%;
+      transform: translate(-50%, 0);
+      text-align: center;
+      width: 80%;
+      z-index: 30;
+    }
+
+    .q-carousel {
+      height: 100vh;
+
+    }
+
+    .q-carousel__control.q-carousel__navigation.no-wrap.absolute.flex.q-carousel__navigation--thumbnails.q-carousel__navigation--bottom {
+      z-index: 30;
+    }
   }
 
-  #lr-servers.rpmdark .gameInfo {
-    width: 100% !important;
-    display: block;
+  .gallery-title {
+    position: absolute;
+    margin: 0;
+    top: 3%;
+    z-index: 10;
+    left: 50%;
+    transform: translate(-50%, 0);
+    z-index: 30;
   }
 }
 
-@media screen and (min-width: 1279.98px) {
+#footer {
+  padding-top: 3rem;
+  background-color: #000000;
 
-  .lr-servers-content {
-    width: 1280px;
-    padding: 2% 0%;
+  .logo-img img {
+    width: 150px;
+    height: auto;
+  }
+
+  .fiscal img {
+    width: 90px;
+    height: auto;
+  }
+
+  .rrss .q-icon {
+    font-size: 2rem;
   }
 }
+
+@media screen and (min-width: 767.98px) {}
+
+@media screen and (min-width: 1279.98px) {}
 
 @media screen and (min-width: 1365.98px) {
+  #gallery {
 
-  .lr-servers-content {
-    max-width: 1280px;
-    padding: 2% 0%;
+    .gallery {
+
+      .absolute-bottom.custom-caption {
+        width: 65%;
+      }
+    }
+
   }
 }
 
 @media screen and (min-width: 1599.98px) {
-  .lr-servers-content {
-    max-width: 1280px;
-    padding: 2% 5%;
+  #gallery {
+
+    .gallery {
+
+      .absolute-bottom.custom-caption {
+        width: 50%;
+      }
+    }
+
   }
 }
 
-@media screen and (min-width: 1919.98px) {
-
-  .lr-servers-content {
-    width: 100%;
-    padding: 0;
-  }
-}</style>
+@media screen and (min-width: 1919.98px) {}
+</style>

@@ -70,7 +70,7 @@ console.log(arrObjFecha);
       <div class="torneo__header flex justify-between items-center row-md">
         <div
           class="titleLogo column justify-center items-center justify-sm-center col-12 col-sm-6 column-md justify-md-start">
-          <h3 class="text-h3 text-center text-uppercase text-weight-bold text-white q-my-none q-pl-md">{{ torneo.name }}
+          <h3 class="text-h3 text-center text-uppercase montserratExtraBold text-white q-my-none q-pl-md">{{ torneo.name }}
           </h3>
           <p class="text-h5 text-grey-8 q-mb-none text-center">({{ torneo.simulator }})</p>
         </div>

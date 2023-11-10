@@ -48,7 +48,7 @@ const rulesEmail = [
 //Metodos
 const submitContact = () => {
   // console.log(instante.value);
-  if (!denuncia.usuario || !denuncia.tiempo || !denuncia.torneo || !denuncia.mensaje || !denuncia.nickname || !denuncia.evento || !denuncia.denunciado || !denuncia.sesion) {
+  if (!contacto.email || !contacto.nombre || !contacto.movil || !contacto.mensaje ) {
     $q.notify({
       color: "red-5",
       textColor: "white",
@@ -57,17 +57,13 @@ const submitContact = () => {
       message: "Todos los campos son obligatorios",
     });
   } else {
-    if (denuncia.usuario === userDatabase.documents[0].email) {
+    if (contacto.email === userDatabase.documents[0].email) {
 
       emailjs.send('service_upde9ds', 'template_2le1vf6', {
-        usuario: denuncia.usuario,
-        mensaje: denuncia.mensaje,
-        nickname: denuncia.nickname,
-        tiempo: denuncia.tiempo,
-        torneo: denuncia.torneo,
-        denunciado: denuncia.denunciado,
-        evento: denuncia.evento,
-        sesion: denuncia.sesion
+        usuario: contacto.nombre,
+        mensaje: contacto.mensaje,
+        movil: contacto.movil,
+        email: contacto.email,
       }, 'XcpFl9Ds8mQUrTjD6')
         .then((response) => {
           console.log('SUCCESS!', response.status, response.text);
