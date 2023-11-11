@@ -215,7 +215,7 @@ const columns = [
                         </div>
                         <div class="form-group q-mb-md">
                             <q-file filled dense bottom-slots name="imagen" v-model="imagen" label="Buscar imagen" counter
-                                max-files="1">
+                                max-files="1" accept=".jpg,.png">
                                 <template v-slot:before>
                                     <q-icon name="attachment" />
                                 </template>

@@ -4,7 +4,9 @@ import CounterComponent from '../components/CounterComponent.vue'
 import CampeonatoComponente from '../components/CampeonatoComponente.vue'
 
 const slide = ref(1)
+const slideSponsor = ref(1)
 const autoplay = ref(true)
+const autoplaySponsor = ref(true)
 
 </script>
 
@@ -53,28 +55,11 @@ const autoplay = ref(true)
       </div>
     </section>
 
-    <!-- CAMPEONATOS -->
-    <section id="campeonatos">
-      <CampeonatoComponente />
-    </section>
-
-    <section id="youTube">
-      <h1 class="text-h2 text-uppercase montserratExtraBold text-weight-bold text-center text-white q-my-none q-py-xl">
-        YouTube</h1>
-      <div class="row flex justify-center youtubeContainer">
-        <div class="col-12">
-          <div class="q-pa-md">
-            <q-video :ratio="16 / 9" src="https://www.youtube.com/embed/OZ1agrJL8e4" />
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- GALERIA -->
-    <section id="gallery">
+    <section id="novedades">
       <h1
         class="gallery-title text-h2 text-uppercase montserratExtraBold text-weight-bold text-center text-white q-my-none q-py-xl">
-        Galería</h1>
+        Novedades</h1>
 
       <div class="overlay"></div>
 
@@ -82,7 +67,7 @@ const autoplay = ref(true)
         <q-carousel swipeable animated v-model="slide" :autoplay="autoplay" @mouseenter="autoplay = false"
           @mouseleave="autoplay = true" thumbnails infinite>
 
-          <q-carousel-slide :name="1" img-src="https://cdn.quasar.dev/img/mountains.jpg">
+          <q-carousel-slide :name="1" img-src="https://www.rpmracingleague.net/images/galeria_Indy%20Cars%20Clausura%202023.png">
             <div class="absolute-bottom custom-caption">
               <div class="text-h4 text-white text-uppercase text-bold">First stop</div>
               <div class="text-caption">
@@ -119,6 +104,61 @@ const autoplay = ref(true)
         </q-carousel>
       </div>
     </section>
+
+    <!-- SPONSORS -->
+    <section id="sponsors">
+      <h1 class="text-h2 text-uppercase montserratExtraBold text-weight-bold text-center text-black q-my-none q-py-xl">
+        Sponsors</h1>
+
+      <div class="q-pa-md">
+        <q-carousel v-model="slideSponsor" transition-prev="slide-right" transition-next="slide-left" infinite
+          :autoplay="autoplaySponsor" swipeable animated height="300px">
+
+          <q-carousel-slide :name="1" class="column no-wrap">
+            <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap">
+              <q-img class="rounded-borders col-3 full-height" src="https://cdn.quasar.dev/img/mountains.jpg" />
+              <q-img class="rounded-borders col-3 full-height" src="https://cdn.quasar.dev/img/cat.jpg" />
+              <q-img class="rounded-borders col-3 full-height" src="https://cdn.quasar.dev/img/quasar.jpg" />
+              <q-img class="rounded-borders col-3 full-height" src="https://cdn.quasar.dev/img/parallax1.jpg" />
+            </div>
+          </q-carousel-slide>
+          <q-carousel-slide :name="2" class="column no-wrap">
+            <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap">
+              <q-img class="rounded-borders col-3 full-height" src="https://cdn.quasar.dev/img/parallax2.jpg" />
+              <q-img class="rounded-borders col-3 full-height" src="https://cdn.quasar.dev/img/quasar.jpg" />
+              <q-img class="rounded-borders col-3 full-height" src="https://cdn.quasar.dev/img/cat.jpg" />
+              <q-img class="rounded-borders col-3 full-height" src="https://cdn.quasar.dev/img/linux-avatar.png" />
+            </div>
+          </q-carousel-slide>
+          <q-carousel-slide :name="3" class="column no-wrap">
+            <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap">
+              <q-img class="rounded-borders col-3 full-height" src="https://cdn.quasar.dev/img/mountains.jpg" />
+              <q-img class="rounded-borders col-3 full-height" src="https://cdn.quasar.dev/img/quasar.jpg" />
+              <q-img class="rounded-borders col-3 full-height" src="https://cdn.quasar.dev/img/parallax1.jpg" />
+              <q-img class="rounded-borders col-3 full-height" src="https://cdn.quasar.dev/img/linux-avatar.png" />
+            </div>
+          </q-carousel-slide>
+        </q-carousel>
+      </div>
+    </section>
+
+    <!-- CAMPEONATOS -->
+    <section id="campeonatos">
+      <CampeonatoComponente />
+    </section>
+
+    <section id="youTube">
+      <h1 class="text-h2 text-uppercase montserratExtraBold text-weight-bold text-center text-white q-my-none q-py-xl">
+        YouTube</h1>
+      <div class="row flex justify-center youtubeContainer">
+        <div class="col-12">
+          <div class="q-pa-md">
+            <q-video :ratio="16 / 9" src="https://www.youtube.com/embed/xJi7K8IzOfc" />
+          </div>
+        </div>
+      </div>
+    </section>
+
 
     <!-- FOOTER -->
     <section id="footer" class="q-py-lg">
@@ -225,12 +265,12 @@ const autoplay = ref(true)
   background-color: black;
 
   .youtubeContainer {
-    max-width: 960px;
+    max-width: 1100px;
     margin: 0 auto;
   }
 }
 
-#gallery {
+#novedades {
   position: relative;
   height: 100vh;
 
@@ -305,7 +345,7 @@ const autoplay = ref(true)
 @media screen and (min-width: 1279.98px) {}
 
 @media screen and (min-width: 1365.98px) {
-  #gallery {
+  #novedades {
 
     .gallery {
 
@@ -318,7 +358,7 @@ const autoplay = ref(true)
 }
 
 @media screen and (min-width: 1599.98px) {
-  #gallery {
+  #novedades {
 
     .gallery {
 

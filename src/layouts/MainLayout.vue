@@ -102,13 +102,13 @@ const getTorneos = async () => {
             <q-item-label caption class="text-grey-8">Ir al inicio de la web</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item clickable to="/nosotros" active-class="menu__link">
+        <q-item clickable to="#novedades">
           <q-item-section avatar>
             <q-icon name="las la-users" />
           </q-item-section>
           <q-item-section>
-            <q-item-label>Nosotros</q-item-label>
-            <q-item-label caption class="text-grey-8">Acerca de RPM Racing League</q-item-label>
+            <q-item-label>Novedades</q-item-label>
+            <q-item-label caption class="text-grey-8">Noticias en RPM Racing League</q-item-label>
           </q-item-section>
         </q-item>
         <q-item clickable to="#campeonatos">
@@ -130,7 +130,7 @@ const getTorneos = async () => {
             <q-item-label caption class="text-grey-8">YouTube - Imagenes</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item clickable target="_blank" rel="noopener" href="https://www.youtube.com/@rpmracingleague7342"
+        <q-item clickable target="_blank" rel="noopener" href="https://www.youtube.com/@rpmracingleague7342/streams"
           active-class="menu__link">
           <q-item-section avatar>
             <q-icon name="lab la-youtube" />
@@ -213,6 +213,16 @@ const getTorneos = async () => {
             <q-item-label caption class="text-grey-8">Visualizar Tablas de Posiciones</q-item-label>
           </q-item-section>
         </q-item>
+
+        <q-item v-if="item.isAdmin" clickable to="/administrar-noticias" class="text-orange-6" active-class="menu__link">
+          <q-item-section avatar>
+            <q-icon name="las la-info-circle" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Noticias</q-item-label>
+            <q-item-label caption class="text-grey-8">Cargar nuevas Noticias o Eventos</q-item-label>
+          </q-item-section>
+        </q-item>
       </q-list>
     </q-drawer>
 
@@ -249,7 +259,7 @@ const getTorneos = async () => {
 
 #main__container.q-page-container {
   padding-top: 0 !important;
-  
+
 }
 
 .header__nav {
