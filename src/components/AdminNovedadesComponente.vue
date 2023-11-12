@@ -7,7 +7,6 @@ const useApi = useApiStore()
 const $q = useQuasar()
 
 const titulo = ref('')
-const subtitulo = ref('')
 const noticia = ref('')
 const imagen = ref([])
 
@@ -31,7 +30,6 @@ const tituloRules = [
 const subirNoticia = async () => {
 
   console.log(titulo.value);
-  console.log(subtitulo.value);
   console.log(noticia.value);
   console.log(imagen.value);
   // const formData = new FormData(uploadNews)
@@ -41,7 +39,6 @@ const subirNoticia = async () => {
 
 const onReset = () => {
   titulo.value = null;
-  subtitulo.value = null;
   noticia.value = null;
   imagen.value = null;
 };
@@ -61,9 +58,6 @@ const onReset = () => {
         <div class="row flex justify-evenly">
           <div class="col-12">
             <q-input type="text" counter :rules="tituloRules" dense color="cyan-6" v-model.trim="titulo" label="Titulo"
-              hint="Hasta 20 caracteres" lazy-rules />
-
-            <q-input type="text" dense color="cyan-6" v-model.trim="subtitulo" label="Subtitulo"
               hint="Hasta 20 caracteres" lazy-rules />
 
             <q-input class="q-my-md" color="cyan-6" label="Descripción de la Noticia" v-model="noticia"
@@ -89,25 +83,6 @@ const onReset = () => {
                 </template>
               </q-file>
             </div>
-
-            <!-- <div class="form-group q-mb-md">
-              <q-file filled dense bottom-slots counter name="imagen" v-model="imagen" label="Buscar imagen" max-files="1"
-                accept=".jpg,.png" max-file-size="1024">
-                <template v-slot:before>
-                  <q-icon name="attachment" />
-                </template>
-
-                <template v-slot:append>
-                  <q-icon v-if="imagen !== null" name="close" @click.stop.prevent="imagen = null"
-                    class="cursor-pointer" />
-                  <q-icon name="search" @click.stop.prevent />
-                </template>
-
-                <template v-slot:hint>
-                  Formatos: .jpg .png - Resolucion: 1920px x 1080px - Peso: 1Mb
-                </template>
-              </q-file>
-            </div> -->
           </div>
         </div>
 

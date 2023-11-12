@@ -1,10 +1,9 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import { useApiStore } from 'src/stores/api';
-import { useQuasar } from 'quasar'
-
+// import { useQuasar } from 'quasar'
 const useApi = useApiStore()
-const $q = useQuasar()
+// const $q = useQuasar()
 
 let selTorneo = ref('')
 const fecha = ref('')
@@ -13,20 +12,28 @@ const archivo = ref([])
 let ordenFecha = ref(null)
 let idSelTorneo = ref(null)
 let idToCalendar = ref(null)
-
-const optionsRace = [
-    { label: 'Estandar', value: 'estandar' },
-    { label: 'Serie 1', value: 'serie1' },
-    { label: 'Serie 2', value: 'serie2' },
-    { label: 'Serie 3', value: 'serie3' },
-    { label: 'Carrera Corta 1', value: 'carreracorta1' },
-    { label: 'Carrera Corta 2', value: 'carreracorta2' },
-]
+const sesiones = ref([])
 
 onMounted(async () => {
     torneosApi()
     await useApi.loginApi()
+    await racesTypes()
 })
+
+const racesTypes = async () => {
+    const tiposDeCarrera = await useApi.getTipoCarrera(JSON.parse(localStorage.getItem('token')))
+
+    const options = [];
+
+    tiposDeCarrera.forEach(item => {
+
+        options.push({ label: `${item}`.toUpperCase(), value: `${item}` })
+
+
+    })
+
+    sesiones.value = options
+}
 
 ///////////////////////////////////////////////////////////////
 
@@ -44,7 +51,6 @@ const torneosApi = async () => {
         idTorneo.push(torneo.id)
     })
 
-
 }
 
 const newSelTorneo = async () => {
@@ -54,7 +60,6 @@ const newSelTorneo = async () => {
     const elem = torneos.filter(item => item.name == selTorneo.value)
 
     elem.forEach(item => {
-        console.log(elem)
         idToCalendar = item.id
         selTorneo = item.name
         idSelTorneo = item.id
@@ -109,20 +114,22 @@ const columns = [
                 <div class="row flex justify-evenly">
                     <div class="col-12">
                         <div class="form-group q-mb-md">
-                            <q-select @update:model-value="newSelTorneo" options-cover filled dense name="selTorneo" v-model="selTorneo"
-                                :options="useApi.torneoOpt" label="Torneo" color="red-13"
+                            <q-select @update:model-value="newSelTorneo" options-cover filled dense name="selTorneo"
+                                v-model="selTorneo" :options="useApi.torneoOpt" label="Torneo" color="red-13"
                                 label-color="red-13" item-aligned />
                             <input type="hidden" name="torneo" v-model="idSelTorneo">
                         </div>
 
                         <div class="form-group q-mb-md">
-                            <q-select filled dense name="numeroFecha" options-cover v-model="fecha" color="red-13" label-color="red-13"
-                                item-aligned :options="useApi.fechasOpt" :hint="useApi.calendarOpt[fecha - 1]"
-                                label="Fecha" />
+                            <q-select filled dense name="numeroFecha" options-cover v-model="fecha" color="red-13"
+                                label-color="red-13" item-aligned :options="useApi.fechasOpt"
+                                :hint="useApi.calendarOpt[fecha - 1]" label="Fecha" />
                         </div>
 
                         <div class="form-group q-mb-md">
-                            <q-select filled dense name="tipoCarrera" options-cover emit-value v-model="tipoCarrera" color="red-13" label-color="red-13" item-aligned :options="optionsRace" label="Tipo de Carrera" />
+                            <q-select filled dense name="tipoCarrera" options-cover emit-value v-model="tipoCarrera"
+                                color="red-13" label-color="red-13" item-aligned :options="sesiones"
+                                label="Tipo de Carrera" />
 
                         </div>
 

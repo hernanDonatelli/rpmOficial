@@ -98,6 +98,7 @@ export const useApiStore = defineStore('useApiStore', {
 
         })
     },
+
     async getCalendarioHomeApi(token, idTorneo) {
       const optionsCalendario = {
         method: "POST",
@@ -564,6 +565,23 @@ export const useApiStore = defineStore('useApiStore', {
       // this.posicionesTorneos.push(respuesta.data[0])
 
       return respuesta.data[0]
+
+    },
+
+    async getTipoCarrera(token) {
+      const optionsTipoCarrera = {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      }
+
+      const getTipoCarrera = await fetch(`https://rpm.studioatlantic.com.ar/pezls/public/api/v1/tiposDeCarrera`, optionsTipoCarrera);
+      const respuesta = await getTipoCarrera.json();
+
+      return respuesta;
 
     },
   }
