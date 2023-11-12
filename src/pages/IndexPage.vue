@@ -1,7 +1,14 @@
 <script setup>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import CounterComponent from '../components/CounterComponent.vue'
 import CampeonatoComponente from '../components/CampeonatoComponente.vue'
+import { useApiStore } from 'src/stores/api'
+
+const useApi = useApiStore()
+
+onMounted(() => {
+  useApi.getNoticiasApi(JSON.parse(localStorage.getItem('token')))
+})
 
 const slide = ref(1)
 const slideSponsor = ref(1)
@@ -67,39 +74,17 @@ const autoplaySponsor = ref(true)
         <q-carousel swipeable animated v-model="slide" :autoplay="autoplay" @mouseenter="autoplay = false"
           @mouseleave="autoplay = true" thumbnails infinite>
 
-          <q-carousel-slide :name="1" img-src="https://www.rpmracingleague.net/images/galeria_Indy%20Cars%20Clausura%202023.png">
-            <div class="absolute-bottom custom-caption">
-              <div class="text-h4 text-white text-uppercase text-bold">First stop</div>
-              <div class="text-caption">
-                <span class="text-white">
-                  Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-                  industry's standard dummy text ever since the 1400s, when an unknown printer took a galley of type and
-                  scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap
-                  into electronic typesetting, remaining essentially unchanged.
-                </span>
-              </div>
-            </div>
-          </q-carousel-slide>
 
-          <q-carousel-slide :name="2" img-src="https://cdn.quasar.dev/img/parallax1.jpg">
-            <div class="absolute-bottom custom-caption">
-              <div class="text-h4 text-white text-uppercase text-bold">Second stop</div>
-              <div class="text-caption">
-                <span class="text-white">
-                  Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-                  industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
-                  scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap
-                  into electronic typesetting, remaining essentially unchanged.
-                </span>
+            <q-carousel-slide v-for="(noticia, index) in useApi.noticias" :key="index" :name="index" :img-src="`https://rpm.studioatlantic.com.ar/pezls/storage/app/public/images/galery/${noticia.image}`">
+              <div class="absolute-bottom custom-caption">
+                <div class="text-h4 text-white text-uppercase text-bold">{{ noticia.title }}</div>
+                <div class="text-caption">
+                  <span class="text-white">
+                    {{ noticia.text }}
+                  </span>
+                </div>
               </div>
-            </div>
-          </q-carousel-slide>
-          <q-carousel-slide :name="3" img-src="https://cdn.quasar.dev/img/parallax2.jpg" />
-          <q-carousel-slide :name="4" img-src="https://cdn.quasar.dev/img/quasar.jpg" />
-          <q-carousel-slide :name="5" img-src="https://cdn.quasar.dev/img/mountains.jpg" />
-          <q-carousel-slide :name="6" img-src="https://cdn.quasar.dev/img/parallax1.jpg" />
-          <q-carousel-slide :name="7" img-src="https://cdn.quasar.dev/img/parallax2.jpg" />
-          <q-carousel-slide :name="8" img-src="https://cdn.quasar.dev/img/quasar.jpg" />
+            </q-carousel-slide>
 
         </q-carousel>
       </div>

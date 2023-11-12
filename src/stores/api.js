@@ -19,6 +19,7 @@ export const useApiStore = defineStore('useApiStore', {
     tablasHome: [],
     posicionesTorneos: [],
     noTabla: '',
+    noticias: [],
     url: 'https://rpm.studioatlantic.com.ar/pezls/public/api/v1'
   }),
   actions: {
@@ -583,6 +584,155 @@ export const useApiStore = defineStore('useApiStore', {
 
       return respuesta;
 
+    },
+
+    async getNoticiasApi(token) {
+      const optionsNoticias = {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      }
+
+      const getNoticias = await fetch(`https://rpm.studioatlantic.com.ar/pezls/public/api/v1/novedades`, optionsNoticias);
+      const respuesta = await getNoticias.json();
+
+      this.noticias = respuesta
+
+    },
+
+    async createNoticiasApi(token, data) {
+      const optionsCreateNoticia = {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'X-Requested-With': 'XMLHttpRequest',
+          Authorization: `Bearer ${token}`
+        },
+        body: data
+      };
+
+      await fetch('https://rpm.studioatlantic.com.ar/pezls/public/api/v1/novedades', optionsCreateNoticia)
+        .then((res) => res.json())
+        .then(response => {
+
+          if (response.success) {
+            Notify.create({
+              color: "teal-14",
+              textColor: "white",
+              icon: "done",
+              html: true,
+              position: "center",
+              message: `<span style='text-align: center;'>${response.message}</span>`,
+              timeout: 3000
+            });
+
+          } else {
+            Notify.create({
+              color: "red-13",
+              textColor: "white",
+              icon: "warning",
+              html: true,
+              position: "center",
+              message: `<span style='text-align: center;'>${response.message}</span>`,
+              timeout: 3000
+            });
+          }
+        })
+
+    },
+
+    async editNoticiaApi(token, id, noticiaEditada) {
+
+      const optionsEditNews = {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(noticiaEditada)
+      };
+
+      try {
+
+        await fetch(`https://rpm.studioatlantic.com.ar/pezls/public/api/v1/novedades/${id}`, optionsEditNews)
+          .then((res) => res.json())
+          .then(data => {
+
+            if (data.success) {
+              Notify.create({
+                color: "teal-14",
+                textColor: "white",
+                icon: "cloud_done",
+                html: true,
+                position: "center",
+                message: `<span style='text-align: center;'>${data.message}</span>`,
+                timeout: 3000
+              });
+
+
+            } else {
+              Notify.create({
+                color: "red-13",
+                textColor: "white",
+                icon: "warning",
+                html: true,
+                position: "center",
+                message: `<span style='text-align: center;'>${data.message}</span>`,
+                timeout: 3000
+              });
+            }
+          })
+
+
+      } catch (error) {
+        console.log(error);
+      }
+
+    },
+
+    async deleteNoticiaApi(token, id) {
+      const optionsDeleteNoticia = {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        },
+        // body: `{"id": "${id}"}`
+      };
+
+      await fetch(`https://rpm.studioatlantic.com.ar/pezls/public/api/v1/novedades/${id}`, optionsDeleteNoticia)
+        .then((res) => res.json())
+        .then(data => {
+          
+          if (data === 1) {
+
+            Notify.create({
+              color: "teal-14",
+              textColor: "white",
+              icon: "cloud_done",
+              html: true,
+              position: "center",
+              message: `<span style='text-align: center;'>Noticia eliminada exitosamente</span>`,
+              timeout: 3000
+            });
+
+          } else {
+            Notify.create({
+              color: "red-13",
+              textColor: "white",
+              icon: "warning",
+              html: true,
+              position: "center",
+              message: `<span style='text-align: center;'>Ha ocurrido un error. La noticia no pudo ser eliminada.</span>`,
+              timeout: 3000
+            });
+          }
+        })
     },
   }
 })
