@@ -215,7 +215,7 @@ const columns = [
                         </div>
                         <div class="form-group q-mb-md">
                             <q-file filled dense bottom-slots name="imagen" v-model="imagen" label="Buscar imagen" counter
-                                max-files="1" accept=".jpg,.png">
+                                max-files="1" accept=".jpg,.png,.jpeg">
                                 <template v-slot:before>
                                     <q-icon name="attachment" />
                                 </template>
@@ -227,7 +227,7 @@ const columns = [
                                 </template>
 
                                 <template v-slot:hint>
-                                    Formatos: .jpg .png
+                                    Formatos: .jpg .png .jpeg
                                 </template>
                             </q-file>
                         </div>

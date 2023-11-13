@@ -106,7 +106,7 @@ const columns = [
     <!-- <q-spinner-gears v-if="apiStore.loadingSession" color="primary" size="6em" /> -->
     <section id="torneo">
         <div class="hero__champ" :style="{
-            backgroundImage: `repeating-linear-gradient(#00000005, rgba(0, 0, 0, 0)),url(https://rpmracingleague.net/images/laravel-torneos/${apiStore.torneo.image})`,
+            backgroundImage: `repeating-linear-gradient(#00000005, rgba(0, 0, 0, 0)),url(https://rpm.studioatlantic.com.ar/pezls/storage/app/public/images/tournament/${apiStore.torneo.image})`,
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center left'

@@ -1,8 +1,10 @@
 <script setup>
 import CounterComponent from '../components/CounterComponent.vue'
 import { useApiStore } from 'src/stores/api';
+import { useUserStore } from 'src/stores/user'
 import { onBeforeUpdate, ref } from 'vue';
 const apiStore = useApiStore();
+const userStore = useUserStore();
 
 const yearCounter = ref(2023)
 const monthCounter = ref(8)
@@ -47,7 +49,7 @@ const fechaCountdown = async (id) => {
     arrObjFecha.push(newObj)
 
   })
-console.log(arrObjFecha);
+  console.log(arrObjFecha);
   return arrObjFecha
 
 }
@@ -58,7 +60,7 @@ console.log(arrObjFecha);
 
 <template>
   <div v-for="(torneo, index) in apiStore.torneos" :key="index" class="torneo" :style="{
-    backgroundImage: `repeating-linear-gradient(#00000005, rgba(0, 0, 0, 0)),url(https://rpmracingleague.net/images/laravel-torneos/${torneo.image})`,
+    backgroundImage: `repeating-linear-gradient(#00000005, rgba(0, 0, 0, 0)),url(https://rpm.studioatlantic.com.ar/pezls/storage/app/public/images/tournament/${torneo.image})`,
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
     backgroundPosition: 'center'
@@ -67,15 +69,16 @@ console.log(arrObjFecha);
       <div class="overlay"></div>
 
       <!-- Cabecera de torneo -->
-      <div class="torneo__header flex justify-between items-center row-md">
+      <div class="torneo__header flex justify-between items-start row-md">
         <div
           class="titleLogo column justify-center items-center justify-sm-center col-12 col-sm-6 column-md justify-md-start">
-          <h3 class="text-h3 text-center text-uppercase montserratExtraBold text-white q-my-none q-pl-md">{{ torneo.name }}
+          <h3 class="text-h3 text-center text-uppercase montserratExtraBold text-white q-my-none q-pl-md">{{ torneo.name
+          }}
           </h3>
           <p class="text-h5 text-grey-8 q-mb-none text-center">({{ torneo.simulator }})</p>
         </div>
-        <div class="buttons flex row justify-around items-center q-mt-md col-sm-6 col-md-6 justify-md-end">
-          <q-btn class="q-mx-lg q-my-xs btn-links col-8 col-sm-6 col-md-3" icon="lab la-wpforms" outline
+        <div class="buttons flex row justify-around items-center col-sm-6 col-md-6 justify-md-end">
+          <q-btn v-if="userStore.userData != null" class="q-mx-lg q-my-xs btn-links col-8 col-sm-6 col-md-3" icon="lab la-wpforms" outline
             style="color: lightgrey;" label="Inscripción" />
           <q-btn :to="`torneo/${torneo.id}`" class="q-mx-lg q-my-xs btn-links col-8 col-sm-6 col-md-3"
             icon="las la-trophy" outline style="color: lightgrey;" label="Campeonato" />
@@ -126,8 +129,7 @@ console.log(arrObjFecha);
 
   .torneo {
     position: relative;
-    height: 100vh;
-    padding-top: 72px;
+    // height: 50vh;
 
     .torneo-container {
       width: 100%;
@@ -162,7 +164,7 @@ console.log(arrObjFecha);
       position: relative;
       z-index: 20;
       width: 100%;
-      margin: 2rem 0;
+      margin: 0 0 2rem;
 
       h5 {
         width: 100%;

@@ -42,10 +42,10 @@ const getResultsFecha = async (idTorneo, orden) => {
         <div class="q-pa-md q-gutter-sm">
             <q-btn label="Maximized" color="primary" @click="dialog = true" />
 
-            <q-dialog v-model="dialog" persistent :maximized="maximizedToggle" transition-show="scale"
-                transition-hide="scale">
+            <q-dialog v-model="dialog" :maximized="maximizedToggle" transition-show="scale"
+                transition-hide="scale" transition-duration="750">
 
-                <q-card class="bg-blue-grey-1 text-white">
+                <q-card style="max-width: 90vw;" class="bg-blue-grey-1 text-white">
                     <q-bar>
                         <q-space />
 

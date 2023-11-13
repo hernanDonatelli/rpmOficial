@@ -110,7 +110,7 @@ const onReset = () => {
               hint="Hasta 20 caracteres" lazy-rules />
 
             <q-input class="q-my-md" color="cyan-6" label="Descripción de la Noticia" v-model="texto"
-              hint="400 caracteres máximo." filled type="textarea" counter :rules="noticiaRules" />
+              hint="255 caracteres máximo." filled type="textarea" counter :rules="noticiaRules" />
 
             <div class="form-group q-mb-md">
               <q-file filled dense bottom-slots name="imagen" v-model="imagen" label="Buscar imagen" counter max-files="1"
@@ -126,9 +126,9 @@ const onReset = () => {
                 </template>
 
                 <template v-slot:hint>
-                  <p class="q-mb-none q-py-xs">Formatos: .jpg .png</p>
+                  <p class="q-mb-none q-py-xs">Formatos: .jpg .png .jpeg</p>
                   <p class="q-mb-none q-py-xs">Resolucion: 1920x1080</p>
-                  <p class="q-mb-none q-py-xs">Peso maximo: 1Mb</p>
+                  <p class="q-mb-none q-py-xs">Peso maximo: 5Mb</p>
                 </template>
               </q-file>
             </div>

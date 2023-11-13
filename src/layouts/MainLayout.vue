@@ -12,15 +12,15 @@ const router = useRouter()
 const userStore = useUserStore()
 const databaseStore = userDatabaseStore()
 
-const leftDrawerOpen = ref(false)
+const drawer = ref(false)
 
 const getTorneosStore = ref([])
 
 
 //Menu lateral
-const toggleLeftDrawer = () => {
-  leftDrawerOpen.value = !leftDrawerOpen.value
-}
+// const toggleLeftDrawer = () => {
+//   leftDrawerOpen.value = !leftDrawerOpen.value
+// }
 
 onMounted(async () => {
   userStore.currentUserLog();
@@ -58,10 +58,10 @@ const getTorneos = async () => {
 </script>
 
 <template>
-  <q-layout id="home" view="hHh lpR fFf">
-    <q-header class="header__nav">
+  <q-layout id="home" view="hHh LpR fFf">
+    <q-header elevated class="header__nav">
       <q-toolbar>
-        <q-btn class="text-red-13" flat dense round @click="toggleLeftDrawer" aria-label="Menu" icon="las la-bars" />
+        <q-btn class="text-red-13" flat dense round @click="drawer = !drawer" aria-label="Menu" icon="las la-bars" />
 
         <q-toolbar-title class="text-red-13 flex column items-center row-sm justify-sm-between">
           <h4 class="q-my-none text-h5 text-weight-light"><span>RPM</span>RacingLeague</h4>
@@ -90,7 +90,7 @@ const getTorneos = async () => {
       </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="leftDrawerOpen" side="left" overlay show-if-above elevated class="drawer__menu">
+    <q-drawer v-model="drawer" side="left" elevated class="drawer__menu">
       <q-list>
         <q-item-label header>Menu</q-item-label>
         <q-item clickable to="/" class="text-white" active-class="menu__link" exact>

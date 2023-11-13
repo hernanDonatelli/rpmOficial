@@ -156,7 +156,7 @@ const columns = [
 
                 <div class="row q-mt-xl">
                     <div class="col-12 text-center">
-                        <q-btn class="q-mr-lg" type="submit" color="teal-14" text-color="white" label="Crear Fecha" />
+                        <q-btn class="q-mr-lg" type="submit" color="teal-14" text-color="white" label="Subir Resultado" />
                         <q-btn class="q-ml-lg" type="reset" color="red-13" text-color="white" label="Limpiar Campos" />
                     </div>
                 </div>
