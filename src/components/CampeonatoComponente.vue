@@ -110,7 +110,7 @@ const fechaCountdown = async (id) => {
             </thead>
             <tbody v-for="(value, key, index) in torneo.posiciones" :key="index">
               <tr v-if="index >= 0 && index < 5">
-                <td class="text-center">{{ JSON.parse(value).posicion }}</td>
+                <td class="text-center q-pt-none">{{ JSON.parse(value).posicion }}</td>
                 <td class="text-center">{{ key }}</td>
                 <td class="text-center">{{ JSON.parse(value).puntos }}</td>
 
@@ -175,6 +175,14 @@ const fechaCountdown = async (id) => {
         border-bottom: 1px solid $grey-10;
       }
 
+      .q-table--dense .q-table td{
+        padding: 0 8px !important;
+        border-bottom: 1px solid rgba(222, 222, 222, .3);
+      }
+      .q-table--dense .q-table thead tr th{
+        border-bottom: 1px solid rgba(222, 222, 222, .3);
+      }
+
       .q-table__card {
         background-color: transparent;
         color: $grey-13;
@@ -201,7 +209,7 @@ const fechaCountdown = async (id) => {
       width: 100%;
       height: 100%;
       background-color: #000000;
-      opacity: .9;
+      opacity: .8;
       z-index: 10;
     }
   }
@@ -236,7 +244,7 @@ const fechaCountdown = async (id) => {
   }
 
   #campeonatos .torneo__header .buttons {
-    width: 60%;
+    width: 62%;
   }
 
   #campeonatos .torneo__header .titleLogo {

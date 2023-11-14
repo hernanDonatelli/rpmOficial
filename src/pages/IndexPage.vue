@@ -28,7 +28,7 @@ const autoplaySponsor = ref(true)
       <div class="hero__capa"></div>
 
       <div class="hero__countdown">
-        <p class="text-grey-13 text-center q-my-none text-weight-light ">Proximo Evento</p>
+        <p class="text-grey-13 text-center q-my-none text-weight-light">Proximo Evento</p>
         <h1 class="text-h3 text-uppercase montserratExtraBold text-center text-red-13 q-my-none">Termas de Rio Hondo</h1>
 
         <CounterComponent :year="2023" :month="11" :date="27" :hour="22" :minutes="0" :seconds="0" />
@@ -92,39 +92,45 @@ const autoplaySponsor = ref(true)
 
     <!-- SPONSORS -->
     <section id="sponsors">
-      <h1 class="text-h2 text-uppercase montserratExtraBold text-weight-bold text-center text-black q-my-none q-py-xl">
-        Sponsors</h1>
+      <div class="row flex items-center q-py-xl">
 
-      <div class="q-pa-md">
-        <q-carousel v-model="slideSponsor" transition-prev="slide-right" transition-next="slide-left" infinite
-          :autoplay="autoplaySponsor" swipeable animated height="300px">
+        <div class="col-8">
+          <div class="q-pa-md">
+            <q-carousel class="bg-black" v-model="slideSponsor" transition-prev="slide-right" transition-next="slide-left" infinite
+              :autoplay="autoplaySponsor" swipeable animated height="200px">
 
-          <q-carousel-slide :name="1" class="column no-wrap">
-            <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap">
-              <q-img class="rounded-borders col-3 full-height" src="https://cdn.quasar.dev/img/mountains.jpg" />
-              <q-img class="rounded-borders col-3 full-height" src="https://cdn.quasar.dev/img/cat.jpg" />
-              <q-img class="rounded-borders col-3 full-height" src="https://cdn.quasar.dev/img/quasar.jpg" />
-              <q-img class="rounded-borders col-3 full-height" src="https://cdn.quasar.dev/img/parallax1.jpg" />
-            </div>
-          </q-carousel-slide>
-          <q-carousel-slide :name="2" class="column no-wrap">
-            <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap">
-              <q-img class="rounded-borders col-3 full-height" src="https://cdn.quasar.dev/img/parallax2.jpg" />
-              <q-img class="rounded-borders col-3 full-height" src="https://cdn.quasar.dev/img/quasar.jpg" />
-              <q-img class="rounded-borders col-3 full-height" src="https://cdn.quasar.dev/img/cat.jpg" />
-              <q-img class="rounded-borders col-3 full-height" src="https://cdn.quasar.dev/img/linux-avatar.png" />
-            </div>
-          </q-carousel-slide>
-          <q-carousel-slide :name="3" class="column no-wrap">
-            <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap">
-              <q-img class="rounded-borders col-3 full-height" src="https://cdn.quasar.dev/img/mountains.jpg" />
-              <q-img class="rounded-borders col-3 full-height" src="https://cdn.quasar.dev/img/quasar.jpg" />
-              <q-img class="rounded-borders col-3 full-height" src="https://cdn.quasar.dev/img/parallax1.jpg" />
-              <q-img class="rounded-borders col-3 full-height" src="https://cdn.quasar.dev/img/linux-avatar.png" />
-            </div>
-          </q-carousel-slide>
-        </q-carousel>
+              <q-carousel-slide :name="1" class="column no-wrap">
+                <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap">
+                  <q-img class="rounded-borders col-4 full-height" src="https://cdn.quasar.dev/img/mountains.jpg" />
+                  <q-img class="rounded-borders col-4 full-height" src="https://cdn.quasar.dev/img/cat.jpg" />
+                  <q-img class="rounded-borders col-4 full-height" src="https://cdn.quasar.dev/img/quasar.jpg" />
+                </div>
+              </q-carousel-slide>
+              <q-carousel-slide :name="2" class="column no-wrap">
+                <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap">
+                  <q-img class="rounded-borders col-4 full-height" src="https://cdn.quasar.dev/img/parallax2.jpg" />
+                  <q-img class="rounded-borders col-4 full-height" src="https://cdn.quasar.dev/img/quasar.jpg" />
+                  <q-img class="rounded-borders col-4 full-height" src="https://cdn.quasar.dev/img/cat.jpg" />
+                </div>
+              </q-carousel-slide>
+              <q-carousel-slide :name="3" class="column no-wrap">
+                <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap">
+                  <q-img class="rounded-borders col-4 full-height" src="https://cdn.quasar.dev/img/mountains.jpg" />
+                  <q-img class="rounded-borders col-4 full-height" src="https://cdn.quasar.dev/img/quasar.jpg" />
+                  <q-img class="rounded-borders col-4 full-height" src="https://cdn.quasar.dev/img/parallax1.jpg" />
+                </div>
+              </q-carousel-slide>
+            </q-carousel>
+          </div>
+
+        </div>
+
+        <div class="col-4">
+          <h1 class="text-h2 text-uppercase montserratExtraBold text-weight-bold text-center text-white q-my-none q-py-xl">
+            Sponsors</h1>
+        </div>
       </div>
+
     </section>
 
     <!-- CAMPEONATOS -->
@@ -211,7 +217,7 @@ const autoplaySponsor = ref(true)
     width: 100%;
     height: 100%;
     background: black;
-    opacity: 0.85;
+    opacity: 0.3;
   }
 
   &__countdown {
@@ -221,7 +227,7 @@ const autoplaySponsor = ref(true)
     width: 100%;
     height: auto;
     align-items: stretch;
-    background-color: rgba($color: #000000, $alpha: .6);
+    background-color: rgba($color: #000000, $alpha: .8);
 
     &__regresiveCero {
       font-family: 'Roboto';
@@ -304,6 +310,10 @@ const autoplaySponsor = ref(true)
     transform: translate(-50%, 0);
     z-index: 30;
   }
+}
+
+#sponsors{
+  background-color: #000000;
 }
 
 #footer {

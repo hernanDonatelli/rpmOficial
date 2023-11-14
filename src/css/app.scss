@@ -13,6 +13,11 @@
   src: url(./fonts/Montserrat-ExtraBold.ttf);
 }
 
+@font-face {
+  font-family: 'EdgarBold', sans-serif;
+  src: url(./fonts/OPTIEdgarBold-Extended.otf);
+}
+
 .fontCustomTitle{
   font-family: 'Roboto Condensed Italic';
 }
@@ -23,3 +28,8 @@
   font-family: 'Montserrat', sans-serif;
   font-weight: 800;
 }
+.edgarBold{
+  font-family: 'EdgarBold', sans-serif;
+  font-weight: 800;
+}
+
