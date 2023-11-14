@@ -65,79 +65,97 @@ const fechaCountdown = async (id) => {
     backgroundSize: 'cover',
     backgroundPosition: 'center'
   }">
-    <div class="torneo-container">
-      <div class="overlay"></div>
+    <div class="champ-container q-mb-lg">
+      <div class="torneo-container">
+        <div class="overlay"></div>
 
-      <!-- Cabecera de torneo -->
-      <div class="torneo__header flex justify-between items-start row-md">
-        <div
-          class="titleLogo column justify-center items-center justify-sm-center col-12 col-sm-6 column-md justify-md-start">
-          <h3 class="text-h3 text-center text-uppercase montserratExtraBold text-white q-my-none q-pl-md">{{ torneo.name
-          }}
-          </h3>
-          <p class="text-h5 text-grey-8 q-mb-none text-center">({{ torneo.simulator }})</p>
+        <!-- Cabecera de torneo -->
+        <div class="torneo__header flex justify-between items-start row-md">
+          <div
+            class="titleLogo column justify-center items-center justify-sm-center col-12 col-sm-6 column-md justify-md-start">
+            <h3 class="text-center text-uppercase montserratExtraBold text-white q-my-none q-pl-md">{{ torneo.name
+            }}
+            </h3>
+            <p class="text-h5 text-grey-8 q-mb-none text-center">({{ torneo.simulator }})</p>
+          </div>
+          <div class="buttons flex row justify-around items-center col-sm-6 col-md-6 justify-md-end">
+            <q-btn v-if="userStore.userData != null" class="q-mx-lg q-my-xs btn-links col-8 col-sm-6 col-md-3"
+              icon="lab la-wpforms" outline style="color: lightgrey;" label="Inscripción" />
+            <q-btn :to="`torneo/${torneo.id}`" class="q-mx-lg q-my-xs btn-links col-8 col-sm-6 col-md-3"
+              icon="las la-trophy" outline style="color: lightgrey;" label="Campeonato" />
+            <q-btn class="q-mx-lg q-my-xs btn-links col-8 col-sm-6 col-md-3" icon="las la-external-link-alt" outline
+              style="color: lightgrey;" label="Foro" />
+          </div>
         </div>
-        <div class="buttons flex row justify-around items-center col-sm-6 col-md-6 justify-md-end">
-          <q-btn v-if="userStore.userData != null" class="q-mx-lg q-my-xs btn-links col-8 col-sm-6 col-md-3" icon="lab la-wpforms" outline
-            style="color: lightgrey;" label="Inscripción" />
-          <q-btn :to="`torneo/${torneo.id}`" class="q-mx-lg q-my-xs btn-links col-8 col-sm-6 col-md-3"
-            icon="las la-trophy" outline style="color: lightgrey;" label="Campeonato" />
-          <q-btn class="q-mx-lg q-my-xs btn-links col-8 col-sm-6 col-md-3" icon="las la-external-link-alt" outline
-            style="color: lightgrey;" label="Foro" />
+
+        <!-- Footer de torneo -->
+        <div class="footer row justify-end items-center">
+          <!-- Proxima fecha -->
+          <div class="next">
+            <p class="text-grey-13 text-center q-my-none text-weight-light ">Proximo Evento</p>
+            <h4 class="text-h4 text-uppercase text-weight-bold text-center text-red-13 q-my-none">Zandvoort GP</h4>
+
+            <CounterComponent :year="2023" :month="11" :date="30" :hour="22" :minutes="0" :seconds="0" />
+          </div>
+
+          <!-- Tabla Resumen Campeonato -->
+
+
+
+          <!-- <div class="tablePos row flex-column justify-center align-center q-pa-md">
+            <h5 class="text-h6 text-weight-bold text-grey-13 text-center q-my-none">Top 5 Posiciones</h5>
+            <q-markup-table dense>
+              <thead>
+                <tr>
+                  <th class="text-center">Posicion</th>
+                  <th class="text-center">Piloto</th>
+                  <th class="text-center">Puntos</th>
+                </tr>
+              </thead>
+              <tbody v-for="(value, key, index) in torneo.posiciones" :key="index">
+                <tr v-if="index >= 0 && index < 5">
+                  <td class="text-center q-pt-none">{{ JSON.parse(value).posicion }}</td>
+                  <td class="text-center">{{ key }}</td>
+                  <td class="text-center">{{ JSON.parse(value).puntos }}</td>
+
+                </tr>
+              </tbody>
+            </q-markup-table>
+          </div> -->
         </div>
       </div>
 
-      <!-- Footer de torneo -->
-      <div class="footer row justify-between items-center">
-        <!-- Proxima fecha -->
-        <div class="next">
-          <p class="text-grey-13 text-center q-my-none text-weight-light ">Proximo Evento</p>
-          <h4 class="text-h4 text-uppercase text-weight-bold text-center text-red-13 q-my-none">Zandvoort GP</h4>
-
-          <!-- <CounterComponent :year="torneo.fechas[0].year" :month="torneo.fechas[0].month" :date="torneo.fechas[0].day" :hour="22" :minutes="0" :seconds="0" /> -->
-        </div>
-
-        <!-- Tabla Resumen Campeonato -->
-        <div class="tablePos row flex-column justify-center align-center q-pa-md">
-          <h5 class="text-h6 text-weight-bold text-grey-13 text-center q-my-none">Top 5 Posiciones</h5>
-          <q-markup-table dense>
-            <thead>
-              <tr>
-                <th class="text-center">Posicion</th>
-                <th class="text-center">Piloto</th>
-                <th class="text-center">Puntos</th>
-              </tr>
-            </thead>
-            <tbody v-for="(value, key, index) in torneo.posiciones" :key="index">
-              <tr v-if="index >= 0 && index < 5">
-                <td class="text-center q-pt-none">{{ JSON.parse(value).posicion }}</td>
-                <td class="text-center">{{ key }}</td>
-                <td class="text-center">{{ JSON.parse(value).puntos }}</td>
-
-              </tr>
-            </tbody>
-          </q-markup-table>
-        </div>
-      </div>
     </div>
+
   </div>
 </template>
 
 <style lang="scss">
 #campeonatos {
   position: relative;
+  background-color: #000000;
+
+  .positionList{
+    position: relative;
+    list-style-type: none;
+    z-index: 50;
+    display: flex;
+    justify-content: space-around;
+  }
 
   .torneo {
     position: relative;
-    // height: 50vh;
+    max-width: 1100px;
+    margin: 0 auto;
+
 
     .torneo-container {
-      width: 100%;
-      height: 100%;
-      margin: 0 auto;
+      position: relative;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      border: 10px solid #6f6f6f;
+      z-index: 20;
     }
 
     &__header {
@@ -147,6 +165,10 @@ const fechaCountdown = async (id) => {
 
       .titleLogo {
         width: 100%;
+
+        h3{
+          font-size: 2rem;
+        }
       }
 
       .buttons {
@@ -175,11 +197,12 @@ const fechaCountdown = async (id) => {
         border-bottom: 1px solid $grey-10;
       }
 
-      .q-table--dense .q-table td{
+      .q-table--dense .q-table td {
         padding: 0 8px !important;
         border-bottom: 1px solid rgba(222, 222, 222, .3);
       }
-      .q-table--dense .q-table thead tr th{
+
+      .q-table--dense .q-table thead tr th {
         border-bottom: 1px solid rgba(222, 222, 222, .3);
       }
 
@@ -209,7 +232,7 @@ const fechaCountdown = async (id) => {
       width: 100%;
       height: 100%;
       background-color: #000000;
-      opacity: .8;
+      opacity: .6;
       z-index: 10;
     }
   }

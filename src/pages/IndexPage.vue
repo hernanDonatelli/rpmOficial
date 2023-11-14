@@ -253,6 +253,7 @@ const autoplaySponsor = ref(true)
 }
 
 #youTube {
+  margin-top: -2rem;
   background-color: black;
 
   .youtubeContainer {
