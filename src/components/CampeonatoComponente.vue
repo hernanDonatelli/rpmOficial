@@ -66,7 +66,7 @@ const fechaCountdown = async (id) => {
     backgroundPosition: 'center'
   }">
     <div class="champ-container q-mb-lg">
-      <div class="torneo-container">
+      <div class="torneo-container q-pb-lg">
         <div class="overlay"></div>
 
         <!-- Cabecera de torneo -->
@@ -76,15 +76,15 @@ const fechaCountdown = async (id) => {
             <h3 class="text-center text-uppercase montserratExtraBold text-white q-my-none q-pl-md">{{ torneo.name
             }}
             </h3>
-            <p class="text-h5 text-grey-8 q-mb-none text-center">({{ torneo.simulator }})</p>
+            <p class="text-h5 text-white q-mb-none text-center">{{ torneo.simulator }}</p>
           </div>
           <div class="buttons flex row justify-around items-center col-sm-6 col-md-6 justify-md-end">
-            <q-btn v-if="userStore.userData != null" class="q-mx-lg q-my-xs btn-links col-8 col-sm-6 col-md-3"
-              icon="lab la-wpforms" outline style="color: lightgrey;" label="Inscripción" />
-            <q-btn :to="`torneo/${torneo.id}`" class="q-mx-lg q-my-xs btn-links col-8 col-sm-6 col-md-3"
-              icon="las la-trophy" outline style="color: lightgrey;" label="Campeonato" />
-            <q-btn class="q-mx-lg q-my-xs btn-links col-8 col-sm-6 col-md-3" icon="las la-external-link-alt" outline
-              style="color: lightgrey;" label="Foro" />
+            <q-btn v-if="userStore.userData != null" class="q-mx-lg q-my-xs col-8 col-sm-6 col-md-3" icon="lab la-wpforms"
+              style="background: #00bfa5; color: #212121; font-weight: bold;" label="Inscripción" />
+            <q-btn :to="`torneo/${torneo.id}`" class="q-mx-lg q-my-xs col-8 col-sm-6 col-md-3" icon="las la-trophy"
+              style="background: #ffffff; color: #212121; font-weight: bold;" label="Campeonato" />
+            <q-btn class="q-mx-lg q-my-xs col-8 col-sm-6 col-md-3" icon="las la-external-link-alt"
+              style="background: #ffffff; color: #212121; font-weight: bold;" label="Foro" />
           </div>
         </div>
 
@@ -92,8 +92,8 @@ const fechaCountdown = async (id) => {
         <div class="footer row justify-end items-center">
           <!-- Proxima fecha -->
           <div class="next">
-            <p class="text-grey-13 text-center q-my-none text-weight-light ">Proximo Evento</p>
-            <h4 class="text-h4 text-uppercase text-weight-bold text-center text-red-13 q-my-none">Zandvoort GP</h4>
+            <p class="text-white text-uppercase text-center q-my-none text-weight-light">Proximo Evento</p>
+            <h4 class="edgarBold text-h5 text-uppercase text-center text-teal-13 q-my-none">Hungaroring</h4>
 
             <CounterComponent :year="2023" :month="11" :date="30" :hour="22" :minutes="0" :seconds="0" />
           </div>
@@ -135,7 +135,7 @@ const fechaCountdown = async (id) => {
   position: relative;
   background-color: #000000;
 
-  .positionList{
+  .positionList {
     position: relative;
     list-style-type: none;
     z-index: 50;
@@ -166,7 +166,7 @@ const fechaCountdown = async (id) => {
       .titleLogo {
         width: 100%;
 
-        h3{
+        h3 {
           font-size: 2rem;
         }
       }
@@ -182,47 +182,12 @@ const fechaCountdown = async (id) => {
 
     }
 
-    .tablePos {
-      position: relative;
-      z-index: 20;
-      width: 100%;
-      margin: 0 0 2rem;
-
-      h5 {
-        width: 100%;
-      }
-
-      .q-table th,
-      .q-table td {
-        border-bottom: 1px solid $grey-10;
-      }
-
-      .q-table--dense .q-table td {
-        padding: 0 8px !important;
-        border-bottom: 1px solid rgba(222, 222, 222, .3);
-      }
-
-      .q-table--dense .q-table thead tr th {
-        border-bottom: 1px solid rgba(222, 222, 222, .3);
-      }
-
-      .q-table__card {
-        background-color: transparent;
-        color: $grey-13;
-        box-shadow: none;
-        width: 100%;
-      }
-    }
-
     .next {
       width: 100%;
       position: relative;
       z-index: 20;
       margin-top: 2rem;
 
-      p {
-        letter-spacing: .75rem;
-      }
     }
 
     .overlay {
@@ -232,7 +197,7 @@ const fechaCountdown = async (id) => {
       width: 100%;
       height: 100%;
       background-color: #000000;
-      opacity: .6;
+      opacity: .75;
       z-index: 10;
     }
   }

@@ -28,8 +28,8 @@ const autoplaySponsor = ref(true)
       <div class="hero__capa"></div>
 
       <div class="hero__countdown">
-        <p class="text-grey-13 text-center q-my-none text-weight-light">Proximo Evento</p>
-        <h1 class="text-h3 text-uppercase montserratExtraBold text-center text-red-13 q-my-none">Termas de Rio Hondo</h1>
+        <p class="text-white text-uppercase text-center q-my-none text-weight-light">Proximo Evento</p>
+        <h1 class="text-h4 text-uppercase montserratExtraBold text-center text-teal-13 q-my-none">Termas de Rio Hondo</h1>
 
         <CounterComponent :year="2023" :month="11" :date="27" :hour="22" :minutes="0" :seconds="0" />
       </div>
@@ -94,7 +94,7 @@ const autoplaySponsor = ref(true)
     <section id="sponsors">
       <div class="row flex items-center q-py-xl">
 
-        <div class="col-8">
+        <div class="col-12">
           <div class="q-pa-md">
             <q-carousel class="bg-black" v-model="slideSponsor" transition-prev="slide-right" transition-next="slide-left" infinite
               :autoplay="autoplaySponsor" swipeable animated height="200px">
@@ -125,10 +125,6 @@ const autoplaySponsor = ref(true)
 
         </div>
 
-        <div class="col-4">
-          <h1 class="text-h2 text-uppercase montserratExtraBold text-weight-bold text-center text-white q-my-none q-py-xl">
-            Sponsors</h1>
-        </div>
       </div>
 
     </section>

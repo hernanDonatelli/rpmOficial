@@ -71,27 +71,27 @@ const showRemaining = () => {
 <template>
   <div v-if="loaded">
     <section v-if="!expired" class="flex text-h4 justify-center">
-      <div class="days mr-2 relative text-grey-8">
+      <div class="days mr-2 relative text-white text-h5 q-mr-xs">
         {{ displayDays }}
-        <div class="label text-caption text-center">dias</div>
+        <div class="label text-caption text-center">d</div>
       </div>
-      <span class="leading-snug text-grey-8">:</span>
+      <span class="leading-snug text-white text-h5 q-mr-xs">:</span>
 
-      <div class="hours mx-2 relative text-grey-8">
+      <div class="hours mx-2 relative text-white text-h5 q-mr-xs">
         {{ displayHours }}
-        <div class="label text-caption text-center">horas</div>
+        <div class="label text-caption text-center">h</div>
       </div>
-      <span class="leading-snug text-grey-8">:</span>
+      <span class="leading-snug text-white text-h5 q-mr-xs">:</span>
 
-      <div class="minutes mx-2 relative text-grey-8">
+      <div class="minutes mx-2 relative text-white text-h5 q-mr-xs">
         {{ displayMinutes }}
-        <div class="label text-caption text-center">min</div>
+        <div class="label text-caption text-center">m</div>
       </div>
-      <span class="leading-snug text-grey-8">:</span>
+      <span class="leading-snug text-white text-h5 q-mr-xs">:</span>
 
-      <div class="seconds ml-2 relative text-grey-8">
+      <div class="seconds ml-2 relative text-white text-h5 q-mr-xs">
         {{ displaySeconds }}
-        <div class="label text-caption text-center">seg</div>
+        <div class="label text-caption text-center">s</div>
       </div>
     </section>
 
