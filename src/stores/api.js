@@ -544,7 +544,7 @@ export const useApiStore = defineStore('useApiStore', {
       await fetch('https://rpm.studioatlantic.com.ar/pezls/public/api/v1/posicionesTorneo', optionsPosiciones)
         .then(res => res.json())
         .then(response => {
-
+          console.log(response.data);
           this.tablaPosiciones.push(response.data[0])
         })
     },
@@ -708,7 +708,7 @@ export const useApiStore = defineStore('useApiStore', {
       await fetch(`https://rpm.studioatlantic.com.ar/pezls/public/api/v1/novedades/${id}`, optionsDeleteNoticia)
         .then((res) => res.json())
         .then(data => {
-          
+
           if (data === 1) {
 
             Notify.create({
@@ -734,5 +734,44 @@ export const useApiStore = defineStore('useApiStore', {
           }
         })
     },
+
+    async aplicarDQApi(token, idDriver, time) {
+      const optionsAplicarDQ = {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+          "X-Requested-With": "XMLHttpRequest",
+        },
+        body: `{"idDriverInfo": "${idDriver}"}`,
+      }
+
+      await fetch("https://rpm.studioatlantic.com.ar/pezls/public/api/v1/aplicarDQ", optionsAplicarDQ)
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            Notify.create({
+              color: "teal-14",
+              textColor: "white",
+              icon: "done",
+              html: true,
+              position: "top",
+              message: `<span style='text-align: center;'>${data.message}</span>`,
+              timeout: 1500
+            });
+
+          } else {
+            Notify.create({
+              color: "red-13",
+              textColor: "white",
+              icon: "warning",
+              html: true,
+              position: "top",
+              message: `<span style='text-align: center;'>${data.message}</span>`,
+              timeout: 3000
+            });
+          }
+        })
+    }
   }
 })

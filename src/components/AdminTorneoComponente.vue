@@ -32,6 +32,11 @@ const imagen = ref([])
 ///////////////////////////////////////////////////////////////
 
 //METODOS
+
+const api_url = () => {
+    return process.env.API_URL
+}
+
 const showLoading = async (token, torneo) => {
     useApi.torneos = []
 

@@ -56,6 +56,24 @@ const aplicarSancion = async (idDriver, key) => {
     })
 }
 
+const dqSanction = async (idDriver, key) => {
+    $q.dialog({
+        title: 'Descalificación',
+        message: `Vas a Descalificar al piloto ${key} (id: ${idDriver})`,
+        cancel: true,
+        persistent: true
+    }).onOk(tiempo => {
+        // const respuesta = `El piloto ${key} ha sido sancionado con ${tiempo}seg`
+
+        useApi.aplicarDQApi(useApi.tokenApi, idDriver)
+
+    }).onCancel(() => {
+        // console.log('>>>> Cancel')
+    }).onDismiss(() => {
+
+    })
+}
+
 </script>
 
 <template>
@@ -109,7 +127,7 @@ const aplicarSancion = async (idDriver, key) => {
                                         <th class="text-center fontCustomTitle text-uppercase">Piloto</th>
                                         <th class="text-center fontCustomTitle text-uppercase">Vehiculo</th>
                                         <th class="text-center fontCustomTitle text-uppercase">Vueltas</th>
-                                        <th class="text-center fontCustomTitle text-uppercase">Tiempo Carrera</th>
+                                        <th class="text-center fontCustomTitle text-uppercase">Gap</th>
                                         <th class="text-center fontCustomTitle text-uppercase">Status</th>
                                         <th class="text-center fontCustomTitle text-uppercase">Vuelta Rapida</th>
                                         <th class="text-center fontCustomTitle text-uppercase">Puntos</th>
@@ -126,12 +144,13 @@ const aplicarSancion = async (idDriver, key) => {
                                             <td class="text-center">{{ JSON.parse(value).vueltas }}</td>
                                             <td class="text-center">{{ JSON.parse(value).posicion == 1 ?
                                                 JSON.parse(value).tiempoCarrera : `${JSON.parse(value).gap}` }}</td>
-                                            <td class="text-center">{{ JSON.parse(value).status }}</td>
+                                            <td :class="JSON.parse(value).status === 'DQ' ? 'bg-red-13 text-white' : ''" class="text-center">{{ JSON.parse(value).status }}</td>
                                             <td class="text-center">{{ JSON.parse(value).vueltaRapida }}</td>
                                             <td class="text-center">{{ JSON.parse(value).puntos }}</td>
                                             <td class="text-center">
                                                 <q-btn @click="aplicarSancion(JSON.parse(value).idDriverInfo, key)" size="sm"
-                                                    color="red-13" text-color="white" label="Sancionar" />
+                                                    color="warning" text-color="black" label="Sancionar" />
+                                                <q-btn class="q-ml-xs" @click="dqSanction(JSON.parse(value).idDriverInfo, key)" size="sm" color="red-13" text-color="white" label="DQ" />
                                             </td>
                                             <td :class="JSON.parse(value).sancion != 0.000 ? 'bg-red-13 text-white' : ''" class="text-center">+{{ JSON.parse(value).sancion }}s</td>
                                         </tr>
