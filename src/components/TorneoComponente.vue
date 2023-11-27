@@ -3,6 +3,7 @@ import { useApiStore } from 'src/stores/api'
 import { onMounted, onBeforeUnmount } from 'vue'
 import { useQuasar, QSpinnerGears } from 'quasar'
 import TorneoResultComponent from './TorneoResultComponent.vue'
+import FooterComponent from '../components/FooterComponent.vue'
 
 const apiStore = useApiStore();
 import { useRoute } from 'vue-router';
@@ -188,6 +189,8 @@ const columns = [
             </div>
         </div>
     </section>
+
+    <FooterComponent />
 </template>
 
 

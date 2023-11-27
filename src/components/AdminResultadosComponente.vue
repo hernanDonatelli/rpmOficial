@@ -134,7 +134,7 @@ const columns = [
                         </div>
 
                         <div class="form-group q-mb-md">
-                            <q-file filled dense bottom-slots name="archivo" v-model="archivo" label="Buscar archivo"
+                            <q-file filled dense bottom-slots name="archivo" v-model="archivo" label="Archivo de Carrera"
                                 counter>
                                 <template v-slot:before>
                                     <q-icon name="attachment" />
@@ -148,6 +148,25 @@ const columns = [
 
                                 <template v-slot:hint>
                                     Formatos: .xml .json
+                                </template>
+                            </q-file>
+                        </div>
+
+                        <div class="form-group q-mb-md">
+                            <q-file filled dense bottom-slots name="replay" v-model="replay" label="Replay de Sesión"
+                                counter>
+                                <template v-slot:before>
+                                    <q-icon name="attachment" />
+                                </template>
+
+                                <template v-slot:append>
+                                    <q-icon v-if="replay !== null" name="close" @click.stop.prevent="replay = null"
+                                        class="cursor-pointer" />
+                                    <q-icon name="search" @click.stop.prevent />
+                                </template>
+
+                                <template v-slot:hint>
+                                    Formatos: .vcr
                                 </template>
                             </q-file>
                         </div>
