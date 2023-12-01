@@ -2,59 +2,52 @@
 import CounterComponent from '../components/CounterComponent.vue'
 import { useApiStore } from 'src/stores/api';
 import { useUserStore } from 'src/stores/user'
-import { onBeforeUpdate, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 const apiStore = useApiStore();
 const userStore = useUserStore();
 
-const yearCounter = ref(2023)
-const monthCounter = ref(8)
-const dayCounter = ref(25)
-const fechasDay = ref([])
-
-onBeforeUpdate(async () => {
-  apiStore.torneos.forEach(async el => {
-
-    el.posiciones = await apiStore.createTablasPosicionesApi(apiStore.tokenApi, el.id)
-
-    // el.fechas = await fechaCountdown(el.id)
-    await fechaCountdown(el.id)
-
-  })
-
-
+const dateObj = reactive({
+  id: null,
+  year: null,
+  month: null,
+  day: null
 })
 
+onMounted(async () => {
+  await fechaCountdown()
+})
 
-const fechaCountdown = async (id) => {
-  let arrFecha = []
-  let arrObjFecha = []
-  let newObj = {}
+const fechaCountdown = async () => {
+  let resultObj = {}
 
-  let calendario = await apiStore.getCalendarioHomeApi(apiStore.tokenApi, id)
-  // console.log(calendario);
+  const torneos = await apiStore.getTorneosApi(JSON.parse(localStorage.getItem('token')))
 
-  calendario.forEach(item => {
-    arrFecha.push(item.date)
-  })
+  torneos.forEach(async torneo => {
 
-  arrFecha.forEach(el => {
-    const fecha = el.split('-')
+    const fecha = await apiStore.proximaFechaApi(JSON.parse(localStorage.getItem('token')), torneo.id)
 
-    newObj = {
-      year: fecha[0],
-      month: fecha[1],
-      day: fecha[2]
+    const arrFecha = fecha.date.split('-');
+    const circuito = fecha.circuit
+
+    //console.log(arrFecha);
+    resultObj = {
+      id: torneo.id,
+      year: arrFecha[0],
+      month: arrFecha[1],
+      day: arrFecha[2],
+      circuit: circuito
     }
 
-    arrObjFecha.push(newObj)
+    apiStore.arrayFechasCounter.push((resultObj))
 
-  })
-  console.log(arrObjFecha);
-  return arrObjFecha
+    // dateObj.id = resultObj.id
+    // dateObj.year = parseInt(resultObj.year);
+    // dateObj.month = parseInt(resultObj.month)-1;
+    // dateObj.day = parseInt(resultObj.day);
+
+  });
 
 }
-
-
 
 </script>
 
@@ -83,7 +76,7 @@ const fechaCountdown = async (id) => {
               style="background: #00bfa5; color: #212121; font-weight: bold;" label="Inscripción" />
             <q-btn :to="`torneo/${torneo.id}`" class="q-mx-lg q-my-xs col-8 col-sm-6 col-md-3" icon="las la-trophy"
               style="background: #ffffff; color: #212121; font-weight: bold;" label="Campeonato" />
-            <q-btn class="q-mx-lg q-my-xs col-8 col-sm-6 col-md-3" icon="las la-external-link-alt"
+            <q-btn href="https://www.rpmracingleague.net/foro/" target="_blank" class="q-mx-lg q-my-xs col-8 col-sm-6 col-md-3" icon="las la-external-link-alt"
               style="background: #ffffff; color: #212121; font-weight: bold;" label="Foro" />
           </div>
         </div>
@@ -92,36 +85,17 @@ const fechaCountdown = async (id) => {
         <div class="footer row justify-end items-center">
           <!-- Proxima fecha -->
           <div class="next">
-            <p class="text-white text-uppercase text-center q-my-none text-weight-light">Proximo Evento</p>
-            <h4 class="edgarBold text-h5 text-uppercase text-center text-teal-13 q-my-none">Hungaroring</h4>
+            <!-- Contador Regresivo -->
+            <template v-for="counter in apiStore.arrayFechasCounter" :key="index">
 
-            <CounterComponent :year="2023" :month="11" :date="30" :hour="22" :minutes="0" :seconds="0" />
+            <p v-if="torneo.id == counter.id" class="text-white text-uppercase text-center q-my-none text-weight-light">Proximo Evento:  <span class="text-weight-bold text-teal-13">{{ counter.day }}-{{ counter.month }}-{{ counter.year }}</span>
+            </p>
+            <h4 v-if="torneo.id == counter.id" class="edgarBold text-h5 text-uppercase text-center text-teal-13 q-my-none">{{ counter.circuit }}</h4>
+
+              <CounterComponent v-if="torneo.id == counter.id" :year="counter.year" :month="counter.month-1" :date="counter.day" :hour="22" :minutes="0" :seconds="0" />
+            </template>
+
           </div>
-
-          <!-- Tabla Resumen Campeonato -->
-
-
-
-          <!-- <div class="tablePos row flex-column justify-center align-center q-pa-md">
-            <h5 class="text-h6 text-weight-bold text-grey-13 text-center q-my-none">Top 5 Posiciones</h5>
-            <q-markup-table dense>
-              <thead>
-                <tr>
-                  <th class="text-center">Posicion</th>
-                  <th class="text-center">Piloto</th>
-                  <th class="text-center">Puntos</th>
-                </tr>
-              </thead>
-              <tbody v-for="(value, key, index) in torneo.posiciones" :key="index">
-                <tr v-if="index >= 0 && index < 5">
-                  <td class="text-center q-pt-none">{{ JSON.parse(value).posicion }}</td>
-                  <td class="text-center">{{ key }}</td>
-                  <td class="text-center">{{ JSON.parse(value).puntos }}</td>
-
-                </tr>
-              </tbody>
-            </q-markup-table>
-          </div> -->
         </div>
       </div>
 

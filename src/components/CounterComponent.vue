@@ -71,25 +71,25 @@ const showRemaining = () => {
 <template>
   <div v-if="loaded">
     <section v-if="!expired" class="flex text-h4 justify-center">
-      <div class="days mr-2 relative text-white text-h5 q-mr-xs">
+      <div class="days mr-2 relative text-white text-h4 text-weight-bold q-mr-xs">
         {{ displayDays }}
         <div class="label text-caption text-center">d</div>
       </div>
       <span class="leading-snug text-white text-h5 q-mr-xs">:</span>
 
-      <div class="hours mx-2 relative text-white text-h5 q-mr-xs">
+      <div class="hours mx-2 relative text-white text-h4 text-weight-bold q-mr-xs">
         {{ displayHours }}
         <div class="label text-caption text-center">h</div>
       </div>
       <span class="leading-snug text-white text-h5 q-mr-xs">:</span>
 
-      <div class="minutes mx-2 relative text-white text-h5 q-mr-xs">
+      <div class="minutes mx-2 relative text-white text-h4 text-weight-bold q-mr-xs">
         {{ displayMinutes }}
         <div class="label text-caption text-center">m</div>
       </div>
       <span class="leading-snug text-white text-h5 q-mr-xs">:</span>
 
-      <div class="seconds ml-2 relative text-white text-h5 q-mr-xs">
+      <div class="seconds ml-2 relative text-white text-h4 text-weight-bold q-mr-xs">
         {{ displaySeconds }}
         <div class="label text-caption text-center">s</div>
       </div>

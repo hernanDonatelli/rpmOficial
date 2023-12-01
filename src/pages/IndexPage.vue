@@ -7,14 +7,42 @@ import { useApiStore } from 'src/stores/api'
 
 const useApi = useApiStore()
 
-onMounted(() => {
-  useApi.getNoticiasApi(JSON.parse(localStorage.getItem('token')))
+onMounted(async () => {
+  await proximaFechaGlobal()
+  await useApi.getNoticiasApi(JSON.parse(localStorage.getItem('token')))
 })
 
 const slide = ref(1)
 const slideSponsor = ref(1)
 const autoplay = ref(true)
 const autoplaySponsor = ref(true)
+
+const proximaFechaGlobal = async () => {
+  let resultObj = {}
+
+  const torneos = await useApi.getTorneosApi(JSON.parse(localStorage.getItem('token')))
+
+  torneos.forEach(async torneo => {
+
+    const fecha = await useApi.proximaFechaGlobalApi(JSON.parse(localStorage.getItem('token')))
+
+    const arrFecha = fecha.date.split('-');
+    const circuito = fecha.circuit
+
+    resultObj = {
+      id: torneo.id,
+      name: torneo.name,
+      year: parseInt(arrFecha[0]),
+      month: parseInt(arrFecha[1]),
+      day: parseInt(arrFecha[2]),
+      circuit: circuito
+    }
+
+    useApi.proximaFechaGlobal = resultObj
+
+  });
+
+}
 
 </script>
 
@@ -29,10 +57,14 @@ const autoplaySponsor = ref(true)
       <div class="hero__capa"></div>
 
       <div class="hero__countdown">
-        <p class="text-white text-uppercase text-center q-my-none text-weight-light">Proximo Evento</p>
-        <h1 class="text-h4 text-uppercase montserratExtraBold text-center text-teal-13 q-my-none">Termas de Rio Hondo</h1>
+        <template v-if="useApi.proximaFechaGlobal">
+          <p class="text-h6 text-white text-uppercase text-center q-my-none text-weight-bold text-white">
+            {{ useApi.proximaFechaGlobal.name }}</p>
+          <h1 class="text-h4 text-uppercase montserratExtraBold text-center text-teal-13 q-my-none">{{ useApi.proximaFechaGlobal.circuit }}</h1>
 
-        <CounterComponent :year="2023" :month="11" :date="27" :hour="22" :minutes="0" :seconds="0" />
+          <CounterComponent :year="useApi.proximaFechaGlobal.year" :month="useApi.proximaFechaGlobal.month-1" :date="useApi.proximaFechaGlobal.day" :hour="22" :minutes="0" :seconds="0" />
+
+        </template>
       </div>
     </div>
 
@@ -189,12 +221,11 @@ const autoplaySponsor = ref(true)
     &__regresiveCero {
       font-family: 'Roboto';
       font-size: 2rem;
-      font-weight: lighter;
       background-color: red;
     }
 
     p {
-      letter-spacing: .75rem;
+      letter-spacing: .25rem;
     }
   }
 }

@@ -20,6 +20,8 @@ export const useApiStore = defineStore('useApiStore', {
     posicionesTorneos: [],
     noTabla: '',
     noticias: [],
+    arrayFechasCounter: [],
+    proximaFechaGlobal: null,
     url: 'https://rpm.studioatlantic.com.ar/pezls/public/api/v1'
   }),
   actions: {
@@ -772,6 +774,42 @@ export const useApiStore = defineStore('useApiStore', {
             });
           }
         })
+    },
+
+    async proximaFechaApi(token, idTorneo) {
+      const optionsproximaFecha = {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+          "X-Requested-With": "XMLHttpRequest",
+        },
+      }
+
+      const getProximaFecha = await fetch(`https://rpm.studioatlantic.com.ar/pezls/public/api/v1/proximaFecha/${idTorneo}`, optionsproximaFecha);
+      const respuesta = await getProximaFecha.json();
+
+      return respuesta.data[0]
+
+
+    },
+
+    async proximaFechaGlobalApi(token) {
+      const optionsproximaFecha = {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+          "X-Requested-With": "XMLHttpRequest",
+        },
+      }
+
+      const getProximaFecha = await fetch(`https://rpm.studioatlantic.com.ar/pezls/public/api/v1/proximaFecha`, optionsproximaFecha);
+      const respuesta = await getProximaFecha.json();
+
+      return respuesta.data[0]
+
+
     }
   }
 })
