@@ -5,7 +5,6 @@ import { useUserStore } from '../stores/user'
 import { useRouter } from "vue-router";
 import { userDatabaseStore } from "src/stores/database";
 import { useApiStore } from 'src/stores/api'
-import emailjs from '@emailjs/browser'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -22,13 +21,14 @@ const email = ref(null);
 const password = ref(null);
 
 const denuncia = reactive({
-  tiempo: '',
-  usuario: '',
   torneo: '',
-  mensaje: '',
-  nickname: '',
+  instante: '',
+  emailDestinatario: 'hernandonatelli@gmail.com',
+  emailDenunciante: '',
+  userDenunciante: '',
+  userDenunciado: '',
+  comentarios: '',
   evento: '',
-  denunciado: '',
   sesion: ''
 })
 
@@ -38,9 +38,9 @@ const rulesEmail = [
 ]
 
 //Metodos
-const submitDenuncia = () => {
+const submitDenuncia = async () => {
   // console.log(instante.value);
-  if (!denuncia.usuario || !denuncia.tiempo || !denuncia.torneo || !denuncia.mensaje || !denuncia.nickname || !denuncia.evento || !denuncia.denunciado || !denuncia.sesion) {
+  if (!denuncia.torneo || !denuncia.instante || !denuncia.emailDestinatario || !denuncia.comentarios || !denuncia.userDenunciante || !denuncia.evento || !denuncia.userDenunciado || !denuncia.sesion) {
     $q.notify({
       color: "red-5",
       textColor: "white",
@@ -49,36 +49,23 @@ const submitDenuncia = () => {
       message: "Todos los campos son obligatorios",
     });
   } else {
-    if (denuncia.usuario === userDatabase.documents[0].email) {
+    if (denuncia.emailDenunciante === userDatabase.documents[0].email) {
 
-      emailjs.send('service_upde9ds', 'template_2le1vf6', {
-        usuario: denuncia.usuario,
-        mensaje: denuncia.mensaje,
-        nickname: denuncia.nickname,
-        tiempo: denuncia.tiempo,
-        torneo: denuncia.torneo,
-        denunciado: denuncia.denunciado,
-        evento: denuncia.evento,
-        sesion: denuncia.sesion
-      }, 'XcpFl9Ds8mQUrTjD6')
-        .then((response) => {
-          console.log('SUCCESS!', response.status, response.text);
-          $q.notify({
-            color: "green-6",
-            textColor: "white",
-            icon: "cloud_done",
-            message: "Denuncia enviada!",
-            position: "top",
-            timeout: 2000
-          });
+      await useApi.enviarDenunciaAPI(useApi.tokenApi, denuncia)
 
-          setTimeout(() => {
-            router.push('/')
-          }, 3000);
+      $q.notify({
+        color: "green-6",
+        textColor: "white",
+        icon: "cloud_done",
+        message: "Denuncia enviada! La evaluaremos y en unos días tendremos una resolución.",
+        position: "top",
+        timeout: 3000
+      });
 
-        }, (err) => {
-          console.log('FAILED...', err);
-        });
+      // setTimeout(() => {
+      //   router.push('/')
+      // }, 5000);
+
 
     } else {
       $q.notify({
@@ -94,14 +81,15 @@ const submitDenuncia = () => {
 };
 
 const limpiarCampos = () => {
-  denuncia.tiempo = ''
-  denuncia.usuario = ''
-  denuncia.torneo = ''
-  denuncia.mensaje = ''
-  denuncia.nickname = ''
-  denuncia.denunciado = ''
-  denuncia.evento = ''
-  denuncia.sesion = ''
+  denuncia.torneo = '',
+    denuncia.instante = '',
+    denuncia.emailDestinatario = '',
+    denuncia.emailDenunciante = '',
+    denuncia.userDenunciante = '',
+    denuncia.userDenunciado = '',
+    denuncia.comentarios = '',
+    denuncia.evento = '',
+    denuncia.sesion = ''
 };
 
 //METODOS
@@ -139,12 +127,13 @@ const torneosApi = async () => {
           <div class="row flex justify-around q-mb-lg">
             <div class="col-12 col-sm-3 col-md-5">
               <q-input dense color="cyan-6" type="email" label="Tu email"
-                hint="Debe contener dominio válido (xxxxxx@dominio.com)" lazy-rules v-model="denuncia.usuario"
+                hint="Debe contener dominio válido (xxxxxx@dominio.com)" lazy-rules v-model="denuncia.emailDenunciante"
                 name="email" :rules="rulesEmail" />
             </div>
 
             <div class="col-12 col-sm-3 col-md-5">
-              <q-input type="text" color="cyan-6" v-model="denuncia.nickname" label="Tu usuario en el Simulador" dense />
+              <q-input type="text" color="cyan-6" v-model="denuncia.userDenunciante" label="Tu usuario en el Simulador"
+                dense />
             </div>
           </div>
 
@@ -168,25 +157,25 @@ const torneosApi = async () => {
             </div>
 
             <div class="col-12 col-sm-3 col-md-5">
-              <q-input color="cyan-6" type="text" v-model="denuncia.denunciado" label="Piloto denunciado" dense />
+              <q-input color="cyan-6" type="text" v-model="denuncia.userDenunciado" label="Piloto denunciado" dense />
             </div>
           </div>
 
           <div class="row flex justify-around q-mb-lg">
             <div class="col-12 col-sm-3 col-md-5">
-              <q-input color="cyan-6" type="text" v-model="denuncia.tiempo" name="instante" hint="Ejemplo: 2:32"
+              <q-input color="cyan-6" type="text" v-model="denuncia.instante" name="instante" hint="Ejemplo: 2:32"
                 label="Instante del Incidente" dense />
             </div>
 
             <div class="col-12 col-sm-3 col-md-5">
-              <q-input color="cyan-6" v-model="denuncia.mensaje" hint="Descripción del incidente" filled
+              <q-input color="cyan-6" v-model="denuncia.comentarios" hint="Descripción del incidente" filled
                 type="textarea" />
             </div>
           </div>
 
           <div class="row flex justify-center">
-            <q-btn @click="limpiarCampos" label="Limpiar Campos" type="reset" color="red-5" flat class="q-mr-xl" />
-            <q-btn label="Enviar Denuncia" type="submit" color="green-6" icon-right="mail" />
+            <q-btn @click="limpiarCampos" label="Limpiar Campos" type="reset" color="red-13" class="q-mr-xl" />
+            <q-btn label="Enviar Denuncia" type="submit" color="teal-6" icon-right="mail" />
           </div>
         </q-form>
       </div>
@@ -205,4 +194,5 @@ const torneosApi = async () => {
     border: 2.5px solid black;
     margin-top: 2%;
   }
-}</style>
+}
+</style>

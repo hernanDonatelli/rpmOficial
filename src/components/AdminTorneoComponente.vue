@@ -27,7 +27,7 @@ const plataforma = ref(null)
 const puntosClasifica = ref(null)
 const puntosCarreraCorta = ref(null)
 const puntosCarrera = ref(null)
-const imagen = ref([])
+const imagen = ref(null)
 
 ///////////////////////////////////////////////////////////////
 
@@ -169,14 +169,14 @@ const onReset = () => {
 };
 
 const columns = [
-    { name: 'id', required: true, label: 'ID', align: 'center', field: row => row.id, format: val => `${val}`, sortable: true },
+    // { name: 'id', required: true, label: 'ID', align: 'center', field: row => row.id, format: val => `${val}`, sortable: true },
     { name: 'nombre', align: 'center', label: 'Nombre', field: row => row.name },
     { name: 'plataforma', align: 'center', label: 'Plataforma', field: row => row.simulator },
     { name: 'puntosQualy', align: 'center', label: 'Ptos. Qualy', field: row => row.qualyPoints },
     { name: 'puntosCarreraCorta', align: 'center', label: 'Ptos. Serie/ShortRace', field: row => row.shortRacePoints },
     { name: 'puntosCarrera', align: 'center', label: 'Ptos. Carrera', field: row => row.racePoints },
     { name: 'status', align: 'center', label: 'Status', field: row => row.status ? 'Activo' : 'Finalizado' },
-    { name: 'actualizado', align: 'center', label: 'Actualizado', field: row => row.updated_at },
+    // { name: 'imagen', align: 'center', label: 'Imagen', field: row => row.image },
     { name: 'acciones', align: 'center', label: 'Acciones' }
 ]
 
@@ -253,14 +253,14 @@ const columns = [
     <div class="row">
         <div class="col-12 q-pa-md tabla-torneos">
 
-            <q-table title="TORNEOS" :rows="useApi.torneos" :columns="columns"
+            <q-table style="width: 100%;" title="TORNEOS" :rows="useApi.torneos" :columns="columns"
                 :loading="useApi.torneos.length == 0 ? true : false" row-key="id">
 
                 <template v-slot:body="props">
                     <q-tr :props="props">
-                        <q-td key="id" :props="props" class="text-center" id="editedId">
+                        <!-- <q-td key="id" :props="props" class="text-center" id="editedId">
                             {{ props.row.id }}
-                        </q-td>
+                        </q-td> -->
                         <q-td class="cursor-pointer" key="nombre" :props="props" id="editedName">
                             {{ props.row.name }}
                             <q-popup-edit v-model="props.row.name" title="Editar Nombre" buttons label-set="Ok"
@@ -288,7 +288,7 @@ const columns = [
                             </q-popup-edit>
                         </q-td>
                         <q-td class="cursor-pointer" key="puntosCarrera" :props="props" id="editedRacePoints">
-                            {{ props.row.racePoints }}
+                            <p>{{ props.row.racePoints }}</p>
                             <q-popup-edit v-model.trim="props.row.racePoints" title="Puntos de Carrera" buttons
                                 label-set="Ok" label-cancel="Cancelar" v-slot="scope">
                                 <q-input type="text" v-model.trim="scope.value" dense autofocus />
@@ -299,9 +299,6 @@ const columns = [
                                 class="q-py-xs q-px-sm">
                                 {{ props.row.status == 1 ? 'Activo' : 'Finalizado' }}
                             </q-badge>
-                        </q-td>
-                        <q-td key="actualizado" :props="props">
-                            {{ props.row.updated }}
                         </q-td>
                         <q-td class="flex column">
                             <q-btn
@@ -322,8 +319,11 @@ const columns = [
 </template>
 
 <style lang="scss" scoped>
-.q-table tbody td {
-    min-height: 110px
+.q-table tbody td,
+.q-table th {
+    height: 110px;
+    width: 15%
 }
+
 </style>
 

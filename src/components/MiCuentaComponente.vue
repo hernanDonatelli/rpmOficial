@@ -163,10 +163,10 @@ const resetPage = async () => {
 
                     <div class="text-center">
                         <div class="col-12 col-sm-6 q-mt-xl">
-                            <q-btn @click.prevent="getInfoUser" label="Cargar Datos" type="submit" color="dark" />
-                            <q-btn @click.prevent="onSubmitEdit" :disable="!userStore.loadingUser" class="q-mx-xl"
-                                label="Editar Usuario" type="submit" color="green-14" />
-                            <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
+                            <q-btn @click.prevent="getInfoUser" label="Cargar Datos" type="submit" color="dark" dense class="q-px-md" />
+                            <q-btn @click.prevent="onSubmitEdit" :disable="!userStore.loadingUser" class="q-mx-md q-px-md"
+                                label="Editar Usuario" type="submit" color="teal-6" dense />
+                            <q-btn label="Limpiar Campos" type="reset" color="red-13" dense class="q-px-md" />
                         </div>
                     </div>
                 </q-form>

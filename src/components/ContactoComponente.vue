@@ -139,8 +139,8 @@ const limpiarCampos = () => {
           </div>
 
           <div class="row flex justify-center">
-            <q-btn @click="limpiarCampos" label="Limpiar Campos" type="reset" color="red-5" flat class="q-mr-xl" />
-            <q-btn label="Enviar Mensaje" type="submit" color="green-6" icon-right="mail" />
+            <q-btn @click="limpiarCampos" label="Limpiar Campos" type="reset" color="red-13" class="q-mr-xl" />
+            <q-btn label="Enviar Mensaje" type="submit" color="teal-6" icon-right="mail" />
           </div>
 
         </q-form>
