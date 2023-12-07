@@ -13,13 +13,13 @@ onMounted(async () => {
 })
 
 onUpdated(() => {
-  // console.log('Updated');
-  // console.log(apiStore.torneos);
-  useApi.torneos.forEach(async el => {
+    // console.log('Updated');
+    // console.log(apiStore.torneos);
+    useApi.torneos.forEach(async el => {
 
-    el.posiciones = await useApi.createTablasPosicionesApi(useApi.tokenApi, el.id)
+        el.posiciones = await useApi.createTablasPosicionesApi(useApi.tokenApi, el.id)
 
-  })
+    })
 })
 
 const nombre = ref(null)
@@ -28,6 +28,8 @@ const puntosClasifica = ref(null)
 const puntosCarreraCorta = ref(null)
 const puntosCarrera = ref(null)
 const imagen = ref(null)
+const precio = ref(null)
+const urlForo = ref(null)
 
 ///////////////////////////////////////////////////////////////
 
@@ -74,7 +76,7 @@ const crearTorneo = () => {
 
 }
 
-const editarTorneo = (id, name, simulator, qualyPoints, shortRacePoints, racePoints, status) => {
+const editarTorneo = (id, name, simulator, qualyPoints, shortRacePoints, racePoints, status, price) => {
 
     const torneoEditado = {
         idTorneo: id,
@@ -83,7 +85,8 @@ const editarTorneo = (id, name, simulator, qualyPoints, shortRacePoints, racePoi
         puntosCarrera: racePoints,
         puntosClasifica: qualyPoints,
         puntosCarreraCorta: shortRacePoints,
-        status: status
+        status: status,
+        precio: price
     }
 
     useApi.editTorneoApi(useApi.tokenApi, torneoEditado)
@@ -176,7 +179,7 @@ const columns = [
     { name: 'puntosCarreraCorta', align: 'center', label: 'Ptos. Serie/ShortRace', field: row => row.shortRacePoints },
     { name: 'puntosCarrera', align: 'center', label: 'Ptos. Carrera', field: row => row.racePoints },
     { name: 'status', align: 'center', label: 'Status', field: row => row.status ? 'Activo' : 'Finalizado' },
-    // { name: 'imagen', align: 'center', label: 'Imagen', field: row => row.image },
+    { name: 'precio', align: 'center', label: 'Precio', field: row => row.price },
     { name: 'acciones', align: 'center', label: 'Acciones' }
 ]
 
@@ -207,6 +210,10 @@ const columns = [
                             <q-input filled dense name="puntosClasifica" v-model="puntosClasifica" label="Puntos de Qualy"
                                 hint="Numeros (separados por coma)" />
                         </div>
+                        <div class="form-group q-mb-md">
+                            <q-input filled dense name="precio" v-model="precio" label="Precio de Torneo"
+                                hint="Ingresar el precio del torneo" />
+                        </div>
                     </div>
 
                     <div class="col-4">
@@ -235,6 +242,10 @@ const columns = [
                                     Formatos: .jpg .png .jpeg
                                 </template>
                             </q-file>
+                        </div>
+                        <div class="form-group q-mb-md">
+                            <q-input filled dense name="urlForo" v-model.trim="urlForo" label="URL Foro"
+                                hint="Ingrese la URL del foro del torneo" />
                         </div>
                     </div>
                 </div>
@@ -300,13 +311,20 @@ const columns = [
                                 {{ props.row.status == 1 ? 'Activo' : 'Finalizado' }}
                             </q-badge>
                         </q-td>
+                        <q-td class="cursor-pointer" key="precio" :props="props" id="editedPrice">
+                            <p>{{ props.row.price }}</p>
+                            <q-popup-edit v-model.trim="props.row.price" title="Precio" buttons
+                                label-set="Ok" label-cancel="Cancelar" v-slot="scope">
+                                <q-input type="text" v-model.trim="scope.value" dense autofocus />
+                            </q-popup-edit>
+                        </q-td>
                         <q-td class="flex column">
                             <q-btn
-                                @click="editarTorneo(props.row.id, props.row.name, props.row.simulator, props.row.qualyPoints, props.row.shortRacePoints, props.row.racePoints, props.row.status)"
+                                @click="editarTorneo(props.row.id, props.row.name, props.row.simulator, props.row.qualyPoints, props.row.shortRacePoints, props.row.racePoints, props.row.status, props.row.price)"
                                 type="submit" size="sm" color="yellow-13" text-color="black" label="Editar" />
                             <q-btn class="q-my-sm" size="sm"
-                                @click="finalizarTorneo(useApi.tokenApi, props.row.id, props.row.name)"
-                                color="blue-grey-13" text-color="white" label="Finalizar" />
+                                @click="finalizarTorneo(useApi.tokenApi, props.row.id, props.row.name)" color="blue-grey-13"
+                                text-color="white" label="Finalizar" />
                             <q-btn size="sm" @click="deleteConfirm(props.row.name, props.row.id)" color="red-13"
                                 text-color="white" label="Eliminar" />
 
@@ -324,6 +342,5 @@ const columns = [
     height: 110px;
     width: 15%
 }
-
 </style>
 

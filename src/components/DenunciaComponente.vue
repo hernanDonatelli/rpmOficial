@@ -57,7 +57,7 @@ const submitDenuncia = async () => {
         color: "green-6",
         textColor: "white",
         icon: "cloud_done",
-        message: "Denuncia enviada! La evaluaremos y en unos días tendremos una resolución.",
+        message: "Denuncia enviada! La evaluaremos y en unos días comunicaremos una resolución.",
         position: "top",
         timeout: 3000
       });
@@ -82,14 +82,14 @@ const submitDenuncia = async () => {
 
 const limpiarCampos = () => {
   denuncia.torneo = '',
-    denuncia.instante = '',
-    denuncia.emailDestinatario = '',
-    denuncia.emailDenunciante = '',
-    denuncia.userDenunciante = '',
-    denuncia.userDenunciado = '',
-    denuncia.comentarios = '',
-    denuncia.evento = '',
-    denuncia.sesion = ''
+  denuncia.instante = '',
+  denuncia.emailDestinatario = '',
+  denuncia.emailDenunciante = '',
+  denuncia.userDenunciante = '',
+  denuncia.userDenunciado = '',
+  denuncia.comentarios = '',
+  denuncia.evento = '',
+  denuncia.sesion = ''
 };
 
 //METODOS
@@ -127,13 +127,13 @@ const torneosApi = async () => {
           <div class="row flex justify-around q-mb-lg">
             <div class="col-12 col-sm-3 col-md-5">
               <q-input dense color="cyan-6" type="email" label="Tu email"
-                hint="Debe contener dominio válido (xxxxxx@dominio.com)" lazy-rules v-model="denuncia.emailDenunciante"
+                hint="Mismo email con el cual te registraste." lazy-rules v-model="denuncia.emailDenunciante"
                 name="email" :rules="rulesEmail" />
             </div>
 
             <div class="col-12 col-sm-3 col-md-5">
               <q-input type="text" color="cyan-6" v-model="denuncia.userDenunciante" label="Tu usuario en el Simulador"
-                dense />
+                dense hint="Nickname ó nombre que utilizas para correr." />
             </div>
           </div>
 
@@ -157,7 +157,7 @@ const torneosApi = async () => {
             </div>
 
             <div class="col-12 col-sm-3 col-md-5">
-              <q-input color="cyan-6" type="text" v-model="denuncia.userDenunciado" label="Piloto denunciado" dense />
+              <q-input color="cyan-6" type="text" v-model="denuncia.userDenunciado" label="Piloto denunciado" dense hint="Nickname ó nombre del piloto que denuncias." />
             </div>
           </div>
 

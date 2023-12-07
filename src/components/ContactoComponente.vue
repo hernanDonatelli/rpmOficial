@@ -59,38 +59,29 @@ const submitContact = () => {
   } else {
     if (contacto.email === userDatabase.documents[0].email) {
 
-      emailjs.send('service_upde9ds', 'template_2le1vf6', {
-        usuario: contacto.nombre,
-        mensaje: contacto.mensaje,
-        movil: contacto.movil,
-        email: contacto.email,
-      }, 'XcpFl9Ds8mQUrTjD6')
-        .then((response) => {
-          console.log('SUCCESS!', response.status, response.text);
+        // console.log('Consulta enviada!');
+
           $q.notify({
-            color: "green-6",
+            color: "teal-6",
             textColor: "white",
             icon: "cloud_done",
-            message: "Denuncia enviada!",
+            message: "Consulta enviada! Nos comunicaremos contigo dentro de las próximas 48hs.",
             position: "top",
             timeout: 2000
           });
 
-          setTimeout(() => {
-            router.push('/')
-          }, 3000);
+          // setTimeout(() => {
+          //   router.push('/')
+          // }, 3000);
 
-        }, (err) => {
-          console.log('FAILED...', err);
-        });
 
     } else {
       $q.notify({
-        color: "red-5",
+        color: "red-6",
         textColor: "white",
         icon: "warning",
         position: "top",
-        message: "El email debe ser el mismo que utilizas al ingresar.",
+        message: "El email debe ser el mismo con el cual te haz registrado.",
       });
     }
   }

@@ -20,27 +20,39 @@ const autoplaySponsor = ref(true)
 const proximaFechaGlobal = async () => {
   let resultObj = {}
 
-  const torneos = await useApi.getTorneosApi(JSON.parse(localStorage.getItem('token')))
+  //Obtengo la proxima fecha y el ID del torneo
+  const fecha = await useApi.proximaFechaGlobalApi(JSON.parse(localStorage.getItem('token')))
+  const torneo = fecha.league_info_id;
 
-  torneos.forEach(async torneo => {
+  //Obtengo el Nombre del Torneo
+  const torneosApi = await useApi.getTorneosApi(JSON.parse((localStorage.getItem('token'))))
+  const match = torneosApi.find(item => item.id == torneo)
 
-    const fecha = await useApi.proximaFechaGlobalApi(JSON.parse(localStorage.getItem('token')))
+  //Obtengo el Date de la proxima fecha global
+  const arrFecha = fecha.date.split('-');
 
-    const arrFecha = fecha.date.split('-');
-    const circuito = fecha.circuit
+  //Obtengo el circuito
+  const circuito = fecha.circuit
 
-    resultObj = {
-      id: torneo.id,
-      name: torneo.name,
-      year: parseInt(arrFecha[0]),
-      month: parseInt(arrFecha[1]),
-      day: parseInt(arrFecha[2]),
-      circuit: circuito
-    }
+  resultObj = {
+    name: match.name,
+    year: parseInt(arrFecha[0]),
+    month: parseInt(arrFecha[1]),
+    day: parseInt(arrFecha[2]),
+    circuit: circuito,
+    simulator: match.simulator
+  }
 
-    useApi.proximaFechaGlobal = resultObj
+  useApi.proximaFechaGlobal = resultObj
 
-  });
+}
+
+const colorCounter = (simulador) => {
+
+if (simulador == 'Assetto Corsa') return 'counter-Assetto'
+if (simulador == 'rFactor2') return 'counter-rFactor2'
+if (simulador == 'Simulador TC') return 'counter-simuladorTC'
+if (simulador == 'rFactor') return 'counter-rFactor'
 
 }
 
@@ -60,9 +72,11 @@ const proximaFechaGlobal = async () => {
         <template v-if="useApi.proximaFechaGlobal">
           <p class="text-h6 text-white text-uppercase text-center q-my-none text-weight-bold text-white">
             {{ useApi.proximaFechaGlobal.name }}</p>
-          <h1 class="text-h4 text-uppercase montserratExtraBold text-center text-teal-13 q-my-none">{{ useApi.proximaFechaGlobal.circuit }}</h1>
+          <h1 :class="colorCounter(useApi.proximaFechaGlobal.simulator)" class="text-h3 text-uppercase fontCustomTitle text-center q-my-none">{{
+            useApi.proximaFechaGlobal.circuit }}</h1>
 
-          <CounterComponent :year="useApi.proximaFechaGlobal.year" :month="useApi.proximaFechaGlobal.month-1" :date="useApi.proximaFechaGlobal.day" :hour="22" :minutes="0" :seconds="0" />
+          <CounterComponent :year="useApi.proximaFechaGlobal.year" :month="useApi.proximaFechaGlobal.month - 1"
+            :date="useApi.proximaFechaGlobal.day" :hour="22" :minutes="0" :seconds="0" />
 
         </template>
       </div>
@@ -108,16 +122,17 @@ const proximaFechaGlobal = async () => {
           @mouseleave="autoplay = true" thumbnails infinite>
 
 
-            <q-carousel-slide v-for="(noticia, index) in useApi.noticias" :key="index" :name="index" :img-src="`https://rpm.studioatlantic.com.ar/pezls/storage/app/public/images/galery/${noticia.image}`">
-              <div class="absolute-bottom custom-caption">
-                <div class="text-h4 text-white text-uppercase text-bold">{{ noticia.title }}</div>
-                <div class="text-caption">
-                  <span class="text-white">
-                    {{ noticia.text }}
-                  </span>
-                </div>
+          <q-carousel-slide v-for="(noticia, index) in useApi.noticias" :key="index" :name="index"
+            :img-src="`https://rpm.studioatlantic.com.ar/pezls/storage/app/public/images/galery/${noticia.image}`">
+            <div class="absolute-bottom custom-caption">
+              <div class="text-h4 text-white text-uppercase text-bold">{{ noticia.title }}</div>
+              <div class="text-caption">
+                <span class="text-white">
+                  {{ noticia.text }}
+                </span>
               </div>
-            </q-carousel-slide>
+            </div>
+          </q-carousel-slide>
 
         </q-carousel>
       </div>
@@ -129,8 +144,8 @@ const proximaFechaGlobal = async () => {
 
         <div class="col-12">
           <div class="q-pa-md">
-            <q-carousel class="bg-black" v-model="slideSponsor" transition-prev="slide-right" transition-next="slide-left" infinite
-              :autoplay="autoplaySponsor" swipeable animated height="200px">
+            <q-carousel class="bg-black" v-model="slideSponsor" transition-prev="slide-right" transition-next="slide-left"
+              infinite :autoplay="autoplaySponsor" swipeable animated height="200px">
 
               <q-carousel-slide :name="1" class="column no-wrap">
                 <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap">
@@ -218,6 +233,22 @@ const proximaFechaGlobal = async () => {
     align-items: stretch;
     background-color: rgba($color: #000000, $alpha: .8);
 
+    .counter-Assetto {
+      color: $purple-14;
+    }
+
+    .counter-rFactor {
+      color: $deep-orange-13;
+    }
+
+    .counter-rFactor2 {
+      color: $lime-6;
+    }
+
+    .counter-simuladorTC {
+      color: $light-blue-13;
+    }
+
     &__regresiveCero {
       font-family: 'Roboto';
       font-size: 2rem;
@@ -301,7 +332,7 @@ const proximaFechaGlobal = async () => {
   }
 }
 
-#sponsors{
+#sponsors {
   background-color: #000000;
 }
 
@@ -335,5 +366,4 @@ const proximaFechaGlobal = async () => {
   }
 }
 
-@media screen and (min-width: 1919.98px) {}
-</style>
+@media screen and (min-width: 1919.98px) {}</style>
