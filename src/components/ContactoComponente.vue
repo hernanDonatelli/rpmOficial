@@ -1,29 +1,20 @@
 <script setup>
 import { useQuasar } from "quasar";
-import { onMounted, reactive, ref } from "vue";
-import { useUserStore } from '../stores/user'
-import { useRouter } from "vue-router";
+import { reactive } from "vue";
 import { userDatabaseStore } from "src/stores/database";
-import { useApiStore } from 'src/stores/api'
-import emailjs from '@emailjs/browser'
-
-const router = useRouter()
-const userStore = useUserStore()
 const $q = useQuasar();
 const userDatabase = userDatabaseStore()
-const useApi = useApiStore()
 
-onMounted(() => {
-
-})
 
 //Variables
 
 const contacto = reactive({
-  nombre: '',
-  email: '',
+  tipoComunicacion: 'Contacto',
+  emailDestinatario: 'hernandonatelli@gmail.com',
+  emailRemitente: '',
+  user: '',
   movil: '',
-  mensaje: ''
+  comentarios: ''
 })
 
 //Validaciones
@@ -48,7 +39,7 @@ const rulesEmail = [
 //Metodos
 const submitContact = () => {
   // console.log(instante.value);
-  if (!contacto.email || !contacto.nombre || !contacto.movil || !contacto.mensaje ) {
+  if (!contacto.emailRemitente || !contacto.user || !contacto.movil || !contacto.comentarios ) {
     $q.notify({
       color: "red-5",
       textColor: "white",
@@ -57,9 +48,9 @@ const submitContact = () => {
       message: "Todos los campos son obligatorios",
     });
   } else {
-    if (contacto.email === userDatabase.documents[0].email) {
+    if (contacto.emailRemitente === userDatabase.documents[0].email) {
 
-        // console.log('Consulta enviada!');
+        console.log('Consulta enviada!', contacto);
 
           $q.notify({
             color: "teal-6",
@@ -67,7 +58,7 @@ const submitContact = () => {
             icon: "cloud_done",
             message: "Consulta enviada! Nos comunicaremos contigo dentro de las próximas 48hs.",
             position: "top",
-            timeout: 2000
+            timeout: 3000
           });
 
           // setTimeout(() => {
@@ -89,7 +80,7 @@ const submitContact = () => {
 };
 
 const limpiarCampos = () => {
-  contacto.nombre = ''
+  contacto.user = ''
   contacto.email = ''
   contacto.movil = ''
   contacto.mensaje = ''
@@ -101,8 +92,8 @@ const limpiarCampos = () => {
 <template>
   <section id="contacto">
     <div class="row items-center">
-      <div class="col-12 col-sm-6 col-md-5 q-pa-md">
-        <h4 class="text-h4 text-center text-uppercase montserratExtraBold q-mb-none">Contacto</h4>
+      <div class="col-12 col-md-5 q-pa-md q-mt-lg q-mt-md-none">
+        <h4 class="text-h4 text-center text-uppercase montserratExtraBold q-my-none">Contacto</h4>
         <hr>
         <p class="text-center text-body2 q-mt-md">
           Estar comunicados es muy importante! Escribenos completando el formulario sobre las dudas o temas que creas
@@ -110,21 +101,21 @@ const limpiarCampos = () => {
         </p>
       </div>
 
-      <div class="col-12 col-sm-6 col-md-7 q-pa-md">
+      <div class="col-12 col-md-7 q-pa-md">
         <q-form @submit.prevent="submitContact" class="q-gutter-md">
           <div class="row flex justify-around q-mb-lg">
-            <div class="col-12 col-sm-3 col-md-8">
-              <q-input dense color="cyan-6" v-model.trim="contacto.nombre" label="Nombre *" hint="Hasta 20 caracteres"
+            <div class="col-12 col-sm-10 col-md-10">
+              <q-input dense color="cyan-6" v-model.trim="contacto.user" label="Nombre ó Nickname *" hint="Hasta 20 caracteres"
                 lazy-rules :rules="nombreRules" />
 
               <q-input class="q-my-md" dense color="cyan-6" type="email" label="Tu email *"
-                hint="Debe contener dominio válido (xxxxxx@dominio.com)" lazy-rules v-model.trim="contacto.email"
+                hint="Mismo email con el cual te registraste." lazy-rules v-model.trim="contacto.emailRemitente"
                 :rules="rulesEmail" />
 
               <q-input class="q-my-md" dense type="number" color="cyan-6" v-model.trim="contacto.movil" label="Móvil"
                 hint="Con codigo de area, sin el 15" lazy-rules :rules="mobileRules" />
 
-              <q-input class="q-my-md" color="cyan-6" v-model="contacto.mensaje" hint="Escribe tu mensaje aquí" filled
+              <q-input class="q-my-md" color="cyan-6" v-model="contacto.comentarios" hint="Escribe tu mensaje aquí" filled
                 type="textarea" />
             </div>
           </div>

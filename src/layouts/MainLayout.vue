@@ -68,14 +68,14 @@ const getTorneos = async () => {
           <div v-if="!userStore.loadingSession" class="btn-entrada q-my-xs">
             <p v-for="user of databaseStore.documents" :key="user.id"
               class="inline-block q-mr-sm q-mb-none text-caption text-grey-13">
-              {{ user.nombre }} {{ user.apellido }}
+              Hola, <strong>{{ user.nickname }}</strong>
             </p>
 
             <login-modal-component v-if="databaseStore.documents == ''" />
 
             <register-form-component v-if="databaseStore.documents == ''" />
 
-            <q-btn v-if="databaseStore.documents != ''" @click="logout" class="q-mr-sm logout" outline size="sm"
+            <q-btn v-if="databaseStore.documents != ''" @click="logout" class="q-mr-sm logout" color="red-13" size="sm"
               label="Salir" />
           </div>
           <div v-else>

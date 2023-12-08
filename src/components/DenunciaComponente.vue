@@ -1,13 +1,11 @@
 <script setup>
 import { useQuasar } from "quasar";
-import { onMounted, reactive, ref } from "vue";
-import { useUserStore } from '../stores/user'
+import { onMounted, reactive } from "vue";
 import { useRouter } from "vue-router";
 import { userDatabaseStore } from "src/stores/database";
 import { useApiStore } from 'src/stores/api'
 
 const router = useRouter()
-const userStore = useUserStore()
 const $q = useQuasar();
 const userDatabase = userDatabaseStore()
 const useApi = useApiStore()
@@ -17,19 +15,17 @@ onMounted(() => {
 })
 
 //Variables
-const email = ref(null);
-const password = ref(null);
-
 const denuncia = reactive({
+  tipoComunicacion: 'Denuncia',
   torneo: '',
-  instante: '',
   emailDestinatario: 'hernandonatelli@gmail.com',
   emailDenunciante: '',
   userDenunciante: '',
   userDenunciado: '',
-  comentarios: '',
   evento: '',
-  sesion: ''
+  sesion: '',
+  instante: '',
+  comentarios: '',
 })
 
 const rulesEmail = [
@@ -51,7 +47,8 @@ const submitDenuncia = async () => {
   } else {
     if (denuncia.emailDenunciante === userDatabase.documents[0].email) {
 
-      await useApi.enviarDenunciaAPI(useApi.tokenApi, denuncia)
+      await useApi.enviarComunicacionAPI(useApi.tokenApi, denuncia)
+      // console.log(denuncia);
 
       $q.notify({
         color: "green-6",
@@ -113,8 +110,8 @@ const torneosApi = async () => {
 <template>
   <section id="denuncias">
     <div class="row items-center">
-      <div class="col-12 col-sm-6 col-md-5 q-pa-md">
-        <h4 class="text-h4 text-center text-uppercase montserratExtraBold q-mb-none">Denuncias</h4>
+      <div class="col-12 col-md-5 q-pa-md q-mt-lg">
+        <h4 class="text-h4 text-center text-uppercase montserratExtraBold q-mt-md q-mb-none">Denuncias</h4>
         <hr>
         <p class="text-center text-body2 q-mt-md">
           Si tuviste un incidente en algún evento y queres denunciarlo, completá el formulario, envialo y los Comisarios
@@ -122,52 +119,52 @@ const torneosApi = async () => {
         </p>
       </div>
 
-      <div class="col-12 col-sm-6 col-md-7 q-pa-md">
+      <div class="col-12 col-md-7 q-pa-md">
         <q-form @submit.prevent="submitDenuncia" class="q-gutter-md">
           <div class="row flex justify-around q-mb-lg">
-            <div class="col-12 col-sm-3 col-md-5">
+            <div class="col-12 col-sm-5 col-md-5">
               <q-input dense color="cyan-6" type="email" label="Tu email"
                 hint="Mismo email con el cual te registraste." lazy-rules v-model="denuncia.emailDenunciante"
                 name="email" :rules="rulesEmail" />
             </div>
 
-            <div class="col-12 col-sm-3 col-md-5">
+            <div class="col-12 col-sm-5 col-md-5">
               <q-input type="text" color="cyan-6" v-model="denuncia.userDenunciante" label="Tu usuario en el Simulador"
                 dense hint="Nickname ó nombre que utilizas para correr." />
             </div>
           </div>
 
           <div class="row flex justify-around q-mb-lg">
-            <div class="col-12 col-sm-3 col-md-5">
+            <div class="col-12 col-sm-5 col-md-5">
               <q-select color="cyan-6" label-color="grey-8" class="q-px-none" item-aligned filled dense name="torneo"
                 v-model="denuncia.torneo" :options="useApi.torneoOpt" hint="Seleccionar un Torneo"
                 label="-- Seleccionar Torneo --" />
             </div>
 
-            <div class="col-12 col-sm-3 col-md-5">
+            <div class="col-12 col-sm-5 col-md-5">
               <q-input color="cyan-6" type="text" v-model="denuncia.evento" hint="Ejemplo: Termas de Rio Hondo"
                 label="Evento" dense />
             </div>
           </div>
 
           <div class="row flex justify-around q-mb-lg">
-            <div class="col-12 col-sm-3 col-md-5">
+            <div class="col-12 col-sm-5 col-md-5">
               <q-input color="cyan-6" type="text" v-model="denuncia.sesion" hint="Ejemplo: Serie 1, Final, Carrera..."
                 label="Sesión" dense />
             </div>
 
-            <div class="col-12 col-sm-3 col-md-5">
+            <div class="col-12 col-sm-5 col-md-5">
               <q-input color="cyan-6" type="text" v-model="denuncia.userDenunciado" label="Piloto denunciado" dense hint="Nickname ó nombre del piloto que denuncias." />
             </div>
           </div>
 
           <div class="row flex justify-around q-mb-lg">
-            <div class="col-12 col-sm-3 col-md-5">
+            <div class="col-12 col-sm-5 col-md-5">
               <q-input color="cyan-6" type="text" v-model="denuncia.instante" name="instante" hint="Ejemplo: 2:32"
                 label="Instante del Incidente" dense />
             </div>
 
-            <div class="col-12 col-sm-3 col-md-5">
+            <div class="col-12 col-sm-5 col-md-5">
               <q-input color="cyan-6" v-model="denuncia.comentarios" hint="Descripción del incidente" filled
                 type="textarea" />
             </div>

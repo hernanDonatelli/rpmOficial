@@ -812,19 +812,19 @@ export const useApiStore = defineStore('useApiStore', {
 
     },
 
-    async enviarDenunciaAPI(token, denuncia) {
-      const optionsSubirDenuncia = {
+    async enviarComunicacionAPI(token, comunicacion) {
+      const optionsSubirComunicacion = {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
           'X-Requested-With': 'XMLHttpRequest',
           Accept: 'application/json'
         },
-        body: denuncia
+        body: comunicacion
       }
 
-      const subirDenuncia = await fetch(`https://rpm.studioatlantic.com.ar/pezls/public/api/v1/enviarDenuncia`, optionsSubirDenuncia)
-      const respuesta = await subirDenuncia.json()
+      const subirComunicacion = await fetch(`https://pezls.studioatlantic.com.ar/public/api/v1/enviarComunicacion`, optionsSubirComunicacion)
+      const respuesta = await subirComunicacion.json()
 
       console.log(respuesta);
 

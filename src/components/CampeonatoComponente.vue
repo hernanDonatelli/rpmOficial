@@ -3,7 +3,7 @@ import CounterComponent from '../components/CounterComponent.vue'
 import { useApiStore } from 'src/stores/api';
 import { useUserStore } from 'src/stores/user'
 import { userDatabaseStore } from 'src/stores/database'
-import { onMounted, reactive, ref } from 'vue';
+import { onMounted, onUnmounted, reactive } from 'vue';
 import { useQuasar } from 'quasar';
 
 const apiStore = useApiStore();
@@ -11,15 +11,24 @@ const userStore = useUserStore();
 const useDatabase = userDatabaseStore();
 const $q = useQuasar()
 
-const dateObj = reactive({
-  id: null,
-  year: null,
-  month: null,
-  day: null
-})
-
 onMounted(async () => {
   await fechaCountdown()
+})
+onUnmounted(() => {
+  apiStore.arrayFechasCounter = []
+})
+
+const inscripcion = reactive({
+  tipoComunicacion: 'Inscripcion',
+  torneo: '',
+  emailDestinatario: 'hernandonatelli@gmail.com',
+  emailRemitente: '',
+  nombre: '',
+  apellido: '',
+  user: '',
+  movil: '',
+  simulador: '',
+  precio: ''
 })
 
 const fechaCountdown = async () => {
@@ -67,6 +76,15 @@ const colorCounter = (torneo) => {
 
 }
 
+const colorBtn = (simulador) => {
+
+  if (simulador == 'Assetto Corsa') return 'btn-Assetto'
+  if (simulador == 'rFactor2') return 'btn-rFactor2'
+  if (simulador == 'Simulador TC') return 'btn-simuladorTC'
+  if (simulador == 'rFactor') return 'btn-rFactor'
+
+}
+
 const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido) => {
 
   $q.dialog({
@@ -86,7 +104,7 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido) =>
       label: 'Cancelar'
     }
   }).onOk(async () => {
-    console.log('Inscripcion enviada!');
+    console.log('Inscripcion enviada!', inscripcion);
 
   }).onCancel(() => {
     // console.log('>>>> Cancel')
@@ -115,20 +133,22 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido) =>
         <div class="torneo__header flex justify-between items-center row-md">
           <div
             class="titleLogo column justify-center items-center justify-sm-center col-12 col-sm-6 column-md justify-md-start">
-            <h3 class="text-center text-uppercase montserratExtraBold text-white q-my-none q-pl-none">{{ torneo.name
+            <h3 class="text-center text-uppercase montserratExtraBold text-white q-mb-xs-sm q-my-none q-pl-none">{{
+              torneo.name
             }}
             </h3>
           </div>
           <div class="buttons flex row justify-around items-center col-sm-6 col-md-6 justify-md-end">
             <q-btn
               @click="inscripcionTorneo(torneo.price, torneo.name, torneo.simulator, useDatabase.documents[0].nombre, useDatabase.documents[0].apellido)"
-              v-if="userStore.userData != null" class="text-white q-mx-lg q-my-xs col-8 col-sm-6 col-md-3"
-              icon="lab la-wpforms" style="background: #00bfa5; font-weight: bold;" label="Inscripción" />
-            <q-btn :to="`torneo/${torneo.id}`" class="q-mx-lg q-my-xs col-8 col-sm-6 col-md-3" icon="las la-trophy"
+              v-if="userStore.userData != null" :class="colorBtn(torneo.simulator)"
+              class="text-white q-mx-lg q-my-xs col-8 col-md-3" icon="lab la-wpforms" style="font-weight: bold;"
+              label="Inscripción" />
+            <q-btn :to="`torneo/${torneo.id}`" class="q-mx-lg q-my-xs col-8 col-md-3" icon="las la-trophy"
               style="background: #ffffff; color: #212121; font-weight: bold;" label="Campeonato" />
-            <q-btn href="https://www.rpmracingleague.net/foro/" target="_blank"
-              class="q-mx-lg q-my-xs col-8 col-sm-6 col-md-3" icon="las la-external-link-alt"
-              style="background: #ffffff; color: #212121; font-weight: bold;" label="Foro" />
+            <q-btn href="https://www.rpmracingleague.net/foro/" target="_blank" class="q-mx-lg q-my-xs col-8 col-md-3"
+              icon="las la-external-link-alt" style="background: #ffffff; color: #212121; font-weight: bold;"
+              label="Foro" />
           </div>
         </div>
 
@@ -136,8 +156,9 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido) =>
         <div class="footer row justify-between items-end">
           <!-- Precio -->
           <div class="price">
-            <h4 class="fontCustomTitle text-white text-weight-bold q-mb-none">${{ Number(torneo.price) }}</h4>
-            <div class="pagos flex no-wrap items-center justify-start">
+            <h4 class="fontCustomTitle text-center text-white text-weight-bold q-mb-none q-mt-md-none">${{
+              Number(torneo.price) }}</h4>
+            <div class="pagos flex no-wrap items-center justify-center justify-md-start">
               <img src="~assets/mp2_rpm.png" />
               <img src="~assets/transfer2_rpm.png" style="width: 32px; height: 35px; margin-left: .7rem;" />
             </div>
@@ -206,23 +227,27 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido) =>
 
   .torneo {
     position: relative;
-    max-width: 1100px;
+    max-width: 85%;
     margin: 0 auto;
 
     .borde-rFactor.torneo-container {
-      border-left: 45px solid $deep-orange-13;
+      border-top: 45px solid $deep-orange-13;
+      border-bottom: 2px solid $deep-orange-13;
     }
 
     .borde-rFactor2.torneo-container {
-      border-left: 45px solid $lime-6;
+      border-top: 45px solid $lime-6;
+      border-bottom: 2px solid $lime-6;
     }
 
     .borde-Assetto.torneo-container {
-      border-left: 45px solid $purple-14;
+      border-top: 45px solid $purple-14;
+      border-bottom: 2px solid $purple-14;
     }
 
     .borde-simuladorTC.torneo-container {
-      border-left: 45px solid $light-blue-13;
+      border-top: 45px solid $light-blue-13;
+      border-bottom: 2px solid $light-blue-13;
     }
 
     .counter-Assetto {
@@ -241,22 +266,36 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido) =>
       color: $light-blue-13;
     }
 
+    .btn-Assetto {
+      background-color: $purple-14;
+    }
+
+    .btn-rFactor {
+      background-color: $deep-orange-13;
+    }
+
+    .btn-rFactor2 {
+      background-color: $lime-6;
+    }
+
+    .btn-simuladorTC {
+      background-color: $light-blue-13;
+    }
+
     .torneo-container {
       position: relative;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      border: 10px solid #1b1b1b;
       z-index: 20;
 
       .simulador {
         position: absolute;
         height: 100%;
-        top: 0;
-        left: -3.75%;
+        top: -8%;
+        left: 50%;
+        transform: translate(-50%, 0);
         z-index: 20;
-        writing-mode: vertical-lr;
-        transform: rotate(180deg);
       }
     }
 
@@ -288,8 +327,8 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido) =>
     .price {
       position: relative;
       z-index: 50;
-      left: 8%;
-      width: 50%;
+      // left: 8%;
+      width: 100%;
 
       .pagos img {
         width: 65px;
@@ -318,82 +357,205 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido) =>
   }
 }
 
-@media screen and (min-width: 767.98px) {
-  #campeonatos .torneo .tablePos {
-    width: 50%;
+@media screen and (min-width: 599.98px) {
 
-    .q-table__container {
-      width: 100%;
+  #campeonatos {
+    .torneo {
+      .borde-rFactor.torneo-container {
+        border-left: 45px solid $deep-orange-13;
+        border-right: 3px solid $deep-orange-13;
+        border-top: unset;
+        border-bottom: unset;
+      }
+
+      .borde-rFactor2.torneo-container {
+        border-left: 45px solid $lime-6;
+        border-right: 3px solid $lime-6;
+        border-top: unset;
+        border-bottom: unset;
+      }
+
+      .borde-Assetto.torneo-container {
+        border-left: 45px solid $purple-14;
+        border-right: 3px solid $purple-14;
+        border-top: unset;
+        border-bottom: unset;
+      }
+
+      .borde-simuladorTC.torneo-container {
+        border-left: 45px solid $light-blue-13;
+        border-right: 3px solid $light-blue-13;
+        border-top: unset;
+        border-bottom: unset;
+      }
+
+      .torneo-container {
+
+        .torneo__header {
+
+          .titleLogo {
+            width: 100%;
+          }
+
+          .buttons {
+            width: 100%;
+          }
+        }
+
+        .simulador {
+          position: absolute;
+          height: 100%;
+          top: 0;
+          left: -8%;
+          z-index: 20;
+          writing-mode: vertical-lr;
+          transform: rotate(180deg);
+        }
+      }
+
+      .next {
+        width: 100%;
+      }
+
+      .tablePos {
+        width: 50%;
+
+        .q-table__container {
+          width: 100%;
+        }
+      }
+
     }
-  }
-
-  #campeonatos .torneo .next {
-    width: 50%;
-  }
-
-  .buttons {
-    width: 80%;
   }
 
 }
 
 @media screen and (min-width: 991.98px) {
-  #campeonatos .torneo .tablePos {
-    width: 40%;
+  #campeonatos {
 
-    .q-table__container {
-      width: 100%;
+    .torneo {
+
+      .torneo-container {
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        .torneo__header {
+
+          .buttons {
+            width: 100%;
+          }
+        }
+
+        .simulador {
+          left: -5%;
+        }
+
+        .price {
+          width: 50%;
+          left: 12%;
+
+          h4 {
+            text-align: left;
+          }
+
+        }
+
+        .next {
+          width: 50%;
+        }
+      }
+
+      .tablePos {
+        width: 40%;
+
+        .q-table__container {
+          width: 100%;
+        }
+      }
     }
   }
 
-  #campeonatos .torneo__header .buttons {
-    width: 65%;
-  }
-
-  #campeonatos .torneo__header .titleLogo {
-    width: 40%;
-  }
-
-  .torneo-container {
-    max-width: 992px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
 }
 
 @media screen and (min-width: 1279.98px) {
-  #campeonatos .torneo .tablePos {
-    width: 35%;
+  #campeonatos {
 
+    .torneo {
+
+      .tablePos {
+        width: 35%;
+      }
+
+      .next {
+        width: 33%;
+      }
+
+      .torneo-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        .simulador {
+          left: -3.5%;
+        }
+
+        .torneo__header {
+
+          .titleLogo {
+            width: 33%;
+
+            h3 {
+              font-size: 2rem;
+            }
+          }
+
+          .buttons {
+            width: 66%;
+          }
+        }
+
+        .price {
+          left: 8%;
+
+          h4 {
+            text-align: left;
+          }
+        }
+      }
+    }
   }
 
-  #campeonatos .torneo .next {
-    width: 33%;
-  }
-
-  #campeonatos .torneo__header .titleLogo {
-    width: 33%;
-  }
-
-  .buttons {
-    width: 33%;
-  }
-
-  .torneo-container {
-    max-width: 1280px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-
-  }
 }
 
 @media screen and (min-width: 1599.98px) {
-  #campeonatos .torneo .tablePos {
-    width: 40%;
+  #campeonatos {
+
+    .torneo {
+
+      .torneo-container {
+
+        .simulador {
+          left: -3%;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 1919.98px) {
+  #campeonatos {
+
+    .torneo {
+
+      .torneo-container {
+
+        .simulador {
+          left: -2.35%;
+        }
+      }
+    }
   }
 }
 </style>

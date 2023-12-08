@@ -48,7 +48,7 @@ export const useUserStore = defineStore('userStore', {
         });
     },
 
-    async registerUser(email, password, nombre, apellido, movil) {
+    async registerUser(email, password, nombre, apellido, movil, nickname) {
       const userDatabase = userDatabaseStore()
       this.loadingUser = true
 
@@ -56,6 +56,7 @@ export const useUserStore = defineStore('userStore', {
         const data = {
           nombre: nombre,
           apellido: apellido,
+          nickname: nickname,
           movil: movil,
           isAdmin: false
         }
@@ -74,6 +75,7 @@ export const useUserStore = defineStore('userStore', {
                   emailVerified: user.emailVerified,
                   nombre: data.nombre,
                   apellido: data.apellido,
+                  nickname: data.nickname,
                   movil: data.movil,
                   isAdmin: data.isAdmin
                 }

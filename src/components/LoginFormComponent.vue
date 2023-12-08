@@ -52,7 +52,7 @@ const recuperoPassword = async () => {
       message: "Debe completar el email",
     });
   }
-  
+
   await userStore.cambiarPassword(emailPassword.value)
 
   setTimeout(() => {
@@ -77,8 +77,8 @@ const onReset = () => {
       :rules="rulesPassword" />
 
     <div class="btns-login q-ml-none">
-      <q-btn :disabled="userStore.loadingUser" label="Ingresar" type="submit" color="teal-13" />
-      <q-btn label="Limpiar Campos" type="reset" color="primary" flat class="q-ml-sm" />
+      <q-btn :disabled="userStore.loadingUser" label="Ingresar" type="submit" color="teal-6" />
+      <q-btn label="Limpiar Campos" type="reset" color="red-13" class="q-ml-sm" />
     </div>
 
     <div class="q-ml-none">

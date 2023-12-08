@@ -15,6 +15,7 @@ const email = ref(null);
 const password = ref(null);
 const repassword = ref(null);
 const movil = ref(null);
+const nickname = ref(null);
 
 //Validaciones
 const nombreRules = [
@@ -44,7 +45,7 @@ const passwordRules = [
 
 //Metodos
 const onSubmit = async () => {
-  if (!nombre.value || !apellido.value || !email.value || !password.value || !repassword.value || !movil.value) {
+  if (!nombre.value || !apellido.value || !email.value || !password.value || !repassword.value || !movil.value || !nickname.value) {
     $q.notify({
       color: "red-5",
       textColor: "white",
@@ -66,9 +67,9 @@ const onSubmit = async () => {
       });
     } else {
 
-      await userStore.registerUser(email.value, password.value, nombre.value, apellido.value, movil.value)
+      await userStore.registerUser(email.value, password.value, nombre.value, apellido.value, movil.value, nickname.value)
 
-      await router.push('/');
+      // await router.push('/');
       // await router.push('/registro-ok')
 
     }
@@ -84,23 +85,28 @@ const onReset = () => {
   password.value = null;
   repassword.value = null;
   movil.value = null;
+  nickname.value = null;
 };
 </script>
 
 <template>
   <q-form @submit.prevent="onSubmit" @reset="onReset" class="q-gutter-md">
-    <h5 class="text-h5 text-uppercase">Registro</h5>
-
+    <h5 class="text-h5 text-uppercase montserratExtraBold q-mb-none">Registrate</h5>
+    <hr class="separador q-mt-sm">
     <div class="row flex justify-between">
-      <div class="col-12 col-sm-5">
+      <div class="col-12 col-sm-4">
         <q-input dense color="cyan-6" v-model.trim="nombre" label="Nombre *" hint="Hasta 20 caracteres" lazy-rules
           :rules="nombreRules">
         </q-input>
       </div>
-      <div class="col-12 col-sm-5">
+      <div class="col-12 col-sm-4">
         <q-input dense color="cyan-6" v-model.trim="apellido" label="Apellido *" hint="Hasta 20 caracteres" lazy-rules
           :rules="apellidoRules" />
       </div>
+      <div>
+      <q-input dense color="cyan-6" v-model.trim="nickname" label="Nickname *" hint="Hasta 20 caracteres" lazy-rules
+        :rules="apellidoRules" />
+    </div>
     </div>
 
     <div class="row flex justify-between">
@@ -123,11 +129,16 @@ const onReset = () => {
           lazy-rules :rules="passwordRules" />
       </div>
     </div>
-    <div>
-      <q-btn :disabled="userStore.loadingUser" label="Registrarse" type="submit" color="primary" />
-      <q-btn label="Limpiar Formulario" type="reset" color="primary" flat class="q-ml-sm" />
+      <div class="col-12 col-sm-3 flex justify-center">
+      <q-btn :disabled="userStore.loadingUser" label="Registrarse" type="submit" color="teal-6" />
+      <q-btn label="Limpiar Formulario" type="reset" color="red-13" class="q-ml-sm q-ml-md" />
     </div>
   </q-form>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.separador{
+  height: 3px;
+  background-color: black;
+}
+</style>

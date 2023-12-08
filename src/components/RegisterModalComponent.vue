@@ -7,15 +7,15 @@ const openModalRegister = ref(false);
 
 <template>
   <q-dialog v-model="openModalRegister">
-    <q-card class="q-pa-xl" style="width: 600px; max-width: 80vw; height: 70vh; max-height: 90vh">
+    <q-card class="q-pa-xl" style="width: 700px; max-width: 80vw; height: 70vh; max-height: 90vh">
       <register-form-component />
     </q-card>
   </q-dialog>
   <q-btn
     @click="openModalRegister = true"
-    class="q-mr-sm"
+    class="q-mr-sm btn-register"
     size="sm"
-    outline
+    color="blue-grey-7"
     style="color: lightgrey"
     label="Registrate"
   />
@@ -23,4 +23,5 @@ const openModalRegister = ref(false);
 
 
 <style lang="scss" scoped>
+
 </style>

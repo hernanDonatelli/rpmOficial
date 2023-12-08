@@ -11,8 +11,9 @@ const $q = useQuasar()
 
 const nombre = ref('')
 const apellido = ref('')
-const email = ref('')
+const nickname = ref('')
 const movil = ref('')
+const email = ref('')
 
 //Validaciones
 const nombreRules = [,
@@ -38,13 +39,14 @@ const getInfoUser = () => {
         nombre.value = user.nombre;
         apellido.value = user.apellido;
         email.value = user.email;
-        movil.value = user.movil
+        movil.value = user.movil;
+        nickname.value = user.nickname
     });
 
 }
 // getInfoUser()
 const onSubmitEdit = async () => {
-    if (!nombre.value || !apellido.value || !email.value || !movil.value) {
+    if (!nombre.value || !apellido.value || !movil.value || !nickname.value) {
         $q.notify({
             color: "red-5",
             textColor: "white",
@@ -58,6 +60,7 @@ const onSubmitEdit = async () => {
             nombre: nombre.value,
             apellido: apellido.value,
             movil: movil.value,
+            nickname: nickname.value
         }
         // console.log(editUser);
         await databaseStore.updateUser(editUser);
@@ -106,28 +109,35 @@ const resetPage = async () => {
                 <hr>
                 <!-- Tabla de datos actuales -->
 
-                    <ul class="q-pl-none flex justify-center" style="list-style: none;">
-                        <li v-for="usuario in databaseStore.documents" :key="usuario.id" class="w-100 flex column justify-center">
-                            <span>
-                                <q-icon color="red-13" name="las la-file-signature" />
-                                Nombre: <strong>{{ usuario.nombre }}</strong>
-                            </span>
-                            <span>
-                                <q-icon color="red-13" name="las la-signature" />
-                                Apellido: <strong>{{ usuario.apellido }}</strong>
-                            </span>
+                <ul class="q-pl-none flex justify-center" style="list-style: none;">
+                    <li v-for="usuario in databaseStore.documents" :key="usuario.id"
+                        class="w-100 flex column justify-center">
+                        <span>
+                            <q-icon color="red-13" name="las la-file-signature" />
+                            Nombre: <strong>{{ usuario.nombre }}</strong>
+                        </span>
 
-                            <span>
-                                <q-icon color="red-13" name="las la-envelope" />
-                                Email: <strong>{{ usuario.email }}</strong>
-                            </span>
+                        <span>
+                            <q-icon color="red-13" name="las la-signature" />
+                            Apellido: <strong>{{ usuario.apellido }}</strong>
+                        </span>
 
-                            <span>
-                                <q-icon color="red-13" name="las la-mobile-alt" />
-                                Movil: <strong>{{ usuario.movil }}</strong>
-                            </span>
-                        </li>
-                    </ul>
+                        <span>
+                            <q-icon color="red-13" name="las la-user-astronaut" />
+                            Nickname: <strong>{{ usuario.nickname }}</strong>
+                        </span>
+
+                        <span>
+                            <q-icon color="red-13" name="las la-envelope" />
+                            Email: <strong>{{ usuario.email }}</strong>
+                        </span>
+
+                        <span>
+                            <q-icon color="red-13" name="las la-mobile-alt" />
+                            Movil: <strong>{{ usuario.movil }}</strong>
+                        </span>
+                    </li>
+                </ul>
             </div>
 
             <!-- Formulario de edicion -->
@@ -151,8 +161,8 @@ const resetPage = async () => {
 
                         <div class="row flex justify-center q-mb-lg">
                             <div class="col-12 col-sm-3 col-md-5">
-                                <q-input class="q-mx-sm" disable filled dense color="red-13" type="email" label="email"
-                                    v-model="email" hint="No puedes modificar el email" />
+                                <q-input class="q-mx-sm" filled dense color="red-13" type="text" label="nickname"
+                                    v-model="nickname" hint="Tu nickname dentro del juego." />
                             </div>
                             <div class="col-12 col-sm-3 col-md-5">
                                 <q-input class="q-mx-sm" filled dense type="number" color="red-13" label="movil"
@@ -163,7 +173,8 @@ const resetPage = async () => {
 
                     <div class="text-center">
                         <div class="col-12 col-sm-6 q-mt-xl">
-                            <q-btn @click.prevent="getInfoUser" label="Cargar Datos" type="submit" color="dark" dense class="q-px-md" />
+                            <q-btn @click.prevent="getInfoUser" label="Cargar Datos" type="submit" color="dark" dense
+                                class="q-px-md" />
                             <q-btn @click.prevent="onSubmitEdit" :disable="!userStore.loadingUser" class="q-mx-md q-px-md"
                                 label="Editar Usuario" type="submit" color="teal-6" dense />
                             <q-btn label="Limpiar Campos" type="reset" color="red-13" dense class="q-px-md" />
@@ -186,7 +197,7 @@ const resetPage = async () => {
     background-size: cover;
     background-position: center left;
 
-    .mi-cuenta-container{
+    .mi-cuenta-container {
         max-width: 95%;
         margin: 0 auto;
         height: 100vh;

@@ -15,7 +15,7 @@ const openModal = ref(false);
     @click="openModal = true"
     class="q-mr-sm"
     size="sm"
-    outline
+    color="teal-6"
     style="color: lightgrey"
     label="Login"
   />
@@ -23,4 +23,5 @@ const openModal = ref(false);
 
 
 <style lang="scss" scoped>
+
 </style>
