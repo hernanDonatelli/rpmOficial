@@ -1,4 +1,5 @@
 <script setup>
+import FooterComponent from "./FooterComponent.vue";
 import { useQuasar } from "quasar";
 import { onMounted, reactive } from "vue";
 import { useRouter } from "vue-router";
@@ -16,7 +17,7 @@ onMounted(() => {
 
 //Variables
 const denuncia = reactive({
-  tipoComunicacion: 'Denuncia',
+  tipoComunicacion: 'denuncia',
   torneo: '',
   emailDestinatario: 'hernandonatelli@gmail.com',
   emailDenunciante: '',
@@ -47,8 +48,8 @@ const submitDenuncia = async () => {
   } else {
     if (denuncia.emailDenunciante === userDatabase.documents[0].email) {
 
-      await useApi.enviarComunicacionAPI(useApi.tokenApi, denuncia)
       // console.log(denuncia);
+      await useApi.enviarComunicacionAPI(useApi.tokenApi, denuncia)
 
       $q.notify({
         color: "green-6",
@@ -109,17 +110,17 @@ const torneosApi = async () => {
 
 <template>
   <section id="denuncias">
-    <div class="row items-center">
-      <div class="col-12 col-md-5 q-pa-md q-mt-lg">
-        <h4 class="text-h4 text-center text-uppercase montserratExtraBold q-mt-md q-mb-none">Denuncias</h4>
+    <div class="row items-center justify-center">
+      <div class="col-12 col-lg-10 q-pa-md q-mt-lg">
+        <h4 class="text-h4 text-center text-uppercase montserratExtraBold q-mb-none">Denuncias</h4>
         <hr>
-        <p class="text-center text-body2 q-mt-md">
+        <p class="text-center text-body2 q-mt-md sub-denuncia">
           Si tuviste un incidente en algún evento y queres denunciarlo, completá el formulario, envialo y los Comisarios
           evaluarán las acciones.
         </p>
       </div>
 
-      <div class="col-12 col-md-7 q-pa-md">
+      <div class="col-12 col-lg-10 col-xl-7 q-pa-md">
         <q-form @submit.prevent="submitDenuncia" class="q-gutter-md">
           <div class="row flex justify-around q-mb-lg">
             <div class="col-12 col-sm-5 col-md-5">
@@ -172,24 +173,32 @@ const torneosApi = async () => {
 
           <div class="row flex justify-center">
             <q-btn @click="limpiarCampos" label="Limpiar Campos" type="reset" color="red-13" class="q-mr-xl" />
-            <q-btn label="Enviar Denuncia" type="submit" color="teal-6" icon-right="mail" />
+            <q-btn label="Enviar Denuncia" type="submit" color="teal-6" />
           </div>
         </q-form>
       </div>
     </div>
-
   </section>
+
+  <FooterComponent />
 </template>
 
 
 <style lang="scss">
 #denuncias {
   max-width: 95%;
+  margin: 0 auto 2rem;
 
   hr {
     width: 10%;
     border: 2.5px solid black;
-    margin-top: 2%;
+    margin-top: 1%;
+  }
+}
+
+@media screen and (min-width: 1023.98px){
+  .sub-denuncia{
+    padding: 0 8rem;
   }
 }
 </style>

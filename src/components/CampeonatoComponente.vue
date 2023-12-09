@@ -18,18 +18,7 @@ onUnmounted(() => {
   apiStore.arrayFechasCounter = []
 })
 
-const inscripcion = reactive({
-  tipoComunicacion: 'Inscripcion',
-  torneo: '',
-  emailDestinatario: 'hernandonatelli@gmail.com',
-  emailRemitente: '',
-  nombre: '',
-  apellido: '',
-  user: '',
-  movil: '',
-  simulador: '',
-  precio: ''
-})
+
 
 const fechaCountdown = async () => {
   let resultObj = {}
@@ -85,11 +74,11 @@ const colorBtn = (simulador) => {
 
 }
 
-const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido) => {
+const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido, nickname, email, movil) => {
 
   $q.dialog({
     title: `<h5 class="text-center text-h5 text-uppercase q-my-none fontCustomTitle font-weight-bold">Inscripción Torneo ${torneo}</h5><hr class="separador"/>`,
-    message: `<p>Hola <strong>${nombre} ${apellido}</strong>, vas a comenzar tu pre-inscripción al <strong>Torneo ${torneo} (${simulador})</strong> por un valor de <strong>$${Number(precio)}</strong>.</p>
+    message: `<p>Hola <strong>${nombre} ${apellido} (${nickname})</strong>, vas a comenzar tu pre-inscripción al <strong>Torneo ${torneo} (${simulador})</strong> por un valor de <strong>$${Number(precio)}</strong>.</p>
         <p>Clickeando en <strong>Ok</strong> se enviará un email a la Administración y dentro de las próximas 48hs se contactarán contigo. De lo contrario haz click en <strong>Cancelar</strong> para anular la inscripción.</p>`,
     cancel: true,
     persistent: true,
@@ -104,7 +93,21 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido) =>
       label: 'Cancelar'
     }
   }).onOk(async () => {
+    const inscripcion = {
+      tipoComunicacion: 'inscripcion',
+      torneo: torneo,
+      emailDestinatario: 'hernandonatelli@gmail.com',
+      emailRemitente: email,
+      nombre: nombre,
+      apellido: apellido,
+      user: nickname,
+      movil: movil,
+      simulador: simulador,
+      precio: precio
+    }
     console.log('Inscripcion enviada!', inscripcion);
+
+    await apiStore.enviarComunicacionAPI(apiStore.tokenApi, inscripcion)
 
   }).onCancel(() => {
     // console.log('>>>> Cancel')
@@ -140,7 +143,7 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido) =>
           </div>
           <div class="buttons flex row justify-around items-center col-sm-6 col-md-6 justify-md-end">
             <q-btn
-              @click="inscripcionTorneo(torneo.price, torneo.name, torneo.simulator, useDatabase.documents[0].nombre, useDatabase.documents[0].apellido)"
+              @click="inscripcionTorneo(torneo.price, torneo.name, torneo.simulator, useDatabase.documents[0].nombre, useDatabase.documents[0].apellido, useDatabase.documents[0].nickname, useDatabase.documents[0].email, useDatabase.documents[0].movil)"
               v-if="userStore.userData != null" :class="colorBtn(torneo.simulator)"
               class="text-white q-mx-lg q-my-xs col-8 col-md-3" icon="lab la-wpforms" style="font-weight: bold;"
               label="Inscripción" />

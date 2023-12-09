@@ -546,7 +546,7 @@ export const useApiStore = defineStore('useApiStore', {
       await fetch('https://rpm.studioatlantic.com.ar/pezls/public/api/v1/posicionesTorneo', optionsPosiciones)
         .then(res => res.json())
         .then(response => {
-          console.log(response.data);
+          
           this.tablaPosiciones.push(response.data[0])
         })
     },
@@ -823,11 +823,14 @@ export const useApiStore = defineStore('useApiStore', {
         body: comunicacion
       }
 
-      const subirComunicacion = await fetch(`https://pezls.studioatlantic.com.ar/public/api/v1/enviarComunicacion`, optionsSubirComunicacion)
-      const respuesta = await subirComunicacion.json()
+      await fetch("https://rpm.studioatlantic.com.ar/pezls/public/api/v1/enviarComunicacion", optionsSubirComunicacion)
+        .then(res => res.json())
+        .then(data => data)
 
-      console.log(respuesta);
+      // const subirComunicacion = await fetch(`https://rpm.studioatlantic.com.ar/pezls/public/api/v1/enviarComunicacion`, optionsSubirComunicacion)
+      // const respuesta = await subirComunicacion.json()
 
+      // return respuesta
     }
   }
 })

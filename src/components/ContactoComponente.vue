@@ -1,15 +1,18 @@
 <script setup>
+import FooterComponent from "./FooterComponent.vue";
 import { useQuasar } from "quasar";
 import { reactive } from "vue";
 import { userDatabaseStore } from "src/stores/database";
+import { useApiStore } from "src/stores/api";
 const $q = useQuasar();
 const userDatabase = userDatabaseStore()
+const useApi = useApiStore()
 
 
 //Variables
 
 const contacto = reactive({
-  tipoComunicacion: 'Contacto',
+  tipoComunicacion: 'contacto',
   emailDestinatario: 'hernandonatelli@gmail.com',
   emailRemitente: '',
   user: '',
@@ -39,7 +42,7 @@ const rulesEmail = [
 //Metodos
 const submitContact = () => {
   // console.log(instante.value);
-  if (!contacto.emailRemitente || !contacto.user || !contacto.movil || !contacto.comentarios ) {
+  if (!contacto.emailRemitente || !contacto.user || !contacto.movil || !contacto.comentarios) {
     $q.notify({
       color: "red-5",
       textColor: "white",
@@ -50,20 +53,30 @@ const submitContact = () => {
   } else {
     if (contacto.emailRemitente === userDatabase.documents[0].email) {
 
-        console.log('Consulta enviada!', contacto);
+      const sendContact = {
+        tipoComunicacion: contacto.tipoComunicacion,
+        emailDestinatario: contacto.emailDestinatario,
+        emailRemitente: contacto.emailRemitente,
+        user: contacto.user,
+        movil: contacto.movil,
+        comentarios: contacto.comentarios
+      }
 
-          $q.notify({
-            color: "teal-6",
-            textColor: "white",
-            icon: "cloud_done",
-            message: "Consulta enviada! Nos comunicaremos contigo dentro de las próximas 48hs.",
-            position: "top",
-            timeout: 3000
-          });
+      //console.log(sendContact);
+      useApi.enviarComunicacionAPI(useApi.tokenApi, sendContact)
 
-          // setTimeout(() => {
-          //   router.push('/')
-          // }, 3000);
+      $q.notify({
+        color: "teal-6",
+        textColor: "white",
+        icon: "cloud_done",
+        message: "Consulta enviada! Nos comunicaremos contigo dentro de las próximas 48hs.",
+        position: "top",
+        timeout: 3000
+      });
+
+      // setTimeout(() => {
+      //   router.push('/')
+      // }, 3000);
 
 
     } else {
@@ -91,22 +104,22 @@ const limpiarCampos = () => {
 
 <template>
   <section id="contacto">
-    <div class="row items-center">
-      <div class="col-12 col-md-5 q-pa-md q-mt-lg q-mt-md-none">
-        <h4 class="text-h4 text-center text-uppercase montserratExtraBold q-my-none">Contacto</h4>
+    <div class="row items-center justify-center">
+      <div class="col-12 col-md-8 col-lg-7 q-pa-md q-mt-lg q-mt-md-none">
+        <h4 class="text-h4 text-center text-uppercase montserratExtraBold q-mb-none">Contacto</h4>
         <hr>
-        <p class="text-center text-body2 q-mt-md">
+        <p class="sub-contacto text-center text-body2 q-mt-md">
           Estar comunicados es muy importante! Escribenos completando el formulario sobre las dudas o temas que creas
           conveniente aclarar las dudas. Nos contactaremos lo mas pronto posible!
         </p>
       </div>
 
-      <div class="col-12 col-md-7 q-pa-md">
+      <div class="col-12 col-md-8 col-lg-7 q-pa-md">
         <q-form @submit.prevent="submitContact" class="q-gutter-md">
           <div class="row flex justify-around q-mb-lg">
             <div class="col-12 col-sm-10 col-md-10">
-              <q-input dense color="cyan-6" v-model.trim="contacto.user" label="Nombre ó Nickname *" hint="Hasta 20 caracteres"
-                lazy-rules :rules="nombreRules" />
+              <q-input dense color="cyan-6" v-model.trim="contacto.user" label="Nombre ó Nickname *"
+                hint="Hasta 20 caracteres" lazy-rules :rules="nombreRules" />
 
               <q-input class="q-my-md" dense color="cyan-6" type="email" label="Tu email *"
                 hint="Mismo email con el cual te registraste." lazy-rules v-model.trim="contacto.emailRemitente"
@@ -120,27 +133,39 @@ const limpiarCampos = () => {
             </div>
           </div>
 
-          <div class="row flex justify-center">
+          <div class="row flex justify-center items-center">
             <q-btn @click="limpiarCampos" label="Limpiar Campos" type="reset" color="red-13" class="q-mr-xl" />
-            <q-btn label="Enviar Mensaje" type="submit" color="teal-6" icon-right="mail" />
+            <q-btn label="Enviar Mensaje" type="submit" color="teal-6" />
           </div>
 
         </q-form>
       </div>
     </div>
-
   </section>
+
+  <FooterComponent />
 </template>
 
 
 <style lang="scss">
 #contacto {
   max-width: 95%;
+  margin: 2rem auto;
 
   hr {
     width: 10%;
     border: 2.5px solid black;
-    margin-top: 2%;
+    margin-top: 1%;
+  }
+}
+
+@media screen and (min-width: 1919.98px) {
+
+  #contacto {
+
+    .sub-contacto {
+      padding: 0 8rem;
+    }
   }
 }
 </style>

@@ -1,6 +1,7 @@
 <script setup>
+import CounterComponent from '../components/CounterComponent.vue'
 import { useApiStore } from 'src/stores/api'
-import { onMounted, onBeforeUnmount } from 'vue'
+import { onMounted, onBeforeUnmount, onUnmounted } from 'vue'
 import { useQuasar, QSpinnerGears } from 'quasar'
 import TorneoResultComponent from './TorneoResultComponent.vue'
 import FooterComponent from '../components/FooterComponent.vue'
@@ -62,14 +63,18 @@ const getPosiciones = async () => {
 
 }
 
-onMounted(() => {
+onMounted(async () => {
     showLoading()
+    await fechaCountdown()
 })
 onBeforeUnmount(() => {
     if (timer !== void 0) {
         clearTimeout(timer)
         $q.loading.hide()
     }
+})
+onUnmounted(() => {
+    apiStore.arrayFechasCounter = []
 })
 
 const showLoading = async () => {
@@ -101,6 +106,27 @@ const columns = [
     { name: 'resultados', align: 'center', label: 'Resultados' }
 ]
 
+const fechaCountdown = async () => {
+    let resultObj = {}
+
+    const fecha = await apiStore.proximaFechaApi(JSON.parse(localStorage.getItem('token')), route.params.id)
+
+    const arrFecha = fecha.date.split('-');
+    const circuito = fecha.circuit
+
+    //console.log(arrFecha);
+    resultObj = {
+        id: route.params.id,
+        year: arrFecha[0],
+        month: arrFecha[1],
+        day: arrFecha[2],
+        circuit: circuito
+    }
+
+    apiStore.arrayFechasCounter.push((resultObj))
+
+}
+
 </script>
 
 <template>
@@ -110,28 +136,46 @@ const columns = [
             backgroundImage: `repeating-linear-gradient(#00000005, rgba(0, 0, 0, 0)),url(https://rpm.studioatlantic.com.ar/pezls/storage/app/public/images/tournament/${apiStore.torneo.image})`,
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'center left'
+            backgroundPosition: 'center'
         }">
             <div class="overlay"></div>
             <div class="row">
-                <div class="col-12">
-                    <h3 class="text-uppercase text-center text-weight-bold fontCustomTitle text-red-13 q-mb-none">
+                <div class="container-champ col-12 flex column-xs justify-center row-md items-md-center justify-md-evenly">
+                    <h3
+                        class="q-mt-xl text-uppercase text-center text-weight-bold montserratExtraBold text-white q-mb-none">
                         {{ apiStore.torneo.name }}
                     </h3>
+
+                    <div class="templateClock" v-for="counter in apiStore.arrayFechasCounter" :key="counter.id">
+
+                        <p v-if="route.params.id == counter.id"
+                            class="text-white text-uppercase text-center q-my-none text-weight-light">
+                            Proximo Evento: <span class="text-weight-bold">{{ counter.day }}-{{ counter.month
+                            }}-{{ counter.year }}</span>
+                        </p>
+                        <h4 v-if="route.params.id == counter.id"
+                            class="fontCustomTitle text-teal-13 text-h4 text-uppercase text-center q-my-none">
+                            {{ counter.circuit }}
+                        </h4>
+
+                        <CounterComponent v-if="route.params.id == counter.id" :year="counter.year"
+                            :month="counter.month - 1" :date="counter.day" :hour="22" :minutes="0" :seconds="0" />
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="calendario">
             <div class="row flex justify-center">
-                <div class="col-12 col-md-8">
+                <div class="col-12 col-md-10">
                     <!-- Calendario -->
                     <div>
-                        <h4 class="titles text-uppercase text-weight-bolder text-blue-grey-8 text-center q-mt-lg q-mb-md">Calendario
+                        <h4
+                            class="titles text-uppercase text-weight-bolder text-blue-grey-8 text-center q-mt-none q-mb-md montserratExtraBold">
+                            Calendario
                         </h4>
-                        <q-table
-                        :table-header-style="{ fontFamily: 'Roboto Condensed Italic', textTransform: 'uppercase' }"
-                        flat dense :rows="apiStore.calendar" :columns="columns"
+                        <q-table :table-header-style="{ fontFamily: 'Roboto Condensed Italic', textTransform: 'uppercase' }"
+                            flat dense :rows="apiStore.calendar" :columns="columns"
                             :loading="apiStore.calendar.length == 0 ? true : false" row-key="name"
                             :rows-per-page-options="[10, 15]">
 
@@ -159,10 +203,11 @@ const columns = [
             </div>
 
             <div class="row flex justify-center">
-                <div class="col-12 col-md-8">
+                <div class="col-12 col-md-10">
                     <!-- tabla de Posiciones -->
                     <div>
-                        <h4 class="text-uppercase text-weight-bolder text-blue-grey-8 text-center q-mt-lg q-mb-md">
+                        <h4
+                            class="text-uppercase text-weight-bolder text-blue-grey-8 text-center q-mt-lg q-mb-md montserratExtraBold">
                             Campeonato </h4>
                         <q-markup-table flat dense>
                             <thead>
@@ -195,38 +240,114 @@ const columns = [
 
 
 <style lang="scss" scoped>
-.overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #000000;
-    opacity: .9;
-    z-index: 10;
-}
+#torneo {
+    padding-bottom: 3rem;
+    background-image: repeating-linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.7)),
+        url(../assets/background.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 
-.q-spinner {
-    height: 100vh;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(0, -50%);
-    z-index: 100;
-}
-
-.hero__champ {
-    position: relative;
-    height: 100vh;
-    margin-bottom: 2rem;
-
-
-    h3 {
-        margin-top: 4rem;
+    .calendario {
+        width: 90%;
+        margin: -3.5rem auto 0;
+        background-color: rgba(255, 255, 255, 1);
         position: relative;
-        z-index: 20;
+        z-index: 110;
+        border-radius: 15px;
+        padding: 3rem 1rem;
+        box-shadow: 3px 3px 10px -1px rgba(0, 0, 0, 0.25);
+        -webkit-box-shadow: 3px 3px 10px -1px rgba(0, 0, 0, 0.25);
+        -moz-box-shadow: 3px 3px 10px -1px rgba(0, 0, 0, 0.25);
+    }
+
+
+
+    .q-spinner {
+        height: 100vh;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(0, -50%);
+        z-index: 100;
+    }
+
+    .hero__champ {
+        position: relative;
+        min-height: 350px;
+
+        .container-champ {
+            height: 350px;
+
+            h3 {
+                margin-top: 2rem;
+                margin-bottom: 1.5rem;
+                position: relative;
+                z-index: 20;
+            }
+
+            .templateClock {
+                position: relative;
+                z-index: 120;
+            }
+        }
+
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000000;
+            opacity: .6;
+            z-index: 10;
+        }
+
     }
 }
 
+#footer {
+    position: relative;
+    z-index: 110;
+}
 
+@media screen and (min-width: 1023.98px) {
+
+    #torneo {
+
+        .hero__champ{
+
+            .container-champ{
+
+                h3{
+                    margin-top: 0;
+                }
+            }
+        }
+        .calendario {
+            width: 75%;
+        }
+    }
+}
+
+@media screen and (min-width: 1279.98px) {
+
+    #torneo {
+
+        .calendario {
+            width: 75%;
+        }
+    }
+}
+
+@media screen and (min-width: 1599.98px) {
+
+    #torneo {
+
+        .calendario {
+            width: 70%;
+        }
+    }
+}
 </style>
