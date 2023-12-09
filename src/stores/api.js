@@ -546,7 +546,7 @@ export const useApiStore = defineStore('useApiStore', {
       await fetch('https://rpm.studioatlantic.com.ar/pezls/public/api/v1/posicionesTorneo', optionsPosiciones)
         .then(res => res.json())
         .then(response => {
-          
+
           this.tablaPosiciones.push(response.data[0])
         })
     },
@@ -813,24 +813,52 @@ export const useApiStore = defineStore('useApiStore', {
     },
 
     async enviarComunicacionAPI(token, comunicacion) {
+
       const optionsSubirComunicacion = {
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
           'X-Requested-With': 'XMLHttpRequest',
-          Accept: 'application/json'
+          Authorization: `Bearer ${token}`
         },
-        body: comunicacion
+        body: JSON.stringify(comunicacion)
+      };
+
+      try {
+
+        await fetch("https://rpm.studioatlantic.com.ar/pezls/public/api/v1/enviarComunicacion", optionsSubirComunicacion)
+          .then((res) => res.json())
+          .then(data => {
+
+            if (data.success) {
+              Notify.create({
+                color: "teal-6",
+                textColor: "white",
+                icon: "done",
+                html: true,
+                position: "top",
+                message: `<span style='text-align: center;'>${data.message}</span>`,
+                timeout: 3000
+              });
+
+            } else {
+              Notify.create({
+                color: "red-13",
+                textColor: "white",
+                icon: "warning",
+                html: true,
+                position: "top",
+                message: `<span style='text-align: center;'>${data.message}</span>`,
+                timeout: 3000
+              });
+            }
+          });
+
+
+      } catch (error) {
+        console.log(error);
       }
 
-      await fetch("https://rpm.studioatlantic.com.ar/pezls/public/api/v1/enviarComunicacion", optionsSubirComunicacion)
-        .then(res => res.json())
-        .then(data => data)
-
-      // const subirComunicacion = await fetch(`https://rpm.studioatlantic.com.ar/pezls/public/api/v1/enviarComunicacion`, optionsSubirComunicacion)
-      // const respuesta = await subirComunicacion.json()
-
-      // return respuesta
     }
   }
 })

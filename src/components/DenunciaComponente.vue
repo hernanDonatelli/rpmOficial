@@ -48,17 +48,31 @@ const submitDenuncia = async () => {
   } else {
     if (denuncia.emailDenunciante === userDatabase.documents[0].email) {
 
-      // console.log(denuncia);
-      await useApi.enviarComunicacionAPI(useApi.tokenApi, denuncia)
+      const sendDenuncia = {
+        tipoComunicacion: denuncia.tipoComunicacion,
+        torneo: denuncia.torneo,
+        emailDestinatario: denuncia.emailDestinatario,
+        emailDenunciante: denuncia.emailDenunciante,
+        userDenunciante: denuncia.userDenunciante,
+        userDenunciado: denuncia.userDenunciado,
+        evento: denuncia.evento,
+        sesion: denuncia.sesion,
+        instante: denuncia.instante,
+        comentarios: denuncia.comentarios
+      }
 
-      $q.notify({
-        color: "green-6",
-        textColor: "white",
-        icon: "cloud_done",
-        message: "Denuncia enviada! La evaluaremos y en unos días comunicaremos una resolución.",
-        position: "top",
-        timeout: 3000
-      });
+      await useApi.enviarComunicacionAPI(useApi.tokenApi, sendDenuncia)
+
+      tipoComunicacion.value = ''
+      torneo.value = ''
+      emailDestinatario.value = ''
+      emailDenunciante.value = ''
+      userDenunciante.value = ''
+      userDenunciado.value = ''
+      evento.value = ''
+      sesion.value = ''
+      instante.value = ''
+      comentarios.value = ''
 
       // setTimeout(() => {
       //   router.push('/')
@@ -79,15 +93,15 @@ const submitDenuncia = async () => {
 };
 
 const limpiarCampos = () => {
-  denuncia.torneo = '',
-  denuncia.instante = '',
-  denuncia.emailDestinatario = '',
-  denuncia.emailDenunciante = '',
-  denuncia.userDenunciante = '',
-  denuncia.userDenunciado = '',
-  denuncia.comentarios = '',
-  denuncia.evento = '',
-  denuncia.sesion = ''
+    denuncia.torneo = ''
+    denuncia.instante = ''
+    denuncia.emailDestinatario = ''
+    denuncia.emailDenunciante = ''
+    denuncia.userDenunciante = ''
+    denuncia.userDenunciado = ''
+    denuncia.comentarios = ''
+    denuncia.evento = ''
+    denuncia.sesion = ''
 };
 
 //METODOS
@@ -124,9 +138,8 @@ const torneosApi = async () => {
         <q-form @submit.prevent="submitDenuncia" class="q-gutter-md">
           <div class="row flex justify-around q-mb-lg">
             <div class="col-12 col-sm-5 col-md-5">
-              <q-input dense color="cyan-6" type="email" label="Tu email"
-                hint="Mismo email con el cual te registraste." lazy-rules v-model="denuncia.emailDenunciante"
-                name="email" :rules="rulesEmail" />
+              <q-input dense color="cyan-6" type="email" label="Tu email" hint="Mismo email con el cual te registraste."
+                lazy-rules v-model="denuncia.emailDenunciante" name="email" :rules="rulesEmail" />
             </div>
 
             <div class="col-12 col-sm-5 col-md-5">
@@ -155,7 +168,8 @@ const torneosApi = async () => {
             </div>
 
             <div class="col-12 col-sm-5 col-md-5">
-              <q-input color="cyan-6" type="text" v-model="denuncia.userDenunciado" label="Piloto denunciado" dense hint="Nickname ó nombre del piloto que denuncias." />
+              <q-input color="cyan-6" type="text" v-model="denuncia.userDenunciado" label="Piloto denunciado" dense
+                hint="Nickname ó nombre del piloto que denuncias." />
             </div>
           </div>
 
@@ -196,8 +210,8 @@ const torneosApi = async () => {
   }
 }
 
-@media screen and (min-width: 1023.98px){
-  .sub-denuncia{
+@media screen and (min-width: 1023.98px) {
+  .sub-denuncia {
     padding: 0 8rem;
   }
 }

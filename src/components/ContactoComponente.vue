@@ -40,9 +40,9 @@ const rulesEmail = [
 ];
 
 //Metodos
-const submitContact = () => {
+const submitContact = async () => {
   // console.log(instante.value);
-  if (!contacto.emailRemitente || !contacto.user || !contacto.movil || !contacto.comentarios) {
+  if (!contacto.emailRemitente || !contacto.user || !contacto.movil || !contacto.comentarios || !contacto.tipoComunicacion) {
     $q.notify({
       color: "red-5",
       textColor: "white",
@@ -63,16 +63,7 @@ const submitContact = () => {
       }
 
       //console.log(sendContact);
-      useApi.enviarComunicacionAPI(useApi.tokenApi, sendContact)
-
-      $q.notify({
-        color: "teal-6",
-        textColor: "white",
-        icon: "cloud_done",
-        message: "Consulta enviada! Nos comunicaremos contigo dentro de las próximas 48hs.",
-        position: "top",
-        timeout: 3000
-      });
+      await useApi.enviarComunicacionAPI(useApi.tokenApi, sendContact)
 
       // setTimeout(() => {
       //   router.push('/')

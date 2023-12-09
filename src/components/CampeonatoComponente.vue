@@ -105,7 +105,6 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido, ni
       simulador: simulador,
       precio: precio
     }
-    console.log('Inscripcion enviada!', inscripcion);
 
     await apiStore.enviarComunicacionAPI(apiStore.tokenApi, inscripcion)
 
