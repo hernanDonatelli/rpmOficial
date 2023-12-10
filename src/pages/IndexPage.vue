@@ -12,6 +12,8 @@ onMounted(async () => {
   await useApi.getNoticiasApi(JSON.parse(localStorage.getItem('token')))
 })
 
+
+
 const slide = ref(1)
 const slideSponsor = ref(1)
 const autoplay = ref(true)
@@ -55,6 +57,7 @@ if (simulador == 'Simulador TC') return 'counter-simuladorTC'
 if (simulador == 'rFactor') return 'counter-rFactor'
 
 }
+
 
 </script>
 

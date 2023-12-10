@@ -25,8 +25,9 @@ const getTorneosStore = ref([])
 onMounted(async () => {
   userStore.currentUserLog();
   getTorneos();
-  // databaseStore.getAdmin();
+
 })
+
 
 //Salir de la sesion
 const logout = async () => {

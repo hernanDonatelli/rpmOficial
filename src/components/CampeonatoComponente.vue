@@ -18,8 +18,6 @@ onUnmounted(() => {
   apiStore.arrayFechasCounter = []
 })
 
-
-
 const fechaCountdown = async () => {
   let resultObj = {}
 
@@ -77,8 +75,9 @@ const colorBtn = (simulador) => {
 const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido, nickname, email, movil) => {
 
   $q.dialog({
-    title: `<h5 class="text-center text-h5 text-uppercase q-my-none fontCustomTitle font-weight-bold">Inscripción Torneo ${torneo}</h5><hr class="separador"/>`,
-    message: `<p>Hola <strong>${nombre} ${apellido} (${nickname})</strong>, vas a comenzar tu pre-inscripción al <strong>Torneo ${torneo} (${simulador})</strong> por un valor de <strong>$${Number(precio)}</strong>.</p>
+    title: `<h5 class="text-center text-h5 text-uppercase q-my-none montserratExtraBold font-weight-bold">Inscripción Torneo ${torneo}</h5><hr class="separador"/>`,
+    message: `<p>Hola <strong>${nombre} ${apellido} (${nickname})</strong>,</p>
+            <p>Vas a comenzar tu pre-inscripción al <strong>Torneo ${torneo} (${simulador})</strong> por un valor de <strong>$${Number(precio)}</strong>.</p>
         <p>Clickeando en <strong>Ok</strong> se enviará un email a la Administración y dentro de las próximas 48hs se contactarán contigo. De lo contrario haz click en <strong>Cancelar</strong> para anular la inscripción.</p>`,
     cancel: true,
     persistent: true,
@@ -148,7 +147,7 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido, ni
               label="Inscripción" />
             <q-btn :to="`torneo/${torneo.id}`" class="q-mx-lg q-my-xs col-8 col-md-3" icon="las la-trophy"
               style="background: #ffffff; color: #212121; font-weight: bold;" label="Campeonato" />
-            <q-btn href="https://www.rpmracingleague.net/foro/" target="_blank" class="q-mx-lg q-my-xs col-8 col-md-3"
+            <q-btn :href="torneo.forumURL" target="_blank" class="q-mx-lg q-my-xs col-8 col-md-3"
               icon="las la-external-link-alt" style="background: #ffffff; color: #212121; font-weight: bold;"
               label="Foro" />
           </div>
@@ -158,7 +157,7 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido, ni
         <div class="footer row justify-between items-end">
           <!-- Precio -->
           <div class="price">
-            <h4 class="fontCustomTitle text-center text-white text-weight-bold q-mb-none q-mt-md-none">${{
+            <h4 class="fontCustomTitle text-h3 text-center text-white text-weight-bold q-mb-none q-mt-md-none">${{
               Number(torneo.price) }}</h4>
             <div class="pagos flex no-wrap items-center justify-center justify-md-start">
               <img src="~assets/mp2_rpm.png" />
@@ -177,8 +176,8 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido, ni
                 }}-{{ counter.month }}-{{
   counter.year }}</span>
               </p>
-              <h4 v-if="torneo.id == counter.id" :class="colorCounter(torneo.simulator)"
-                class="fontCustomTitle text-h4 text-uppercase text-center q-my-none">{{ counter.circuit }}</h4>
+              <h5 v-if="torneo.id == counter.id" :class="colorCounter(torneo.simulator)"
+                class="fontCustomTitle text-h5 text-uppercase text-center q-my-none">{{ counter.circuit }}</h5>
 
               <CounterComponent v-if="torneo.id == counter.id" :year="counter.year" :month="counter.month - 1"
                 :date="counter.day" :hour="22" :minutes="0" :seconds="0" />
@@ -194,8 +193,14 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido, ni
 </template>
 
 <style lang="scss">
-.q-card.q-dialog-plugin {
-  width: 800px;
+.q-dialog__inner--minimized>div {
+  background-image: repeating-linear-gradient(rgba(255, 255, 255, 0.65), rgba(255, 255, 255, 0.95)),
+    url(../assets/background.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  max-width: 750px !important;
+  width: 80%;
   max-height: 80vh;
   padding: 2%;
 
@@ -342,7 +347,7 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido, ni
       width: 100%;
       position: relative;
       z-index: 20;
-      margin-top: 2rem;
+      margin: 2rem auto -1rem;
 
     }
 
@@ -353,7 +358,7 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido, ni
       width: 100%;
       height: 100%;
       background-color: #000000;
-      opacity: .75;
+      opacity: .65;
       z-index: 10;
     }
   }

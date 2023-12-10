@@ -29,7 +29,7 @@ const puntosCarreraCorta = ref(null)
 const puntosCarrera = ref(null)
 const imagen = ref(null)
 const precio = ref(null)
-const urlForo = ref(null)
+const URLForo = ref(null)
 
 ///////////////////////////////////////////////////////////////
 
@@ -76,7 +76,8 @@ const crearTorneo = () => {
 
 }
 
-const editarTorneo = (id, name, simulator, qualyPoints, shortRacePoints, racePoints, status, price) => {
+const editarTorneo = async (id, name, simulator, qualyPoints, shortRacePoints, racePoints, status, price, forumURL) => {
+    useApi.torneos = []
 
     const torneoEditado = {
         idTorneo: id,
@@ -86,11 +87,14 @@ const editarTorneo = (id, name, simulator, qualyPoints, shortRacePoints, racePoi
         puntosClasifica: qualyPoints,
         puntosCarreraCorta: shortRacePoints,
         status: status,
-        precio: price
+        precio: Number(price),
+        URLForo: forumURL
     }
 
-    useApi.editTorneoApi(useApi.tokenApi, torneoEditado)
+    //console.log(torneoEditado.price);
+    await useApi.editTorneoApi(useApi.tokenApi, torneoEditado)
 
+    useApi.torneos = await useApi.getTorneosApi(useApi.tokenApi)
 }
 
 const deleteConfirm = async (nombre, id) => {
@@ -169,6 +173,8 @@ const onReset = () => {
     puntosCarreraCorta.value = null;
     puntosCarrera.value = null;
     imagen.value = null;
+    precio.value = null;
+    URLForo.value = null;
 };
 
 const columns = [
@@ -180,6 +186,7 @@ const columns = [
     { name: 'puntosCarrera', align: 'center', label: 'Ptos. Carrera', field: row => row.racePoints },
     { name: 'status', align: 'center', label: 'Status', field: row => row.status ? 'Activo' : 'Finalizado' },
     { name: 'precio', align: 'center', label: 'Precio', field: row => row.price },
+    { name: 'forumURL', align: 'center', label: 'URL Foro', field: row => row.forumURL },
     { name: 'acciones', align: 'center', label: 'Acciones' }
 ]
 
@@ -244,7 +251,7 @@ const columns = [
                             </q-file>
                         </div>
                         <div class="form-group q-mb-md">
-                            <q-input filled dense name="urlForo" v-model.trim="urlForo" label="URL Foro"
+                            <q-input filled dense name="URLForo" v-model="URLForo" label="URL Foro"
                                 hint="Ingrese la URL del foro del torneo" />
                         </div>
                     </div>
@@ -318,9 +325,16 @@ const columns = [
                                 <q-input type="text" v-model.trim="scope.value" dense autofocus />
                             </q-popup-edit>
                         </q-td>
+                        <q-td class="cursor-pointer" key="forumURL" :props="props" id="editedForum">
+                            <p>{{ props.row.forumURL }}</p>
+                            <q-popup-edit v-model.trim="props.row.forumURL" title="URL Foro" buttons
+                                label-set="Ok" label-cancel="Cancelar" v-slot="scope">
+                                <q-input type="text" v-model.trim="scope.value" dense autofocus />
+                            </q-popup-edit>
+                        </q-td>
                         <q-td class="flex column">
                             <q-btn
-                                @click="editarTorneo(props.row.id, props.row.name, props.row.simulator, props.row.qualyPoints, props.row.shortRacePoints, props.row.racePoints, props.row.status, props.row.price)"
+                                @click="editarTorneo(props.row.id, props.row.name, props.row.simulator, props.row.qualyPoints, props.row.shortRacePoints, props.row.racePoints, props.row.status, props.row.price, props.row.forumURL)"
                                 type="submit" size="sm" color="yellow-13" text-color="black" label="Editar" />
                             <q-btn class="q-my-sm" size="sm"
                                 @click="finalizarTorneo(useApi.tokenApi, props.row.id, props.row.name)" color="blue-grey-13"

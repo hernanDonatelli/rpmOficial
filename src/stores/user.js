@@ -144,11 +144,11 @@ export const useUserStore = defineStore('userStore', {
               databaseStore.getUsers()
 
               Notify.create({
-                color: "green-4",
+                color: "teal-6",
                 textColor: "white",
                 icon: "cloud_done",
                 position: "top",
-                message: "Inicio de sesión exitoso!",
+                message: "Haz iniciado sesión de manera exitosa!",
                 timeout: 2000
               });
 
@@ -179,6 +179,15 @@ export const useUserStore = defineStore('userStore', {
       try {
         await signOut(auth)
         this.userData = null;
+
+        Notify.create({
+          color: "teal-6",
+          textColor: "white",
+          icon: "cloud_done",
+          position: "top",
+          message: "Has cerrado la sesión exitosamente!",
+          timeout: 2000
+        });
 
         databaseStore.$reset()
 
