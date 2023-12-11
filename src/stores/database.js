@@ -61,7 +61,7 @@ export const userDatabaseStore = defineStore('database', {
       try {
 
         const docRef = await addDoc(collection(db, "usuarios"), objetoDoc)
-        // console.log(docRef);
+        //console.log(docRef);
       } catch (error) {
         console.log(error);
       } finally {

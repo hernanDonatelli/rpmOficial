@@ -20,7 +20,7 @@ export const useUserStore = defineStore('userStore', {
       sendPasswordResetEmail(auth, email)
         .then(() => {
           Notify.create({
-            color: "green-4",
+            color: "teal-6",
             textColor: "white",
             icon: "cloud_done",
             multiline: true,
@@ -111,66 +111,89 @@ export const useUserStore = defineStore('userStore', {
       const databaseStore = userDatabaseStore()
       this.loadingUser = true
 
+      const errorCodes = {
+        'auth/user-not-found': 'El usuario no existe. Registrate para ingresar.',
+        'auth/wrong-password': 'La Contraseña es incorrecta, intente nuevamente.'
+      }
 
-      //Comprueba si el usuario existe o no
-      const q = query(collection(db, "usuarios"), where("email", "==", email))
-      const querySnapshot = await getDocs(q)
+      try {
+        //Comprueba si el usuario existe o no
+        const q = query(collection(db, "usuarios"), where("email", "==", email))
 
-      if (querySnapshot.empty) { //NO EXISTE el usuario
+        const querySnapshot = await getDocs(q)
 
-        Notify.create({
-          color: "red-13",
-          textColor: "white",
-          icon: "warning",
-          position: "center",
-          message: "El usuario no existe. Registrate para ingresar.",
-          timeout: 2000
-        });
+        if (querySnapshot.empty) { //NO EXISTE el usuario
 
-        setTimeout(() => {
-          window.location.reload()
-        }, 1750);
+          Notify.create({
+            color: "red-13",
+            textColor: "white",
+            icon: "warning",
+            position: "center",
+            message: errorCodes['auth/user-not-found'],
+            timeout: 2000
+          });
 
-      } else { //EXISTE el usuario
+          setTimeout(() => {
+            window.location.reload()
+          }, 1750);
 
-        signInWithEmailAndPassword(auth, email, password)
-          .then((userCredentials) => {
-            const user = userCredentials.user;
+        } else { //EXISTE el usuario
 
-            if (user.emailVerified) {
+          signInWithEmailAndPassword(auth, email, password)
+            .then((userCredentials) => {
 
-              this.userData = { email: user.email, uid: user.uid, emailVerified: user.emailVerified }
+              const user = userCredentials.user;
 
-              databaseStore.getUsers()
+              if (user.emailVerified) {
 
-              Notify.create({
-                color: "teal-6",
-                textColor: "white",
-                icon: "cloud_done",
-                position: "top",
-                message: "Haz iniciado sesión de manera exitosa!",
-                timeout: 2000
-              });
+                this.userData = { email: user.email, uid: user.uid, emailVerified: user.emailVerified }
 
-            } else {
+                databaseStore.getUsers()
+
+                Notify.create({
+                  color: "teal-6",
+                  textColor: "white",
+                  icon: "cloud_done",
+                  position: "top",
+                  message: "Haz iniciado sesión de manera exitosa!",
+                  timeout: 2000
+                });
+
+              } else {
+                Notify.create({
+                  color: "red-13",
+                  textColor: "white",
+                  icon: "warning",
+                  position: "center",
+                  message: "Debes validar tu correo electrónico para ingresar",
+                  timeout: 1500
+                });
+
+                setTimeout(() => {
+                  window.location.reload()
+                }, 2500);
+              }
+            })
+            .catch(error => {
+              console.log(error);
               Notify.create({
                 color: "red-13",
                 textColor: "white",
                 icon: "warning",
                 position: "center",
-                message: "Debes validar tu correo electrónico para ingresar",
-                timeout: 1500
+                message: errorCodes['auth/wrong-password'],
+                timeout: 2000
               });
 
               setTimeout(() => {
                 window.location.reload()
               }, 2500);
-            }
-          })
+
+            })
+        }
+      } catch (error) {
+        console.log(error)
       }
-
-
-
     },
 
     async logoutUser() {
@@ -190,6 +213,10 @@ export const useUserStore = defineStore('userStore', {
         });
 
         databaseStore.$reset()
+
+        setTimeout(() => {
+          window.location.reload()
+        }, 2000);
 
       } catch (error) {
         console.log();

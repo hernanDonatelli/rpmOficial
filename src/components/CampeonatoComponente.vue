@@ -118,10 +118,10 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido, ni
 
 <template>
   <div v-for="(torneo, index) in apiStore.torneos" :key="index" class="torneo" :style="{
-    backgroundImage: `repeating-linear-gradient(#00000005, rgba(0, 0, 0, 0)),url(https://rpm.studioatlantic.com.ar/pezls/storage/app/public/images/tournament/${torneo.image})`,
+    backgroundImage: `linear-gradient(135deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 1) 85%),url(https://rpm.studioatlantic.com.ar/pezls/storage/app/public/images/tournament/${torneo.image})`,
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
-    backgroundPosition: 'center'
+    backgroundPosition: 'right'
   }">
     <div class="champ-container q-mb-lg">
       <div :class="borderTorneo(torneo.simulator)" class="torneo-container q-pb-lg">
@@ -154,7 +154,7 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido, ni
         </div>
 
         <!-- Footer de torneo -->
-        <div class="footer row justify-between items-end">
+        <div class="footer row justify-between items-end justify-md-end items-md-center q-pt-md-xl q-pb-md-md">
           <!-- Precio -->
           <div class="price">
             <h4 class="fontCustomTitle text-h3 text-center text-white text-weight-bold q-mb-none q-mt-md-none">${{
@@ -298,6 +298,7 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido, ni
 
       .simulador {
         position: absolute;
+        width: 100%;
         height: 100%;
         top: -8%;
         left: 50%;
@@ -309,7 +310,7 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido, ni
     &__header {
       position: relative;
       z-index: 10;
-      padding-top: 3%;
+      padding-top: 1%;
 
       .titleLogo {
         width: 100%;
@@ -358,7 +359,7 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido, ni
       width: 100%;
       height: 100%;
       background-color: #000000;
-      opacity: .65;
+      opacity: .5;
       z-index: 10;
     }
   }
@@ -413,7 +414,7 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido, ni
           position: absolute;
           height: 100%;
           top: 0;
-          left: -8%;
+          left: -101%;
           z-index: 20;
           writing-mode: vertical-lr;
           transform: rotate(180deg);
@@ -456,7 +457,7 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido, ni
         }
 
         .simulador {
-          left: -5%;
+          left: -100.5%;
         }
 
         .price {
@@ -495,17 +496,32 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido, ni
         width: 35%;
       }
 
-      .next {
-        width: 33%;
-      }
-
       .torneo-container {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
 
+        .footer {
+          margin-right: 3rem;
+
+          .price {
+            width: unset;
+            left: unset;
+            margin-right: 3rem;
+
+            h4 {
+              text-align: left;
+            }
+          }
+
+          .next {
+            width: unset;
+            margin: unset;
+          }
+        }
+
         .simulador {
-          left: -3.5%;
+          left: -100.5%;
         }
 
         .torneo__header {
@@ -523,46 +539,10 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido, ni
           }
         }
 
-        .price {
-          left: 8%;
 
-          h4 {
-            text-align: left;
-          }
-        }
       }
     }
   }
 
-}
-
-@media screen and (min-width: 1599.98px) {
-  #campeonatos {
-
-    .torneo {
-
-      .torneo-container {
-
-        .simulador {
-          left: -3%;
-        }
-      }
-    }
-  }
-}
-
-@media screen and (min-width: 1919.98px) {
-  #campeonatos {
-
-    .torneo {
-
-      .torneo-container {
-
-        .simulador {
-          left: -2.35%;
-        }
-      }
-    }
-  }
 }
 </style>

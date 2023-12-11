@@ -75,7 +75,7 @@ if (simulador == 'rFactor') return 'counter-rFactor'
         <template v-if="useApi.proximaFechaGlobal">
           <p class="text-h6 text-white text-uppercase text-center q-my-none text-weight-bold text-white">
             {{ useApi.proximaFechaGlobal.name }}</p>
-          <h1 :class="colorCounter(useApi.proximaFechaGlobal.simulator)" class="text-h3 text-uppercase fontCustomTitle text-center q-my-none">{{
+          <h1 :class="colorCounter(useApi.proximaFechaGlobal.simulator)" class="text-h4 text-uppercase fontCustomTitle text-center q-my-none">{{
             useApi.proximaFechaGlobal.circuit }}</h1>
 
           <CounterComponent :year="useApi.proximaFechaGlobal.year" :month="useApi.proximaFechaGlobal.month - 1"
@@ -114,9 +114,9 @@ if (simulador == 'rFactor') return 'counter-rFactor'
 
     <!-- GALERIA -->
     <section id="novedades">
-      <h1
-        class="gallery-title text-h2 text-uppercase montserratExtraBold text-weight-bold text-center text-white q-my-none q-py-xl">
-        Novedades</h1>
+      <h3
+        class="gallery-title text-h3 text-uppercase montserratExtraBold text-weight-bold text-center text-white q-my-none q-py-xl">
+        Novedades</h3>
 
       <div class="overlay"></div>
 
@@ -186,8 +186,8 @@ if (simulador == 'rFactor') return 'counter-rFactor'
     </section>
 
     <section id="youTube">
-      <h1 class="text-h2 text-uppercase montserratExtraBold text-weight-bold text-center text-white q-my-none q-py-xl">
-        YouTube</h1>
+      <h3 class="text-h3 text-uppercase montserratExtraBold text-weight-bold text-center text-white q-my-none q-py-xl">
+        YouTube</h3>
       <div class="row flex justify-center youtubeContainer">
         <div class="col-12">
           <div class="q-pa-md">

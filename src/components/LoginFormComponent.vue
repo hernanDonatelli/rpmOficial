@@ -2,9 +2,7 @@
 import { useQuasar } from "quasar";
 import { ref } from "vue";
 import { useUserStore } from '../stores/user'
-import { useRouter } from "vue-router";
 
-const router = useRouter()
 const userStore = useUserStore()
 const $q = useQuasar();
 
@@ -37,7 +35,6 @@ const handleSubmit = async () => {
   } else {
     await userStore.loginUser(email.value, password.value);
 
-    await router.push('/');
   }
 
 };
@@ -77,7 +74,7 @@ const onReset = () => {
       :rules="rulesPassword" />
 
     <div class="btns-login q-ml-none">
-      <q-btn :disabled="userStore.loadingUser" label="Ingresar" type="submit" color="teal-6" />
+      <q-btn label="Ingresar" type="submit" color="teal-6" />
       <q-btn label="Limpiar Campos" type="reset" color="red-13" class="q-ml-sm" />
     </div>
 

@@ -152,7 +152,7 @@ const columns = [
                             </q-file>
                         </div>
 
-                        <div class="form-group q-mb-md">
+                        <!-- <div class="form-group q-mb-md">
                             <q-file filled dense bottom-slots name="replay" v-model="replay" label="Replay de Sesión"
                                 counter>
                                 <template v-slot:before>
@@ -169,7 +169,7 @@ const columns = [
                                     Formatos: .vcr
                                 </template>
                             </q-file>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
 
