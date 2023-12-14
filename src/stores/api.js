@@ -22,6 +22,7 @@ export const useApiStore = defineStore('useApiStore', {
     noticias: [],
     arrayFechasCounter: [],
     proximaFechaGlobal: null,
+    sesionesVR: {},
     url: 'https://rpm.studioatlantic.com.ar/pezls/public/api/v1'
   }),
   actions: {
@@ -435,7 +436,6 @@ export const useApiStore = defineStore('useApiStore', {
       await fetch("https://rpm.studioatlantic.com.ar/pezls/public/api/v1/getResultadosFecha", optionsGetResult)
         .then(res => res.json())
         .then(info => {
-
           this.sesiones = []
           this.tituloSesiones = []
 
@@ -858,6 +858,23 @@ export const useApiStore = defineStore('useApiStore', {
       } catch (error) {
         console.log(error);
       }
+
+    },
+    async getVueltasRapidasApi(token, idTorneo, order) {
+
+      const optionsGetVR = {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+          "X-Requested-With": "XMLHttpRequest",
+        },
+        body: `{"idTorneo": "${idTorneo}","orden": "${order}"}`,
+      };
+
+      await fetch("https://rpm.studioatlantic.com.ar/pezls/public/api/v1/getVueltasRapidas", optionsGetVR)
+        .then(res => res.json())
+        .then(info => { this.sesionesVR = info.data })
 
     }
   }

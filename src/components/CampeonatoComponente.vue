@@ -303,7 +303,6 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido, ni
         top: -8%;
         left: 50%;
         transform: translate(-50%, 0);
-        z-index: 20;
       }
     }
 
