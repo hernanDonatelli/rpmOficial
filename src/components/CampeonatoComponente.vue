@@ -322,6 +322,8 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido, ni
 
       .buttons {
         width: 100%;
+        position: relative;
+        z-index: 500;
 
         .btn-links:hover {
           background-color: red;
