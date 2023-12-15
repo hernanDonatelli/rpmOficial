@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue';
+import LapsInfoComponent from './LapsInfoComponent.vue';
 import { useApiStore } from 'src/stores/api';
 import { useQuasar, QSpinnerGears } from 'quasar'
 const useApi = useApiStore()
@@ -10,6 +11,8 @@ defineProps(['idTorneo', 'orden', 'torneo', 'circuit', 'fecha'])
 const dialog = ref(false)
 const maximizedToggle = ref(true)
 let timer;
+
+
 
 const sesionesFront = (key) => {
     if (key == 'qualify') return key = 'Qualy 1'
@@ -140,13 +143,17 @@ const getResultsFecha = async (idTorneo, orden) => {
                                         <th class="text-center fontCustomTitle text-uppercase">Vuelta Rapida</th>
                                         <th class="text-center fontCustomTitle text-uppercase">Puntos</th>
                                         <th class="text-center fontCustomTitle text-uppercase">Sanción</th>
+                                        <th class="text-center fontCustomTitle text-uppercase">Sesion</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <template v-for="(value, key, index) in infoSesion" :key="index.id">
                                         <tr v-if="JSON.parse(value).posicion >= 1">
                                             <td class="text-center">{{ JSON.parse(value).posicion }}</td>
-                                            <td class="text-center">{{ key }}</td>
+                                            <td class="text-center flex justify-between">
+                                                <span>{{ key }}</span>
+                                                <LapsInfoComponent :id="idTorneo" :driver="JSON.parse(value).idDriverInfo" :sesion="JSON.parse(value).idSessionInfo" :piloto="key" :orden="orden"/>
+                                            </td>
                                             <td class="text-center">{{ JSON.parse(value).vehiculo }}</td>
                                             <td class="text-center">{{ JSON.parse(value).vueltas }}</td>
                                             <td class="text-center">{{ JSON.parse(value).posicion == 1 ?
@@ -155,7 +162,7 @@ const getResultsFecha = async (idTorneo, orden) => {
                                             <td class="text-center">{{ JSON.parse(value).vueltaRapida }}</td>
                                             <td class="text-center">{{ JSON.parse(value).puntos }}</td>
                                             <td :class="JSON.parse(value).sancion != 0.000 ? 'bg-red-13 text-white' : ''"
-                                                class="text-center">+{{ JSON.parse(value).sancion }}s</td>
+                                            class="text-center">+{{ JSON.parse(value).sancion }}s</td>
                                         </tr>
                                     </template>
                                 </tbody>

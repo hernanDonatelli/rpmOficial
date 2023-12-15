@@ -23,6 +23,8 @@ export const useApiStore = defineStore('useApiStore', {
     arrayFechasCounter: [],
     proximaFechaGlobal: null,
     sesionesVR: {},
+    vueltasDriver: [],
+    sesionesVD: [],
     url: 'https://rpm.studioatlantic.com.ar/pezls/public/api/v1'
   }),
   actions: {
@@ -860,6 +862,7 @@ export const useApiStore = defineStore('useApiStore', {
       }
 
     },
+
     async getVueltasRapidasApi(token, idTorneo, order) {
 
       const optionsGetVR = {
@@ -876,6 +879,45 @@ export const useApiStore = defineStore('useApiStore', {
         .then(res => res.json())
         .then(info => { this.sesionesVR = info.data })
 
-    }
+    },
+
+    async getVueltasDriverApi(token, idTorneo, sesion, driver) {
+
+      const optionsGetVD = {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+          "X-Requested-With": "XMLHttpRequest",
+        },
+        body: `{"idTorneo": ${idTorneo},"idSessionInfo": ${sesion},"idDriverInfo": ${driver}}`,
+      };
+
+      await fetch("https://rpm.studioatlantic.com.ar/pezls/public/api/v1/getVueltasDriverSesion", optionsGetVD)
+        .then(res => res.json())
+        .then(info => {
+          this.vueltasDriver = info.data
+        })
+
+    },
+
+    async getResultSessionApi(token, idTorneo, order) {
+
+      const optionsGetSession = {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+          "X-Requested-With": "XMLHttpRequest",
+        },
+        body: `{"idTorneo": "${idTorneo}","orden": "${order}"}`,
+      };
+
+      await fetch("https://rpm.studioatlantic.com.ar/pezls/public/api/v1/getResultadosFecha", optionsGetSession)
+        .then(res => res.json())
+        .then(info => {
+          this.sesionesVD = info.data[0]
+        })
+    },
   }
 })

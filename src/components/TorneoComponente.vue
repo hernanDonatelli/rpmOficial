@@ -109,21 +109,27 @@ const columns = [
 const fechaCountdown = async () => {
     let resultObj = {}
 
-    const fecha = await apiStore.proximaFechaApi(JSON.parse(localStorage.getItem('token')), route.params.id)
+    try {
+        const fecha = await apiStore.proximaFechaApi(JSON.parse(localStorage.getItem('token')), route.params.id)
 
-    const arrFecha = fecha.date.split('-');
-    const circuito = fecha.circuit
+        const arrFecha = fecha.date.split('-');
+        const circuito = fecha.circuit
 
-    //console.log(arrFecha);
-    resultObj = {
-        id: route.params.id,
-        year: arrFecha[0],
-        month: arrFecha[1],
-        day: arrFecha[2],
-        circuit: circuito
+        //console.log(arrFecha);
+        resultObj = {
+            id: route.params.id,
+            year: arrFecha[0],
+            month: arrFecha[1],
+            day: arrFecha[2],
+            circuit: circuito
+        }
+
+        apiStore.arrayFechasCounter.push((resultObj))
+        
+    } catch (error) {
+        console.log(error);
     }
 
-    apiStore.arrayFechasCounter.push((resultObj))
 
 }
 
@@ -315,15 +321,16 @@ const fechaCountdown = async () => {
 
     #torneo {
 
-        .hero__champ{
+        .hero__champ {
 
-            .container-champ{
+            .container-champ {
 
-                h3{
+                h3 {
                     margin-top: 0;
                 }
             }
         }
+
         .calendario {
             width: 75%;
         }
