@@ -5,12 +5,11 @@ import { useQuasar, QSpinnerGears } from 'quasar'
 const useApi = useApiStore()
 const $q = useQuasar()
 
-defineProps(['id', 'sesion', 'driver', 'piloto', 'orden'])
+defineProps(['id', 'sesion', 'driver', 'piloto', 'orden', 'tituloSesion'])
 
 const dialogLaps = ref(false)
 const maximizar = ref(true)
 let timer;
-
 
 const getVueltasDriver = async (id, sesion, driver) => {
 
@@ -76,14 +75,14 @@ const getVueltasDriver = async (id, sesion, driver) => {
                     </q-bar>
 
                     <div class="row flex justify-start items-center q-mb-md">
-                       
+
                         <h4
                             class="title-header text-blue-grey-12 text-uppercase text-weight-bolder q-px-lg q-pt-lg q-my-none text-center montserratExtraBold">
                             {{ piloto }}
                         </h4>
                         <h6
                             class="text-h6 title-header text-blue-grey-12 text-uppercase text-weight-bolder q-px-lg q-pt-lg q-my-none text-center montserratExtraBold">
-                           <span> Sesion</span>
+                           <span>{{  }}</span>
                         </h6>
 
                     </div>

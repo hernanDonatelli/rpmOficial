@@ -152,7 +152,7 @@ const getResultsFecha = async (idTorneo, orden) => {
                                             <td class="text-center">{{ JSON.parse(value).posicion }}</td>
                                             <td class="text-center flex justify-between">
                                                 <span>{{ key }}</span>
-                                                <LapsInfoComponent :id="idTorneo" :driver="JSON.parse(value).idDriverInfo" :sesion="JSON.parse(value).idSessionInfo" :piloto="key" :orden="orden"/>
+                                                <LapsInfoComponent :id="idTorneo" :driver="JSON.parse(value).idDriverInfo" :sesion="JSON.parse(value).idSessionInfo" :piloto="key" :orden="orden" />
                                             </td>
                                             <td class="text-center">{{ JSON.parse(value).vehiculo }}</td>
                                             <td class="text-center">{{ JSON.parse(value).vueltas }}</td>

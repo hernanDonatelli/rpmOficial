@@ -919,5 +919,41 @@ export const useApiStore = defineStore('useApiStore', {
           this.sesionesVD = info.data[0]
         })
     },
+
+    async aplicarBonusApi(token, idSesion, bonus) {
+
+      const optionsAplicarBonus = {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+          "X-Requested-With": "XMLHttpRequest",
+        },
+        body: `{"idSessionInfo": "${idSesion}","bonus": "${bonus}"}`,
+      };
+
+      await fetch("https://rpm.studioatlantic.com.ar/pezls/public/api/v1/aplicarBonus", optionsAplicarBonus)
+        .then(res => res.json())
+        .then(info => info)
+
+    },
+
+    async quitarBonusApi(token, idSesion) {
+
+      const optionsQuitarBonus = {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+          "X-Requested-With": "XMLHttpRequest",
+        },
+        body: `{"idSessionInfo": "${idSesion}" }`,
+      };
+
+      await fetch("https://rpm.studioatlantic.com.ar/pezls/public/api/v1/quitarBonus", optionsQuitarBonus)
+        .then(res => res.json())
+        .then(info => info)
+
+    },
   }
 })
