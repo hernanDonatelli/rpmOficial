@@ -9,18 +9,18 @@ let timer;
 
 onMounted(async () => {
     await useApi.getPlataformas(JSON.parse(localStorage.getItem('token')))
-
 })
 
-onUpdated(() => {
-    // console.log('Updated');
-    // console.log(apiStore.torneos);
-    useApi.torneos.forEach(async el => {
 
-        el.posiciones = await useApi.createTablasPosicionesApi(useApi.tokenApi, el.id)
+// onUpdated(() => {
+//     // console.log('Updated');
+//     // console.log(apiStore.torneos);
+//     useApi.torneos.forEach(async el => {
 
-    })
-})
+//         el.posiciones = await useApi.createTablasPosicionesApi(useApi.tokenApi, el.id)
+
+//     })
+// })
 
 const nombre = ref(null)
 const plataforma = ref(null)
@@ -66,7 +66,6 @@ const showLoading = async (token, torneo) => {
         timer = void 0
     }, 0)
 }
-
 
 const crearTorneo = () => {
 
@@ -126,7 +125,7 @@ const deleteConfirm = async (nombre, id) => {
 const finalizarTorneo = async (token, id, name) => {
     $q.dialog({
         title: `Finalizar el Torneo ${name}`,
-        message: `Esta acción no tiene vuelta atrás y finalizará el Torneo sin vuelta atrás.`,
+        message: `Esta acción no tiene vuelta atrás y finalizará el Torneo de manera inmediata.`,
         cancel: true,
         persistent: true
     }).onOk(async () => {
@@ -189,6 +188,7 @@ const columns = [
     { name: 'forumURL', align: 'center', label: 'URL Foro', field: row => row.forumURL },
     { name: 'acciones', align: 'center', label: 'Acciones' }
 ]
+
 
 </script>
 
@@ -275,10 +275,8 @@ const columns = [
                 :loading="useApi.torneos.length == 0 ? true : false" row-key="id">
 
                 <template v-slot:body="props">
+
                     <q-tr :props="props">
-                        <!-- <q-td key="id" :props="props" class="text-center" id="editedId">
-                            {{ props.row.id }}
-                        </q-td> -->
                         <q-td class="cursor-pointer" key="nombre" :props="props" id="editedName">
                             {{ props.row.name }}
                             <q-popup-edit v-model="props.row.name" title="Editar Nombre" buttons label-set="Ok"

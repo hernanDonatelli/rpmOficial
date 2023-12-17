@@ -82,9 +82,9 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido, ni
 
   $q.dialog({
     title: `<h5 class="text-center text-h5 text-uppercase q-my-none montserratExtraBold font-weight-bold">Inscripción Torneo ${torneo}</h5><hr class="separador"/>`,
-    message: `<p>Hola <strong>${nombre} ${apellido} (${nickname})</strong>,</p>
-            <p>Vas a comenzar tu pre-inscripción al <strong>Torneo ${torneo} (${simulador})</strong> por un valor de <strong>$${Number(precio)}</strong>.</p>
-        <p>Clickeando en <strong>Ok</strong> se enviará un email a la Administración y dentro de las próximas 48hs se contactarán contigo. De lo contrario haz click en <strong>Cancelar</strong> para anular la inscripción.</p>`,
+    message: `<p>Hola <strong>${nombre} ${apellido} (${nickname})</strong>, vas a comenzar tu pre-inscripción al <strong>Torneo         ${torneo} (${simulador})</strong> por un valor de <strong>$${Number(precio)}</strong>.</p>
+            <p>Clickeando en <strong>Ok</strong> se enviará un email a la Administración y dentro de las próximas 48hs se contactarán contigo para confirmar y finalizar la inscripción.</p>
+            <p>De lo contrario haz click en <strong>Cancelar</strong> para anular la inscripción.</p>`,
     cancel: true,
     persistent: true,
     html: true,
@@ -145,17 +145,31 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido, ni
             }}
             </h3>
           </div>
+
+          <!-- Botones -->
           <div class="buttons flex row justify-around items-center col-sm-6 col-md-6 justify-md-end">
             <q-btn
               @click="inscripcionTorneo(torneo.price, torneo.name, torneo.simulator, useDatabase.documents[0].nombre, useDatabase.documents[0].apellido, useDatabase.documents[0].nickname, useDatabase.documents[0].email, useDatabase.documents[0].movil)"
               v-if="userStore.userData != null" :class="colorBtn(torneo.simulator)"
               class="text-white q-mx-lg q-my-xs col-8 col-md-3" icon="lab la-wpforms" style="font-weight: bold;"
-              label="Inscripción" />
+              label="Inscripción">
+              <q-tooltip class="text-caption bg-blue-grey-11 text-black" transition-show="flip-right" transition-hide="flip-left">
+                Pre-inscribite al Torneo {{ torneo.name }}
+              </q-tooltip>
+            </q-btn>
             <q-btn :to="`torneo/${torneo.id}`" class="q-mx-lg q-my-xs col-8 col-md-3" icon="las la-trophy"
-              style="background: #ffffff; color: #212121; font-weight: bold;" label="Campeonato" />
+              style="background: #ffffff; color: #212121; font-weight: bold;" label="Campeonato">
+              <q-tooltip class="text-caption bg-blue-grey-11 text-black" transition-show="flip-right" transition-hide="flip-left">
+                Fechas, resultados y estadísticas.
+              </q-tooltip>
+              </q-btn>
             <q-btn :href="torneo.forumURL" target="_blank" class="q-mx-lg q-my-xs col-8 col-md-3"
               icon="las la-external-link-alt" style="background: #ffffff; color: #212121; font-weight: bold;"
-              label="Foro" />
+              label="Foro">
+              <q-tooltip class="text-caption bg-blue-grey-11 text-black" transition-show="flip-right" transition-hide="flip-left">
+                Foro exclusivo del Torneo
+              </q-tooltip>
+            </q-btn>
           </div>
         </div>
 

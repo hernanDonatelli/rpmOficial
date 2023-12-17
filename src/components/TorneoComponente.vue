@@ -125,7 +125,7 @@ const fechaCountdown = async () => {
         }
 
         apiStore.arrayFechasCounter.push((resultObj))
-        
+
     } catch (error) {
         console.log(error);
     }
@@ -333,6 +333,7 @@ const fechaCountdown = async () => {
 
         .calendario {
             width: 75%;
+            margin-top: -5.5rem;
         }
     }
 }

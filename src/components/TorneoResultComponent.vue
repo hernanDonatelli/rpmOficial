@@ -143,7 +143,6 @@ const getResultsFecha = async (idTorneo, orden) => {
                                         <th class="text-center fontCustomTitle text-uppercase">Vuelta Rapida</th>
                                         <th class="text-center fontCustomTitle text-uppercase">Puntos</th>
                                         <th class="text-center fontCustomTitle text-uppercase">Sanción</th>
-                                        <th class="text-center fontCustomTitle text-uppercase">Sesion</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -203,6 +202,10 @@ const getResultsFecha = async (idTorneo, orden) => {
         width: 40%;
         margin-left: 0;
         margin-bottom: 1rem;
+    }
+
+    .q-markup-table{
+        overflow: unset;
     }
 }
 
