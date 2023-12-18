@@ -65,7 +65,7 @@ const getTorneos = async () => {
         <q-btn class="text-red-13" flat dense round @click="drawer = !drawer" aria-label="Menu" icon="las la-bars" />
 
         <q-toolbar-title class="text-red-13 flex column items-center row-sm justify-sm-between">
-          <h4 class="q-my-none text-h5 text-weight-light"><span>RPM</span>RacingLeague</h4>
+          <h4 class="q-my-none text-h5 text-weight-light"><router-link to="/"><span>RPM</span>RacingLeague</router-link></h4>
           <div v-if="!userStore.loadingSession" class="btn-entrada q-my-xs">
             <p v-for="user of databaseStore.documents" :key="user.id"
               class="inline-block q-mr-sm q-mb-none text-caption text-grey-13">
@@ -103,7 +103,7 @@ const getTorneos = async () => {
             <q-item-label caption class="text-grey-8">Ir al inicio de la web</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item clickable to="#novedades">
+        <q-item clickable to="/#novedades">
           <q-item-section avatar>
             <q-icon name="las la-users" />
           </q-item-section>
@@ -112,7 +112,8 @@ const getTorneos = async () => {
             <q-item-label caption class="text-grey-8">Noticias en RPM Racing League</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item clickable to="#campeonatos">
+
+        <q-item clickable to="/#campeonatos">
           <q-item-section avatar>
             <q-icon name="las la-trophy" />
           </q-item-section>
@@ -122,7 +123,17 @@ const getTorneos = async () => {
           </q-item-section>
         </q-item>
 
-        <q-item clickable to="#youTube">
+        <q-item clickable to="/torneos-finalizados">
+          <q-item-section avatar>
+            <q-icon name="las la-medal" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Finalizados</q-item-label>
+            <q-item-label caption class="text-grey-8">Torneos finalizados de RPM</q-item-label>
+          </q-item-section>
+        </q-item>
+
+        <q-item clickable to="/#youTube">
           <q-item-section avatar>
             <q-icon name="las la-photo-video" />
           </q-item-section>
@@ -265,6 +276,11 @@ const getTorneos = async () => {
 
 .header__nav {
   background-color: $blue-grey-10;
+
+  h4 a{
+    text-decoration: none;
+    color: $red-13;
+  }
 }
 
 .drawer__menu {

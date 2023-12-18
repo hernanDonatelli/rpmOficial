@@ -11,17 +11,6 @@ onMounted(async () => {
     await useApi.getPlataformas(JSON.parse(localStorage.getItem('token')))
 })
 
-
-// onUpdated(() => {
-//     // console.log('Updated');
-//     // console.log(apiStore.torneos);
-//     useApi.torneos.forEach(async el => {
-
-//         el.posiciones = await useApi.createTablasPosicionesApi(useApi.tokenApi, el.id)
-
-//     })
-// })
-
 const nombre = ref(null)
 const plataforma = ref(null)
 const puntosClasifica = ref(null)
@@ -271,12 +260,12 @@ const columns = [
     <div class="row">
         <div class="col-12 q-pa-md tabla-torneos">
 
-            <q-table style="width: 100%;" title="TORNEOS" :rows="useApi.torneos" :columns="columns"
-                :loading="useApi.torneos.length == 0 ? true : false" row-key="id">
+            <!-- Torneos Activos -->
+            <q-table class="q-mb-xl" style="width: 100%;" title="Torneos Activos" :rows="useApi.torneos" :columns="columns"
+                :loading="useApi.torneos.length == 0 ? true : false" row-key="id" :rows-per-page-options="[5,10]">
 
                 <template v-slot:body="props">
-
-                    <q-tr :props="props">
+                    <q-tr v-if="props.row.status == 1" :props="props">
                         <q-td class="cursor-pointer" key="nombre" :props="props" id="editedName">
                             {{ props.row.name }}
                             <q-popup-edit v-model="props.row.name" title="Editar Nombre" buttons label-set="Ok"
@@ -344,6 +333,82 @@ const columns = [
                     </q-tr>
                 </template>
             </q-table>
+
+            <!-- Torneos Finalizados -->
+            <q-table style="width: 100%;" title="Torneos Finalizados" :rows="useApi.torneos" :columns="columns"
+                :loading="useApi.torneos.length == 0 ? true : false" row-key="id" :rows-per-page-options="[5,10]">
+
+                <template v-slot:body="props">
+
+                    <q-tr v-if="props.row.status == 2" :props="props">
+                        <q-td class="cursor-pointer" key="nombre" :props="props" id="editedName">
+                            {{ props.row.name }}
+                            <q-popup-edit v-model="props.row.name" title="Editar Nombre" buttons label-set="Ok"
+                                label-cancel="Cancelar" v-slot="scope" auto-save>
+                                <q-input type="text" :model-value="scope.value" v-model="scope.value" dense autofocus
+                                    @keyup.enter="scope.set" />
+                            </q-popup-edit>
+                        </q-td>
+                        <q-td key="plataforma" :props="props" id="editedSimulator">
+                            {{ props.row.simulator }}
+                            <q-popup-edit v-model="props.row.simulator" v-slot="scope" disable />
+                        </q-td>
+                        <q-td class="cursor-pointer" key="puntosQualy" :props="props" id="editedQualyPoints">
+                            {{ props.row.qualyPoints }}
+                            <q-popup-edit v-model="props.row.qualyPoints" title="Puntos de Qualy" buttons label-set="Ok"
+                                label-cancel="Cancelar" v-slot="scope">
+                                <q-input type="text" v-model="scope.value" dense autofocus />
+                            </q-popup-edit>
+                        </q-td>
+                        <q-td class="cursor-pointer" key="puntosCarreraCorta" :props="props" id="editedShortRacePoints">
+                            {{ props.row.shortRacePoints }}
+                            <q-popup-edit v-model="props.row.shortRacePoints" title="Puntos de Serie/Short Race" buttons
+                                label-set="Ok" label-cancel="Cancelar" v-slot="scope">
+                                <q-input type="text" v-model="scope.value" dense autofocus />
+                            </q-popup-edit>
+                        </q-td>
+                        <q-td class="cursor-pointer" key="puntosCarrera" :props="props" id="editedRacePoints">
+                            <p>{{ props.row.racePoints }}</p>
+                            <q-popup-edit v-model.trim="props.row.racePoints" title="Puntos de Carrera" buttons
+                                label-set="Ok" label-cancel="Cancelar" v-slot="scope">
+                                <q-input type="text" v-model.trim="scope.value" dense autofocus />
+                            </q-popup-edit>
+                        </q-td>
+                        <q-td key="status" :props="props" id="editedStatus">
+                            <q-badge :color="props.row.status == 1 ? 'teal-14' : 'red-13'" text-color="white"
+                                class="q-py-xs q-px-sm">
+                                {{ props.row.status == 1 ? 'Activo' : 'Finalizado' }}
+                            </q-badge>
+                        </q-td>
+                        <q-td class="cursor-pointer" key="precio" :props="props" id="editedPrice">
+                            <p>{{ props.row.price }}</p>
+                            <q-popup-edit v-model.trim="props.row.price" title="Precio" buttons
+                                label-set="Ok" label-cancel="Cancelar" v-slot="scope">
+                                <q-input type="text" v-model.trim="scope.value" dense autofocus />
+                            </q-popup-edit>
+                        </q-td>
+                        <q-td class="cursor-pointer" key="forumURL" :props="props" id="editedForum">
+                            <p>{{ props.row.forumURL }}</p>
+                            <q-popup-edit v-model.trim="props.row.forumURL" title="URL Foro" buttons
+                                label-set="Ok" label-cancel="Cancelar" v-slot="scope">
+                                <q-input type="text" v-model.trim="scope.value" dense autofocus />
+                            </q-popup-edit>
+                        </q-td>
+                        <q-td class="flex column">
+                            <q-btn
+                                @click="editarTorneo(props.row.id, props.row.name, props.row.simulator, props.row.qualyPoints, props.row.shortRacePoints, props.row.racePoints, props.row.status, props.row.price, props.row.forumURL)"
+                                type="submit" size="sm" color="yellow-13" text-color="black" label="Editar" />
+                            <q-btn class="q-my-sm" size="sm"
+                                @click="finalizarTorneo(useApi.tokenApi, props.row.id, props.row.name)" color="blue-grey-13"
+                                text-color="white" label="Finalizar" />
+                            <q-btn size="sm" @click="deleteConfirm(props.row.name, props.row.id)" color="red-13"
+                                text-color="white" label="Eliminar" />
+
+                        </q-td>
+                    </q-tr>
+                </template>
+            </q-table>
+
         </div>
     </div>
 </template>

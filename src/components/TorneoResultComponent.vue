@@ -146,12 +146,12 @@ const getResultsFecha = async (idTorneo, orden) => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <template v-for="(value, key, index) in infoSesion" :key="index.id">
+                                    <template v-for="(value, key) in infoSesion">
                                         <tr v-if="JSON.parse(value).posicion >= 1">
                                             <td class="text-center">{{ JSON.parse(value).posicion }}</td>
                                             <td class="text-center flex justify-between">
                                                 <span>{{ key }}</span>
-                                                <LapsInfoComponent :id="idTorneo" :driver="JSON.parse(value).idDriverInfo" :sesion="JSON.parse(value).idSessionInfo" :piloto="key" :orden="orden" />
+                                                <LapsInfoComponent :id="idTorneo" :driver="JSON.parse(value).idDriverInfo" :sesion="JSON.parse(value).idSessionInfo" :piloto="key" :orden="orden" :titulo-sesion="useApi.tituloSesiones[index]" />
                                             </td>
                                             <td class="text-center">{{ JSON.parse(value).vehiculo }}</td>
                                             <td class="text-center">{{ JSON.parse(value).vueltas }}</td>

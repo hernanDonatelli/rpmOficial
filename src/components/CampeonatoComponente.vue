@@ -129,7 +129,7 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido, ni
     backgroundSize: 'cover',
     backgroundPosition: 'right'
   }">
-    <div class="champ-container q-mb-lg">
+    <div v-if="torneo.status != 2" class="champ-container q-mb-lg">
       <div :class="borderTorneo(torneo.simulator)" class="torneo-container q-pb-lg">
         <p class="simulador fontCustomTitle text-h5 text-white q-mb-none text-center text-uppercase text-weight-bold">{{
           torneo.simulator }}</p>

@@ -82,7 +82,7 @@ const getVueltasDriver = async (id, sesion, driver) => {
                         </h4>
                         <h6
                             class="text-h6 title-header text-blue-grey-12 text-uppercase text-weight-bolder q-px-lg q-pt-lg q-my-none text-center montserratExtraBold">
-                           <span>{{  }}</span>
+                           <span>{{ tituloSesion }}</span>
                         </h6>
 
                     </div>
