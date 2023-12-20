@@ -2,7 +2,7 @@ import { createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerificati
 import { defineStore } from 'pinia'
 import { auth } from 'src/firebaseConfig';
 import { userDatabaseStore } from './database';
-import { Notify } from 'quasar';
+import { Notify, Loading, QSpinnerGears } from 'quasar';
 import { query, collection, where, getDocs } from 'firebase/firestore/lite';
 import { db } from 'src/firebaseConfig';
 
@@ -16,9 +16,25 @@ export const useUserStore = defineStore('userStore', {
   actions: {
 
     async cambiarPassword(email) {
+      let timer;
+
+      Loading.show({
+        spinner: QSpinnerGears,
+        spinnerColor: 'red-13',
+        spinnerSize: 140,
+        backgroundColor: 'bg-black',
+        message: 'Cargando información...',
+        messageColor: 'red-13'
+      })
 
       sendPasswordResetEmail(auth, email)
         .then(() => {
+          // hiding in 1s
+          timer = setTimeout(() => {
+            Loading.hide()
+            timer = void 0
+          }, 250)
+
           Notify.create({
             color: "teal-6",
             textColor: "white",
@@ -51,8 +67,21 @@ export const useUserStore = defineStore('userStore', {
     async registerUser(email, password, nombre, apellido, movil, nickname) {
       const userDatabase = userDatabaseStore()
       this.loadingUser = true
+      let timer;
+      const errorCodes = {
+        'auth/email-already-in-use': 'El email ingresado ya está en uso.'
+      }
 
       try {
+        Loading.show({
+          spinner: QSpinnerGears,
+          spinnerColor: 'red-13',
+          spinnerSize: 140,
+          backgroundColor: 'bg-grey-11',
+          message: 'Cargando información...',
+          messageColor: 'red-13'
+        })
+
         const data = {
           nombre: nombre,
           apellido: apellido,
@@ -71,19 +100,26 @@ export const useUserStore = defineStore('userStore', {
 
                 const userToRegister = {
                   email: user.email,
-                  uid: user.uid,
                   emailVerified: user.emailVerified,
                   nombre: data.nombre,
                   apellido: data.apellido,
                   nickname: data.nickname,
                   movil: data.movil,
-                  isAdmin: data.isAdmin
+                  isAdmin: data.isAdmin,
+                  // id: user.id
                 }
 
-                userDatabase.addUser(userToRegister);
+                userDatabase.addUser(userToRegister, user.uid);
+
+                // hiding in 1s
+                timer = setTimeout(() => {
+                  Loading.hide()
+                  timer = void 0
+                }, 250)
+
 
                 Notify.create({
-                  color: "green-4",
+                  color: "teal-6",
                   textColor: "white",
                   icon: "cloud_done",
                   multiline: true,
@@ -92,14 +128,29 @@ export const useUserStore = defineStore('userStore', {
                   message: "<p style='text-align: center;'>El Registro del usuario fue exitoso!<br> Se ha enviado un email de verificación para validar la cuenta.</p>",
                   timeout: 3000
                 });
+              })
+              .catch(error => {
+                console.log(error);
+              })
+          })
+          .catch(error => {
+            console.log(error);
+            // hiding in 1s
+            timer = setTimeout(() => {
+              Loading.hide()
+              timer = void 0
+            }, 1000)
 
-                setTimeout(() => {
-                  window.location.reload()
-                }, 4000);
+            Notify.create({
+              color: "red-13",
+              textColor: "white",
+              icon: "warning",
+              position: "top",
+              message: errorCodes['auth/email-already-in-use'],
+              timeout: 2000
+            });
 
-              });
-
-
+            this.loadingUser = false
           })
 
       } catch (error) {
@@ -110,6 +161,16 @@ export const useUserStore = defineStore('userStore', {
     async loginUser(email, password) {
       const databaseStore = userDatabaseStore()
       this.loadingUser = true
+      let timer;
+
+      Loading.show({
+        spinner: QSpinnerGears,
+        spinnerColor: 'red-13',
+        spinnerSize: 140,
+        backgroundColor: 'bg-grey-11',
+        message: 'Cargando información...',
+        messageColor: 'red-13'
+      })
 
       const errorCodes = {
         'auth/user-not-found': 'El usuario no existe. Registrate para ingresar.',
@@ -118,7 +179,7 @@ export const useUserStore = defineStore('userStore', {
 
       try {
         //Comprueba si el usuario existe o no
-        const q = query(collection(db, "usuarios"), where("email", "==", email))
+        const q = query(collection(db, "usersRegistered"), where("email", "==", email))
 
         const querySnapshot = await getDocs(q)
 
@@ -128,13 +189,13 @@ export const useUserStore = defineStore('userStore', {
             color: "red-13",
             textColor: "white",
             icon: "warning",
-            position: "center",
+            position: "top",
             message: errorCodes['auth/user-not-found'],
             timeout: 2000
           });
 
           setTimeout(() => {
-            window.location.reload()
+            window.location.href('/login')
           }, 1750);
 
         } else { //EXISTE el usuario
@@ -145,10 +206,15 @@ export const useUserStore = defineStore('userStore', {
               const user = userCredentials.user;
 
               if (user.emailVerified) {
-
                 this.userData = { email: user.email, uid: user.uid, emailVerified: user.emailVerified }
 
                 databaseStore.getUsers()
+
+                // hiding in 1s
+                timer = setTimeout(() => {
+                  Loading.hide()
+                  timer = void 0
+                }, 250)
 
                 Notify.create({
                   color: "teal-6",
@@ -164,14 +230,16 @@ export const useUserStore = defineStore('userStore', {
                   color: "red-13",
                   textColor: "white",
                   icon: "warning",
-                  position: "center",
+                  position: "top",
                   message: "Debes validar tu correo electrónico para ingresar",
                   timeout: 1500
                 });
 
-                setTimeout(() => {
-                  window.location.reload()
-                }, 2500);
+                this.userData = null
+
+                // setTimeout(() => {
+                //   window.location.reload()
+                // }, 2500);
               }
             })
             .catch(error => {
@@ -213,10 +281,6 @@ export const useUserStore = defineStore('userStore', {
         });
 
         databaseStore.$reset()
-
-        setTimeout(() => {
-          window.location.reload()
-        }, 2000);
 
       } catch (error) {
         console.log();

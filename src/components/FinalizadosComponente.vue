@@ -33,7 +33,7 @@ const useApi = useApiStore()
               </q-img>
 
               <q-card-section class="text-center">
-                <q-btn :to="`torneo/${torneo.id}`" color="teal-6" label="Ver Torneo" />
+                <q-btn :href="`torneo/${torneo.id}`" color="teal-6" label="Ver Torneo" />
               </q-card-section>
             </q-card>
           </div>

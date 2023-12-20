@@ -1,8 +1,9 @@
-import { query, collection, getDocs, where, addDoc, doc, updateDoc } from 'firebase/firestore/lite';
+import { query, collection, getDocs, where, setDoc, doc, updateDoc } from 'firebase/firestore/lite';
 import { db } from '../firebaseConfig'
 import { auth } from 'src/firebaseConfig';
 import { defineStore } from 'pinia'
 import { useUserStore } from './user';
+import { Notify, QSpinnerGears, Loading } from 'quasar';
 
 export const userDatabaseStore = defineStore('database', {
   state: () => ({
@@ -12,7 +13,7 @@ export const userDatabaseStore = defineStore('database', {
   actions: {
     async getAdmin(){
       try {
-        const q = query(collection(db, "usuarios"), where("isAdmin", "==", true))
+        const q = query(collection(db, "usersRPM"), where("isAdmin", "==", true))
         const querySnapshot = await getDocs(q);
 
         querySnapshot.forEach((doc) => {
@@ -38,9 +39,10 @@ export const userDatabaseStore = defineStore('database', {
       }
 
       try {
-        const q = query(collection(db, "usuarios"), where("uid", "==", auth.currentUser.uid))
+        const q = query(collection(db, "usersRegistered"), where("email", "==", auth.currentUser.email))
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
+
           if (this.documents.length == 0) {
             this.documents.push({
               id: doc.id,
@@ -57,11 +59,11 @@ export const userDatabaseStore = defineStore('database', {
       }
     },
 
-    async addUser(objetoDoc) {
+    async addUser(objetoDoc, id) {
       try {
-
-        const docRef = await addDoc(collection(db, "usuarios"), objetoDoc)
-        //console.log(docRef);
+        await setDoc(doc(db, "usersRegistered", id), objetoDoc);
+        // const docRef = await addDoc(collection(db, "usuarios"), objetoDoc)
+        // console.log(docRef);
       } catch (error) {
         console.log(error);
       } finally {
@@ -70,14 +72,44 @@ export const userDatabaseStore = defineStore('database', {
     },
 
     async updateUser(userObj) {
+      let timer;
+
+      Loading.show({
+        spinner: QSpinnerGears,
+        spinnerColor: 'red-13',
+        spinnerSize: 140,
+        backgroundColor: 'bg-grey-11',
+        message: 'Cargando información...',
+        messageColor: 'red-13'
+      })
+
       let usuario;
 
       this.documents.forEach(user => {
         usuario = user.id
       })
 
-      const userDB = doc(db, "usuarios", usuario);
+      const userDB = doc(db, "usersRegistered", usuario);
       await updateDoc(userDB, userObj);
+
+      // hiding in 1s
+      timer = setTimeout(() => {
+        Loading.hide()
+        timer = void 0
+      }, 250)
+
+      Notify.create({
+        color: "teal-6",
+        textColor: "white",
+        position: "center",
+        icon: "cloud_done",
+        message: "El Usuario ha sido editado exitosamente!",
+        timeout: 1000
+      });
+
+      setTimeout(() => {
+        window.location.reload()
+      }, 2500);
 
     }
   }

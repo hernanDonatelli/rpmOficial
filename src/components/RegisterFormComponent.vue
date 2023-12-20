@@ -44,6 +44,7 @@ const passwordRules = [
 ];
 
 //Metodos
+
 const onSubmit = async () => {
   if (!nombre.value || !apellido.value || !email.value || !password.value || !repassword.value || !movil.value || !nickname.value) {
     $q.notify({
@@ -68,9 +69,6 @@ const onSubmit = async () => {
     } else {
 
       await userStore.registerUser(email.value, password.value, nombre.value, apellido.value, movil.value, nickname.value)
-
-      // await router.push('/');
-      // await router.push('/registro-ok')
 
     }
   }

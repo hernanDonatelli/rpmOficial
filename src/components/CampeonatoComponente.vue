@@ -157,7 +157,7 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido, ni
                 Pre-inscribite al Torneo {{ torneo.name }}
               </q-tooltip>
             </q-btn>
-            <q-btn :to="`torneo/${torneo.id}`" class="q-mx-lg q-my-xs col-8 col-md-3" icon="las la-trophy"
+            <q-btn :href="`torneo/${torneo.id}`" class="q-mx-lg q-my-xs col-8 col-md-3" icon="las la-trophy"
               style="background: #ffffff; color: #212121; font-weight: bold;" label="Campeonato">
               <q-tooltip class="text-caption bg-blue-grey-11 text-black" transition-show="flip-right" transition-hide="flip-left">
                 Fechas, resultados y estadísticas.

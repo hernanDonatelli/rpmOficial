@@ -7,7 +7,7 @@ const openModal = ref(false);
 
 <template>
   <q-dialog v-model="openModal">
-    <q-card class="q-pa-xl" style="width: 450px; max-width: 80vw">
+    <q-card style="width: 450px; max-width: 80vw">
       <login-form-component />
     </q-card>
   </q-dialog>

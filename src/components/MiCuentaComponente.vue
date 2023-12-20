@@ -66,9 +66,7 @@ const onSubmitEdit = async () => {
         // console.log(editUser);
         await databaseStore.updateUser(editUser);
 
-        await msgEditOk();
-
-        await resetPage();
+        // await databaseStore.getUsers()
 
     }
 
@@ -80,25 +78,11 @@ const onResetEdit = () => {
     movil.value = null;
 };
 
-const msgEditOk = async () => {
-    setTimeout(() => {
-        $q.notify({
-            color: "green-4",
-            textColor: "white",
-            position: "center",
-            icon: "cloud_done",
-            message: "El Usuario ha sido editado exitosamente!",
-            timeout: 1000
-        });
-
-    }, 1000);
-}
-
-const resetPage = async () => {
-    setTimeout(() => {
-        window.location.reload()
-    }, 3500);
-}
+// const resetPage = async () => {
+//     setTimeout(() => {
+//         window.location.reload()
+//     }, 3500);
+// }
 </script>
 
 <template>
