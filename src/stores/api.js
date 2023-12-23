@@ -920,9 +920,9 @@ export const useApiStore = defineStore('useApiStore', {
         })
     },
 
-    async aplicarBonusApi(token, idSesion, bonus) {
+    async aplicarBonusSesionApi(token, idSesion, bonus) {
 
-      const optionsAplicarBonus = {
+      const optionsAplicarBonusSesion = {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -932,15 +932,15 @@ export const useApiStore = defineStore('useApiStore', {
         body: `{"idSessionInfo": "${idSesion}","bonus": "${bonus}"}`,
       };
 
-      await fetch("https://rpm.studioatlantic.com.ar/pezls/public/api/v1/aplicarBonus", optionsAplicarBonus)
+      await fetch("https://rpm.studioatlantic.com.ar/pezls/public/api/v1/aplicarBonus", optionsAplicarBonusSesion)
         .then(res => res.json())
         .then(info => info)
 
     },
 
-    async quitarBonusApi(token, idSesion) {
+    async quitarBonusSesionApi(token, idSesion) {
 
-      const optionsQuitarBonus = {
+      const optionsQuitarBonusSesion = {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -950,7 +950,43 @@ export const useApiStore = defineStore('useApiStore', {
         body: `{"idSessionInfo": "${idSesion}" }`,
       };
 
-      await fetch("https://rpm.studioatlantic.com.ar/pezls/public/api/v1/quitarBonus", optionsQuitarBonus)
+      await fetch("https://rpm.studioatlantic.com.ar/pezls/public/api/v1/quitarBonus", optionsQuitarBonusSesion)
+        .then(res => res.json())
+        .then(info => info)
+
+    },
+
+    async aplicarBonusPilotoApi(token, idDriver, bonus) {
+
+      const optionsAplicarBonusPiloto = {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+          "X-Requested-With": "XMLHttpRequest",
+        },
+        body: `{"idSessionInfo": "${idDriver}","bonus": "${bonus}"}`,
+      };
+
+      await fetch("https://rpm.studioatlantic.com.ar/pezls/public/api/v1/aplicarBonusPiloto", optionsAplicarBonusPiloto)
+        .then(res => res.json())
+        .then(info => info)
+
+    },
+
+    async quitarBonusPilotoApi(token, idDriver) {
+
+      const optionsQuitarBonusPiloto = {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+          "X-Requested-With": "XMLHttpRequest",
+        },
+        body: `{"idSessionInfo": "${idDriver}"}`,
+      };
+
+      await fetch("https://rpm.studioatlantic.com.ar/pezls/public/api/v1/quitarBonusPiloto", optionsQuitarBonusPiloto)
         .then(res => res.json())
         .then(info => info)
 

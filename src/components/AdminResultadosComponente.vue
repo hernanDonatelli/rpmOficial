@@ -1,9 +1,9 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import { useApiStore } from 'src/stores/api';
-// import { useQuasar } from 'quasar'
+import { useQuasar, QSpinnerGears } from 'quasar'
 const useApi = useApiStore()
-// const $q = useQuasar()
+const $q = useQuasar()
 
 let selTorneo = ref('')
 const fecha = ref('')
@@ -47,8 +47,10 @@ const torneosApi = async () => {
     useApi.torneoOpt = []
 
     torneos.forEach(torneo => {
-        useApi.torneoOpt.push(torneo.name)
-        idTorneo.push(torneo.id)
+        if (torneo.status === 1) {
+            useApi.torneoOpt.push(torneo.name)
+            idTorneo.push(torneo.id)
+        }
     })
 
 }
@@ -78,10 +80,26 @@ const newSelTorneo = async () => {
 }
 
 const subirResultado = async () => {
+    let timer;
+
+    $q.loading.show({
+        spinner: QSpinnerGears,
+        spinnerColor: 'red-13',
+        spinnerSize: 140,
+        backgroundColor: 'bg-grey-10',
+        message: 'Cargando información...',
+        messageColor: 'black'
+    })
 
     const formData = new FormData(uploadForm)
 
     useApi.uploadResult(useApi.tokenApi, formData)
+
+    // hiding in 1s
+    timer = setTimeout(() => {
+        $q.loading.hide()
+        timer = void 0
+    }, 250)
 }
 
 const onReset = () => {

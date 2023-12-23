@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import { useApiStore } from 'src/stores/api';
-import { useQuasar } from 'quasar'
+import { useQuasar, QSpinnerGears } from 'quasar'
 import AdminResultComponent from './AdminResultComponent.vue';
 
 const useApi = useApiStore()
@@ -31,13 +31,16 @@ const torneosApi = async () => {
     useApi.torneoOpt = []
 
     torneos.forEach(torneo => {
-        useApi.torneoOpt.push(torneo.name)
-        idTorneo.push(torneo.id)
+        if (torneo.status === 1) {
+            useApi.torneoOpt.push(torneo.name)
+            idTorneo.push(torneo.id)
+        }
 
     });
 }
 
-const createCalendar = async() => {
+const createCalendar = async () => {
+    let timer;
     const match = useApi.torneos.filter(item => item.name == createFecha.value)
 
     match.forEach(item => {
@@ -49,15 +52,38 @@ const createCalendar = async() => {
             orden: orden.value
         }
 
+        $q.loading.show({
+            spinner: QSpinnerGears,
+            spinnerColor: 'red-13',
+            spinnerSize: 140,
+            backgroundColor: 'bg-grey-10',
+            message: 'Cargando información...',
+            messageColor: 'black'
+        })
+
         useApi.createCalendarApi(JSON.parse(localStorage.getItem('token')), datosFecha, item.name)
 
+        // hiding in 1s
+        timer = setTimeout(() => {
+            $q.loading.hide()
+            timer = void 0
+        }, 1000)
     })
 
 }
 
 const buscarCalendario = () => {
-
+    let timer;
     const match = useApi.torneos.filter(item => item.name == torneo.value)
+
+    $q.loading.show({
+        spinner: QSpinnerGears,
+        spinnerColor: 'red-13',
+        spinnerSize: 140,
+        backgroundColor: 'bg-grey-10',
+        message: 'Cargando información...',
+        messageColor: 'black'
+    })
 
     match.forEach(item => {
         const idTorneo = item.id
@@ -68,16 +94,40 @@ const buscarCalendario = () => {
             torneoName = useApi.torneoOpt.filter(item => item == torneo.value)
         }
     })
+
+    // hiding in 1s
+    timer = setTimeout(() => {
+        $q.loading.hide()
+        timer = void 0
+    }, 1250)
 }
 
 const eliminarFecha = (id, order, circuit) => {
+    let timer;
+
     $q.dialog({
         title: `Eliminar Fecha ${order} (${circuit})?`,
         message: `La fecha se eliminará de la base de datos.`,
         cancel: true,
         persistent: true
-    }).onOk( async() => {
+
+    }).onOk(async () => {
+        $q.loading.show({
+            spinner: QSpinnerGears,
+            spinnerColor: 'red-13',
+            spinnerSize: 140,
+            backgroundColor: 'bg-grey-10',
+            message: 'Cargando información...',
+            messageColor: 'black'
+        })
+
         await useApi.deleteFechaApi(useApi.tokenApi, id, order)
+
+        // hiding in 1s
+        timer = setTimeout(() => {
+            $q.loading.hide()
+            timer = void 0
+        }, 250)
 
     }).onCancel(() => {
 
@@ -152,12 +202,12 @@ const columns = [
                     <q-form @submit.prevent="buscarCalendario" class="q-gutter-md">
                         <div>
                             <div class="form-group q-mb-md">
-                                <q-select color="red-13" label-color="red-13" item-aligned filled dense name="torneo" v-model="torneo" :options="useApi.torneoOpt"
-                                    hint="Seleccionar un Torneo" label="Torneo" />
+                                <q-select color="red-13" label-color="red-13" item-aligned filled dense name="torneo"
+                                    v-model="torneo" :options="useApi.torneoOpt" hint="Seleccionar un Torneo"
+                                    label="Torneo" />
                             </div>
                         </div>
-                        <q-btn type="submit" class="q-mr-lg" color="teal-14" text-color="white"
-                            label="Buscar Calendario" />
+                        <q-btn type="submit" class="q-mr-lg" color="teal-14" text-color="white" label="Buscar Calendario" />
                     </q-form>
 
                 </div>
@@ -166,7 +216,8 @@ const columns = [
 
             <div class="col-12 q-pa-md tabla-torneos">
                 <q-table v-if="useApi.calendar.length != 0" :title="`Calendario ${torneoName}`" :rows="useApi.calendar"
-                    :columns="columns" :loading="useApi.calendar.length == 0 ? true : false" row-key="name" :rows-per-page-options="[10,15]">
+                    :columns="columns" :loading="useApi.calendar.length == 0 ? true : false" row-key="name"
+                    :rows-per-page-options="[10, 15]">
 
                     <template v-slot:body="props">
                         <q-tr v-if="useApi.calendar.length != 0" :props="props">
@@ -180,7 +231,9 @@ const columns = [
                                 {{ props.row.date }}
                             </q-td>
                             <q-td class="cursor-pointer" key="resultados">
-                                <AdminResultComponent :fecha="props.row.date" :torneo="torneoName" :circuit="props.row.circuit" :orden="props.row.order" :idTorneo="props.row.league_info_id"/>
+                                <AdminResultComponent :fecha="props.row.date" :torneo="torneoName"
+                                    :circuit="props.row.circuit" :orden="props.row.order"
+                                    :idTorneo="props.row.league_info_id" />
                             </q-td>
 
                             <q-td>
@@ -191,8 +244,7 @@ const columns = [
                         </q-tr>
                     </template>
                 </q-table>
-                <q-table v-else :title="`Calendario`" :rows="useApi.calendar"
-                    :columns="columns" row-key="name">
+                <q-table v-else :title="`Calendario`" :rows="useApi.calendar" :columns="columns" row-key="name">
 
                 </q-table>
             </div>

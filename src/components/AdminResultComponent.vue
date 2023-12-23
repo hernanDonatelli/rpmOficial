@@ -27,6 +27,12 @@ const getResultsFecha = async (idTorneo, orden) => {
     await useApi.getResultsApi(useApi.tokenApi, idTorneo, orden)
 
     if (useApi.sesiones.length == 0) {
+        // hiding in 1s
+        timer = setTimeout(() => {
+            $q.loading.hide()
+            timer = void 0
+        }, 100)
+
         dialog.value = false
 
         $q.notify({
@@ -91,7 +97,7 @@ const dqSanction = async (idDriver, key) => {
     })
 }
 
-const aplicarBonus = async (objeto, bonus) => {
+const aplicarBonusSesion = async (objeto, bonus) => {
 
     try {
         let sesion = null
@@ -103,11 +109,11 @@ const aplicarBonus = async (objeto, bonus) => {
 
         $q.dialog({
             title: 'Aplicar Bonus a Sesión',
-            message: `Vas a otorgar un ${bonus}% de puntos en concepto de bonus para esta Sesión. Continuar?`,
+            message: `Vas a otorgar un bonus del ${bonus}% de los puntos para esta Sesión. Continuar?`,
             cancel: true,
             persistent: true
 
-        }).onOk(async() => {
+        }).onOk(async () => {
 
             $q.loading.show({
                 spinner: QSpinnerGears,
@@ -118,7 +124,7 @@ const aplicarBonus = async (objeto, bonus) => {
                 messageColor: 'black'
             })
 
-            await useApi.aplicarBonusApi(useApi.tokenApi, sesion, bonus)
+            await useApi.aplicarBonusSesionApi(useApi.tokenApi, sesion, bonus)
 
             // hiding in 1s
             timer = setTimeout(() => {
@@ -137,7 +143,15 @@ const aplicarBonus = async (objeto, bonus) => {
             });
 
         }).onCancel(() => {
-            // console.log('>>>> Cancel')
+            $q.notify({
+                color: "red-6",
+                textColor: "white",
+                icon: "warning",
+                html: true,
+                position: "top",
+                message: `<span style='text-align: center;'>Has cancelado la operación.</span>`,
+                timeout: 2000
+            });
         }).onDismiss(() => {
 
         })
@@ -145,7 +159,8 @@ const aplicarBonus = async (objeto, bonus) => {
         console.log(error);
     }
 }
-const quitarBonus = async (objeto) => {
+
+const quitarBonusSesion = async (objeto) => {
 
     try {
         let sesion = null
@@ -157,11 +172,11 @@ const quitarBonus = async (objeto) => {
 
         $q.dialog({
             title: 'Quitar Bonus de Sesión',
-            message: `Vas a eliminar los bonus dados para esta Sesión. Continuar?`,
+            message: `Vas a eliminar el bonus dados para esta Sesión. Continuar?`,
             cancel: true,
             persistent: true
 
-        }).onOk(async() => {
+        }).onOk(async () => {
 
             $q.loading.show({
                 spinner: QSpinnerGears,
@@ -172,7 +187,7 @@ const quitarBonus = async (objeto) => {
                 messageColor: 'black'
             })
 
-            await useApi.quitarBonusApi(useApi.tokenApi, sesion)
+            await useApi.quitarBonusSesionApi(useApi.tokenApi, sesion)
 
             // hiding in 1s
             timer = setTimeout(() => {
@@ -191,7 +206,131 @@ const quitarBonus = async (objeto) => {
             });
 
         }).onCancel(() => {
-            // console.log('>>>> Cancel')
+            $q.notify({
+                color: "red-6",
+                textColor: "white",
+                icon: "warning",
+                html: true,
+                position: "top",
+                message: `<span style='text-align: center;'>Has cancelado la operación.</span>`,
+                timeout: 2000
+            });
+        }).onDismiss(() => {
+
+        })
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const aplicarBonusPiloto = async (idDriver, nombrePiloto) => {
+
+    try {
+
+        $q.dialog({
+            title: `Sumar Puntos al Piloto ${nombrePiloto}`,
+            message: `Vas a sumar puntos en concepto de bonus para el Piloto ${nombrePiloto}. Continuar?`,
+            prompt: {
+                model: '',
+                isValid: val => val.length > 0,
+            },
+            cancel: true,
+            persistent: true
+
+        }).onOk(async (puntos) => {
+            $q.loading.show({
+                spinner: QSpinnerGears,
+                spinnerColor: 'red-13',
+                spinnerSize: 140,
+                backgroundColor: 'bg-grey-10',
+                message: 'Cargando información...',
+                messageColor: 'black'
+            })
+
+            //await useApi.aplicarBonusPilotoApi(useApi.tokenApi, idDriver, puntos)
+
+            //hiding in 1s
+            timer = setTimeout(() => {
+                $q.loading.hide()
+                timer = void 0
+            }, 250)
+
+            $q.notify({
+                color: "teal-6",
+                textColor: "white",
+                icon: "done",
+                html: true,
+                position: "top",
+                message: `<span style='text-align: center;'>Hecho! Has aplicado un bonus de ${puntos} puntos a ${nombrePiloto}.</span>`,
+                timeout: 2000
+            });
+
+        }).onCancel(() => {
+            $q.notify({
+                color: "red-6",
+                textColor: "white",
+                icon: "warning",
+                html: true,
+                position: "top",
+                message: `<span style='text-align: center;'>Has cancelado la operación.</span>`,
+                timeout: 2000
+            });
+        }).onDismiss(() => {
+
+        })
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const quitarBonusPiloto = async (idDriver, nombrePiloto) => {
+
+    try {
+
+        $q.dialog({
+            title: `Quitar Bonus al Piloto ${nombrePiloto}`,
+            message: `Vas a quitarle el bonus al Piloto ${nombrePiloto}. Continuar?`,
+            cancel: true,
+            persistent: true
+
+        }).onOk(async (puntos) => {
+            $q.loading.show({
+                spinner: QSpinnerGears,
+                spinnerColor: 'red-13',
+                spinnerSize: 140,
+                backgroundColor: 'bg-grey-10',
+                message: 'Cargando información...',
+                messageColor: 'black'
+            })
+
+            // await useApi.quitarBonusPilotoApi(useApi.tokenApi, idDriver)
+
+            //hiding in 1s
+            timer = setTimeout(() => {
+                $q.loading.hide()
+                timer = void 0
+            }, 250)
+
+            $q.notify({
+                color: "teal-6",
+                textColor: "white",
+                icon: "done",
+                html: true,
+                position: "top",
+                message: `<span style='text-align: center;'>Hecho! Le haz quitado el bonus a ${nombrePiloto}.</span>`,
+                timeout: 2000
+            });
+
+        }).onCancel(() => {
+            $q.notify({
+                color: "red-6",
+                textColor: "white",
+                icon: "warning",
+                html: true,
+                position: "top",
+                message: `<span style='text-align: center;'>Has cancelado la operación.</span>`,
+                timeout: 2000
+            });
         }).onDismiss(() => {
 
         })
@@ -208,8 +347,8 @@ const quitarBonus = async (objeto) => {
         <div class="q-pa-md q-gutter-sm">
             <q-btn label="Maximized" color="primary" @click="dialog = true" />
 
-            <q-dialog v-model="dialog" :maximized="maximizedToggle" transition-show="scale" transition-hide="slide-down"
-                transition-duration="750">
+            <q-dialog v-model="dialog" :maximized="maximizedToggle" transition-show="scale" transition-hide="scale"
+                transition-duration="500">
 
                 <q-card style="max-width: 90vw;" class="bg-blue-grey-1 text-white">
                     <q-bar>
@@ -253,9 +392,9 @@ const quitarBonus = async (objeto) => {
                                 </h5>
                                 <q-input style="width: 255px;" type="number" v-model="bonus" label="Bonus"
                                     hint="Ej: 100% duplica los puntos otorgados por Sesión" dense />
-                                <q-btn class="q-ml-md" @click="aplicarBonus(infoSesion, bonus)" type="submit" size="sm"
-                                    color="teal-6" text-color="white" label="Aplicar Bonus" />
-                                <q-btn class="q-ml-md" @click="quitarBonus(infoSesion)" type="submit" size="sm"
+                                <q-btn class="q-ml-md" @click="aplicarBonusSesion(infoSesion, bonus)" type="submit"
+                                    size="sm" color="teal-6" text-color="white" label="Aplicar Bonus" />
+                                <q-btn class="q-ml-md" @click="quitarBonusSesion(infoSesion)" type="submit" size="sm"
                                     color="red-6" text-color="white" label="Quitar Bonus" />
                             </div>
                             <q-markup-table flat dense class="bg-blue-grey-1">
@@ -287,11 +426,19 @@ const quitarBonus = async (objeto) => {
                                             <td class="text-center">{{ JSON.parse(value).vueltaRapida }}</td>
                                             <td class="text-center">{{ JSON.parse(value).puntos }}</td>
                                             <td class="text-center">
-                                                <q-btn @click="aplicarSancion(JSON.parse(value).idDriverInfo, key)"
-                                                    size="sm" color="warning" text-color="black" label="Sancionar" />
-                                                <q-btn class="q-ml-xs"
-                                                    @click="dqSanction(JSON.parse(value).idDriverInfo, key)" size="sm"
-                                                    color="red-13" text-color="white" label="DQ" />
+                                                <div class="flex justify-start q-mb-xs">
+                                                    <q-btn @click="aplicarBonusPiloto(JSON.parse(value).idDriverInfo, key)"
+                                                        size="sm" color="teal-6" text-color="white" label="+ Bonus" />
+                                                    <q-btn class="q-ml-sm" @click="quitarBonusPiloto(JSON.parse(value).idDriverInfo, key)"
+                                                        size="sm" color="brown-6" text-color="white" label="- Bonus" />
+                                                </div>
+                                                <div class="flex justify-start">
+                                                    <q-btn
+                                                        @click="aplicarSancion(JSON.parse(value).idDriverInfo, key)" size="sm"
+                                                        color="warning" text-color="black" label="Sancion" />
+                                                    <q-btn class="q-ml-sm" @click="dqSanction(JSON.parse(value).idDriverInfo, key)" size="sm"
+                                                        color="red-13" text-color="white" label="DQ" />
+                                                </div>
                                             </td>
                                             <td :class="JSON.parse(value).sancion != 0.000 ? 'bg-red-13 text-white' : ''"
                                                 class="text-center">+{{ JSON.parse(value).sancion }}s</td>
