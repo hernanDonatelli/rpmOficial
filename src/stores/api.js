@@ -471,6 +471,9 @@ export const useApiStore = defineStore('useApiStore', {
             if (sesion == 'race') {
               sesion = 'Carrera'
             }
+            if (sesion == 'qualify_general') {
+              sesion = 'Qualy General'
+            }
 
             this.tituloSesiones.push(sesion)
           }
@@ -965,7 +968,7 @@ export const useApiStore = defineStore('useApiStore', {
           "Content-Type": "application/json",
           "X-Requested-With": "XMLHttpRequest",
         },
-        body: `{"idSessionInfo": "${idDriver}","bonus": "${bonus}"}`,
+        body: `{"idDriverInfo": "${idDriver}","bonus": "${bonus}"}`,
       };
 
       await fetch("https://rpm.studioatlantic.com.ar/pezls/public/api/v1/aplicarBonusPiloto", optionsAplicarBonusPiloto)
@@ -983,7 +986,7 @@ export const useApiStore = defineStore('useApiStore', {
           "Content-Type": "application/json",
           "X-Requested-With": "XMLHttpRequest",
         },
-        body: `{"idSessionInfo": "${idDriver}"}`,
+        body: `{"idDriverInfo": "${idDriver}"}`,
       };
 
       await fetch("https://rpm.studioatlantic.com.ar/pezls/public/api/v1/quitarBonusPiloto", optionsQuitarBonusPiloto)
@@ -991,5 +994,6 @@ export const useApiStore = defineStore('useApiStore', {
         .then(info => info)
 
     },
+
   }
 })

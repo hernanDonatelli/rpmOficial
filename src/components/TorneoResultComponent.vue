@@ -105,10 +105,11 @@ const getResultsFecha = async (idTorneo, orden) => {
                     </div>
 
                     <h6 class="q-ma-none text-blue-grey-10 text-body2 text-center"><strong>Vueltas Rapidas</strong></h6>
-                    <div class="flex column items-center row-md justify-md-center">
+                    <div class="hotlaps flex column items-center row-md justify-md-center">
                         <template v-for="(value, key) in useApi.sesionesVR">
                             <p class="q-px-md-md text-blue-grey-8 q-ma-none text-caption">
-                                <strong>{{ sesionesFront(key) }}:</strong> <em>{{ value.tiempoConvertido }} ({{ value.piloto }})</em>
+                                <strong>{{ sesionesFront(key) }}:</strong> <em>{{ value.tiempoConvertido }} ({{ value.piloto
+                                }})</em>
                             </p>
                         </template>
                     </div>
@@ -138,11 +139,12 @@ const getResultsFecha = async (idTorneo, orden) => {
                                         <th class="text-center fontCustomTitle text-uppercase">Piloto</th>
                                         <th class="text-center fontCustomTitle text-uppercase">Vehiculo</th>
                                         <th class="text-center fontCustomTitle text-uppercase">Vueltas</th>
-                                        <th class="text-center fontCustomTitle text-uppercase">Tiempo Carrera</th>
+                                        <th class="text-center fontCustomTitle text-uppercase">Gap</th>
                                         <th class="text-center fontCustomTitle text-uppercase">Status</th>
                                         <th class="text-center fontCustomTitle text-uppercase">Vuelta Rapida</th>
                                         <th class="text-center fontCustomTitle text-uppercase">Puntos</th>
                                         <th class="text-center fontCustomTitle text-uppercase">Sanción</th>
+                                        <th class="text-center fontCustomTitle text-uppercase">Bonus</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -151,17 +153,26 @@ const getResultsFecha = async (idTorneo, orden) => {
                                             <td class="text-center">{{ JSON.parse(value).posicion }}</td>
                                             <td class="text-center flex justify-between">
                                                 <span>{{ key }}</span>
-                                                <LapsInfoComponent :id="idTorneo" :driver="JSON.parse(value).idDriverInfo" :sesion="JSON.parse(value).idSessionInfo" :piloto="key" :orden="orden" :titulo-sesion="useApi.tituloSesiones[index]" />
+                                                <LapsInfoComponent :id="idTorneo" :driver="JSON.parse(value).idDriverInfo"
+                                                    :sesion="JSON.parse(value).idSessionInfo" :piloto="key" :orden="orden"
+                                                    :titulo-sesion="useApi.tituloSesiones[index]" />
                                             </td>
                                             <td class="text-center">{{ JSON.parse(value).vehiculo }}</td>
                                             <td class="text-center">{{ JSON.parse(value).vueltas }}</td>
-                                            <td class="text-center">{{ JSON.parse(value).posicion == 1 ?
+                                            <td
+                                            :class="JSON.parse(value).sancion != '0:00.000' ? 'text-red' : 'text-black'"
+                                            class="text-center">{{ JSON.parse(value).posicion == 1 ?
                                                 JSON.parse(value).tiempoCarrera : `${JSON.parse(value).gap}` }}</td>
                                             <td class="text-center">{{ JSON.parse(value).status }}</td>
                                             <td class="text-center">{{ JSON.parse(value).vueltaRapida }}</td>
-                                            <td class="text-center">{{ JSON.parse(value).puntos }}</td>
-                                            <td :class="JSON.parse(value).sancion != 0.000 ? 'bg-red-13 text-white' : ''"
-                                            class="text-center">+{{ JSON.parse(value).sancion }}s</td>
+                                            <td :class="`${JSON.parse(value).puntos}` > 0 ? 'text-bold' : 'text-light'"
+                                                class="text-center">
+                                                {{ JSON.parse(value).puntos }}
+                                            </td>
+                                            <td :class="JSON.parse(value).sancion != '0:00.000' ? 'bg-red-13 text-white' : 'text-blue-grey-3'"
+                                                class="text-center">+{{ JSON.parse(value).sancion }}s</td>
+                                            <td :class="JSON.parse(value).bonus != '0' ? 'bg-teal-14 text-white' : 'text-blue-grey-3'"
+                                                class="text-center">{{ JSON.parse(value).bonus }}</td>
                                         </tr>
                                     </template>
                                 </tbody>
@@ -204,7 +215,7 @@ const getResultsFecha = async (idTorneo, orden) => {
         margin-bottom: 1rem;
     }
 
-    .q-markup-table{
+    .q-markup-table {
         overflow: unset;
     }
 }
@@ -225,5 +236,11 @@ p.fecha {
         text-align: right;
         padding-right: 24px;
     }
+
+    .hotlaps {
+        max-width: 750px;
+        margin: .5rem auto 1rem;
+    }
 }
+
 </style>

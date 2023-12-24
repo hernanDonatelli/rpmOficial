@@ -58,19 +58,34 @@ const getResultsFecha = async (idTorneo, orden) => {
 }
 
 const aplicarSancion = async (idDriver, key) => {
+    let timer;
+
     $q.dialog({
         title: 'Recargo',
         message: `Agregar los segundos de recargo al piloto ${key} (id: ${idDriver})`,
         prompt: {
-            model: '',
+            model: '', //model=tiempo
             type: 'text' // optional
         },
         cancel: true,
         persistent: true
-    }).onOk(tiempo => {
-        // const respuesta = `El piloto ${key} ha sido sancionado con ${tiempo}seg`
+    }).onOk(async (tiempo) => {
+        $q.loading.show({
+            spinner: QSpinnerGears,
+            spinnerColor: 'red-13',
+            spinnerSize: 140,
+            backgroundColor: 'bg-grey-10',
+            message: 'Cargando información...',
+            messageColor: 'black'
+        })
 
-        useApi.aplicarSancionApi(useApi.tokenApi, idDriver, tiempo)
+        await useApi.aplicarSancionApi(useApi.tokenApi, idDriver, tiempo)
+
+        //hiding in 1s
+        timer = setTimeout(() => {
+            $q.loading.hide()
+            timer = void 0
+        }, 250)
 
     }).onCancel(() => {
         // console.log('>>>> Cancel')
@@ -80,15 +95,30 @@ const aplicarSancion = async (idDriver, key) => {
 }
 
 const dqSanction = async (idDriver, key) => {
+    let timer;
+
     $q.dialog({
         title: 'Descalificación',
         message: `Vas a Descalificar al piloto ${key} (id: ${idDriver})`,
         cancel: true,
         persistent: true
-    }).onOk(tiempo => {
-        // const respuesta = `El piloto ${key} ha sido sancionado con ${tiempo}seg`
+    }).onOk(async () => {
+        $q.loading.show({
+            spinner: QSpinnerGears,
+            spinnerColor: 'red-13',
+            spinnerSize: 140,
+            backgroundColor: 'bg-grey-10',
+            message: 'Cargando información...',
+            messageColor: 'black'
+        })
 
-        useApi.aplicarDQApi(useApi.tokenApi, idDriver)
+        await useApi.aplicarDQApi(useApi.tokenApi, idDriver)
+
+        //hiding in 1s
+        timer = setTimeout(() => {
+            $q.loading.hide()
+            timer = void 0
+        }, 250)
 
     }).onCancel(() => {
         // console.log('>>>> Cancel')
@@ -247,7 +277,7 @@ const aplicarBonusPiloto = async (idDriver, nombrePiloto) => {
                 messageColor: 'black'
             })
 
-            //await useApi.aplicarBonusPilotoApi(useApi.tokenApi, idDriver, puntos)
+            await useApi.aplicarBonusPilotoApi(useApi.tokenApi, idDriver, puntos)
 
             //hiding in 1s
             timer = setTimeout(() => {
@@ -293,7 +323,7 @@ const quitarBonusPiloto = async (idDriver, nombrePiloto) => {
             cancel: true,
             persistent: true
 
-        }).onOk(async (puntos) => {
+        }).onOk(async () => {
             $q.loading.show({
                 spinner: QSpinnerGears,
                 spinnerColor: 'red-13',
@@ -303,7 +333,7 @@ const quitarBonusPiloto = async (idDriver, nombrePiloto) => {
                 messageColor: 'black'
             })
 
-            // await useApi.quitarBonusPilotoApi(useApi.tokenApi, idDriver)
+            await useApi.quitarBonusPilotoApi(useApi.tokenApi, idDriver)
 
             //hiding in 1s
             timer = setTimeout(() => {
@@ -350,7 +380,7 @@ const quitarBonusPiloto = async (idDriver, nombrePiloto) => {
             <q-dialog v-model="dialog" :maximized="maximizedToggle" transition-show="scale" transition-hide="scale"
                 transition-duration="500">
 
-                <q-card style="max-width: 90vw;" class="bg-blue-grey-1 text-white">
+                <q-card style="max-width: 95vw; max-height: 95vh;" class="bg-blue-grey-1 text-white">
                     <q-bar>
                         <q-space />
 
@@ -410,6 +440,7 @@ const quitarBonusPiloto = async (idDriver, nombrePiloto) => {
                                         <th class="text-center fontCustomTitle text-uppercase">Puntos</th>
                                         <th class="text-center fontCustomTitle text-uppercase">Acción</th>
                                         <th class="text-center fontCustomTitle text-uppercase">Sanción</th>
+                                        <th class="text-center fontCustomTitle text-uppercase">Bonus</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -424,24 +455,30 @@ const quitarBonusPiloto = async (idDriver, nombrePiloto) => {
                                             <td :class="JSON.parse(value).status === 'DQ' ? 'bg-red-13 text-white' : ''"
                                                 class="text-center">{{ JSON.parse(value).status }}</td>
                                             <td class="text-center">{{ JSON.parse(value).vueltaRapida }}</td>
-                                            <td class="text-center">{{ JSON.parse(value).puntos }}</td>
+                                            <td :class="`${JSON.parse(value).puntos}` > 0 ? 'text-bold' : 'text-light'"
+                                                class="text-center">
+                                                {{ JSON.parse(value).puntos }}
+                                            </td>
+
                                             <td class="text-center">
-                                                <div class="flex justify-start q-mb-xs">
+                                                <div class="flex justify-around q-mb-xs">
                                                     <q-btn @click="aplicarBonusPiloto(JSON.parse(value).idDriverInfo, key)"
                                                         size="sm" color="teal-6" text-color="white" label="+ Bonus" />
-                                                    <q-btn class="q-ml-sm" @click="quitarBonusPiloto(JSON.parse(value).idDriverInfo, key)"
+                                                    <q-btn @click="quitarBonusPiloto(JSON.parse(value).idDriverInfo, key)"
                                                         size="sm" color="brown-6" text-color="white" label="- Bonus" />
-                                                </div>
-                                                <div class="flex justify-start">
-                                                    <q-btn
-                                                        @click="aplicarSancion(JSON.parse(value).idDriverInfo, key)" size="sm"
-                                                        color="warning" text-color="black" label="Sancion" />
-                                                    <q-btn class="q-ml-sm" @click="dqSanction(JSON.parse(value).idDriverInfo, key)" size="sm"
+                                                    <q-btn @click="aplicarSancion(JSON.parse(value).idDriverInfo, key)"
+                                                        size="sm" color="warning" text-color="black" label="Sancion" />
+                                                    <q-btn class="q-mt-xs"
+                                                        @click="dqSanction(JSON.parse(value).idDriverInfo, key)" size="sm"
                                                         color="red-13" text-color="white" label="DQ" />
                                                 </div>
                                             </td>
-                                            <td :class="JSON.parse(value).sancion != 0.000 ? 'bg-red-13 text-white' : ''"
+                                            <td :class="JSON.parse(value).sancion == '0:00.000' ? 'bg-blue-grey-1' : 'bg-red-13 text-white'"
                                                 class="text-center">+{{ JSON.parse(value).sancion }}s</td>
+                                            <td :class="`${JSON.parse(value).bonus}` != 0 ? 'bg-teal-14 text-white' : 'text-blue-grey-3'"
+                                                class="text-center">
+                                                {{ JSON.parse(value).bonus }}
+                                            </td>
                                         </tr>
                                     </template>
                                 </tbody>

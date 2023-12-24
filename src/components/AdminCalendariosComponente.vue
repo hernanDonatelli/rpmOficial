@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 import { useApiStore } from 'src/stores/api';
 import { useQuasar, QSpinnerGears } from 'quasar'
 import AdminResultComponent from './AdminResultComponent.vue';
@@ -18,6 +18,10 @@ let torneoName;
 onMounted(async () => {
     torneosApi()
     await useApi.loginApi()
+})
+
+onUnmounted(() => {
+    useApi.calendar = []
 })
 
 ///////////////////////////////////////////////////////////////
@@ -195,6 +199,7 @@ const columns = [
             </q-form>
         </div>
 
+        <!-- Mostrar Calendarios -->
         <div class="col-7 text-center">
             <h5 class="text-uppercase q-mt-none text-center">Mostrar Calendarios</h5>
             <div class="row justify-center">

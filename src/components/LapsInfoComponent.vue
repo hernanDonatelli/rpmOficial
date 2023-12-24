@@ -59,7 +59,7 @@ const getVueltasDriver = async (id, sesion, driver) => {
             <q-dialog id="lapsDriver" v-model="dialogLaps" :maximized="maximizar" transition-show="scale"
                 transition-hide="scale" transition-duration="750">
 
-                <q-card style="max-width: 70vw;" class="bg-blue-grey-9 text-white">
+                <q-card id="cardVR" class="bg-blue-grey-9 text-white">
                     <q-bar>
                         <q-space />
 
@@ -74,15 +74,15 @@ const getVueltasDriver = async (id, sesion, driver) => {
                         </q-btn>
                     </q-bar>
 
-                    <div class="row flex justify-start items-center q-mb-md">
+                    <div class="row flex column row-md justify-between items-center q-mb-md">
 
                         <h4
                             class="title-header text-blue-grey-12 text-uppercase text-weight-bolder q-px-lg q-pt-lg q-my-none text-center montserratExtraBold">
                             {{ piloto }}
                         </h4>
                         <h6
-                            class="text-h6 title-header text-blue-grey-12 text-uppercase text-weight-bolder q-px-lg q-pt-lg q-my-none text-center montserratExtraBold">
-                           <span>{{ tituloSesion }}</span>
+                            class="text-h6 title-header text-blue-grey-12 text-uppercase text-weight-bolder q-pt-none q-px-lg q-pt-md-lg q-my-none text-center montserratExtraBold">
+                           <span class="text-teal-14">{{ tituloSesion }}</span>
                         </h6>
 
                     </div>
@@ -127,6 +127,9 @@ const getVueltasDriver = async (id, sesion, driver) => {
 <style lang="scss" scoped>
 #lapsDriver {
 
+    #cardVR{
+        max-width: 85vw;
+    }
     .q-dialog__inner--maximized>div {
         height: auto;
     }
@@ -137,6 +140,23 @@ const getVueltasDriver = async (id, sesion, driver) => {
 
     .q-table--horizontal-separator tbody tr:not(:last-child)>td {
         border-bottom-color: rgba($blue-grey-2, .2);
+    }
+}
+
+@media screen and (min-width: 1365.98px) {
+    #lapsDriver {
+
+        #cardVR{
+            max-width: 75vw;
+        }
+    }
+}
+@media screen and (min-width: 1599.98px) {
+    #lapsDriver {
+
+        #cardVR{
+            max-width: 65vw;
+        }
     }
 }
 </style>
