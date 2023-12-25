@@ -24,7 +24,7 @@ const useApi = useApiStore()
 
       <div class="row row-cards">
         <template v-for="torneo in useApi.torneos">
-          <div v-if="torneo.status != 1" class="col-12 col-md-4 q-pa-md">
+          <div v-if="torneo.status == 2" class="col-10 q-mx-auto col-md-4 q-pa-md">
             <q-card class="my-card">
               <q-img :src="`https://rpm.studioatlantic.com.ar/pezls/storage/app/public/images/tournament/${torneo.image}`">
                 <div class="absolute-bottom text-h6 text-center">
@@ -63,7 +63,7 @@ const useApi = useApiStore()
 
     .my-card {
       width: 100%;
-      max-width: 300px;
+      // max-width: 300px;
 
     }
   }

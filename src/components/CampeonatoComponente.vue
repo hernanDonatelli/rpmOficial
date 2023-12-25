@@ -123,93 +123,106 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido, ni
 </script>
 
 <template>
-  <div v-for="(torneo, index) in apiStore.torneos" :key="index" class="torneo" :style="{
-    backgroundImage: `linear-gradient(135deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 1) 85%),url(https://rpm.studioatlantic.com.ar/pezls/storage/app/public/images/tournament/${torneo.image})`,
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: 'cover',
-    backgroundPosition: 'right'
-  }">
-    <div v-if="torneo.status != 2" class="champ-container q-mb-lg">
-      <div :class="borderTorneo(torneo.simulator)" class="torneo-container q-pb-lg">
-        <p class="simulador fontCustomTitle text-h5 text-white q-mb-none text-center text-uppercase text-weight-bold">{{
-          torneo.simulator }}</p>
+  <template v-for="(torneo, index) in apiStore.torneos" :key="index">
+    <div v-if="torneo.status == 1" class="torneo" :style="{
+      backgroundImage: `linear-gradient(135deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 1) 85%),url(https://rpm.studioatlantic.com.ar/pezls/storage/app/public/images/tournament/${torneo.image})`,
+      backgroundRepeat: 'no-repeat',
+      backgroundSize: 'cover',
+      backgroundPosition: 'right'
+    }">
+      <div class="champ-container q-mb-lg">
+        <div :class="borderTorneo(torneo.simulator)" class="torneo-container q-pb-lg">
+          <p class="simulador fontCustomTitle text-h5 text-white q-mb-none text-center text-uppercase text-weight-bold">{{
+            torneo.simulator }}</p>
 
-        <div class="overlay"></div>
+          <div class="overlay"></div>
 
-        <!-- Cabecera de torneo -->
-        <div class="torneo__header flex justify-between items-center row-md">
-          <div
-            class="titleLogo column justify-center items-center justify-sm-center col-12 col-sm-6 column-md justify-md-start">
-            <h3 class="text-center text-uppercase montserratExtraBold text-white q-mb-xs-sm q-my-none q-pl-none">{{
-              torneo.name
-            }}
-            </h3>
-          </div>
-
-          <!-- Botones -->
-          <div class="buttons flex row justify-around items-center col-sm-6 col-md-6 justify-md-end">
-            <q-btn
-              @click="inscripcionTorneo(torneo.price, torneo.name, torneo.simulator, useDatabase.documents[0].nombre, useDatabase.documents[0].apellido, useDatabase.documents[0].nickname, useDatabase.documents[0].email, useDatabase.documents[0].movil)"
-              v-if="userStore.userData != null" :class="colorBtn(torneo.simulator)"
-              class="text-white q-mx-lg q-my-xs col-8 col-md-3" icon="lab la-wpforms" style="font-weight: bold;"
-              label="Inscripción">
-              <q-tooltip class="text-caption bg-blue-grey-11 text-black" transition-show="flip-right" transition-hide="flip-left">
-                Pre-inscribite al Torneo {{ torneo.name }}
-              </q-tooltip>
-            </q-btn>
-            <q-btn :href="`torneo/${torneo.id}`" class="q-mx-lg q-my-xs col-8 col-md-3" icon="las la-trophy"
-              style="background: #ffffff; color: #212121; font-weight: bold;" label="Campeonato">
-              <q-tooltip class="text-caption bg-blue-grey-11 text-black" transition-show="flip-right" transition-hide="flip-left">
-                Fechas, resultados y estadísticas.
-              </q-tooltip>
-              </q-btn>
-            <q-btn :href="torneo.forumURL" target="_blank" class="q-mx-lg q-my-xs col-8 col-md-3"
-              icon="las la-external-link-alt" style="background: #ffffff; color: #212121; font-weight: bold;"
-              label="Foro">
-              <q-tooltip class="text-caption bg-blue-grey-11 text-black" transition-show="flip-right" transition-hide="flip-left">
-                Foro exclusivo del Torneo
-              </q-tooltip>
-            </q-btn>
-          </div>
-        </div>
-
-        <!-- Footer de torneo -->
-        <div class="footer row justify-between items-end justify-md-end items-md-center q-pt-md-xl q-pb-md-md">
-          <!-- Precio -->
-          <div class="price">
-            <h4 class="fontCustomTitle text-h3 text-center text-white text-weight-bold q-mb-none q-mt-md-none">${{
-              Number(torneo.price) }}</h4>
-            <div class="pagos flex no-wrap items-center justify-center justify-md-start">
-              <img src="~assets/mp2_rpm.png" />
-              <img src="~assets/transfer2_rpm.png" style="width: 32px; height: 35px; margin-left: .7rem;" />
+          <!-- Cabecera de torneo -->
+          <div class="torneo__header flex justify-between items-center row-md">
+            <div
+              class="titleLogo column justify-center items-center justify-sm-center col-12 col-sm-6 column-md justify-md-start">
+              <h3 class="text-center text-uppercase montserratExtraBold text-white q-mb-xs-sm q-my-none q-pl-none">{{
+                torneo.name
+              }}
+              </h3>
             </div>
-            <!-- <p class="fontCustomTitle text-white text-uppercase text-h6 q-mb-xs">Valor</p> -->
+
+            <!-- Botones -->
+            <div class="buttons flex row justify-around items-center col-sm-6 col-md-6 justify-md-end">
+              <q-btn
+                @click="inscripcionTorneo(torneo.price, torneo.name, torneo.simulator, useDatabase.documents[0].nombre, useDatabase.documents[0].apellido, useDatabase.documents[0].nickname, useDatabase.documents[0].email, useDatabase.documents[0].movil)"
+                v-if="userStore.userData != null" :class="colorBtn(torneo.simulator)"
+                class="text-white q-mx-lg q-my-xs col-8 col-md-3" icon="lab la-wpforms" style="font-weight: bold;"
+                label="Inscripción">
+                <q-tooltip class="text-caption bg-blue-grey-11 text-black" transition-show="flip-right"
+                  transition-hide="flip-left">
+                  Pre-inscribite al Torneo {{ torneo.name }}
+                </q-tooltip>
+              </q-btn>
+              <q-btn :href="`torneo/${torneo.id}`" class="q-mx-lg q-my-xs col-8 col-md-3" icon="las la-trophy"
+                style="background: #ffffff; color: #212121; font-weight: bold;" label="Campeonato">
+                <q-tooltip class="text-caption bg-blue-grey-11 text-black" transition-show="flip-right"
+                  transition-hide="flip-left">
+                  Fechas, resultados y estadísticas.
+                </q-tooltip>
+              </q-btn>
+              <q-btn :href="torneo.forumURL" target="_blank" class="q-mx-lg q-my-xs col-8 col-md-3"
+                icon="las la-external-link-alt" style="background: #ffffff; color: #212121; font-weight: bold;"
+                label="Foro">
+                <q-tooltip class="text-caption bg-blue-grey-11 text-black" transition-show="flip-right"
+                  transition-hide="flip-left">
+                  Foro exclusivo del Torneo
+                </q-tooltip>
+              </q-btn>
+            </div>
           </div>
 
-          <!-- Proxima fecha -->
-          <div class="next">
-            <!-- Contador Regresivo -->
-            <template v-for="counter in apiStore.arrayFechasCounter" :key="index">
+          <!-- Footer de torneo -->
+          <div class="footer row justify-between items-end justify-md-end items-md-center q-pt-md-xl q-pb-md-md">
+            <!-- Precio -->
+            <div class="price">
+              <h4 class="fontCustomTitle text-h3 text-center text-white text-weight-bold q-mb-none q-mt-md-none">${{
+                Number(torneo.price) }}</h4>
+              <div class="pagos flex no-wrap items-center justify-center justify-md-start">
+                <img src="~assets/mp2_rpm.png" />
+                <img src="~assets/transfer2_rpm.png" style="width: 32px; height: 35px; margin-left: .7rem;" />
+              </div>
+              <!-- <p class="fontCustomTitle text-white text-uppercase text-h6 q-mb-xs">Valor</p> -->
+            </div>
 
-              <p v-if="torneo.id == counter.id" class="text-white text-uppercase text-center q-my-none text-weight-light">
-                Proximo Evento: <span :class="colorCounter(torneo.simulator)" class="text-weight-bold">{{ counter.day
-                }}-{{ counter.month }}-{{
-  counter.year }}</span>
-              </p>
-              <h5 v-if="torneo.id == counter.id" :class="colorCounter(torneo.simulator)"
-                class="fontCustomTitle text-h5 text-uppercase text-center q-my-none">{{ counter.circuit }}</h5>
+            <!-- Proxima fecha -->
+            <div class="next">
+              <!-- Contador Regresivo -->
+              <template v-for="counter in apiStore.arrayFechasCounter" :key="index">
 
-              <CounterComponent v-if="torneo.id == counter.id" :year="counter.year" :month="counter.month - 1"
-                :date="counter.day" :hour="22" :minutes="0" :seconds="0" />
-            </template>
+                <p v-if="torneo.id == counter.id"
+                  class="text-white text-uppercase text-center q-my-none text-weight-light">
+                  Proximo Evento: <span :class="colorCounter(torneo.simulator)" class="text-weight-bold">{{ counter.day
+                  }}-{{ counter.month }}-{{ counter.year }}</span>
+                </p>
+                <h5 v-if="torneo.id == counter.id" :class="colorCounter(torneo.simulator)"
+                  class="fontCustomTitle text-h5 text-uppercase text-center q-my-none">{{ counter.circuit }}</h5>
 
+                <CounterComponent v-if="torneo.id == counter.id" :year="counter.year" :month="counter.month - 1"
+                  :date="counter.day" :hour="22" :minutes="0" :seconds="0" />
+              </template>
+
+            </div>
           </div>
         </div>
+
       </div>
 
     </div>
 
-  </div>
+    <div v-else class="flex justify-center finalizados">
+      <h6 class="text-h6 q-my-md montserratExtraBold text-uppercase">
+        <q-btn :href="`torneos-finalizados`" class="col-md-3" icon="las la-trophy"
+          style="font-weight: bold;" color="primary" label="Torneos Finalizados" :ripple="{ color: 'red' }"/>
+      </h6>
+    </div>
+
+  </template>
 </template>
 
 <style lang="scss">
@@ -242,7 +255,8 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido, ni
 
 #campeonatos {
   position: relative;
-  background-color: #000000;
+  background-color: white;
+  padding: 2rem 0;
 
   .positionList {
     position: relative;
@@ -252,10 +266,23 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido, ni
     justify-content: space-around;
   }
 
+  .finalizados a {
+    text-decoration: none;
+    color: $grey-10;
+
+    &:hover {
+      color: $red-6;
+      transition: all .2s ease-in-out;
+    }
+  }
+
   .torneo {
     position: relative;
     max-width: 85%;
     margin: 0 auto;
+    box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.75);
+    -webkit-box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.75);
 
     .borde-rFactor.torneo-container {
       border-top: 45px solid $deep-orange-13;

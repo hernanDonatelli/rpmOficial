@@ -73,9 +73,9 @@ if (simulador == 'rFactor') return 'counter-rFactor'
 
       <div class="hero__countdown">
         <template v-if="useApi.proximaFechaGlobal">
-          <p class="text-h6 text-white text-uppercase text-center q-my-none text-weight-bold text-white">
+          <p class="text-h6 text-white text-uppercase text-center q-my-none montserratExtraBold">
             {{ useApi.proximaFechaGlobal.name }}</p>
-          <h1 :class="colorCounter(useApi.proximaFechaGlobal.simulator)" class="text-h4 text-uppercase fontCustomTitle text-center q-my-none">{{
+          <h1 :class="colorCounter(useApi.proximaFechaGlobal.simulator)" class="text-h4 montserratExtraBold text-center q-my-none">{{
             useApi.proximaFechaGlobal.circuit }}</h1>
 
           <CounterComponent :year="useApi.proximaFechaGlobal.year" :month="useApi.proximaFechaGlobal.month - 1"
@@ -89,23 +89,23 @@ if (simulador == 'rFactor') return 'counter-rFactor'
     <section id="intro">
       <div class="row intro__row">
         <div class="intro__blumb col-10 q-mx-auto col-md-4 q-py-lg">
-          <h4 class="text-h4 q-my-none text-center text-white text-uppercase"><span class="text-h2 text-white">1.</span>
+          <h4 class="text-h4 q-my-none text-center text-black text-uppercase"><span class="text-h2 text-black">1.</span>
             Registrate</h4>
-          <p class="text-center text-body2 q-px-xl text-grey-7">Registrate en RPM Racing League para poder acceder al
+          <p class="text-center text-body2 q-px-xl text-grey-8">Registrate en RPM Racing League para poder acceder al
             contenido y
             empezar a competir en la Liga.</p>
         </div>
         <div class="intro__blumb col-10 q-mx-auto col-md-4 q-py-lg">
-          <h4 class="text-h4 q-my-none text-center text-white text-uppercase"><span class="text-h2 text-white">2.</span>
+          <h4 class="text-h4 q-my-none text-center text-black text-uppercase"><span class="text-h2 text-black">2.</span>
             Inscribite</h4>
-          <p class="text-center text-body2 q-px-xl text-grey-7">Una vez registrado, elegí un torneo, abonas la inscripción
+          <p class="text-center text-body2 q-px-xl text-grey-8">Una vez registrado, elegí un torneo, abonas la inscripción
             y ya estas
             listo para correr.</p>
         </div>
         <div class="intro__blumb col-10 q-mx-auto col-md-4 q-py-lg">
-          <h4 class="text-h4 q-my-none text-center text-white text-uppercase"><span class="text-h2 text-white">3.</span> A
+          <h4 class="text-h4 q-my-none text-center text-black text-uppercase"><span class="text-h2 text-black">3.</span> A
             Correr!</h4>
-          <p class="text-center text-body2 q-px-xl text-grey-7">Ya estas habilitado para poder comenzar a disfrutar de los
+          <p class="text-center text-body2 q-px-xl text-grey-8">Ya estas habilitado para poder comenzar a disfrutar de los
             torneos en
             RPM Racing League.</p>
         </div>
@@ -115,7 +115,7 @@ if (simulador == 'rFactor') return 'counter-rFactor'
     <!-- GALERIA -->
     <section id="novedades">
       <h3
-        class="gallery-title text-h3 text-uppercase montserratExtraBold text-weight-bold text-center text-white q-my-none q-py-xl">
+        class="gallery-title text-h3 text-uppercase montserratExtraBold text-weight-bold text-center text-white q-my-none q-py-md">
         Novedades</h3>
 
       <div class="overlay"></div>
@@ -129,7 +129,7 @@ if (simulador == 'rFactor') return 'counter-rFactor'
             :img-src="`https://rpm.studioatlantic.com.ar/pezls/storage/app/public/images/galery/${noticia.image}`">
             <div class="absolute-bottom custom-caption">
               <div class="text-h4 text-white text-uppercase text-bold">{{ noticia.title }}</div>
-              <div class="text-caption">
+              <div class="text-body2">
                 <span class="text-white">
                   {{ noticia.text }}
                 </span>
@@ -143,11 +143,14 @@ if (simulador == 'rFactor') return 'counter-rFactor'
 
     <!-- SPONSORS -->
     <section id="sponsors">
-      <div class="row flex items-center q-py-xl">
+      <h3
+        class="gallery-title text-h3 text-uppercase montserratExtraBold text-weight-bold text-center text-grey-5 q-my-none q-pt-xl">
+        Sponsors</h3>
+      <div class="row flex items-center q-pb-xl">
 
         <div class="col-12">
           <div class="q-pa-md">
-            <q-carousel class="bg-black" v-model="slideSponsor" transition-prev="slide-right" transition-next="slide-left"
+            <q-carousel class="bg-white" v-model="slideSponsor" transition-prev="slide-right" transition-next="slide-left"
               infinite :autoplay="autoplaySponsor" swipeable animated height="200px">
 
               <q-carousel-slide :name="1" class="column no-wrap">
@@ -205,8 +208,9 @@ if (simulador == 'rFactor') return 'counter-rFactor'
 
 <style lang="scss">
 .hero {
-  min-height: 100vh;
+  min-height: 95vh;
   position: relative;
+  clip-path: polygon(50% 0%, 100% 0, 100% 100%, 75% 92%, 25% 100%, 0 92%, 0 0);
 
   &__video {
     position: absolute;
@@ -224,17 +228,17 @@ if (simulador == 'rFactor') return 'counter-rFactor'
     width: 100%;
     height: 100%;
     background: black;
-    opacity: 0.3;
+    opacity: 0.5;
   }
 
   &__countdown {
     position: absolute;
-    bottom: 0;
+    bottom: 3%;
     padding: 1%;
     width: 100%;
     height: auto;
     align-items: stretch;
-    background-color: rgba($color: #000000, $alpha: .8);
+    // background-color: rgba($color: #000000, $alpha: .8);
 
     .counter-Assetto {
       color: $purple-14;
@@ -265,8 +269,8 @@ if (simulador == 'rFactor') return 'counter-rFactor'
 }
 
 #intro {
-  padding: 7% 0;
-  background-color: #000000;
+  padding: 5% 0;
+  background-color: white;
 
   .intro__row {
     max-width: 1280px;
@@ -295,7 +299,7 @@ if (simulador == 'rFactor') return 'counter-rFactor'
     width: 100%;
     height: 100%;
     background-color: #000000;
-    opacity: 0.75;
+    opacity: 0.60;
     z-index: 20;
   }
 
@@ -336,7 +340,7 @@ if (simulador == 'rFactor') return 'counter-rFactor'
 }
 
 #sponsors {
-  background-color: #000000;
+  // background-color: #000000;
 }
 
 @media screen and (min-width: 767.98px) {}
@@ -349,7 +353,7 @@ if (simulador == 'rFactor') return 'counter-rFactor'
     .gallery {
 
       .absolute-bottom.custom-caption {
-        width: 65%;
+        width: 50%;
       }
     }
 
