@@ -5,7 +5,7 @@ import { useQuasar, QSpinnerGears } from 'quasar'
 const useApi = useApiStore()
 const $q = useQuasar()
 
-defineProps(['id', 'sesion', 'driver', 'piloto', 'orden', 'tituloSesion'])
+defineProps(['id', 'sesion', 'driver', 'piloto', 'orden', 'tituloSesion', 'posicion'])
 
 const dialogLaps = ref(false)
 const maximizar = ref(true)
@@ -51,7 +51,7 @@ const getVueltasDriver = async (id, sesion, driver) => {
 </script>
 
 <template>
-    <q-btn icon="las la-info-circle" size="sm" @click="getVueltasDriver(id, sesion, driver, piloto)" flat color="red-13" />
+    <q-btn icon="las la-info-circle" size="sm" @click="getVueltasDriver(id, sesion, driver, piloto)" flat color="lime-11" />
     <template>
         <div class="q-pa-md q-gutter-sm">
             <q-btn label="Maximized" color="primary" @click="dialogLaps = true" />
@@ -59,8 +59,8 @@ const getVueltasDriver = async (id, sesion, driver) => {
             <q-dialog id="lapsDriver" v-model="dialogLaps" :maximized="maximizar" transition-show="scale"
                 transition-hide="scale" transition-duration="750">
 
-                <q-card id="cardVR" class="bg-blue-grey-9 text-white">
-                    <q-bar>
+                <q-card id="cardVR" class="text-white" style="background-color: #000010;">
+                    <q-bar style="background-color: #000010;">
                         <q-space />
 
                         <q-btn dense flat icon="minimize" @click="maximizar = false" :disable="!maximizar">
@@ -74,21 +74,21 @@ const getVueltasDriver = async (id, sesion, driver) => {
                         </q-btn>
                     </q-bar>
 
-                    <div class="row flex column row-md justify-between items-center q-mb-md">
+                    <div class="row flex column row-md justify-between items-center q-mb-md q-pt-sm">
 
                         <h4
-                            class="title-header text-blue-grey-12 text-uppercase text-weight-bolder q-px-lg q-pt-lg q-my-none text-center montserratExtraBold">
-                            {{ piloto }}
+                            class="title-header text-blue-grey-12 text-uppercase q-px-lg q-my-none text-center montserratRegular">
+                            <span class="text-lime-11 text-h3">{{ posicion }}.</span><span class="montserratExtraBold">{{ piloto }}</span>
                         </h4>
                         <h6
-                            class="text-h6 title-header text-blue-grey-12 text-uppercase text-weight-bolder q-pt-none q-px-lg q-pt-md-lg q-my-none text-center montserratExtraBold">
-                           <span class="text-teal-14">{{ tituloSesion }}</span>
+                            class="text-h6 title-header text-blue-grey-12 text-uppercase text-weight-bolder q-pt-none q-px-lg  q-my-none text-center montserratExtraBold">
+                            <span class="text-lime-11">{{ tituloSesion }}</span>
                         </h6>
 
                     </div>
 
                     <q-card-section class="q-pt-none">
-                        <q-markup-table flat dense class="q-pb-md bg-blue-grey-9 text-blue-grey-12">
+                        <q-markup-table style="background-color: #000010;" flat dense class="q-pb-md text-blue-grey-12">
                             <thead>
                                 <tr>
                                     <th class="text-center fontCustomTitle text-uppercase">Vuelta</th>
@@ -127,9 +127,10 @@ const getVueltasDriver = async (id, sesion, driver) => {
 <style lang="scss" scoped>
 #lapsDriver {
 
-    #cardVR{
+    #cardVR {
         max-width: 85vw;
     }
+
     .q-dialog__inner--maximized>div {
         height: auto;
     }
@@ -146,15 +147,16 @@ const getVueltasDriver = async (id, sesion, driver) => {
 @media screen and (min-width: 1365.98px) {
     #lapsDriver {
 
-        #cardVR{
+        #cardVR {
             max-width: 75vw;
         }
     }
 }
+
 @media screen and (min-width: 1599.98px) {
     #lapsDriver {
 
-        #cardVR{
+        #cardVR {
             max-width: 65vw;
         }
     }

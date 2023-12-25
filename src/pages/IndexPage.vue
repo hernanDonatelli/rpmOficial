@@ -16,7 +16,7 @@ onMounted(async () => {
 
 const slide = ref(1)
 const slideSponsor = ref(1)
-const autoplay = ref(true)
+const autoplay = ref(5000)
 const autoplaySponsor = ref(true)
 
 const proximaFechaGlobal = async () => {
@@ -51,10 +51,10 @@ const proximaFechaGlobal = async () => {
 
 const colorCounter = (simulador) => {
 
-if (simulador == 'Assetto Corsa') return 'counter-Assetto'
-if (simulador == 'rFactor2') return 'counter-rFactor2'
-if (simulador == 'Simulador TC') return 'counter-simuladorTC'
-if (simulador == 'rFactor') return 'counter-rFactor'
+  if (simulador == 'Assetto Corsa') return 'counter-Assetto'
+  if (simulador == 'rFactor2') return 'counter-rFactor2'
+  if (simulador == 'Simulador TC') return 'counter-simuladorTC'
+  if (simulador == 'rFactor') return 'counter-rFactor'
 
 }
 
@@ -73,13 +73,19 @@ if (simulador == 'rFactor') return 'counter-rFactor'
 
       <div class="hero__countdown">
         <template v-if="useApi.proximaFechaGlobal">
-          <p class="text-h6 text-white text-uppercase text-center q-my-none montserratExtraBold">
-            {{ useApi.proximaFechaGlobal.name }}</p>
-          <h1 :class="colorCounter(useApi.proximaFechaGlobal.simulator)" class="text-h4 montserratExtraBold text-center q-my-none">{{
-            useApi.proximaFechaGlobal.circuit }}</h1>
+          <div class="infoFecha flex column justify-center items-center">
+            <div class="flex column">
+              <p class="text-h6 text-white text-uppercase text-center q-my-none montserratExtraBold">
+                {{ useApi.proximaFechaGlobal.name }}</p>
+              <p class="text-body1 text-white text-center q-my-none">
+                ({{ useApi.proximaFechaGlobal.simulator }})</p>
+              <h1 class="text-h4 text-lime-11 montserratExtraBold text-center q-my-none">{{
+                useApi.proximaFechaGlobal.circuit }}</h1>
+            </div>
 
-          <CounterComponent :year="useApi.proximaFechaGlobal.year" :month="useApi.proximaFechaGlobal.month - 1"
-            :date="useApi.proximaFechaGlobal.day" :hour="22" :minutes="0" :seconds="0" />
+            <CounterComponent :year="useApi.proximaFechaGlobal.year" :month="useApi.proximaFechaGlobal.month - 1"
+              :date="useApi.proximaFechaGlobal.day" :hour="22" :minutes="0" :seconds="0" />
+          </div>
 
         </template>
       </div>
@@ -87,24 +93,27 @@ if (simulador == 'rFactor') return 'counter-rFactor'
 
     <!-- INTRO USUARIOS -->
     <section id="intro">
-      <div class="row intro__row">
+      <h3 class="introTitle text-h4 text-center text-grey-6 montserratRegular q-my-none q-py-md">
+        <span>Bienvenido a</span> <span class="montserratExtraBold text-uppercase">RPM</span>Racingleague
+      </h3>
+      <div class="row intro__row q-mt-md">
         <div class="intro__blumb col-10 q-mx-auto col-md-4 q-py-lg">
-          <h4 class="text-h4 q-my-none text-center text-black text-uppercase"><span class="text-h2 text-black">1.</span>
-            Registrate</h4>
+          <h3 class="text-h5 q-my-none text-center text-black text-uppercase"><span class="text-h4 text-black">1.</span>
+            Registrate</h3>
           <p class="text-center text-body2 q-px-xl text-grey-8">Registrate en RPM Racing League para poder acceder al
             contenido y
             empezar a competir en la Liga.</p>
         </div>
         <div class="intro__blumb col-10 q-mx-auto col-md-4 q-py-lg">
-          <h4 class="text-h4 q-my-none text-center text-black text-uppercase"><span class="text-h2 text-black">2.</span>
-            Inscribite</h4>
+          <h3 class="text-h5 q-my-none text-center text-black text-uppercase"><span class="text-h4 text-black">2.</span>
+            Inscribite</h3>
           <p class="text-center text-body2 q-px-xl text-grey-8">Una vez registrado, elegí un torneo, abonas la inscripción
             y ya estas
             listo para correr.</p>
         </div>
         <div class="intro__blumb col-10 q-mx-auto col-md-4 q-py-lg">
-          <h4 class="text-h4 q-my-none text-center text-black text-uppercase"><span class="text-h2 text-black">3.</span> A
-            Correr!</h4>
+          <h3 class="text-h5 q-my-none text-center text-black text-uppercase"><span class="text-h4 text-black">3.</span> A
+            Correr!</h3>
           <p class="text-center text-body2 q-px-xl text-grey-8">Ya estas habilitado para poder comenzar a disfrutar de los
             torneos en
             RPM Racing League.</p>
@@ -121,14 +130,15 @@ if (simulador == 'rFactor') return 'counter-rFactor'
       <div class="overlay"></div>
 
       <div class="gallery">
-        <q-carousel swipeable animated v-model="slide" :autoplay="autoplay" @mouseenter="autoplay = false"
-          @mouseleave="autoplay = true" thumbnails infinite>
+        <q-carousel swipeable animated v-model="slide" :autoplay="autoplay" @mouseover="autoplay = false"
+          @mouseleave="autoplay = true" thumbnails vertical infinite transition-next="slide-right"
+          transition-prev="slide-left">
 
 
           <q-carousel-slide v-for="(noticia, index) in useApi.noticias" :key="index" :name="index"
             :img-src="`https://rpm.studioatlantic.com.ar/pezls/storage/app/public/images/galery/${noticia.image}`">
             <div class="absolute-bottom custom-caption">
-              <div class="text-h4 text-white text-uppercase text-bold">{{ noticia.title }}</div>
+              <div class="text-h5 text-white text-uppercase text-bold">{{ noticia.title }}</div>
               <div class="text-body2">
                 <span class="text-white">
                   {{ noticia.text }}
@@ -144,14 +154,14 @@ if (simulador == 'rFactor') return 'counter-rFactor'
     <!-- SPONSORS -->
     <section id="sponsors">
       <h3
-        class="gallery-title text-h3 text-uppercase montserratExtraBold text-weight-bold text-center text-grey-5 q-my-none q-pt-xl">
+        class="gallery-title text-h3 text-uppercase montserratExtraBold text-weight-bold text-center text-blue-grey-10 q-my-lg q-pt-xl">
         Sponsors</h3>
-      <div class="row flex items-center q-pb-xl">
+      <div class="row flex items-center">
 
         <div class="col-12">
-          <div class="q-pa-md">
-            <q-carousel class="bg-white" v-model="slideSponsor" transition-prev="slide-right" transition-next="slide-left"
-              infinite :autoplay="autoplaySponsor" swipeable animated height="200px">
+          <div>
+            <q-carousel v-model="slideSponsor" transition-prev="slide-right" transition-next="slide-left" infinite
+              :autoplay="autoplaySponsor" swipeable animated height="200px">
 
               <q-carousel-slide :name="1" class="column no-wrap">
                 <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap">
@@ -184,12 +194,12 @@ if (simulador == 'rFactor') return 'counter-rFactor'
     </section>
 
     <!-- CAMPEONATOS -->
-    <section id="campeonatos">
+    <section id="campeonatos" class="bg-blue-grey-10">
       <CampeonatoComponente />
     </section>
 
-    <section id="youTube">
-      <h3 class="text-h3 text-uppercase montserratExtraBold text-weight-bold text-center text-white q-my-none q-py-xl">
+    <!-- <section id="youTube">
+      <h3 class="text-h3 text-uppercase montserratExtraBold text-weight-bold text-center text-blue-grey-10 q-my-none q-py-xl">
         YouTube</h3>
       <div class="row flex justify-center youtubeContainer">
         <div class="col-12">
@@ -198,7 +208,7 @@ if (simulador == 'rFactor') return 'counter-rFactor'
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
 
 
     <!-- FOOTER -->
@@ -208,9 +218,9 @@ if (simulador == 'rFactor') return 'counter-rFactor'
 
 <style lang="scss">
 .hero {
-  min-height: 95vh;
+  min-height: 100vh;
   position: relative;
-  clip-path: polygon(50% 0%, 100% 0, 100% 100%, 75% 92%, 25% 100%, 0 92%, 0 0);
+  clip-path: polygon(0 0, 100% 0%, 100% 95%, 0% 100%);
 
   &__video {
     position: absolute;
@@ -232,13 +242,18 @@ if (simulador == 'rFactor') return 'counter-rFactor'
   }
 
   &__countdown {
-    position: absolute;
-    bottom: 3%;
-    padding: 1%;
+    position: relative;
+    display: flex;
+    min-height: 100vh;
+    justify-content: center;
+    align-items: flex-end;
     width: 100%;
-    height: auto;
-    align-items: stretch;
-    // background-color: rgba($color: #000000, $alpha: .8);
+
+    .infoFecha {
+      width: 100%;
+      padding: 1rem 0 3rem;
+      background-color: rgba(0, 0, 0, .7);
+    }
 
     .counter-Assetto {
       color: $purple-14;
@@ -270,7 +285,6 @@ if (simulador == 'rFactor') return 'counter-rFactor'
 
 #intro {
   padding: 5% 0;
-  background-color: white;
 
   .intro__row {
     max-width: 1280px;
@@ -279,8 +293,6 @@ if (simulador == 'rFactor') return 'counter-rFactor'
 }
 
 #youTube {
-  margin-top: -2rem;
-  background-color: black;
 
   .youtubeContainer {
     max-width: 1100px;
@@ -290,7 +302,8 @@ if (simulador == 'rFactor') return 'counter-rFactor'
 
 #novedades {
   position: relative;
-  height: 100vh;
+  height: 85vh;
+  clip-path: polygon(0 0, 100% 5%, 100% 100%, 0 95%);
 
   .overlay {
     position: absolute;
@@ -304,48 +317,96 @@ if (simulador == 'rFactor') return 'counter-rFactor'
   }
 
   .gallery {
-    height: 100vh;
+    position: relative;
     position: relative;
     margin: 0 auto;
+    z-index: 40;
+
+    .q-carousel__control.q-carousel__navigation.no-wrap.absolute.flex.q-carousel__navigation--thumbnails.q-carousel__navigation--right {
+      z-index: 100;
+    }
 
     .absolute-bottom.custom-caption {
       position: absolute;
-      bottom: 13%;
+      bottom: 8%;
       left: 50%;
       transform: translate(-50%, 0);
       text-align: center;
-      width: 80%;
+      width: 90%;
       z-index: 30;
     }
 
     .q-carousel {
-      height: 100vh;
+      height: 85vh;
 
     }
 
-    .q-carousel__control.q-carousel__navigation.no-wrap.absolute.flex.q-carousel__navigation--thumbnails.q-carousel__navigation--bottom {
-      z-index: 30;
-    }
   }
 
   .gallery-title {
     position: absolute;
     margin: 0;
-    top: 3%;
+    top: 5%;
     z-index: 10;
     left: 50%;
     transform: translate(-50%, 0);
-    z-index: 30;
+    z-index: 50;
   }
 }
 
-#sponsors {
-  // background-color: #000000;
+#campeonatos{
+  position: relative;
+  min-height: 100vh;
+  clip-path: polygon(0 0, 100% 5%, 100% 95%, 0 100%);
+  z-index: 600;
+  padding: 4rem 0 3rem;
 }
 
-@media screen and (min-width: 767.98px) {}
+#sponsors{
+  padding: 1rem 0 3rem;
 
-@media screen and (min-width: 1279.98px) {}
+  .q-carousel__slide{
+    padding: 0;
+    overflow-x: hidden;
+  }
+}
+
+
+@media screen and (min-width: 767.98px) {
+  #hero {
+    clip-path: polygon(50% 0%, 100% 0, 100% 100%, 75% 92%, 25% 100%, 0 92%, 0 0);
+  }
+
+  #intro {
+
+    .introTitle.text-h4 {
+      font-size: 2.5rem;
+    }
+  }
+}
+
+@media screen and (min-width: 1023.98px) {
+  #intro {
+
+    .introTitle.text-h4 {
+      font-size: 3rem;
+    }
+
+    .intro__row h3{
+      font-size: 2rem;
+    }
+  }
+
+  #novedades {
+
+    .gallery {
+
+      .absolute-bottom.custom-caption {
+        width: 65%;
+      }
+    }
+  }
+}
 
 @media screen and (min-width: 1365.98px) {
   #novedades {
@@ -355,6 +416,7 @@ if (simulador == 'rFactor') return 'counter-rFactor'
       .absolute-bottom.custom-caption {
         width: 50%;
       }
+
     }
 
   }
@@ -373,4 +435,5 @@ if (simulador == 'rFactor') return 'counter-rFactor'
   }
 }
 
-@media screen and (min-width: 1919.98px) {}</style>
+@media screen and (min-width: 1919.98px) {}
+</style>

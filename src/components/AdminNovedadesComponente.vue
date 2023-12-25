@@ -191,8 +191,6 @@ const onReset = () => {
             <q-td class="flex column">
               <q-btn @click="editarNoticia(props.row.id, props.row.title, props.row.text)" type="submit" size="sm"
                 color="yellow-13" text-color="black" label="Editar" />
-              <!-- <q-btn class="q-my-sm" size="sm" @click="finalizarTorneo(useApi.tokenApi, props.row.id, props.row.name)"
-                color="blue-grey-13" text-color="white" label="Finalizar" /> -->
               <q-btn size="sm" @click="deleteConfirm(props.row.title, props.row.id)" color="red-13" text-color="white"
                 label="Eliminar" />
 

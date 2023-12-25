@@ -159,7 +159,7 @@ const fechaCountdown = async () => {
                             }}-{{ counter.year }}</span>
                         </p>
                         <h4 v-if="route.params.id == counter.id"
-                            class="fontCustomTitle text-teal-13 text-h4 text-uppercase text-center q-my-none">
+                            class="fontCustomTitle text-lime-11 text-h4 text-uppercase text-center q-my-none">
                             {{ counter.circuit }}
                         </h4>
 
@@ -305,7 +305,7 @@ const fechaCountdown = async () => {
             width: 100%;
             height: 100%;
             background-color: #000000;
-            opacity: .6;
+            opacity: .7;
             z-index: 10;
         }
 

@@ -450,7 +450,8 @@ const quitarBonusPiloto = async (idDriver, nombrePiloto) => {
                                             <td class="text-center">{{ key }}</td>
                                             <td class="text-center">{{ JSON.parse(value).vehiculo }}</td>
                                             <td class="text-center">{{ JSON.parse(value).vueltas }}</td>
-                                            <td class="text-center">{{ JSON.parse(value).posicion == 1 ?
+                                            <td :class="JSON.parse(value).sancion == '0:00.000' ? 'bg-blue-grey-1' : 'text-red-13 text-weight-bolder'"
+                                                class="text-center">{{ JSON.parse(value).posicion == 1 ?
                                                 JSON.parse(value).tiempoCarrera : `${JSON.parse(value).gap}` }}</td>
                                             <td :class="JSON.parse(value).status === 'DQ' ? 'bg-red-13 text-white' : ''"
                                                 class="text-center">{{ JSON.parse(value).status }}</td>

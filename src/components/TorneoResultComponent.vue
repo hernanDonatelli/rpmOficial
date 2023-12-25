@@ -78,7 +78,7 @@ const getResultsFecha = async (idTorneo, orden) => {
             <q-dialog v-model="dialog" :maximized="maximizedToggle" transition-show="scale" transition-hide="scale"
                 transition-duration="750">
 
-                <q-card style="max-width: 90vw;" class="bg-blue-grey-1 text-white">
+                <q-card style="max-width: 90vw; background-color: #000209;" class="text-white">
                     <q-bar>
                         <q-space />
 
@@ -94,20 +94,20 @@ const getResultsFecha = async (idTorneo, orden) => {
                     </q-bar>
 
                     <div class="row flex justify-between items-center q-mb-md">
-                        <h4
-                            class="title-header text-blue-grey-12 text-uppercase text-weight-bolder q-px-lg q-pt-lg q-my-none text-center montserratExtraBold">
-                            {{
-                                useApi.torneo.name }}</h4>
                         <p
-                            class="fecha fontCustomTitle text-center text-blue-grey-10 text-uppercase text-weight-bolder q-mb-none q-pt-lg">
+                            class="fecha montserratRegular text-center text-h6 text-lime-11 text-uppercase q-mb-none q-px-lg q-pt-lg">
                             Fecha {{ orden }} - {{ circuit }} ({{ fecha }})
                         </p>
+                        <h4 style="color: rgba(207, 216, 220, .4);"
+                            class="title-header text-uppercase text-weight-bolder q-px-lg q-pt-lg q-my-none text-center montserratExtraBold">
+                            {{ useApi.torneo.name }}</h4>
+
                     </div>
 
-                    <h6 class="q-ma-none text-blue-grey-10 text-body2 text-center"><strong>Vueltas Rapidas</strong></h6>
+                    <h6 class="q-ma-none text-blue-grey-3 text-body2 text-center"><strong>Vueltas Rapidas</strong></h6>
                     <div class="hotlaps flex column items-center row-md justify-md-center">
                         <template v-for="(value, key) in useApi.sesionesVR">
-                            <p class="q-px-md-md text-blue-grey-8 q-ma-none text-caption">
+                            <p class="q-px-md-md text-blue-grey-3 q-ma-none text-caption">
                                 <strong>{{ sesionesFront(key) }}:</strong> <em>{{ value.tiempoConvertido }} ({{ value.piloto
                                 }})</em>
                             </p>
@@ -116,57 +116,60 @@ const getResultsFecha = async (idTorneo, orden) => {
 
                     <q-card-section class="q-pt-none">
                         <div v-for="(infoSesion, index) in useApi.sesiones" :key="index.id" class="sesiones q-pa-md">
-                            <div class="flex items-center justify-start">
-                                <h5 class="text-black text-uppercase text-weight-bold q-my-none">
+                            <div class="flex items-center justify-start q-mb-sm">
+                                <h5 class="text-lime-11 text-uppercase text-weight-bold q-my-none">
                                     {{ useApi.tituloSesiones[index] }}
                                 </h5>
-                                <q-item class="replayLink q-ml-lg" clickable :href="`https://rpmracingleague.net`">
+                                <q-item class="replayLink q-ml-lg" clickable dense :href="`https://rpmracingleague.net`">
                                     <q-item-section class="downloadIcon" avatar>
                                         <q-icon name="las la-cloud-download-alt" />
-                                        <q-item-label class="q-pt-xs q-ml-sm">Replay {{ useApi.tituloSesiones[index]
-                                        }}</q-item-label>
+                                        <q-item-label class="q-pt-xs q-ml-sm">Replay</q-item-label>
                                     </q-item-section>
                                     <q-item-section>
                                     </q-item-section>
                                 </q-item>
                             </div>
-                            <!-- <hr class="separadorSessions"> -->
-                            <!-- <q-btn push color="white" text-color="primary" label="Push" /> -->
-                            <q-markup-table flat dense class="bg-blue-grey-1">
+
+                            <q-markup-table style="background-color: #000209;" flat dense>
                                 <thead>
                                     <tr>
-                                        <th class="text-center fontCustomTitle text-uppercase">Posición</th>
-                                        <th class="text-center fontCustomTitle text-uppercase">Piloto</th>
-                                        <th class="text-center fontCustomTitle text-uppercase">Vehiculo</th>
-                                        <th class="text-center fontCustomTitle text-uppercase">Vueltas</th>
-                                        <th class="text-center fontCustomTitle text-uppercase">Gap</th>
-                                        <th class="text-center fontCustomTitle text-uppercase">Status</th>
-                                        <th class="text-center fontCustomTitle text-uppercase">Vuelta Rapida</th>
-                                        <th class="text-center fontCustomTitle text-uppercase">Puntos</th>
-                                        <th class="text-center fontCustomTitle text-uppercase">Sanción</th>
-                                        <th class="text-center fontCustomTitle text-uppercase">Bonus</th>
+                                        <th class="text-center text-blue-grey-3 fontCustomTitle text-uppercase">Posición
+                                        </th>
+                                        <th class="text-center text-blue-grey-3 fontCustomTitle text-uppercase">Piloto</th>
+                                        <th class="text-center text-blue-grey-3 fontCustomTitle text-uppercase">Vehiculo
+                                        </th>
+                                        <th class="text-center text-blue-grey-3 fontCustomTitle text-uppercase">Vueltas</th>
+                                        <th class="text-center text-blue-grey-3 fontCustomTitle text-uppercase">Gap</th>
+                                        <th class="text-center text-blue-grey-3 fontCustomTitle text-uppercase">Status</th>
+                                        <th class="text-center text-blue-grey-3 fontCustomTitle text-uppercase">Vuelta
+                                            Rapida</th>
+                                        <th class="text-center text-blue-grey-3 fontCustomTitle text-uppercase">Puntos</th>
+                                        <th class="text-center text-blue-grey-3 fontCustomTitle text-uppercase">Sanción</th>
+                                        <th class="text-center text-blue-grey-3 fontCustomTitle text-uppercase">Bonus</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <template v-for="(value, key) in infoSesion">
                                         <tr v-if="JSON.parse(value).posicion >= 1">
-                                            <td class="text-center">{{ JSON.parse(value).posicion }}</td>
-                                            <td class="text-center flex justify-between">
+                                            <td class="text-center text-blue-grey-3">{{ JSON.parse(value).posicion }}</td>
+                                            <td
+                                                class="text-center text-blue-grey-3 flex no-wrap justify-between items-center">
                                                 <span>{{ key }}</span>
                                                 <LapsInfoComponent :id="idTorneo" :driver="JSON.parse(value).idDriverInfo"
                                                     :sesion="JSON.parse(value).idSessionInfo" :piloto="key" :orden="orden"
-                                                    :titulo-sesion="useApi.tituloSesiones[index]" />
+                                                    :titulo-sesion="useApi.tituloSesiones[index]"
+                                                    :posicion="JSON.parse(value).posicion" />
                                             </td>
-                                            <td class="text-center">{{ JSON.parse(value).vehiculo }}</td>
-                                            <td class="text-center">{{ JSON.parse(value).vueltas }}</td>
-                                            <td
-                                            :class="JSON.parse(value).sancion != '0:00.000' ? 'text-red' : 'text-black'"
-                                            class="text-center">{{ JSON.parse(value).posicion == 1 ?
-                                                JSON.parse(value).tiempoCarrera : `${JSON.parse(value).gap}` }}</td>
-                                            <td class="text-center">{{ JSON.parse(value).status }}</td>
-                                            <td class="text-center">{{ JSON.parse(value).vueltaRapida }}</td>
+                                            <td class="text-center text-blue-grey-3">{{ JSON.parse(value).vehiculo }}</td>
+                                            <td class="text-center text-blue-grey-3">{{ JSON.parse(value).vueltas }}</td>
+                                            <td :class="JSON.parse(value).sancion == '0:00.000' ? 'text-blue-grey-3' : 'text-red-13 text-weight-bolder'"
+                                                class="text-center">{{ JSON.parse(value).posicion == 1 ?
+                                                    JSON.parse(value).tiempoCarrera : `${JSON.parse(value).gap}` }}</td>
+                                            <td class="text-center text-blue-grey-3">{{ JSON.parse(value).status }}</td>
+                                            <td class="text-center text-blue-grey-3">{{ JSON.parse(value).vueltaRapida }}
+                                            </td>
                                             <td :class="`${JSON.parse(value).puntos}` > 0 ? 'text-bold' : 'text-light'"
-                                                class="text-center">
+                                                class="text-center text-blue-grey-3">
                                                 {{ JSON.parse(value).puntos }}
                                             </td>
                                             <td :class="JSON.parse(value).sancion != '0:00.000' ? 'bg-red-13 text-white' : 'text-blue-grey-3'"
@@ -194,9 +197,18 @@ const getResultsFecha = async (idTorneo, orden) => {
 
 .sesiones {
     position: relative;
+    overflow-x: auto;
 
+    .q-table--horizontal-separator tbody tr:not(:last-child)>td {
+        border-bottom-color: rgba(176, 190, 197, 0.2);
+        border-bottom-width: 1px;
+    }
+    .q-table--dense .q-table tbody tr,
+    .q-table--dense .q-table tbody td{
+        height: 29px;
+    }
     .replayLink {
-        color: $red-6;
+        color: $blue-grey-3;
         padding: 0 1rem;
     }
 
@@ -217,23 +229,24 @@ const getResultsFecha = async (idTorneo, orden) => {
 
     .q-markup-table {
         overflow: unset;
+
     }
 }
 
 p.fecha {
-    font-size: 1rem;
+    // font-size: 1rem;
     line-height: 1.2rem;
 }
 
 @media screen and (min-width: 1022.98px) {
     .title-header {
         width: 50%;
-        text-align: left;
+        text-align: right;
     }
 
     .fecha {
         width: 50%;
-        text-align: right;
+        text-align: left;
         padding-right: 24px;
     }
 
@@ -241,6 +254,4 @@ p.fecha {
         max-width: 750px;
         margin: .5rem auto 1rem;
     }
-}
-
-</style>
+}</style>

@@ -123,6 +123,9 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido, ni
 </script>
 
 <template>
+  <h3
+        class="text-h3 text-uppercase montserratExtraBold text-weight-bold text-center text-grey-5 q-mb-none q-pb-xl">
+        Campeonatos</h3>
   <template v-for="(torneo, index) in apiStore.torneos" :key="index">
     <div v-if="torneo.status == 1" class="torneo" :style="{
       backgroundImage: `linear-gradient(135deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 1) 85%),url(https://rpm.studioatlantic.com.ar/pezls/storage/app/public/images/tournament/${torneo.image})`,
@@ -254,9 +257,6 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido, ni
 }
 
 #campeonatos {
-  position: relative;
-  background-color: white;
-  padding: 2rem 0;
 
   .positionList {
     position: relative;

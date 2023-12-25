@@ -1,22 +1,26 @@
 <template>
     <section id="footer" class="q-pb-lg q-pt-md">
-        <div class="q-px-lg">
+        <div>
             <div class="row footer__rs">
                 <div class="col-xs-10 col-md-4 rrss">
-                    <h6 class="text-h6 text-uppercase montserratExtraBold text-center text-white q-my-sm">
+                    <h6 class="text-h6 text-uppercase montserratExtraBold text-center text-blue-grey-10 q-my-sm">
                         Nuestras redes</h6>
-                    <div class="row flex justify-evenly">
+                    <div class="row flex justify-evenly links">
                         <a href="https://www.facebook.com/RPMRacingLeague" target="_blanck">
-                            <q-icon color="red-13" name="lab la-facebook" />
+                            <q-icon name="lab la-facebook" />
                         </a>
                         <a href="https://www.instagram.com/rpm.racing.league/" target="_blank">
-                            <q-icon color="red-13" name="lab la-instagram" />
+                            <q-icon name="lab la-instagram" />
                         </a>
                         <a href="https://www.youtube.com/@rpmracingleague7342" target="_blank">
-                            <q-icon color="red-13" name="lab la-youtube" />
+                            <q-icon name="lab la-youtube" />
                         </a>
-                        <q-icon color="red-13" name="lab la-discord" />
-                        <q-icon color="red-13" name="lab la-teamspeak" />
+                        <a href="#" target="_blank">
+                            <q-icon name="lab la-discord" />
+                        </a>
+                        <a href="#" target="_blank">
+                            <q-icon name="lab la-teamspeak" />
+                        </a>
                     </div>
                 </div>
 
@@ -29,9 +33,9 @@
                         <img src="http://www.afip.gob.ar/images/f960/DATAWEB.jpg" alt="fiscal">
                     </a>
                 </div>
-                    <p class="copy col-md-12 text-caption text-center text-white q-mb-none q-mt-sm">Copyright 2023 -
-                        Studioatlantic
-                    </p>
+                <p class="copy col-md-12 text-caption text-center text-blue-grey-10 q-mb-none q-mt-sm">Copyright 2023 -
+                    Studioatlantic
+                </p>
             </div>
 
         </div>
@@ -40,7 +44,6 @@
 
 <style lang="scss" scoped>
 #footer {
-    background-color: #000000;
 
     .footer__rs {
         display: flex;
@@ -49,9 +52,17 @@
 
         .rrss {
 
+            .links a {
+                color: #263238;
+                transition: all .2s ease-in-out;
+            }
+
+            .links a:hover {
+                color: $red-13;
+            }
 
             .q-icon {
-                font-size: 2rem;
+                font-size: 1.5rem;
             }
         }
 
@@ -101,7 +112,7 @@
                 order: 3
             }
 
-            .copy{
+            .copy {
                 order: 4;
             }
         }

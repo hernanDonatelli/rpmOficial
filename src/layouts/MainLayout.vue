@@ -65,7 +65,8 @@ const getTorneos = async () => {
         <q-btn class="text-red-13" flat dense round @click="drawer = !drawer" aria-label="Menu" icon="las la-bars" />
 
         <q-toolbar-title class="text-red-13 flex column items-center row-sm justify-sm-between">
-          <h4 class="q-my-none text-h5 text-weight-light"><router-link to="/"><span>RPM</span>RacingLeague</router-link></h4>
+          <h4 class="q-my-none text-h5 text-weight-light"><router-link to="/"><span>RPM</span>RacingLeague</router-link>
+          </h4>
           <div v-if="!userStore.loadingSession" class="btn-entrada q-my-xs">
             <p v-for="user of databaseStore.documents" :key="user.id"
               class="inline-block q-mr-sm q-mb-none text-caption text-grey-13">
@@ -184,7 +185,8 @@ const getTorneos = async () => {
 
       <q-list v-for="item in databaseStore.documents" :key="item.id">
         <!-- Seccion Administrador -->
-        <h6 v-if="item.isAdmin" class="text-h6 text-orange-6 text-weight-light q-mb-none q-mt-sm q-pl-md">Administración</h6>
+        <h6 v-if="item.isAdmin" class="text-h6 text-orange-6 text-weight-light q-mb-none q-mt-sm q-pl-md">Administración
+        </h6>
 
         <q-item v-if="item.isAdmin" clickable to="/administrar-torneos" class="text-orange-6" active-class="menu__link">
           <q-item-section avatar>
@@ -196,7 +198,8 @@ const getTorneos = async () => {
           </q-item-section>
         </q-item>
 
-        <q-item v-if="item.isAdmin" clickable to="/administrar-calendarios" class="text-orange-6" active-class="menu__link">
+        <q-item v-if="item.isAdmin" clickable to="/administrar-calendarios" class="text-orange-6"
+          active-class="menu__link">
           <q-item-section avatar>
             <q-icon name="las la-calendar" />
           </q-item-section>
@@ -206,7 +209,8 @@ const getTorneos = async () => {
           </q-item-section>
         </q-item>
 
-        <q-item v-if="item.isAdmin" clickable to="/administrar-resultados" class="text-orange-6" active-class="menu__link">
+        <q-item v-if="item.isAdmin" clickable to="/administrar-resultados" class="text-orange-6"
+          active-class="menu__link">
           <q-item-section avatar>
             <q-icon name="las la-poll" />
           </q-item-section>
@@ -216,7 +220,8 @@ const getTorneos = async () => {
           </q-item-section>
         </q-item>
 
-        <q-item v-if="item.isAdmin" clickable to="/administrar-posiciones" class="text-orange-6" active-class="menu__link">
+        <q-item v-if="item.isAdmin" clickable to="/administrar-posiciones" class="text-orange-6"
+          active-class="menu__link">
           <q-item-section avatar>
             <q-icon name="las la-tachometer-alt" />
           </q-item-section>
@@ -269,15 +274,22 @@ const getTorneos = async () => {
   }
 }
 
+
+
 #main__container.q-page-container {
   padding-top: 0 !important;
+  background-image: repeating-linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.9)),
+    url(../assets/background.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 
 }
 
 .header__nav {
   background-color: $blue-grey-10;
 
-  h4 a{
+  h4 a {
     text-decoration: none;
     color: $red-13;
   }
