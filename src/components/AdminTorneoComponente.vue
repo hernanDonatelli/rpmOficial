@@ -35,7 +35,7 @@ const showLoading = async (token, torneo) => {
         spinner: QSpinnerGears,
         spinnerColor: 'green-13',
         spinnerSize: 140,
-        backgroundColor: 'bg-grey-10',
+        backgroundColor: 'black',
         message: 'Creando Torneo...',
         messageColor: 'white'
     })
@@ -65,6 +65,16 @@ const crearTorneo = () => {
 }
 
 const editarTorneo = async (id, name, simulator, qualyPoints, shortRacePoints, racePoints, status, price, forumURL) => {
+
+    $q.loading.show({
+        spinner: QSpinnerGears,
+        spinnerColor: 'green-13',
+        spinnerSize: 140,
+        backgroundColor: 'black',
+        message: 'Editando Torneo...',
+        messageColor: 'white'
+    })
+
     useApi.torneos = []
 
     const torneoEditado = {
@@ -82,6 +92,12 @@ const editarTorneo = async (id, name, simulator, qualyPoints, shortRacePoints, r
     //console.log(torneoEditado.price);
     await useApi.editTorneoApi(useApi.tokenApi, torneoEditado)
 
+    // hiding in 1s
+    timer = setTimeout(() => {
+        $q.loading.hide()
+        timer = void 0
+    }, 0)
+
     useApi.torneos = await useApi.getTorneosApi(useApi.tokenApi)
 }
 
@@ -93,6 +109,15 @@ const deleteConfirm = async (nombre, id) => {
         cancel: true,
         persistent: true
     }).onOk(async () => {
+        $q.loading.show({
+            spinner: QSpinnerGears,
+            spinnerColor: 'green-13',
+            spinnerSize: 140,
+            backgroundColor: 'black',
+            message: 'Eliminando Torneo...',
+            messageColor: 'white'
+        })
+
         await useApi.deleteTorneoApi(useApi.tokenApi, id)
 
         useApi.torneos = []
@@ -103,6 +128,12 @@ const deleteConfirm = async (nombre, id) => {
             useApi.torneos.push(el)
 
         });
+
+        // hiding in 1s
+        timer = setTimeout(() => {
+            $q.loading.hide()
+            timer = void 0
+        }, 0)
 
     }).onCancel(() => {
         // console.log('>>>> Cancel')
@@ -118,7 +149,22 @@ const finalizarTorneo = async (token, id, name) => {
         cancel: true,
         persistent: true
     }).onOk(async () => {
+        $q.loading.show({
+            spinner: QSpinnerGears,
+            spinnerColor: 'green-13',
+            spinnerSize: 140,
+            backgroundColor: 'black',
+            message: 'Finalizando Torneo...',
+            messageColor: 'white'
+        })
+
         await useApi.finalizarTorneoApi(token, id)
+
+        // hiding in 1s
+        timer = setTimeout(() => {
+            $q.loading.hide()
+            timer = void 0
+        }, 0)
 
         $q.notify({
             color: "teal-14",
@@ -262,7 +308,7 @@ const columns = [
 
             <!-- Torneos Activos -->
             <q-table class="q-mb-xl" style="width: 100%;" title="Torneos Activos" :rows="useApi.torneos" :columns="columns"
-                :loading="useApi.torneos.length == 0 ? true : false" row-key="id" :rows-per-page-options="[5,10]">
+                :loading="useApi.torneos.length == 0 ? true : false" row-key="id" :rows-per-page-options="[5, 10]">
 
                 <template v-slot:body="props">
                     <q-tr v-if="props.row.status == 1" :props="props">
@@ -307,15 +353,15 @@ const columns = [
                         </q-td>
                         <q-td class="cursor-pointer" key="precio" :props="props" id="editedPrice">
                             <p>{{ props.row.price }}</p>
-                            <q-popup-edit v-model.trim="props.row.price" title="Precio" buttons
-                                label-set="Ok" label-cancel="Cancelar" v-slot="scope">
+                            <q-popup-edit v-model.trim="props.row.price" title="Precio" buttons label-set="Ok"
+                                label-cancel="Cancelar" v-slot="scope">
                                 <q-input type="text" v-model.trim="scope.value" dense autofocus />
                             </q-popup-edit>
                         </q-td>
                         <q-td class="cursor-pointer" key="forumURL" :props="props" id="editedForum">
                             <p>{{ props.row.forumURL }}</p>
-                            <q-popup-edit v-model.trim="props.row.forumURL" title="URL Foro" buttons
-                                label-set="Ok" label-cancel="Cancelar" v-slot="scope">
+                            <q-popup-edit v-model.trim="props.row.forumURL" title="URL Foro" buttons label-set="Ok"
+                                label-cancel="Cancelar" v-slot="scope">
                                 <q-input type="text" v-model.trim="scope.value" dense autofocus />
                             </q-popup-edit>
                         </q-td>
@@ -336,7 +382,7 @@ const columns = [
 
             <!-- Torneos Finalizados -->
             <q-table style="width: 100%;" title="Torneos Finalizados" :rows="useApi.torneos" :columns="columns"
-                :loading="useApi.torneos.length == 0 ? true : false" row-key="id" :rows-per-page-options="[5,10]">
+                :loading="useApi.torneos.length == 0 ? true : false" row-key="id" :rows-per-page-options="[5, 10]">
 
                 <template v-slot:body="props">
 
@@ -382,15 +428,15 @@ const columns = [
                         </q-td>
                         <q-td class="cursor-pointer" key="precio" :props="props" id="editedPrice">
                             <p>{{ props.row.price }}</p>
-                            <q-popup-edit v-model.trim="props.row.price" title="Precio" buttons
-                                label-set="Ok" label-cancel="Cancelar" v-slot="scope">
+                            <q-popup-edit v-model.trim="props.row.price" title="Precio" buttons label-set="Ok"
+                                label-cancel="Cancelar" v-slot="scope">
                                 <q-input type="text" v-model.trim="scope.value" dense autofocus />
                             </q-popup-edit>
                         </q-td>
                         <q-td class="cursor-pointer" key="forumURL" :props="props" id="editedForum">
                             <p>{{ props.row.forumURL }}</p>
-                            <q-popup-edit v-model.trim="props.row.forumURL" title="URL Foro" buttons
-                                label-set="Ok" label-cancel="Cancelar" v-slot="scope">
+                            <q-popup-edit v-model.trim="props.row.forumURL" title="URL Foro" buttons label-set="Ok"
+                                label-cancel="Cancelar" v-slot="scope">
                                 <q-input type="text" v-model.trim="scope.value" dense autofocus />
                             </q-popup-edit>
                         </q-td>

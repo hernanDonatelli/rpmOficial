@@ -83,9 +83,9 @@ const showLoading = async () => {
         spinner: QSpinnerGears,
         spinnerColor: 'red-13',
         spinnerSize: 140,
-        backgroundColor: 'bg-grey-10',
+        backgroundColor: 'black',
         message: 'Cargando información...',
-        messageColor: 'black'
+        messageColor: 'white'
     })
 
     await getTorneos()

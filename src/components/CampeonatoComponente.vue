@@ -123,9 +123,8 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido, ni
 </script>
 
 <template>
-  <h3
-        class="text-h3 text-uppercase montserratExtraBold text-weight-bold text-center text-grey-5 q-mb-none q-pb-xl">
-        Campeonatos</h3>
+  <h3 class="text-h3 text-uppercase montserratExtraBold text-weight-bold text-center text-grey-5 q-mb-none q-pb-xl">
+    Campeonatos</h3>
   <template v-for="(torneo, index) in apiStore.torneos" :key="index">
     <div v-if="torneo.status == 1" class="torneo" :style="{
       backgroundImage: `linear-gradient(135deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 1) 85%),url(https://rpm.studioatlantic.com.ar/pezls/storage/app/public/images/tournament/${torneo.image})`,
@@ -218,10 +217,14 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido, ni
 
     </div>
 
-    <div v-else class="flex justify-center finalizados">
+    <div class="flex justify-center finalizados">
       <h6 class="text-h6 q-my-md montserratExtraBold text-uppercase">
-        <q-btn :href="`torneos-finalizados`" class="col-md-3" icon="las la-trophy"
-          style="font-weight: bold;" color="primary" label="Torneos Finalizados" :ripple="{ color: 'red' }"/>
+        <q-btn :href="`torneos-finalizados`" class="col-md-3" :disable="torneo.status != 2" icon="las la-trophy"
+          style="font-weight: bold;" color="primary" label="Torneos Finalizados" :ripple="{ color: 'red' }">
+          <q-tooltip v-if="torneo.status == 1" style="background-color: transparent;" class="text-caption text-regular text-white" transition-show="scale" transition-hide="scale">
+            Aún no hay Torneos Finalizados!
+          </q-tooltip>
+        </q-btn>
       </h6>
     </div>
 
