@@ -160,27 +160,27 @@ const colorCounter = (simulador) => {
         <div class="col-12">
           <div>
             <q-carousel v-model="slideSponsor" transition-prev="slide-right" transition-next="slide-left" infinite
-              :autoplay="autoplaySponsor" swipeable animated height="200px">
+              :autoplay="autoplaySponsor" swipeable animated height="300px">
 
               <q-carousel-slide :name="1" class="column no-wrap">
                 <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap">
-                  <q-img class="rounded-borders col-4 full-height" src="https://cdn.quasar.dev/img/mountains.jpg" />
-                  <q-img class="rounded-borders col-4 full-height" src="https://cdn.quasar.dev/img/cat.jpg" />
-                  <q-img class="rounded-borders col-4 full-height" src="https://cdn.quasar.dev/img/quasar.jpg" />
+                  <q-img class="rounded-borders col-4 full-height" src="../assets/ferrari.png" />
+                  <q-img class="rounded-borders col-4 full-height" src="../assets/audi.png" />
+                  <q-img class="rounded-borders col-4 full-height" src="../assets/at.png" />
                 </div>
               </q-carousel-slide>
               <q-carousel-slide :name="2" class="column no-wrap">
                 <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap">
-                  <q-img class="rounded-borders col-4 full-height" src="https://cdn.quasar.dev/img/parallax2.jpg" />
-                  <q-img class="rounded-borders col-4 full-height" src="https://cdn.quasar.dev/img/quasar.jpg" />
-                  <q-img class="rounded-borders col-4 full-height" src="https://cdn.quasar.dev/img/cat.jpg" />
+                  <q-img class="rounded-borders col-4 full-height" src="../assets/audi.png" />
+                  <q-img class="rounded-borders col-4 full-height" src="../assets/ferrari.png" />
+                  <q-img class="rounded-borders col-4 full-height" src="../assets/at.png" />
                 </div>
               </q-carousel-slide>
               <q-carousel-slide :name="3" class="column no-wrap">
                 <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap">
-                  <q-img class="rounded-borders col-4 full-height" src="https://cdn.quasar.dev/img/mountains.jpg" />
-                  <q-img class="rounded-borders col-4 full-height" src="https://cdn.quasar.dev/img/quasar.jpg" />
-                  <q-img class="rounded-borders col-4 full-height" src="https://cdn.quasar.dev/img/parallax1.jpg" />
+                  <q-img class="rounded-borders col-4 full-height" src="../assets/audi.png" />
+                  <q-img class="rounded-borders col-4 full-height" src="../assets/at.png" />
+                  <q-img class="rounded-borders col-4 full-height" src="../assets/ferrari.png" />
                 </div>
               </q-carousel-slide>
             </q-carousel>
@@ -364,10 +364,19 @@ const colorCounter = (simulador) => {
 #sponsors {
   padding: 1rem 0 6rem;
 
-  .q-carousel__slide {
-    padding: 0;
-    overflow-x: hidden;
+  .q-carousel{
+    background-color: unset;
+
+    .q-carousel__slide {
+      padding: 0;
+      overflow-x: hidden;
+
+      .q-img.q-img--menu.rounded-borders img{
+        object-fit: none !important;
+      }
+    }
   }
+
 }
 
 

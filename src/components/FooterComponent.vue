@@ -1,3 +1,17 @@
+<script setup>
+import { onMounted, ref } from 'vue'
+
+onMounted(() => {
+    const now = new Date()
+
+    actualYear.value = now.getFullYear()
+})
+
+const actualYear = ref(null)
+
+
+</script>
+
 <template>
     <section id="footer" class="q-pb-lg q-pt-md">
         <div>
@@ -8,31 +22,36 @@
                     <div class="row flex justify-evenly links">
                         <a href="https://www.facebook.com/RPMRacingLeague" target="_blanck">
                             <q-icon name="lab la-facebook" />
-                            <q-tooltip style="color: red; background-color: transparent;" transition-show="scale" transition-hide="scale">
+                            <q-tooltip style="color: red; background-color: transparent;" transition-show="scale"
+                                transition-hide="scale">
                                 Facebook
                             </q-tooltip>
                         </a>
                         <a href="https://www.instagram.com/rpm.racing.league/" target="_blank">
                             <q-icon name="lab la-instagram" />
-                            <q-tooltip style="color: red; background-color: transparent;" transition-show="scale" transition-hide="scale">
+                            <q-tooltip style="color: red; background-color: transparent;" transition-show="scale"
+                                transition-hide="scale">
                                 Instagram
                             </q-tooltip>
                         </a>
                         <a href="https://www.youtube.com/@rpmracingleague7342" target="_blank">
                             <q-icon name="lab la-youtube" />
-                            <q-tooltip style="color: red; background-color: transparent;" transition-show="scale" transition-hide="scale">
+                            <q-tooltip style="color: red; background-color: transparent;" transition-show="scale"
+                                transition-hide="scale">
                                 YouTube
                             </q-tooltip>
                         </a>
                         <a href="#" target="_blank">
                             <q-icon name="lab la-discord" />
-                            <q-tooltip style="color: red; background-color: transparent;" transition-show="scale" transition-hide="scale">
+                            <q-tooltip style="color: red; background-color: transparent;" transition-show="scale"
+                                transition-hide="scale">
                                 Discord
                             </q-tooltip>
                         </a>
                         <a href="#" target="_blank">
                             <q-icon name="lab la-teamspeak" />
-                            <q-tooltip style="color: red; background-color: transparent;" transition-show="scale" transition-hide="scale">
+                            <q-tooltip style="color: red; background-color: transparent;" transition-show="scale"
+                                transition-hide="scale">
                                 Team Speak
                             </q-tooltip>
                         </a>
@@ -48,8 +67,16 @@
                         <img src="http://www.afip.gob.ar/images/f960/DATAWEB.jpg" alt="fiscal">
                     </a>
                 </div>
-                <p class="copy col-md-12 text-caption text-center text-blue-grey-10 q-mb-none q-mt-sm">Copyright 2023 -
-                    Studioatlantic
+            </div>
+            <div>
+                <p class="col-md-12 text-body2 text-center text-blue-grey-10 q-mb-none q-mt-sm">
+                    Copyright {{ actualYear }} - <span class="text-bold">RPM</span>RacingLeague
+                </p>
+                <p class="col-md-12 text-caption text-center text-blue-grey-10 q-mb-none">
+                    Development by - Donux, SebaCampa, Massik - V1.0 | 2023
+                </p>
+                <p class="col-md-12 text-caption text-center text-blue-grey-10 q-mb-none">
+                    Powered by StudioAtlantic
                 </p>
             </div>
 
@@ -128,11 +155,7 @@
                 order: 3
             }
 
-            .copy {
-                order: 4;
-            }
         }
     }
 
-}
-</style>
+}</style>
