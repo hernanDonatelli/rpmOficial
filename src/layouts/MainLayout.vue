@@ -55,11 +55,23 @@ const getTorneos = async () => {
 
 }
 
+const posicion = ref(0)
+
+const onScroll = (params) => {
+
+  posicion.value = params.position.top
+}
 
 </script>
 
 <template>
   <q-layout id="home" view="hHh LpR fFf">
+    <q-scroll-observer
+    @scroll="onScroll"
+    />
+    <!-- Button -->
+    <q-btn to="#home" :class="`${posicion > 300 ? 'upToVisible' : 'upTo'}`" round color="red-13" icon="las la-angle-up" />
+
     <q-header elevated class="header__nav">
       <q-toolbar>
         <q-btn class="text-red-13" flat dense round @click="drawer = !drawer" aria-label="Menu" icon="las la-bars" />
@@ -246,10 +258,28 @@ const getTorneos = async () => {
     <q-page-container id="main__container">
       <router-view />
     </q-page-container>
+
   </q-layout>
 </template>
 
 <style lang="scss">
+.upTo {
+  position: fixed;
+  bottom: 7%;
+  right: 2%;
+  z-index: 9999;
+  opacity: 0;
+  transition: all .2s ease-in;
+}
+.upToVisible {
+  position: fixed;
+  bottom: 7%;
+  right: 2%;
+  z-index: 9999;
+  opacity: 1;
+  transition: all .2s ease-in;
+}
+
 .q-item.q-router-link--active,
 .q-item--active {
   color: white;

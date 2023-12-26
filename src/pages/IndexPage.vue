@@ -58,11 +58,11 @@ const colorCounter = (simulador) => {
 
 }
 
-
 </script>
 
 <template>
   <q-page>
+
     <!-- HERO CON MENU -->
     <div id="hero" class="hero">
       <video class="hero__video" playsinline autoplay muted loop poster='/hero.jpg'>
@@ -101,8 +101,7 @@ const colorCounter = (simulador) => {
           <h3 class="text-h5 q-my-none text-center text-black text-uppercase"><span class="text-h4 text-black">1.</span>
             Registrate</h3>
           <p class="text-center text-body2 q-px-xl text-grey-8">Registrate en RPM Racing League para poder acceder al
-            contenido y
-            empezar a competir en la Liga.</p>
+            contenido y empezar a competir en la Liga.</p>
         </div>
         <div class="intro__blumb col-10 q-mx-auto col-md-4 q-py-lg">
           <h3 class="text-h5 q-my-none text-center text-black text-uppercase"><span class="text-h4 text-black">2.</span>
@@ -195,7 +194,7 @@ const colorCounter = (simulador) => {
 
     <!-- CAMPEONATOS -->
     <section id="campeonatos" class="bg-blue-grey-10">
-      <CampeonatoComponente />
+            <CampeonatoComponente />
     </section>
 
     <!-- <section id="youTube">
@@ -220,7 +219,7 @@ const colorCounter = (simulador) => {
 .hero {
   min-height: 100vh;
   position: relative;
-  clip-path: polygon(0 0, 100% 0%, 100% 95%, 0% 100%);
+  clip-path: polygon(0 0, 100% 0%, 100% 100%, 0% 95%);
 
   &__video {
     position: absolute;
@@ -354,18 +353,18 @@ const colorCounter = (simulador) => {
   }
 }
 
-#campeonatos{
+#campeonatos {
   position: relative;
   min-height: 100vh;
-  clip-path: polygon(0 0, 100% 5%, 100% 95%, 0 100%);
+  clip-path: polygon(0 0, 100% 3%, 100% 95%, 0 100%);
   z-index: 600;
   padding: 4rem 0 3rem;
 }
 
-#sponsors{
-  padding: 1rem 0 3rem;
+#sponsors {
+  padding: 1rem 0 6rem;
 
-  .q-carousel__slide{
+  .q-carousel__slide {
     padding: 0;
     overflow-x: hidden;
   }
@@ -373,9 +372,7 @@ const colorCounter = (simulador) => {
 
 
 @media screen and (min-width: 767.98px) {
-  #hero {
-    clip-path: polygon(50% 0%, 100% 0, 100% 100%, 75% 92%, 25% 100%, 0 92%, 0 0);
-  }
+
 
   #intro {
 
@@ -392,7 +389,7 @@ const colorCounter = (simulador) => {
       font-size: 3rem;
     }
 
-    .intro__row h3{
+    .intro__row h3 {
       font-size: 2rem;
     }
   }

@@ -8,18 +8,33 @@
                     <div class="row flex justify-evenly links">
                         <a href="https://www.facebook.com/RPMRacingLeague" target="_blanck">
                             <q-icon name="lab la-facebook" />
+                            <q-tooltip style="color: red; background-color: transparent;" transition-show="scale" transition-hide="scale">
+                                Facebook
+                            </q-tooltip>
                         </a>
                         <a href="https://www.instagram.com/rpm.racing.league/" target="_blank">
                             <q-icon name="lab la-instagram" />
+                            <q-tooltip style="color: red; background-color: transparent;" transition-show="scale" transition-hide="scale">
+                                Instagram
+                            </q-tooltip>
                         </a>
                         <a href="https://www.youtube.com/@rpmracingleague7342" target="_blank">
                             <q-icon name="lab la-youtube" />
+                            <q-tooltip style="color: red; background-color: transparent;" transition-show="scale" transition-hide="scale">
+                                YouTube
+                            </q-tooltip>
                         </a>
                         <a href="#" target="_blank">
                             <q-icon name="lab la-discord" />
+                            <q-tooltip style="color: red; background-color: transparent;" transition-show="scale" transition-hide="scale">
+                                Discord
+                            </q-tooltip>
                         </a>
                         <a href="#" target="_blank">
                             <q-icon name="lab la-teamspeak" />
+                            <q-tooltip style="color: red; background-color: transparent;" transition-show="scale" transition-hide="scale">
+                                Team Speak
+                            </q-tooltip>
                         </a>
                     </div>
                 </div>
