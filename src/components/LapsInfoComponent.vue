@@ -59,8 +59,8 @@ const getVueltasDriver = async (id, sesion, driver) => {
             <q-dialog id="lapsDriver" v-model="dialogLaps" :maximized="maximizar" transition-show="scale"
                 transition-hide="scale" transition-duration="750">
 
-                <q-card id="cardVR" class="text-white" style="background-color: #000010;">
-                    <q-bar style="background-color: #000010;">
+                <q-card id="cardVR" class="text-white bg-blue-grey-10">
+                    <q-bar class="bg-blue-grey-9">
                         <q-space />
 
                         <q-btn dense flat icon="minimize" @click="maximizar = false" :disable="!maximizar">
@@ -77,7 +77,7 @@ const getVueltasDriver = async (id, sesion, driver) => {
                     <div class="row flex column row-md justify-between items-center q-mb-md q-pt-sm">
 
                         <h4
-                            class="title-header text-blue-grey-12 text-uppercase q-px-lg q-my-none text-center montserratRegular">
+                            class="title-header text-blue-grey-11 text-uppercase q-px-lg q-my-none text-center montserratRegular">
                             <span class="text-lime-11 text-h3">{{ posicion }}.</span><span class="montserratExtraBold">{{ piloto }}</span>
                         </h4>
                         <h6
@@ -88,7 +88,7 @@ const getVueltasDriver = async (id, sesion, driver) => {
                     </div>
 
                     <q-card-section class="q-pt-none">
-                        <q-markup-table style="background-color: #000010;" flat dense class="q-pb-md text-blue-grey-12">
+                        <q-markup-table flat dense class="q-pb-md text-blue-grey-11 bg-blue-grey-10">
                             <thead>
                                 <tr>
                                     <th class="text-center fontCustomTitle text-uppercase">Vuelta</th>

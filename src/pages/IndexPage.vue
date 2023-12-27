@@ -208,9 +208,7 @@ const colorCounter = (simulador) => {
         class="text-h3 text-uppercase montserratExtraBold text-weight-bold text-center text-blue-grey-10 q-my-none q-py-xl">
         Multimedia</h3>
 
-      <q-carousel class="repVideo" animated v-model="slideVideo" infinite transition-next="slide-right"
-        transition-prev="slide-left" arrows control-color="lime-11" control-type="square" control-text-color="black">
-
+      <q-carousel class="repVideo" v-model="slideVideo" swipeable animated control-color="white" navigation arrows transition-next="slide-right" transition-prev="slide-left" transition-duration="250">
 
         <q-carousel-slide v-for="video in videos" :key="video.name" :name="video.name">
           <q-video :src="video.src" :ratio="16 / 9" />
@@ -218,13 +216,6 @@ const colorCounter = (simulador) => {
         </q-carousel-slide>
 
       </q-carousel>
-      <!-- <div class="row flex justify-center youtubeContainer">
-        <div class="col-12">
-          <div class="q-pa-md">
-            <q-video :ratio="16 / 9" src="https://www.youtube.com/embed/xJi7K8IzOfc" />
-          </div>
-        </div>
-      </div> -->
     </section>
 
 
@@ -238,10 +229,11 @@ const colorCounter = (simulador) => {
   height: 250px;
 }
 
-.q-carousel__control.q-carousel__arrow.q-carousel__prev-arrow.q-carousel__prev-arrow--horizontal.absolute.flex.flex-center{
+.q-carousel__control.q-carousel__arrow.q-carousel__prev-arrow.q-carousel__prev-arrow--horizontal.absolute.flex.flex-center {
   left: 3%;
 }
-.q-carousel__control.q-carousel__arrow.q-carousel__next-arrow.q-carousel__next-arrow--horizontal.absolute.flex.flex-center{
+
+.q-carousel__control.q-carousel__arrow.q-carousel__next-arrow.q-carousel__next-arrow--horizontal.absolute.flex.flex-center {
   right: 3%;
 }
 
@@ -375,7 +367,7 @@ const colorCounter = (simulador) => {
   .gallery-title {
     position: absolute;
     margin: 0;
-    top: 5%;
+    top: 13%;
     z-index: 10;
     left: 50%;
     transform: translate(-50%, 0);
@@ -411,14 +403,17 @@ const colorCounter = (simulador) => {
 
 @media screen and (min-width: 599.98px) {
   .repVideo {
-    height: 400px;
+    width: 426px;
+    height: 240px;
+    margin: 0 auto;
   }
 }
 
 @media screen and (min-width: 767.98px) {
 
   .repVideo {
-    height: 500px;
+    width: 640px;
+    height: 460px;
   }
 
 
@@ -432,8 +427,8 @@ const colorCounter = (simulador) => {
 
 @media screen and (min-width: 1023.98px) {
   .repVideo {
-    max-width: 992px;
-    height: 700px;
+    width: 854px;
+    height: 480px;
     margin: 0 auto;
   }
 
@@ -462,17 +457,12 @@ const colorCounter = (simulador) => {
 @media screen and (min-width: 1279.98px) {
 
   .repVideo {
-    max-width: 1200px;
-    height: 800px;
+    max-width: 854px;
+    height: 480px;
   }
 }
 
 @media screen and (min-width: 1365.98px) {
-
-  .repVideo {
-    max-width: 1280px;
-    height: 800px;
-  }
 
   #novedades {
 
@@ -489,9 +479,10 @@ const colorCounter = (simulador) => {
 
 @media screen and (min-width: 1599.98px) {
   .repVideo {
-    max-width: 1500px;
-    height: 950px;
+    max-width: 1280px;
+    height: 720px;
   }
+
   #novedades {
 
     .gallery {
@@ -506,8 +497,8 @@ const colorCounter = (simulador) => {
 
 @media screen and (min-width: 1919.98px) {
   .repVideo {
-    max-width: 1820px;
-    height: 1150px;
+    max-width: 1920px;
+    height: 1080px;
     margin: 0 auto;
   }
 }

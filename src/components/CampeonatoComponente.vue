@@ -3,7 +3,7 @@ import CounterComponent from '../components/CounterComponent.vue'
 import { useApiStore } from 'src/stores/api';
 import { useUserStore } from 'src/stores/user'
 import { userDatabaseStore } from 'src/stores/database'
-import { onMounted, onUnmounted, reactive } from 'vue';
+import { onMounted, onUnmounted } from 'vue';
 import { useQuasar } from 'quasar';
 
 const apiStore = useApiStore();
@@ -161,8 +161,8 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido, ni
                   Pre-inscribite al Torneo {{ torneo.name }}
                 </q-tooltip>
               </q-btn>
-              <q-btn :href="`torneo/${torneo.id}`" class="q-mx-sm q-my-xs col-8 col-md-3" icon="las la-trophy"
-                style="background: #ffffff; color: #212121; font-weight: bold;" label="Campeonato">
+              <q-btn :href="`torneo/${torneo.id}`" class="q-mx-sm q-my-xs col-8 col-md-3"
+                icon="las la-trophy" style="background: #ffffff; color: #212121; font-weight: bold;" label="Campeonato">
                 <q-tooltip class="text-caption bg-blue-grey-11 text-black" transition-show="flip-right"
                   transition-hide="flip-left">
                   Fechas, resultados y estadísticas.
@@ -221,7 +221,8 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido, ni
       <h6 class="text-h6 q-my-md montserratExtraBold text-uppercase">
         <q-btn :href="`torneos-finalizados`" class="col-md-3" :disable="torneo.status != 2" icon="las la-trophy"
           style="font-weight: bold;" color="primary" label="Torneos Finalizados" :ripple="{ color: 'red' }">
-          <q-tooltip v-if="torneo.status == 1" style="background-color: transparent;" class="text-caption text-regular text-white" transition-show="scale" transition-hide="scale">
+          <q-tooltip v-if="torneo.status == 1" style="background-color: transparent;"
+            class="text-caption text-regular text-white" transition-show="scale" transition-hide="scale">
             Aún no hay Torneos Finalizados!
           </q-tooltip>
         </q-btn>

@@ -13,15 +13,14 @@ const userStore = useUserStore()
 const databaseStore = userDatabaseStore()
 
 const drawer = ref(false)
-const link = ref('home')
+const link = ref('')
 
-const getTorneosStore = ref([])
+const menu = (seccion) => {
+    link.value = seccion
+    drawer.value = !drawer
+}
 
-
-//Menu lateral
-// const toggleLeftDrawer = () => {
-//   leftDrawerOpen.value = !leftDrawerOpen.value
-// }
+// const getTorneosStore = ref([])
 
 onMounted(async () => {
   userStore.currentUserLog();
@@ -62,7 +61,6 @@ const onScroll = (params) => {
 
   posicion.value = params.position.top
 }
-
 
 </script>
 
@@ -108,7 +106,7 @@ const onScroll = (params) => {
     <q-drawer v-model="drawer" side="left" elevated class="drawer__menu">
       <q-list>
         <q-item-label header>Menu</q-item-label>
-        <q-item clickable to="/" v-ripple @click="link = 'home'" :active="link === 'home'" active-class="bg-lime-11 text-black text-weight-bold">
+        <q-item clickable to="/#home" v-ripple @click="menu('home')" :active="link === 'home'" active-class="bg-lime-11 text-black text-weight-bold" >
           <q-item-section avatar>
             <q-icon name="las la-home" />
           </q-item-section>
@@ -117,7 +115,7 @@ const onScroll = (params) => {
             <q-item-label caption :class="`${link == 'home' ? 'text-black' : 'text-grey-6'}`">Ir al inicio de la web</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item clickable to="/#novedades" v-ripple @click="link = 'novedades'" :active="link === 'novedades'" active-class="bg-lime-11 text-black text-weight-bold">
+        <q-item clickable to="/#novedades" v-ripple @click="menu('novedades')" :active="link === 'novedades'" active-class="bg-lime-11 text-black text-weight-bold">
           <q-item-section avatar>
             <q-icon name="las la-users" />
           </q-item-section>
@@ -127,7 +125,7 @@ const onScroll = (params) => {
           </q-item-section>
         </q-item>
 
-        <q-item clickable to="/#campeonatos" v-ripple @click="link = 'campeonatos'" :active="link === 'campeonatos'" active-class="bg-lime-11 text-black text-weight-bold">
+        <q-item clickable to="/#campeonatos" v-ripple @click="menu('campeonatos')" :active="link === 'campeonatos'" active-class="bg-lime-11 text-black text-weight-bold">
           <q-item-section avatar>
             <q-icon name="las la-trophy" />
           </q-item-section>
@@ -137,7 +135,7 @@ const onScroll = (params) => {
           </q-item-section>
         </q-item>
 
-        <q-item clickable to="/#youTube" v-ripple @click="link = 'youtube'" :active="link === 'youtube'" active-class="bg-lime-11 text-black text-weight-bold">
+        <q-item clickable to="/#youTube" v-ripple @click="menu('youtube')" :active="link === 'youtube'" active-class="bg-lime-11 text-black text-weight-bold">
           <q-item-section avatar>
             <q-icon name="las la-photo-video" />
           </q-item-section>
@@ -158,7 +156,7 @@ const onScroll = (params) => {
           </q-item-section>
         </q-item>
 
-        <q-item clickable to="/torneos-finalizados" v-ripple @click="link = 'finalizados'" :active="link === 'finalizados'" active-class="bg-lime-11 text-black text-weight-bold">
+        <q-item clickable to="/torneos-finalizados" v-ripple @click="menu('finalizados')" :active="link === 'finalizados'" active-class="bg-lime-11 text-black text-weight-bold">
           <q-item-section avatar>
             <q-icon name="las la-medal" />
           </q-item-section>
@@ -168,7 +166,7 @@ const onScroll = (params) => {
           </q-item-section>
         </q-item>
 
-        <q-item v-if="userStore.userData" clickable to="/contacto" v-ripple @click="link = 'contacto'" :active="link === 'contacto'" active-class="bg-lime-11 text-black text-weight-bold">
+        <q-item v-if="userStore.userData" clickable to="/contacto" v-ripple @click="menu('contacto')" :active="link === 'contacto'" active-class="bg-lime-11 text-black text-weight-bold">
           <q-item-section avatar>
             <q-icon name="las la-envelope" />
           </q-item-section>
@@ -178,7 +176,7 @@ const onScroll = (params) => {
           </q-item-section>
         </q-item>
 
-        <q-item v-if="userStore.userData" clickable to="/denuncias" v-ripple @click="link = 'denuncias'" :active="link === 'denuncias'" active-class="bg-lime-11 text-black text-weight-bold">
+        <q-item v-if="userStore.userData" clickable to="/denuncias" v-ripple @click="menu('denuncias')" :active="link === 'denuncias'" active-class="bg-lime-11 text-black text-weight-bold">
           <q-item-section avatar>
             <q-icon name="las la-exclamation-triangle" />
           </q-item-section>
@@ -188,7 +186,7 @@ const onScroll = (params) => {
           </q-item-section>
         </q-item>
 
-        <q-item v-if="userStore.userData" clickable to="/mi-cuenta" v-ripple @click="link = 'micuenta'" :active="link === 'micuenta'" active-class="bg-lime-11 text-black text-weight-bold">
+        <q-item v-if="userStore.userData" clickable to="/mi-cuenta" v-ripple @click="menu('micuenta')" :active="link === 'micuenta'" active-class="bg-lime-11 text-black text-weight-bold">
           <q-item-section avatar>
             <q-icon name="las la-user-circle" />
           </q-item-section>
@@ -271,7 +269,7 @@ const onScroll = (params) => {
   position: fixed;
   top: 1%;
   left: 50%;
-  z-index: 9999;
+  z-index: 2000;
   transform: translate(-50%, 0);
 }
 .upTo {
