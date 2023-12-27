@@ -12,21 +12,24 @@ const useApi = useApiStore()
 </script>
 
 <template>
-  <section id="finalizados">
-    <div class="row">
-      <div class="col-12 q-pa-md q-mt-lg q-mt-md-none">
-        <h4 class="text-h4 text-center text-uppercase montserratExtraBold q-mb-none">Torneos Finalizados</h4>
-        <hr>
-        <p class="sub-contacto text-center text-body2 q-mt-md">
-          Aqui encontrarás los Torneos Históricos de RPM Racing League.
-        </p>
+  <div class="wraper">
+    <section id="finalizados">
+      <div class="row">
+        <div class="col-12 q-pa-md q-mt-lg q-mt-md-none">
+          <h4 class="text-h4 text-center text-uppercase montserratExtraBold q-mb-none">Torneos Finalizados</h4>
+          <hr>
+          <p class="sub-contacto text-center text-body2 q-mt-md">
+            Aqui encontrarás los Torneos Históricos de RPM Racing League.
+          </p>
+        </div>
       </div>
 
       <div class="row row-cards">
         <template v-for="torneo in useApi.torneos">
           <div v-if="torneo.status == 2" class="col-10 q-mx-auto col-md-4 q-pa-md">
             <q-card class="my-card">
-              <q-img :src="`https://rpm.studioatlantic.com.ar/pezls/storage/app/public/images/tournament/${torneo.image}`">
+              <q-img
+                :src="`https://rpm.studioatlantic.com.ar/pezls/storage/app/public/images/tournament/${torneo.image}`">
                 <div class="absolute-bottom text-h6 text-center">
                   {{ torneo.name }}
                 </div>
@@ -39,34 +42,40 @@ const useApi = useApiStore()
           </div>
         </template>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <FooterComponent />
+    <FooterComponent />
+  </div>
 </template>
 
 
 <style lang="scss">
-#finalizados {
-  padding-bottom: 3rem;
-  background-image: repeating-linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.7)),
-    url(../assets/background.jpg);
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  margin-top: 1rem;
+#main__container {
+  height: 100vh;
 
-  .row-cards {
-    width: 100%;
-    max-width: 1100px;
-    margin: 0 auto;
+  .wraper {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
-    .my-card {
-      width: 100%;
-      // max-width: 300px;
+    #finalizados {
+      margin-top: 1rem;
 
+      .row-cards {
+        width: 100%;
+        max-width: 1100px;
+        margin: 0 auto;
+
+        .my-card {
+          width: 100%;
+          // max-width: 300px;
+
+        }
+      }
     }
   }
+
 
   hr {
     width: 10%;

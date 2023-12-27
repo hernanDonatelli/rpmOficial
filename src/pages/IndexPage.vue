@@ -15,9 +15,21 @@ onMounted(async () => {
 
 
 const slide = ref(1)
+const slideVideo = ref('first')
 const slideSponsor = ref(1)
 const autoplay = ref(5000)
+const autoplayVideo = ref(5000)
 const autoplaySponsor = ref(true)
+const videos = ref([
+  {
+    name: "first",
+    src: "https://www.youtube.com/embed/xlxIRlQBOmQ?si=f-4km82z7wTpGwJF"
+  },
+  {
+    name: "second",
+    src: "https://www.youtube.com/embed/DUWWsXNl4C4?si=hwBaai-0Sbq1Pjas"
+  }
+])
 
 const proximaFechaGlobal = async () => {
   let resultObj = {}
@@ -163,24 +175,18 @@ const colorCounter = (simulador) => {
               :autoplay="autoplaySponsor" swipeable animated height="300px">
 
               <q-carousel-slide :name="1" class="column no-wrap">
-                <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap">
-                  <q-img class="rounded-borders col-4 full-height" src="../assets/ferrari.png" />
-                  <q-img class="rounded-borders col-4 full-height" src="../assets/audi.png" />
-                  <q-img class="rounded-borders col-4 full-height" src="../assets/at.png" />
+                <div class="row fit justify-center items-center q-gutter-xs q-col-gutter no-wrap">
+                  <q-img class="rounded-borders col-12 full-height" src="../assets/ferrari.png" />
                 </div>
               </q-carousel-slide>
               <q-carousel-slide :name="2" class="column no-wrap">
                 <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap">
-                  <q-img class="rounded-borders col-4 full-height" src="../assets/audi.png" />
-                  <q-img class="rounded-borders col-4 full-height" src="../assets/ferrari.png" />
-                  <q-img class="rounded-borders col-4 full-height" src="../assets/at.png" />
+                  <q-img class="rounded-borders col-12 full-height" src="../assets/audi.png" />
                 </div>
               </q-carousel-slide>
               <q-carousel-slide :name="3" class="column no-wrap">
                 <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap">
-                  <q-img class="rounded-borders col-4 full-height" src="../assets/audi.png" />
-                  <q-img class="rounded-borders col-4 full-height" src="../assets/at.png" />
-                  <q-img class="rounded-borders col-4 full-height" src="../assets/ferrari.png" />
+                  <q-img class="rounded-borders col-12 full-height" src="../assets/at.png" />
                 </div>
               </q-carousel-slide>
             </q-carousel>
@@ -194,20 +200,32 @@ const colorCounter = (simulador) => {
 
     <!-- CAMPEONATOS -->
     <section id="campeonatos" class="bg-blue-grey-10">
-            <CampeonatoComponente />
+      <CampeonatoComponente />
     </section>
 
-    <!-- <section id="youTube">
-      <h3 class="text-h3 text-uppercase montserratExtraBold text-weight-bold text-center text-blue-grey-10 q-my-none q-py-xl">
-        YouTube</h3>
-      <div class="row flex justify-center youtubeContainer">
+    <section id="youTube">
+      <h3
+        class="text-h3 text-uppercase montserratExtraBold text-weight-bold text-center text-blue-grey-10 q-my-none q-py-xl">
+        Multimedia</h3>
+
+      <q-carousel class="repVideo" animated v-model="slideVideo" infinite transition-next="slide-right"
+        transition-prev="slide-left" arrows control-color="lime-11" control-type="square" control-text-color="black">
+
+
+        <q-carousel-slide v-for="video in videos" :key="video.name" :name="video.name">
+          <q-video :src="video.src" :ratio="16 / 9" />
+
+        </q-carousel-slide>
+
+      </q-carousel>
+      <!-- <div class="row flex justify-center youtubeContainer">
         <div class="col-12">
           <div class="q-pa-md">
             <q-video :ratio="16 / 9" src="https://www.youtube.com/embed/xJi7K8IzOfc" />
           </div>
         </div>
-      </div>
-    </section> -->
+      </div> -->
+    </section>
 
 
     <!-- FOOTER -->
@@ -216,6 +234,17 @@ const colorCounter = (simulador) => {
 </template>
 
 <style lang="scss">
+.repVideo {
+  height: 250px;
+}
+
+.q-carousel__control.q-carousel__arrow.q-carousel__prev-arrow.q-carousel__prev-arrow--horizontal.absolute.flex.flex-center{
+  left: 3%;
+}
+.q-carousel__control.q-carousel__arrow.q-carousel__next-arrow.q-carousel__next-arrow--horizontal.absolute.flex.flex-center{
+  right: 3%;
+}
+
 .hero {
   min-height: 100vh;
   position: relative;
@@ -292,6 +321,7 @@ const colorCounter = (simulador) => {
 }
 
 #youTube {
+  padding-top: 2.5rem;
 
   .youtubeContainer {
     max-width: 1100px;
@@ -355,7 +385,6 @@ const colorCounter = (simulador) => {
 
 #campeonatos {
   position: relative;
-  min-height: 100vh;
   clip-path: polygon(0 0, 100% 3%, 100% 95%, 0 100%);
   z-index: 600;
   padding: 4rem 0 3rem;
@@ -364,14 +393,14 @@ const colorCounter = (simulador) => {
 #sponsors {
   padding: 1rem 0 6rem;
 
-  .q-carousel{
+  .q-carousel {
     background-color: unset;
 
     .q-carousel__slide {
       padding: 0;
       overflow-x: hidden;
 
-      .q-img.q-img--menu.rounded-borders img{
+      .q-img.q-img--menu.rounded-borders img {
         object-fit: none !important;
       }
     }
@@ -380,7 +409,17 @@ const colorCounter = (simulador) => {
 }
 
 
+@media screen and (min-width: 599.98px) {
+  .repVideo {
+    height: 400px;
+  }
+}
+
 @media screen and (min-width: 767.98px) {
+
+  .repVideo {
+    height: 500px;
+  }
 
 
   #intro {
@@ -392,6 +431,12 @@ const colorCounter = (simulador) => {
 }
 
 @media screen and (min-width: 1023.98px) {
+  .repVideo {
+    max-width: 992px;
+    height: 700px;
+    margin: 0 auto;
+  }
+
   #intro {
 
     .introTitle.text-h4 {
@@ -414,7 +459,21 @@ const colorCounter = (simulador) => {
   }
 }
 
+@media screen and (min-width: 1279.98px) {
+
+  .repVideo {
+    max-width: 1200px;
+    height: 800px;
+  }
+}
+
 @media screen and (min-width: 1365.98px) {
+
+  .repVideo {
+    max-width: 1280px;
+    height: 800px;
+  }
+
   #novedades {
 
     .gallery {
@@ -429,6 +488,10 @@ const colorCounter = (simulador) => {
 }
 
 @media screen and (min-width: 1599.98px) {
+  .repVideo {
+    max-width: 1500px;
+    height: 950px;
+  }
   #novedades {
 
     .gallery {
@@ -441,5 +504,11 @@ const colorCounter = (simulador) => {
   }
 }
 
-@media screen and (min-width: 1919.98px) {}
+@media screen and (min-width: 1919.98px) {
+  .repVideo {
+    max-width: 1820px;
+    height: 1150px;
+    margin: 0 auto;
+  }
+}
 </style>

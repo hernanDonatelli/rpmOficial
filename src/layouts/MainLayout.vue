@@ -13,6 +13,7 @@ const userStore = useUserStore()
 const databaseStore = userDatabaseStore()
 
 const drawer = ref(false)
+const link = ref('home')
 
 const getTorneosStore = ref([])
 
@@ -62,13 +63,19 @@ const onScroll = (params) => {
   posicion.value = params.position.top
 }
 
+// const linkActive = () => {
+//   active.value = true;
+
+//   if (active.value == true) {
+//     classMenu = 'bg-lime-11 text-white'
+//   }
+// }
+
 </script>
 
 <template>
   <q-layout id="home" view="hHh LpR fFf">
-    <q-scroll-observer
-    @scroll="onScroll"
-    />
+    <q-scroll-observer @scroll="onScroll" />
     <!-- Button -->
     <q-btn to="#home" :class="`${posicion > 300 ? 'upToVisible' : 'upTo'}`" round color="red-13" icon="las la-angle-up" />
 
@@ -107,52 +114,52 @@ const onScroll = (params) => {
     <q-drawer v-model="drawer" side="left" elevated class="drawer__menu">
       <q-list>
         <q-item-label header>Menu</q-item-label>
-        <q-item clickable to="/" class="text-white" active-class="menu__link" exact>
+        <q-item clickable to="/" v-ripple @click="link = 'home'" :active="link === 'home'" active-class="bg-lime-11 text-black">
           <q-item-section avatar>
             <q-icon name="las la-home" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Home</q-item-label>
-            <q-item-label caption class="text-grey-8">Ir al inicio de la web</q-item-label>
+            <q-item-label caption class="text-grey-6">Ir al inicio de la web</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item clickable to="/#novedades">
+        <q-item clickable to="/#novedades" v-ripple @click="link = 'novedades'" :active="link === 'novedades'" active-class="bg-lime-11 text-black">
           <q-item-section avatar>
             <q-icon name="las la-users" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Novedades</q-item-label>
-            <q-item-label caption class="text-grey-8">Noticias en RPM Racing League</q-item-label>
+            <q-item-label caption class="text-grey-6">Noticias en RPM Racing League</q-item-label>
           </q-item-section>
         </q-item>
 
-        <q-item clickable to="/#campeonatos">
+        <q-item clickable to="/#campeonatos" v-ripple @click="link = 'campeonatos'" :active="link === 'campeonatos'" active-class="bg-lime-11 text-black">
           <q-item-section avatar>
             <q-icon name="las la-trophy" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Campeonatos</q-item-label>
-            <q-item-label caption class="text-grey-8">Nuestras competiciones aquí</q-item-label>
+            <q-item-label caption class="text-grey-6">Nuestras competiciones aquí</q-item-label>
           </q-item-section>
         </q-item>
 
-        <q-item clickable to="/torneos-finalizados">
+        <q-item clickable to="/torneos-finalizados" v-ripple @click="link = 'finalizados'" :active="link === 'finalizados'" active-class="bg-lime-11 text-black">
           <q-item-section avatar>
             <q-icon name="las la-medal" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Finalizados</q-item-label>
-            <q-item-label caption class="text-grey-8">Torneos finalizados de RPM</q-item-label>
+            <q-item-label caption class="text-grey-6">Torneos finalizados de RPM</q-item-label>
           </q-item-section>
         </q-item>
 
-        <q-item clickable to="/#youTube">
+        <q-item clickable to="/#youTube" v-ripple @click="link = 'youtube'" :active="link === 'youtube'" active-class="bg-lime-11 text-black">
           <q-item-section avatar>
             <q-icon name="las la-photo-video" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Multimedia</q-item-label>
-            <q-item-label caption class="text-grey-8">YouTube - Imagenes</q-item-label>
+            <q-item-label caption class="text-grey-6">YouTube - Imagenes</q-item-label>
           </q-item-section>
         </q-item>
         <q-item clickable target="_blank" rel="noopener" href="https://www.youtube.com/@rpmracingleague7342/streams"
@@ -162,34 +169,34 @@ const onScroll = (params) => {
           </q-item-section>
           <q-item-section>
             <q-item-label>YouTube</q-item-label>
-            <q-item-label caption class="text-grey-8">@rpmracingleague7342</q-item-label>
+            <q-item-label caption class="text-grey-6">@rpmracingleague7342</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item v-if="userStore.userData" clickable to="/contacto" active-class="menu__link">
+        <q-item v-if="userStore.userData" clickable to="/contacto" v-ripple @click="link = 'contacto'" :active="link === 'contacto'" active-class="bg-lime-11 text-black">
           <q-item-section avatar>
             <q-icon name="las la-envelope" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Contacto</q-item-label>
-            <q-item-label caption class="text-grey-8">Escribenos por cualquier inquietud</q-item-label>
+            <q-item-label caption class="text-grey-6">Escribenos por cualquier inquietud</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item v-if="userStore.userData" clickable to="/denuncias" active-class="menu__link">
+        <q-item v-if="userStore.userData" clickable to="/denuncias" v-ripple @click="link = 'denuncias'" :active="link === 'denuncias'" active-class="bg-lime-11 text-black">
           <q-item-section avatar>
             <q-icon name="las la-exclamation-triangle" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Denuncias</q-item-label>
-            <q-item-label caption class="text-grey-8">Tuviste un incidente? Denuncialo.</q-item-label>
+            <q-item-label caption class="text-grey-6">Tuviste un incidente? Denuncialo.</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item v-if="userStore.userData" clickable to="/mi-cuenta" active-class="menu__link">
+        <q-item v-if="userStore.userData" clickable to="/mi-cuenta" v-ripple @click="link = 'micuenta'" :active="link === 'micuenta'" active-class="bg-lime-11 text-black">
           <q-item-section avatar>
             <q-icon name="las la-user-circle" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Mi Cuenta</q-item-label>
-            <q-item-label caption class="text-grey-8">Modifica tus datos aquí</q-item-label>
+            <q-item-label caption class="text-grey-6">Modifica tus datos aquí</q-item-label>
           </q-item-section>
         </q-item>
       </q-list>
@@ -197,59 +204,56 @@ const onScroll = (params) => {
 
       <q-list v-for="item in databaseStore.documents" :key="item.id">
         <!-- Seccion Administrador -->
-        <h6 v-if="item.isAdmin" class="text-h6 text-orange-6 text-weight-light q-mb-none q-mt-sm q-pl-md">Administración
+        <h6 v-if="item.isAdmin" class="text-h6 text-orange-6 text-uppercase text-weight-bold q-mb-none q-mt-lg q-pl-md">Administración
         </h6>
 
-        <q-item v-if="item.isAdmin" clickable to="/administrar-torneos" class="text-orange-6" active-class="menu__link">
+        <q-item v-if="item.isAdmin" clickable to="/administrar-torneos" v-ripple @click="link = 'adminTorneos'" :active="link === 'adminTorneos'" active-class="bg-orange-13">
           <q-item-section avatar>
             <q-icon name="las la-trophy" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Torneos</q-item-label>
-            <q-item-label caption class="text-grey-8">Administración de Torneos</q-item-label>
+            <q-item-label caption class="text-blue-grey-1">Administración de Torneos</q-item-label>
           </q-item-section>
         </q-item>
 
-        <q-item v-if="item.isAdmin" clickable to="/administrar-calendarios" class="text-orange-6"
-          active-class="menu__link">
+        <q-item v-if="item.isAdmin" clickable to="/administrar-calendarios" v-ripple @click="link = 'adminCalendar'" :active="link === 'adminCalendar'" active-class="bg-orange-13">
           <q-item-section avatar>
             <q-icon name="las la-calendar" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Calendarios</q-item-label>
-            <q-item-label caption class="text-grey-8">Administración de Calendarios</q-item-label>
+            <q-item-label caption class="text-blue-grey-1">Administración de Calendarios</q-item-label>
           </q-item-section>
         </q-item>
 
-        <q-item v-if="item.isAdmin" clickable to="/administrar-resultados" class="text-orange-6"
-          active-class="menu__link">
+        <q-item v-if="item.isAdmin" clickable to="/administrar-resultados" v-ripple @click="link = 'adminResults'" :active="link === 'adminResults'" active-class="bg-orange-13">
           <q-item-section avatar>
             <q-icon name="las la-poll" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Resultados</q-item-label>
-            <q-item-label caption class="text-grey-8">Administración de Resultados</q-item-label>
+            <q-item-label caption class="text-blue-grey-1">Administración de Resultados</q-item-label>
           </q-item-section>
         </q-item>
 
-        <q-item v-if="item.isAdmin" clickable to="/administrar-posiciones" class="text-orange-6"
-          active-class="menu__link">
+        <q-item v-if="item.isAdmin" clickable to="/administrar-posiciones" v-ripple @click="link = 'adminPosiciones'" :active="link === 'adminPosiciones'" active-class="bg-orange-13">
           <q-item-section avatar>
             <q-icon name="las la-tachometer-alt" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Posiciones</q-item-label>
-            <q-item-label caption class="text-grey-8">Visualizar Tablas de Posiciones</q-item-label>
+            <q-item-label caption class="text-blue-grey-1">Visualizar Tablas de Posiciones</q-item-label>
           </q-item-section>
         </q-item>
 
-        <q-item v-if="item.isAdmin" clickable to="/administrar-noticias" class="text-orange-6" active-class="menu__link">
+        <q-item v-if="item.isAdmin" clickable to="/administrar-noticias" v-ripple @click="link = 'adminNews'" :active="link === 'adminNews'" active-class="bg-orange-13">
           <q-item-section avatar>
             <q-icon name="las la-info-circle" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Noticias</q-item-label>
-            <q-item-label caption class="text-grey-8">Cargar nuevas Noticias o Eventos</q-item-label>
+            <q-item-label caption class="text-blue-grey-1">Cargar nuevas Noticias o Eventos</q-item-label>
           </q-item-section>
         </q-item>
       </q-list>
@@ -271,6 +275,7 @@ const onScroll = (params) => {
   opacity: 0;
   transition: all .2s ease-in;
 }
+
 .upToVisible {
   position: fixed;
   bottom: 7%;
@@ -334,10 +339,6 @@ const onScroll = (params) => {
 
 }
 
-.menu__link {
-  color: red;
-  background-color: $grey-10;
-}
 </style>
 
 

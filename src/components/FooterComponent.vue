@@ -87,6 +87,7 @@ const actualYear = ref(null)
 <style lang="scss" scoped>
 #footer {
     background-color: white;
+    
 
     .footer__rs {
         display: flex;
@@ -158,4 +159,5 @@ const actualYear = ref(null)
         }
     }
 
-}</style>
+}
+</style>
