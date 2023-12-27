@@ -63,13 +63,6 @@ const onScroll = (params) => {
   posicion.value = params.position.top
 }
 
-// const linkActive = () => {
-//   active.value = true;
-
-//   if (active.value == true) {
-//     classMenu = 'bg-lime-11 text-white'
-//   }
-// }
 
 </script>
 
@@ -84,7 +77,8 @@ const onScroll = (params) => {
         <q-btn class="text-red-13" flat dense round @click="drawer = !drawer" aria-label="Menu" icon="las la-bars" />
 
         <q-toolbar-title class="text-red-13 flex column items-center row-sm justify-sm-between q-py-sm">
-          <h4 class="q-my-none text-h5 text-weight-light"><router-link to="/"><span>RPM</span>RacingLeague</router-link>
+          <h4 class="q-my-none text-h5 text-weight-light"><router-link to="/" @click="link = 'home'" :active="link === 'home'">
+            <span>RPM</span>RacingLeague</router-link>
           </h4>
 
           <div v-if="!userStore.loadingSession" class="btn-entrada q-my-xs">
@@ -143,16 +137,6 @@ const onScroll = (params) => {
           </q-item-section>
         </q-item>
 
-        <q-item clickable to="/torneos-finalizados" v-ripple @click="link = 'finalizados'" :active="link === 'finalizados'" active-class="bg-lime-11 text-black text-weight-bold">
-          <q-item-section avatar>
-            <q-icon name="las la-medal" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Finalizados</q-item-label>
-            <q-item-label caption :class="`${link == 'finalizados' ? 'text-black' : 'text-grey-6'}`">Torneos finalizados de RPM</q-item-label>
-          </q-item-section>
-        </q-item>
-
         <q-item clickable to="/#youTube" v-ripple @click="link = 'youtube'" :active="link === 'youtube'" active-class="bg-lime-11 text-black text-weight-bold">
           <q-item-section avatar>
             <q-icon name="las la-photo-video" />
@@ -162,6 +146,7 @@ const onScroll = (params) => {
             <q-item-label caption class="text-grey-6">YouTube - Imagenes</q-item-label>
           </q-item-section>
         </q-item>
+
         <q-item clickable target="_blank" rel="noopener" href="https://www.youtube.com/@rpmracingleague7342/streams"
           active-class="menu__link">
           <q-item-section avatar>
@@ -172,6 +157,17 @@ const onScroll = (params) => {
             <q-item-label caption class="text-grey-6">@rpmracingleague7342</q-item-label>
           </q-item-section>
         </q-item>
+
+        <q-item clickable to="/torneos-finalizados" v-ripple @click="link = 'finalizados'" :active="link === 'finalizados'" active-class="bg-lime-11 text-black text-weight-bold">
+          <q-item-section avatar>
+            <q-icon name="las la-medal" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Finalizados</q-item-label>
+            <q-item-label caption :class="`${link == 'finalizados' ? 'text-black' : 'text-grey-6'}`">Torneos finalizados de RPM</q-item-label>
+          </q-item-section>
+        </q-item>
+
         <q-item v-if="userStore.userData" clickable to="/contacto" v-ripple @click="link = 'contacto'" :active="link === 'contacto'" active-class="bg-lime-11 text-black text-weight-bold">
           <q-item-section avatar>
             <q-icon name="las la-envelope" />
@@ -181,6 +177,7 @@ const onScroll = (params) => {
             <q-item-label caption :class="`${link == 'contacto' ? 'text-black' : 'text-grey-6'}`">Escribenos por cualquier inquietud</q-item-label>
           </q-item-section>
         </q-item>
+
         <q-item v-if="userStore.userData" clickable to="/denuncias" v-ripple @click="link = 'denuncias'" :active="link === 'denuncias'" active-class="bg-lime-11 text-black text-weight-bold">
           <q-item-section avatar>
             <q-icon name="las la-exclamation-triangle" />
@@ -190,6 +187,7 @@ const onScroll = (params) => {
             <q-item-label caption :class="`${link == 'denuncias' ? 'text-black' : 'text-grey-6'}`">Tuviste un incidente? Denuncialo.</q-item-label>
           </q-item-section>
         </q-item>
+
         <q-item v-if="userStore.userData" clickable to="/mi-cuenta" v-ripple @click="link = 'micuenta'" :active="link === 'micuenta'" active-class="bg-lime-11 text-black text-weight-bold">
           <q-item-section avatar>
             <q-icon name="las la-user-circle" />
@@ -314,6 +312,7 @@ const onScroll = (params) => {
 
 #main__container.q-page-container {
   padding-top: 0 !important;
+  padding-left: 0 !important;
   background-image: repeating-linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.9)),
     url(../assets/background.jpg);
   background-size: cover;
