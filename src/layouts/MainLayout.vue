@@ -70,7 +70,7 @@ const onScroll = (params) => {
   <q-layout id="home" view="hHh LpR fFf">
     <q-scroll-observer @scroll="onScroll" />
     <!-- Button -->
-    <q-btn to="#home" :class="`${posicion > 300 ? 'upToVisible' : 'upTo'}`" round color="red-13" icon="las la-angle-up" />
+    <q-btn to="#home" @click="link = 'home'" :active="link === 'home'" :class="`${posicion > 300 ? 'upToVisible' : 'upTo'}`" round color="red-13" icon="las la-angle-up" />
 
     <q-header elevated class="header__nav">
       <q-toolbar>
