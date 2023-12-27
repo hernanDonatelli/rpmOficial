@@ -120,13 +120,13 @@ const columns = [
 </script>
 
 <template>
-    <h4 class="text-uppercase text-center q-mt-xl q-mb-lg">Administrar Resultados</h4>
+    <h4 class="titleSection text-uppercase text-center montserratExtraBold">Administrar Resultados</h4>
 
     <div class="row flex justify-around q-mb-xl">
 
         <!-- Formulario de Creacion de Torneo -->
         <div class="col-6">
-            <h5 class="text-uppercase q-mt-none text-center">Subir Resultados</h5>
+            <h5 class="text-uppercase q-mt-none text-center montserratRegular">Subir Resultados</h5>
             <q-form id="uploadForm" method="POST" @submit.prevent="subirResultado" @reset="onReset" class="q-gutter-md">
 
                 <div class="row flex justify-evenly">
@@ -201,4 +201,3 @@ const columns = [
         </div>
     </div>
 </template>
-

@@ -133,7 +133,7 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido, ni
       backgroundPosition: 'right'
     }">
       <div class="champ-container q-mb-lg">
-        <div :class="borderTorneo(torneo.simulator)" class="torneo-container q-pb-lg">
+        <div :class="borderTorneo(torneo.simulator)" class="torneo-container">
           <p class="simulador fontCustomTitle text-h5 text-white q-mb-none text-center text-uppercase text-weight-bold">{{
             torneo.simulator }}</p>
 
@@ -143,32 +143,32 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido, ni
           <div class="torneo__header flex justify-between items-center row-md">
             <div
               class="titleLogo column justify-center items-center justify-sm-center col-12 col-sm-6 column-md justify-md-start">
-              <h3 class="text-center text-uppercase montserratExtraBold text-white q-mb-xs-sm q-my-none q-pl-none">{{
+              <h3 class="text-center text-uppercase montserratExtraBold text-white q-my-md q-pl-none">{{
                 torneo.name
               }}
               </h3>
             </div>
 
             <!-- Botones -->
-            <div class="buttons flex row justify-around items-center col-sm-6 col-md-6 justify-md-end">
+            <div class="buttons flex row justify-evenly items-center justify-md-end col-sm-6 col-md-12">
               <q-btn
                 @click="inscripcionTorneo(torneo.price, torneo.name, torneo.simulator, useDatabase.documents[0].nombre, useDatabase.documents[0].apellido, useDatabase.documents[0].nickname, useDatabase.documents[0].email, useDatabase.documents[0].movil)"
                 v-if="userStore.userData != null" :class="colorBtn(torneo.simulator)"
-                class="text-white q-mx-lg q-my-xs col-8 col-md-3" icon="lab la-wpforms" style="font-weight: bold;"
+                class="text-white q-mx-sm q-my-xs col-8 col-md-3" icon="lab la-wpforms" style="font-weight: bold;"
                 label="Inscripción">
                 <q-tooltip class="text-caption bg-blue-grey-11 text-black" transition-show="flip-right"
                   transition-hide="flip-left">
                   Pre-inscribite al Torneo {{ torneo.name }}
                 </q-tooltip>
               </q-btn>
-              <q-btn :href="`torneo/${torneo.id}`" class="q-mx-lg q-my-xs col-8 col-md-3" icon="las la-trophy"
+              <q-btn :href="`torneo/${torneo.id}`" class="q-mx-sm q-my-xs col-8 col-md-3" icon="las la-trophy"
                 style="background: #ffffff; color: #212121; font-weight: bold;" label="Campeonato">
                 <q-tooltip class="text-caption bg-blue-grey-11 text-black" transition-show="flip-right"
                   transition-hide="flip-left">
                   Fechas, resultados y estadísticas.
                 </q-tooltip>
               </q-btn>
-              <q-btn :href="torneo.forumURL" target="_blank" class="q-mx-lg q-my-xs col-8 col-md-3"
+              <q-btn :href="torneo.forumURL" target="_blank" class="q-mx-sm q-my-xs col-8 col-md-3"
                 icon="las la-external-link-alt" style="background: #ffffff; color: #212121; font-weight: bold;"
                 label="Foro">
                 <q-tooltip class="text-caption bg-blue-grey-11 text-black" transition-show="flip-right"
@@ -180,7 +180,7 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido, ni
           </div>
 
           <!-- Footer de torneo -->
-          <div class="footer row justify-between items-end justify-md-end items-md-center q-pt-md-xl q-pb-md-md">
+          <div class="footer row justify-between items-end justify-md-end items-md-center q-pt-md-xl q-pb-lg q-pb-md-md">
             <!-- Precio -->
             <div class="price">
               <h4 class="fontCustomTitle text-h3 text-center text-white text-weight-bold q-mb-none q-mt-md-none">${{
@@ -359,7 +359,6 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido, ni
     &__header {
       position: relative;
       z-index: 10;
-      padding-top: 1%;
 
       .titleLogo {
         width: 100%;
@@ -367,6 +366,7 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido, ni
 
         h3 {
           font-size: 2.5rem;
+          line-height: 2rem;
         }
       }
 
@@ -578,11 +578,37 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido, ni
         .torneo__header {
 
           .titleLogo {
-            width: 33%;
+            width: 23%;
 
             h3 {
               font-size: 2rem;
             }
+          }
+
+          .buttons {
+            width: 77%;
+          }
+        }
+
+
+      }
+    }
+  }
+
+}
+
+@media screen and (min-width: 1599.98px) {
+  #campeonatos {
+
+    .torneo {
+
+      .torneo-container {
+
+        .torneo__header {
+
+          .titleLogo {
+            width: 33%;
+
           }
 
           .buttons {

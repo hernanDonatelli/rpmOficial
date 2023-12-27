@@ -41,7 +41,7 @@ const handleSubmit = async () => {
 };
 
 const recuperoPassword = async () => {
-  
+
   if (emailPassword === '') {
     $q.notify({
       color: "red-13",
@@ -73,10 +73,18 @@ const onReset = () => {
           <h5 class="text-h5 text-uppercase montserratExtraBold q-mb-none">Login</h5>
           <hr>
           <q-input class="q-mt-lg" dense color="cyan-6" type="email" v-model.trim="email" label="Tu email *" lazy-rules
-            :rules="rulesEmail" />
+            :rules="rulesEmail">
+            <template v-slot:append>
+              <q-icon name="las la-at" color="blue-grey-4" />
+            </template>
+          </q-input>
 
           <q-input dense color="cyan-6" type="password" v-model.trim="password" label="Ingrese una contraseña *"
-            lazy-rules :rules="rulesPassword" />
+            lazy-rules :rules="rulesPassword">
+            <template v-slot:append>
+              <q-icon name="las la-lock" color="blue-grey-4" />
+            </template>
+          </q-input>
 
           <div class="btns-login q-ml-none">
             <q-btn label="Ingresar" type="submit" color="teal-6" />

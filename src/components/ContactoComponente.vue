@@ -96,7 +96,7 @@ const limpiarCampos = () => {
 <template>
   <section id="contacto">
     <div class="row items-center justify-center">
-      <div class="col-12 col-md-8 col-lg-7 q-pa-md q-mt-lg q-mt-md-none">
+      <div class="col-12 col-md-8 col-lg-7">
         <h4 class="text-h4 text-center text-uppercase montserratExtraBold q-mb-none">Contacto</h4>
         <hr>
         <p class="sub-contacto text-center text-body2 q-mt-md">
@@ -142,6 +142,10 @@ const limpiarCampos = () => {
 #contacto {
   max-width: 95%;
   margin: 2rem auto;
+
+  h4{
+    margin-top: 5rem;
+  }
 
   hr {
     width: 10%;

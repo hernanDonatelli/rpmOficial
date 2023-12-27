@@ -189,7 +189,7 @@ export const useUserStore = defineStore('userStore', {
             color: "red-13",
             textColor: "white",
             icon: "warning",
-            position: "top",
+            position: "center",
             message: errorCodes['auth/user-not-found'],
             timeout: 2000
           });
@@ -220,7 +220,7 @@ export const useUserStore = defineStore('userStore', {
                   color: "teal-6",
                   textColor: "white",
                   icon: "cloud_done",
-                  position: "top",
+                  position: "center",
                   message: "Haz iniciado sesión de manera exitosa!",
                   timeout: 2000
                 });
@@ -230,7 +230,7 @@ export const useUserStore = defineStore('userStore', {
                   color: "red-13",
                   textColor: "white",
                   icon: "warning",
-                  position: "top",
+                  position: "center",
                   message: "Debes validar tu correo electrónico para ingresar",
                   timeout: 1500
                 });
@@ -275,7 +275,7 @@ export const useUserStore = defineStore('userStore', {
           color: "teal-6",
           textColor: "white",
           icon: "cloud_done",
-          position: "top",
+          position: "center",
           message: "Has cerrado la sesión exitosamente!",
           timeout: 2000
         });

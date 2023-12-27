@@ -191,7 +191,7 @@ const onResetEdit = () => {
         height: 100vh;
 
         .title-mi-cuenta {
-            margin-top: 5rem;
+            margin-top: 7rem;
         }
     }
 
@@ -204,6 +204,7 @@ const onResetEdit = () => {
         border: 2.5px solid black;
         margin-top: 1%;
     }
+
 }
 
 ul li {

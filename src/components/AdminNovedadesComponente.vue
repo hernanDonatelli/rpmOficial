@@ -95,13 +95,13 @@ const onReset = () => {
 </script>
 
 <template>
-  <h4 class="text-uppercase text-center q-mt-xl q-mb-lg">Administrar Noticias</h4>
+  <h4 class="text-uppercase text-center titleSection montserratExtraBold">Administrar Noticias</h4>
 
   <div class="row flex justify-around q-mb-xl">
 
     <!-- Formulario de Creacion de Torneo -->
     <div class="col-6">
-      <h5 class="text-uppercase q-mt-none text-center">Subir Noticias</h5>
+      <h5 class="text-uppercase q-mt-none text-center montserratRegular">Subir Noticias</h5>
       <q-form id="uploadNews" method="POST" @submit.prevent="subirNoticia" @reset="onReset" class="q-gutter-md">
 
         <div class="row flex justify-evenly">

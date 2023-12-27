@@ -158,13 +158,13 @@ const columns = [
 </script>
 
 <template>
-    <h4 class="text-uppercase text-center q-mt-xl q-mb-lg">Administrar Calendarios</h4>
+    <h4 class="titleSection text-uppercase text-center montserratExtraBold">Administrar Calendarios</h4>
 
     <div class="row flex justify-around q-mb-xl">
 
         <!-- Formulario de Creacion de Calendario -->
         <div class="col-4">
-            <h5 class="text-uppercase q-mt-none text-center">Crear Fechas</h5>
+            <h5 class="text-uppercase q-mt-none text-center montserratRegular">Crear Fechas</h5>
             <q-form method="POST" @submit.prevent="createCalendar" @reset="onReset" class="q-gutter-md">
 
                 <div class="row flex justify-evenly">
@@ -201,7 +201,7 @@ const columns = [
 
         <!-- Mostrar Calendarios -->
         <div class="col-7 text-center">
-            <h5 class="text-uppercase q-mt-none text-center">Mostrar Calendarios</h5>
+            <h5 class="text-uppercase q-mt-none text-center montserratRegular">Mostrar Calendarios</h5>
             <div class="row justify-center">
                 <div class="col-6">
                     <q-form @submit.prevent="buscarCalendario" class="q-gutter-md">
@@ -256,4 +256,10 @@ const columns = [
         </div>
     </div>
 </template>
+
+<style lang="scss">
+h4.titleSection{
+    padding-top: 5rem;
+}
+</style>
 

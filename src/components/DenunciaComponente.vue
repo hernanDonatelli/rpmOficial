@@ -125,7 +125,7 @@ const torneosApi = async () => {
 <template>
   <section id="denuncias">
     <div class="row items-center justify-center">
-      <div class="col-12 col-lg-10 q-pa-md q-mt-lg">
+      <div class="col-12 col-lg-10">
         <h4 class="text-h4 text-center text-uppercase montserratExtraBold q-mb-none">Denuncias</h4>
         <hr>
         <p class="text-center text-body2 q-mt-md sub-denuncia">
@@ -202,6 +202,10 @@ const torneosApi = async () => {
 #denuncias {
   max-width: 95%;
   margin: 0 auto 2rem;
+
+  h4{
+    margin-top: 7rem;
+  }
 
   hr {
     width: 10%;

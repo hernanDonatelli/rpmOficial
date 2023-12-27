@@ -46,7 +46,7 @@ const getPosiciones = async () => {
 </script>
 
 <template>
-    <h4 class="text-uppercase text-center q-mt-xl q-mb-lg">Tablas de Posiciones</h4>
+    <h4 class="text-uppercase text-center titleSection montserratExtraBold">Tablas de Posiciones</h4>
 
     <div class="row flex justify-center">
         <div class="col-4">

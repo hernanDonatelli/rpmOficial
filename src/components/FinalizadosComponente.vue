@@ -62,6 +62,10 @@ const useApi = useApiStore()
     #finalizados {
       margin-top: 1rem;
 
+      h4{
+        margin-top: 5rem;
+      }
+
       .row-cards {
         width: 100%;
         max-width: 1100px;
