@@ -23,11 +23,7 @@ const autoplaySponsor = ref(true)
 const videos = ref([
   {
     name: "first",
-    src: "https://www.youtube.com/embed/xlxIRlQBOmQ?si=f-4km82z7wTpGwJF"
-  },
-  {
-    name: "second",
-    src: "https://www.youtube.com/embed/DUWWsXNl4C4?si=hwBaai-0Sbq1Pjas"
+    src: "https://www.youtube.com/embed/xlxIRlQBOmQ?si=J3PlMkD06uwES-87"
   }
 ])
 
@@ -208,7 +204,7 @@ const colorCounter = (simulador) => {
         class="text-h3 text-uppercase montserratExtraBold text-weight-bold text-center text-blue-grey-10 q-my-none q-py-xl">
         Multimedia</h3>
 
-      <q-carousel class="repVideo" v-model="slideVideo" swipeable animated control-color="white" navigation arrows transition-next="slide-right" transition-prev="slide-left" transition-duration="250">
+      <q-carousel class="repVideo" v-model="slideVideo" swipeable animated>
 
         <q-carousel-slide v-for="video in videos" :key="video.name" :name="video.name">
           <q-video :src="video.src" :ratio="16 / 9" />
@@ -457,7 +453,7 @@ const colorCounter = (simulador) => {
 @media screen and (min-width: 1279.98px) {
 
   .repVideo {
-    max-width: 854px;
+    width: 854px;
     height: 480px;
   }
 }
@@ -479,7 +475,7 @@ const colorCounter = (simulador) => {
 
 @media screen and (min-width: 1599.98px) {
   .repVideo {
-    max-width: 1280px;
+    width: 1280px;
     height: 720px;
   }
 
@@ -495,11 +491,4 @@ const colorCounter = (simulador) => {
   }
 }
 
-@media screen and (min-width: 1919.98px) {
-  .repVideo {
-    max-width: 1920px;
-    height: 1080px;
-    margin: 0 auto;
-  }
-}
 </style>

@@ -5,7 +5,7 @@ import { useQuasar, QSpinnerGears } from 'quasar'
 const useApi = useApiStore()
 const $q = useQuasar()
 
-defineProps(['id', 'sesion', 'driver', 'piloto', 'orden', 'tituloSesion', 'posicion'])
+defineProps(['id', 'sesion', 'driver', 'piloto', 'orden', 'tituloSesion', 'posicion', 'vehiculo'])
 
 const dialogLaps = ref(false)
 const maximizar = ref(true)
@@ -75,16 +75,18 @@ const getVueltasDriver = async (id, sesion, driver) => {
                     </q-bar>
 
                     <div class="row flex column row-md justify-between items-center q-mb-md q-pt-sm">
-
-                        <h4
-                            class="title-header text-blue-grey-11 text-uppercase q-px-lg q-my-none text-center montserratRegular">
-                            <span class="text-lime-11 text-h3">{{ posicion }}.</span><span class="montserratExtraBold">{{ piloto }}</span>
-                        </h4>
+                        <div class="flex items-end">
+                            <h4
+                                class="title-header text-blue-grey-11 text-uppercase q-px-lg q-my-none text-center montserratRegular">
+                                <span class="text-lime-11 text-h3">{{ posicion }}.</span><span class="montserratExtraBold">{{
+                                    piloto }}</span>
+                            </h4>
+                            <span class="fontCustomTitle text-blue-grey-5 text-h6 block q-mb-xs q-pl-xs">{{ vehiculo }}</span>
+                        </div>
                         <h6
                             class="text-h6 title-header text-blue-grey-12 text-uppercase text-weight-bolder q-pt-none q-px-lg  q-my-none text-center montserratExtraBold">
                             <span class="text-lime-11">{{ tituloSesion }}</span>
                         </h6>
-
                     </div>
 
                     <q-card-section class="q-pt-none">

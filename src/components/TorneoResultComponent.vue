@@ -158,7 +158,7 @@ const getResultsFecha = async (idTorneo, orden) => {
                                                 <LapsInfoComponent :id="idTorneo" :driver="JSON.parse(value).idDriverInfo"
                                                     :sesion="JSON.parse(value).idSessionInfo" :piloto="key" :orden="orden"
                                                     :titulo-sesion="useApi.tituloSesiones[index]"
-                                                    :posicion="JSON.parse(value).posicion" />
+                                                    :posicion="JSON.parse(value).posicion" :vehiculo="JSON.parse(value).vehiculo" />
                                             </td>
                                             <td class="text-center text-blue-grey-3">{{ JSON.parse(value).vehiculo }}</td>
                                             <td class="text-center text-blue-grey-3">{{ JSON.parse(value).vueltas }}</td>

@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 
-onMounted(() => {
+onMounted(async () => {
     const now = new Date()
 
     actualYear.value = now.getFullYear()
@@ -73,7 +73,7 @@ const actualYear = ref(null)
                     Copyright {{ actualYear }} - <span class="text-bold">RPM</span>RacingLeague
                 </p>
                 <p class="col-md-12 text-caption text-center text-blue-grey-10 q-mb-none">
-                    Development by - Donux, SebaCampa, Massik - V1.0 | 2023
+                    Development by - Donux, SebaCampa & MassiK - V1.0 | 2023
                 </p>
                 <p class="col-md-12 text-caption text-center text-blue-grey-10 q-mb-none">
                     Powered by StudioAtlantic
@@ -87,7 +87,7 @@ const actualYear = ref(null)
 <style lang="scss" scoped>
 #footer {
     background-color: white;
-    
+
 
     .footer__rs {
         display: flex;

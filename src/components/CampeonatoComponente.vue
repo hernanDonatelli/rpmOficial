@@ -579,7 +579,7 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido, ni
         .torneo__header {
 
           .titleLogo {
-            width: 23%;
+            width: 33%;
 
             h3 {
               font-size: 2rem;
@@ -587,7 +587,7 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido, ni
           }
 
           .buttons {
-            width: 77%;
+            width: 66%;
           }
         }
 
