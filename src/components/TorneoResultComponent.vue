@@ -36,7 +36,7 @@ const getResultsFecha = async (idTorneo, orden) => {
         spinnerSize: 140,
         backgroundColor: 'bg-grey-10',
         message: 'Cargando información...',
-        messageColor: 'black'
+        messageColor: 'white'
     })
 
     await useApi.getResultsApi(useApi.tokenApi, idTorneo, orden)
@@ -117,7 +117,7 @@ const getResultsFecha = async (idTorneo, orden) => {
                     <q-card-section class="q-pt-none">
                         <div v-for="(infoSesion, index) in useApi.sesiones" :key="index.id" class="sesiones q-pa-md">
                             <div class="flex items-center justify-start q-mb-sm">
-                                <h5 class="text-lime-11 text-uppercase text-weight-bold q-my-none">
+                                <h5 class="text-lime-11 text-uppercase montserratExtraBold q-my-none">
                                     {{ useApi.tituloSesiones[index] }}
                                 </h5>
                                 <q-item class="replayLink q-ml-lg" clickable dense :href="`https://rpmracingleague.net`">

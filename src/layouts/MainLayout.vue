@@ -14,6 +14,7 @@ const databaseStore = userDatabaseStore()
 
 const drawer = ref(false)
 const link = ref('')
+const fechaTop = ref('')
 
 const menu = (seccion) => {
     link.value = seccion
@@ -25,9 +26,24 @@ const menu = (seccion) => {
 onMounted(async () => {
   userStore.currentUserLog();
   getTorneos();
+  fechaHeader()
 
 })
 
+//Funcion para mostrar fecha en header
+const fechaHeader = () => {
+    // Creamos array con los meses del año
+    const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+
+    // Creamos array con los días de la semana
+    const dias_semana = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+
+    // Creamos el objeto fecha instanciándolo con la clase Date
+    const date = new Date();
+
+    // Construimos el formato de salida
+    fechaTop.value = `${dias_semana[date.getDay()]}, ${date.getDate()} de ${meses[date.getMonth()]} de ${date.getUTCFullYear()}`;
+}
 
 //Salir de la sesion
 const logout = async () => {
@@ -80,6 +96,7 @@ const onScroll = (params) => {
           </h4>
 
           <div v-if="!userStore.loadingSession" class="btn-entrada q-my-xs">
+
             <p v-for="user of databaseStore.documents" :key="user.id"
               class="inline-block q-mr-sm q-mb-none text-body2 text-grey-13">
               Hola, <strong>{{ user.nickname }}</strong>
@@ -89,7 +106,9 @@ const onScroll = (params) => {
 
             <register-form-component v-if="databaseStore.documents == ''" />
 
-            <q-btn v-if="databaseStore.documents != ''" @click="logout" class="q-mr-sm logout" color="red-13" size="md" round icon="las la-sign-out-alt" />
+            <q-btn v-if="databaseStore.documents != ''" @click="logout" class="q-mr-sm logout" color="red-13" size="sm" label="Salir" icon="las la-sign-out-alt" />
+
+            <p class="text-blue-grey-7 text-caption q-mb-none date">{{ fechaTop }}</p>
           </div>
           <div v-else>
             <p class="text-caption text-white text-weight-normal text-grey-13 q-mb-none">
@@ -103,7 +122,7 @@ const onScroll = (params) => {
       </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="drawer" side="left" elevated class="drawer__menu">
+    <q-drawer v-model="drawer" side="left" elevated class="drawer__menu q-pb-xl">
       <q-list>
         <q-item-label header>Menu</q-item-label>
         <q-item clickable to="/#home" v-ripple @click="menu('home')" :active="link === 'home'" active-class="bg-lime-11 text-black text-weight-bold" >
@@ -203,7 +222,7 @@ const onScroll = (params) => {
         <h6 v-if="item.isAdmin" class="text-h6 text-orange-6 text-uppercase text-weight-bold q-mb-none q-mt-lg q-pl-md">Administración
         </h6>
 
-        <q-item v-if="item.isAdmin" clickable to="/administrar-torneos" v-ripple @click="link = 'adminTorneos'" :active="link === 'adminTorneos'" active-class="text-black bg-amber-13 text-weight-bold">
+        <q-item v-if="item.isAdmin" clickable to="/administrar-torneos" v-ripple @click="menu('adminTorneos')" :active="link === 'adminTorneos'" active-class="text-black bg-amber-13 text-weight-bold">
           <q-item-section avatar>
             <q-icon name="las la-trophy" />
           </q-item-section>
@@ -213,7 +232,7 @@ const onScroll = (params) => {
           </q-item-section>
         </q-item>
 
-        <q-item v-if="item.isAdmin" clickable to="/administrar-calendarios" v-ripple @click="link = 'adminCalendar'" :active="link === 'adminCalendar'" active-class="text-black bg-amber-13 text-weight-bold">
+        <q-item v-if="item.isAdmin" clickable to="/administrar-calendarios" v-ripple @click="menu('adminCalendar')" :active="link === 'adminCalendar'" active-class="text-black bg-amber-13 text-weight-bold">
           <q-item-section avatar>
             <q-icon name="las la-calendar" />
           </q-item-section>
@@ -223,7 +242,7 @@ const onScroll = (params) => {
           </q-item-section>
         </q-item>
 
-        <q-item v-if="item.isAdmin" clickable to="/administrar-resultados" v-ripple @click="link = 'adminResults'" :active="link === 'adminResults'" active-class="text-black bg-amber-13 text-weight-bold">
+        <q-item v-if="item.isAdmin" clickable to="/administrar-resultados" v-ripple @click="menu('adminResults')" :active="link === 'adminResults'" active-class="text-black bg-amber-13 text-weight-bold">
           <q-item-section avatar>
             <q-icon name="las la-poll" />
           </q-item-section>
@@ -233,7 +252,7 @@ const onScroll = (params) => {
           </q-item-section>
         </q-item>
 
-        <q-item v-if="item.isAdmin" clickable to="/administrar-posiciones" v-ripple @click="link = 'adminPosiciones'" :active="link === 'adminPosiciones'" active-class="text-black bg-amber-13 text-weight-bold">
+        <q-item v-if="item.isAdmin" clickable to="/administrar-posiciones" v-ripple @click="menu('adminPosiciones')" :active="link === 'adminPosiciones'" active-class="text-black bg-amber-13 text-weight-bold">
           <q-item-section avatar>
             <q-icon name="las la-tachometer-alt" />
           </q-item-section>
@@ -243,7 +262,7 @@ const onScroll = (params) => {
           </q-item-section>
         </q-item>
 
-        <q-item v-if="item.isAdmin" clickable to="/administrar-noticias" v-ripple @click="link = 'adminNews'" :active="link === 'adminNews'" active-class="text-black bg-amber-13 text-weight-bold">
+        <q-item v-if="item.isAdmin" clickable to="/administrar-noticias" v-ripple @click="menu('adminNews')" :active="link === 'adminNews'" active-class="text-black bg-amber-13 text-weight-bold">
           <q-item-section avatar>
             <q-icon name="las la-info-circle" />
           </q-item-section>
@@ -326,6 +345,11 @@ const onScroll = (params) => {
     text-decoration: none;
     color: $red-13;
   }
+
+  .date{
+    position: relative;
+    right: 7%;
+  }
 }
 
 .drawer__menu {
@@ -347,6 +371,12 @@ const onScroll = (params) => {
 @media screen and (min-width: 1023.98px){
   .logoRPM{
     max-width: 200px;
+  }
+}
+
+@media screen and (min-width: 1279.98px){
+  .logoRPM{
+    max-width: 215px;
   }
 }
 

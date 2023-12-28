@@ -1,14 +1,13 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 
-onMounted(async () => {
-    const now = new Date()
-
-    actualYear.value = now.getFullYear()
-})
-
 const actualYear = ref(null)
 
+onMounted(() => {
+    const fecha = new Date()
+    actualYear.value = fecha.getFullYear()
+
+})
 
 </script>
 

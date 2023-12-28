@@ -101,4 +101,8 @@ const getPosiciones = async () => {
 </template>
 
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+h4.titleSection{
+    padding-top: 5rem;
+}
+</style>

@@ -203,6 +203,9 @@ const onReset = () => {
 </template>
 
 <style lang="scss" scoped>
+.titleSection{
+  padding-top: 5rem;
+}
 .q-table tbody td {
   min-height: 110px
 }

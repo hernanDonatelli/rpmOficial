@@ -460,6 +460,9 @@ const columns = [
 </template>
 
 <style lang="scss" scoped>
+.titleSection{
+    padding-top: 5rem;
+}
 .q-table tbody td,
 .q-table th {
     height: 110px;

@@ -75,7 +75,7 @@ const getVueltasDriver = async (id, sesion, driver) => {
                     </q-bar>
 
                     <div class="row flex column row-md justify-between items-center q-mb-md q-pt-sm">
-                        <div class="flex items-end">
+                        <div class="flex items-end justify-center">
                             <h4
                                 class="title-header text-blue-grey-11 text-uppercase q-px-lg q-my-none text-center montserratRegular">
                                 <span class="text-lime-11 text-h3">{{ posicion }}.</span><span class="montserratExtraBold">{{
