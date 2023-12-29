@@ -13,10 +13,11 @@ export const userDatabaseStore = defineStore('database', {
   actions: {
     async getAdmin(){
       try {
-        const q = query(collection(db, "usersRPM"), where("isAdmin", "==", true))
+        const q = query(collection(db, "usersRegistered"), where("isAdmin", "==", true))
         const querySnapshot = await getDocs(q);
 
         querySnapshot.forEach((doc) => {
+          
           if (this.admin.length == 0) {
             this.admin.push({
               id: doc.id,
@@ -66,8 +67,6 @@ export const userDatabaseStore = defineStore('database', {
         // console.log(docRef);
       } catch (error) {
         console.log(error);
-      } finally {
-
       }
     },
 

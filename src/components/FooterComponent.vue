@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 
+const oldYear = ref('2006')
 const actualYear = ref(null)
 
 onMounted(() => {
@@ -69,7 +70,7 @@ onMounted(() => {
             </div>
             <div>
                 <p class="col-md-12 text-body2 text-center text-blue-grey-10 q-mb-none q-mt-sm">
-                    Copyright {{ actualYear }} - <span class="text-bold">RPM</span>RacingLeague
+                    <span class="text-bold">RPM</span>RacingLeague © Copyright {{ oldYear }} - {{ actualYear }}
                 </p>
                 <p class="col-md-12 text-caption text-center text-blue-grey-10 q-mb-none">
                     Development by - Donux, SebaCampa & MassiK - V1.0 | 2023

@@ -225,6 +225,7 @@ export const useUserStore = defineStore('userStore', {
                   timeout: 2000
                 });
 
+
               } else {
                 Notify.create({
                   color: "red-13",
@@ -294,17 +295,17 @@ export const useUserStore = defineStore('userStore', {
       return new Promise((resolve, reject) => {
         const unsuscribe = onAuthStateChanged(auth, user => {
           const databaseStore = userDatabaseStore();
-          // console.log(user);
-          if (user.emailVerified) {
-            // console.log(user);
-            this.userData = { email: user.email, uid: user.uid, emailVerified: user.emailVerified };
-
-            databaseStore.getUsers();
-
-          } else {
+          //console.log(auth.currentUser);
+          if (auth.currentUser == null) {
             this.userData = null;
             const databaseStore = userDatabaseStore()
             databaseStore.$reset()
+
+          } else {
+            //console.log(user.emailVerified);
+            this.userData = { email: user.email, uid: user.uid, emailVerified: user.emailVerified };
+
+            databaseStore.getUsers();
           }
           resolve(user);
 

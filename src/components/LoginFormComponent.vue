@@ -69,7 +69,7 @@ const onReset = () => {
   <section id="loginPage">
     <div class="row flex justify-center">
       <div class="formulario col-12 col-md-12">
-        <q-form @submit.prevent="handleSubmit" @reset="onReset" class="q-gutter-md">
+        <q-form @submit.prevent="handleSubmit" @reset="onReset" class="q-gutter-md q-mx-none q-pr-md">
           <h5 class="text-h5 text-uppercase montserratExtraBold q-mb-none">Login</h5>
           <hr>
           <q-input class="q-mt-lg" dense color="cyan-6" type="email" v-model.trim="email" label="Tu email *" lazy-rules
@@ -136,7 +136,7 @@ const onReset = () => {
 
   .btn-open {
     display: block;
-    width: 50%;
+    width: 70%;
     margin: 0 auto;
     line-height: 2.4rem;
   }

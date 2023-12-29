@@ -6,7 +6,7 @@ const requireAuth = async (to, from, next) => {
   userStore.user = await userStore.currentUserLog()
 
   if (!userStore.user) {
-    next('/login')
+    next('/error-404')
   } else {
     await userStore.currentUserLog();
     next()
@@ -23,6 +23,8 @@ const routes = [
       { path: '/', component: () => import('pages/IndexPage.vue') },
       { path: 'login', component: () => import('pages/LoginPage.vue') },
       { path: 'torneos-finalizados', component: () => import('pages/FinalizadosPage.vue') },
+      { path: 'soporte', component: () => import('pages/SoportePage.vue') },
+      { path: 'error-404', component: () => import('pages/Error404.vue') },
       { path: 'contacto', component: () => import('pages/ContactPage.vue'), beforeEnter: requireAuth },
       { path: 'denuncias', component: () => import('pages/DenunciaPage.vue'), beforeEnter: requireAuth },
       { path: 'mi-cuenta', component: () => import('pages/MiCuentaPage.vue'), beforeEnter: requireAuth },
