@@ -32,8 +32,8 @@ import FooterComponent from './FooterComponent.vue';
                         <div>
                             <p>
                                 Una vez descargado el programa, instalalo en tu computadora. La instalación es bastante
-                                intuitiva, si a pesar de ellos tenes dudas, contactate con nosotros por escrito en la
-                                sección "Contacto".
+                                intuitiva, pero si tenes dudas, contactate con nosotros por escrito en la
+                                sección <RouterLink to="/contacto">Contacto</RouterLink> (debes estar Registrado para ello).
                             </p>
                         </div>
                     </q-timeline-entry>
