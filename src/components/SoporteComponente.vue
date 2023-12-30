@@ -21,9 +21,7 @@ import FooterComponent from './FooterComponent.vue';
 
                     <q-timeline-entry title="Descargar TeamSpeak 3" icon="download">
                         <div>
-                            <p>Descargar el software TeamSpeak3 desde su página oficial en español.
-                                <a href="https://www.teamspeak.com/es/downloads/" target="_blank">Descargar TeamSpeak3</a>
-                                (serás redirigido a la web oficial).
+                            <p><a href="https://www.teamspeak.com/es/downloads/" target="_blank">Descargar TeamSpeak3</a> desde su página oficial en español (enlace externo a la web oficial).
                             </p>
                         </div>
                     </q-timeline-entry>
@@ -38,7 +36,7 @@ import FooterComponent from './FooterComponent.vue';
                         </div>
                     </q-timeline-entry>
 
-                    <q-timeline-entry title="Hardware listo" icon="headset_mic">
+                    <q-timeline-entry title="Micrófono y auriculares" icon="headset_mic">
                         <div>
                             <p>
                                 Una vez instalado TeamSpeak3 y previo a ejecutarlo, conectá el micrófono y auriculares.
@@ -61,10 +59,10 @@ import FooterComponent from './FooterComponent.vue';
                             </p>
                             <p>
                                 <ul class="q-pl-sm">
-                                    <li><em><b>IP Address</b></em>: 190.183.221.107</li>
-                                    <li><em><b>Port</b></em>: 9987</li>
-                                    <li><em><b>Nickname</b></em>: (nombre de usuario que vas a usar)</li>
-                                    <li><em><b>Server Password</b></em>: rpmrpm</li>
+                                    <li><em><b>IP Address</b></em> : 190.183.221.107</li>
+                                    <li><em><b>Port</b></em> : 9987</li>
+                                    <li><em><b>Nickname</b></em> : (nombre de usuario que vas a usar)</li>
+                                    <li><em><b>Server Password</b></em> : rpmrpm</li>
                                 </ul>
 
                             </p>
@@ -91,7 +89,7 @@ import FooterComponent from './FooterComponent.vue';
 #soporte {
 
     h4.titleSection {
-        padding-top: 7rem;
+        padding-top: 4rem;
     }
 
     hr {

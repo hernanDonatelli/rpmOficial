@@ -6,9 +6,6 @@ const $q = useQuasar();
 const useApi = useApiStore()
 
 
-
-
-
 </script>
 
 <template>

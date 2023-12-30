@@ -19,15 +19,13 @@ const fechaTop = ref('')
 const menu = (seccion) => {
   link.value = seccion
   drawer.value = !drawer
-}
 
-// const getTorneosStore = ref([])
+}
 
 onMounted(async () => {
   userStore.currentUserLog();
   getTorneos();
   fechaHeader()
-
 })
 
 //Funcion para mostrar fecha en header
@@ -208,7 +206,7 @@ const onScroll = (params) => {
               TeamSpeak3</q-item-label>
           </q-item-section>
         </q-item>
-        
+
         <q-item v-if="userStore.userData" clickable to="/contacto" v-ripple @click="menu('contacto')"
           :active="link === 'contacto'" active-class="bg-lime-11 text-black text-weight-bold">
           <q-item-section avatar>
