@@ -31,7 +31,7 @@ import FooterComponent from './FooterComponent.vue';
                             <p>
                                 Una vez descargado el programa, instalalo en tu computadora. La instalación es bastante
                                 intuitiva, pero si tenes dudas, contactate con nosotros por escrito en la
-                                sección <RouterLink to="/contacto">Contacto</RouterLink> (debes estar Registrado para ello).
+                                sección <a href="/contacto">Contacto</a> (debes estar Registrado para ello).
                             </p>
                         </div>
                     </q-timeline-entry>
@@ -71,7 +71,7 @@ import FooterComponent from './FooterComponent.vue';
 
                     <q-timeline-entry title="Si algo falló..." color="red-13" icon="error_outline">
                         <div>
-                            <p>Si tuviste algún inconveniente con la descarga y/o instalación del TeamSpeak3, contactanos a través de esta web mediante el formulario que encontrarás en la sección de <RouterLink to="/contacto">Contacto</RouterLink> (debes estar Registrado para ello). Te responderemos a la brevedad.</p>
+                            <p>Si tuviste algún inconveniente con la descarga y/o instalación del TeamSpeak3, contactanos a través de esta web mediante el formulario que encontrarás en la sección de <a href="/contacto">Contacto</a> (debes estar Registrado para ello). Te responderemos a la brevedad.</p>
                         </div>
                     </q-timeline-entry>
 
@@ -89,7 +89,7 @@ import FooterComponent from './FooterComponent.vue';
 #soporte {
 
     h4.titleSection {
-        padding-top: 4rem;
+        padding-top: 5rem;
     }
 
     hr {

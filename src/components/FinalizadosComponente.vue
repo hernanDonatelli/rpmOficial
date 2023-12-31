@@ -48,7 +48,6 @@ const useApi = useApiStore()
 
 <style lang="scss">
 #main__container {
-  height: 100vh;
 
   .wraper {
     height: 100%;
@@ -57,6 +56,7 @@ const useApi = useApiStore()
     justify-content: space-between;
 
     #finalizados {
+      min-height: 65vh;
       margin-top: 1rem;
 
       h4{

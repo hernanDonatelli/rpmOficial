@@ -178,12 +178,7 @@ const onResetEdit = () => {
 
 <style lang="scss" scoped>
 #mi-cuenta {
-    height: auto;
-    background: repeating-linear-gradient(#ffffffe9, rgba(255, 255, 255, 0.789)), url(../assets/wall_4.jpg);
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center left;
-    margin-bottom: 2rem;
+    padding-bottom: 2rem;
 
     .mi-cuenta-container {
         max-width: 95%;
@@ -191,7 +186,7 @@ const onResetEdit = () => {
         height: 100vh;
 
         .title-mi-cuenta {
-            margin-top: 7rem;
+            margin-top: 8rem;
         }
     }
 

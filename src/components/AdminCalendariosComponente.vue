@@ -163,12 +163,12 @@ const columns = [
     <div class="row flex justify-around q-mb-xl">
 
         <!-- Formulario de Creacion de Calendario -->
-        <div class="col-4">
+        <div class="col-10 col-md-6">
             <h5 class="text-uppercase q-mt-none text-center montserratRegular">Crear Fechas</h5>
             <q-form method="POST" @submit.prevent="createCalendar" @reset="onReset" class="q-gutter-md">
 
                 <div class="row flex justify-evenly">
-                    <div class="col-12">
+                    <div class="col-12 col-md-10 col-xl-8">
                         <div class="form-group q-mb-md">
                             <q-select filled dense name="createTorneo" v-model="createFecha" :options="useApi.torneoOpt"
                                 hint="Seleccionar una opción" label="Torneo" />
@@ -193,17 +193,17 @@ const columns = [
                 <div class="row q-mt-xl">
                     <div class="col-12 text-center">
                         <q-btn class="q-mr-lg" type="submit" color="teal-14" text-color="white" label="Crear Fecha" />
-                        <q-btn class="q-ml-lg" type="reset" color="red-13" text-color="white" label="Limpiar Campos" />
+                        <q-btn class="q-ml-lg" type="reset" color="red-13" text-color="white" label="Limpiar" />
                     </div>
                 </div>
             </q-form>
         </div>
 
         <!-- Mostrar Calendarios -->
-        <div class="col-7 text-center">
-            <h5 class="text-uppercase q-mt-none text-center montserratRegular">Mostrar Calendarios</h5>
+        <div class="col-10 col-md-9 col-xl-7 text-center">
+            <h5 class="text-uppercase q-mt-xl q-mb-sm text-center montserratRegular">Mostrar Calendarios</h5>
             <div class="row justify-center">
-                <div class="col-6">
+                <div class="col-12 col-md-9 col-lg-6">
                     <q-form @submit.prevent="buscarCalendario" class="q-gutter-md">
                         <div>
                             <div class="form-group q-mb-md">
@@ -219,7 +219,7 @@ const columns = [
 
             </div>
 
-            <div class="col-12 q-pa-md tabla-torneos">
+            <div class="q-pa-md tabla-torneos q-mt-lg">
                 <q-table v-if="useApi.calendar.length != 0" :title="`Calendario ${torneoName}`" :rows="useApi.calendar"
                     :columns="columns" :loading="useApi.calendar.length == 0 ? true : false" row-key="name"
                     :rows-per-page-options="[10, 15]">

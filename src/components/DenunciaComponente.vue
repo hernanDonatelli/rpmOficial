@@ -36,8 +36,8 @@ const rulesEmail = [
 
 //Metodos
 const submitDenuncia = async () => {
-  // console.log(instante.value);
-  if (!denuncia.torneo || !denuncia.instante || !denuncia.emailDestinatario || !denuncia.comentarios || !denuncia.userDenunciante || !denuncia.evento || !denuncia.userDenunciado || !denuncia.sesion) {
+
+  if (!denuncia.torneo || !denuncia.instante || !denuncia.emailDenunciante || !denuncia.comentarios || !denuncia.userDenunciante || !denuncia.evento || !denuncia.userDenunciado || !denuncia.sesion) {
     $q.notify({
       color: "red-5",
       textColor: "white",
@@ -186,7 +186,7 @@ const torneosApi = async () => {
           </div>
 
           <div class="row flex justify-center">
-            <q-btn @click="limpiarCampos" label="Limpiar Campos" type="reset" color="red-13" class="q-mr-xl" />
+            <q-btn @click="limpiarCampos" label="Limpiar" type="reset" color="red-13" class="q-mr-xl" />
             <q-btn label="Enviar Denuncia" type="submit" color="teal-6" />
           </div>
         </q-form>
@@ -204,7 +204,7 @@ const torneosApi = async () => {
   margin: 0 auto 2rem;
 
   h4{
-    margin-top: 7rem;
+    margin-top: 8rem;
   }
 
   hr {

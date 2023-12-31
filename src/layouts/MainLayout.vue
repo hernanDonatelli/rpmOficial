@@ -98,7 +98,7 @@ const onScroll = (params) => {
           <div v-if="!userStore.loadingSession" class="btn-entrada q-my-xs">
 
             <p v-for="user of databaseStore.documents" :key="user.id"
-              class="inline-block q-mr-sm q-mb-none text-body2 text-grey-13">
+              class="inline-block q-mr-sm q-mb-none text-body2 text-blue-grey-2">
               Hola, <strong>{{ user.nickname }}</strong>
             </p>
 
@@ -109,7 +109,7 @@ const onScroll = (params) => {
             <q-btn v-if="databaseStore.documents != ''" @click="logout" class="q-mr-sm logout" color="red-13" size="sm"
               label="Salir" icon="las la-sign-out-alt" />
 
-            <p class="text-blue-grey-7 text-caption q-mb-none date">{{ fechaTop }}</p>
+            <p class="text-blue-grey-5 text-caption q-mb-none date">{{ fechaTop }}</p>
           </div>
           <div v-else>
             <p class="text-caption text-white text-weight-normal text-grey-13 q-mb-none">
@@ -377,7 +377,7 @@ const onScroll = (params) => {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-
+  height: auto;
 }
 
 .header__nav {

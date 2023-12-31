@@ -233,13 +233,13 @@ const columns = [
     <div class="row flex justify-around q-mb-xl">
 
         <!-- Formulario de Creacion de Torneo -->
-        <div class="col-10">
+        <div class="col-12 col-md-10 col-lg-8">
             <h5 class="text-uppercase q-mt-none text-center montserratRegular">Crear Torneo</h5>
             <q-form id="formulario" method="POST" enctype="multipart/form-data" @submit.prevent="crearTorneo"
                 @reset="onReset" class="q-gutter-md">
 
                 <div class="row flex justify-evenly">
-                    <div class="col-4">
+                    <div class="col-10 col-md-5">
                         <div class="form-group q-mb-md">
                             <q-select filled dense name="plataforma" v-model="plataforma" :options="useApi.plataformas"
                                 hint="Seleccionar una opción" label="Plataforma" />
@@ -258,7 +258,7 @@ const columns = [
                         </div>
                     </div>
 
-                    <div class="col-4">
+                    <div class="col-10 col-md-5">
                         <div class="form-group q-mb-md">
                             <q-input filled dense name="puntosCarreraCorta" v-model="puntosCarreraCorta"
                                 label="Puntos de Series/Carrera Corta" hint="Numeros (separados por coma)" />
@@ -295,7 +295,7 @@ const columns = [
                 <div class="row q-mt-xl">
                     <div class="col-12 text-center">
                         <q-btn class="q-mr-lg" type="submit" color="teal-14" text-color="white" label="Crear Torneo" />
-                        <q-btn class="q-ml-lg" type="reset" color="red-13" text-color="white" label="Limpiar Campos" />
+                        <q-btn class="q-ml-lg" type="reset" color="red-13" text-color="white" label="Limpiar" />
                     </div>
                 </div>
             </q-form>

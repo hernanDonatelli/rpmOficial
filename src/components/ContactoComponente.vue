@@ -125,7 +125,7 @@ const limpiarCampos = () => {
           </div>
 
           <div class="row flex justify-center items-center">
-            <q-btn @click="limpiarCampos" label="Limpiar Campos" type="reset" color="red-13" class="q-mr-xl" />
+            <q-btn @click="limpiarCampos" label="Limpiar" type="reset" color="red-13" class="q-mr-xl" />
             <q-btn label="Enviar Mensaje" type="submit" color="teal-6" />
           </div>
 
@@ -144,7 +144,7 @@ const limpiarCampos = () => {
   margin: 2rem auto;
 
   h4{
-    margin-top: 5rem;
+    margin-top: 6rem;
   }
 
   hr {

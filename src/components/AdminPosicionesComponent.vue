@@ -49,7 +49,7 @@ const getPosiciones = async () => {
     <h4 class="text-uppercase text-center titleSection montserratExtraBold">Tablas de Posiciones</h4>
 
     <div class="row flex justify-center">
-        <div class="col-4">
+        <div class="col-10 col-md-6 col-lg-4">
             <q-form @submit.prevent="getPosiciones" class="q-gutter-md">
                 <div>
                     <div class="form-group q-mb-md">
@@ -66,7 +66,7 @@ const getPosiciones = async () => {
     </div>
 
     <div class="row flex justify-around q-mb-xl">
-        <div class="col-8">
+        <div class="col-10 col-lg-8 col-xl-6">
             <h5>Posiciones {{ torneo }}</h5>
             <q-markup-table flat dense class="bg-blue-grey-1">
                 <thead class="bg-grey-13">

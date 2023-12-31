@@ -201,7 +201,7 @@ const colorCounter = (simulador) => {
 
     <section id="youTube">
       <h3
-        class="text-h3 text-uppercase montserratExtraBold text-weight-bold text-center text-blue-grey-10 q-my-none q-py-xl">
+        class="text-h3 text-uppercase montserratExtraBold text-weight-bold text-center text-blue-grey-10 q-my-none q-pb-md">
         Multimedia</h3>
 
       <q-carousel class="repVideo" v-model="slideVideo" swipeable animated>
@@ -311,6 +311,10 @@ const colorCounter = (simulador) => {
 #youTube {
   padding-top: 2.5rem;
 
+  h3{
+    padding-top: 5rem;
+  }
+
   .youtubeContainer {
     max-width: 1100px;
     margin: 0 auto;
@@ -363,7 +367,7 @@ const colorCounter = (simulador) => {
   .gallery-title {
     position: absolute;
     margin: 0;
-    top: 13%;
+    top: 15%;
     z-index: 10;
     left: 50%;
     transform: translate(-50%, 0);

@@ -123,7 +123,7 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido, ni
 </script>
 
 <template>
-  <h3 class="text-h3 text-uppercase montserratExtraBold text-weight-bold text-center text-grey-5 q-mb-none q-pb-xl">
+  <h3 class="text-uppercase montserratExtraBold text-weight-bold text-center text-grey-5 q-mb-none q-pb-xl">
     Campeonatos</h3>
   <template v-for="(torneo, index) in apiStore.torneos" :key="index">
     <div v-if="torneo.status == 1" class="torneo" :style="{
@@ -261,6 +261,10 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido, ni
 }
 
 #campeonatos {
+
+  h3{
+    font-size: 2.5rem;
+  }
 
   .positionList {
     position: relative;

@@ -99,8 +99,8 @@ const onReset = () => {
 
   <div class="row flex justify-around q-mb-xl">
 
-    <!-- Formulario de Creacion de Torneo -->
-    <div class="col-6">
+    <!-- Formulario de Creacion de Noticia -->
+    <div class="col-10 col-md-8 col-lg-6 col-xl-4">
       <h5 class="text-uppercase q-mt-none text-center montserratRegular">Subir Noticias</h5>
       <q-form id="uploadNews" method="POST" @submit.prevent="subirNoticia" @reset="onReset" class="q-gutter-md">
 
@@ -138,7 +138,7 @@ const onReset = () => {
         <div class="row q-mt-xl">
           <div class="col-12 text-center">
             <q-btn class="q-mr-lg" type="submit" color="teal-14" text-color="white" label="Subir Noticia" />
-            <q-btn class="q-ml-lg" type="reset" color="red-13" text-color="white" label="Limpiar Campos" />
+            <q-btn class="q-ml-lg" type="reset" color="red-13" text-color="white" label="Limpiar" />
           </div>
         </div>
       </q-form>
@@ -146,7 +146,7 @@ const onReset = () => {
   </div>
 
   <div class="row">
-    <div class="col-12 q-pa-md tabla-torneos">
+    <div class="col-12 q-mx-auto q-pa-md tabla-torneos">
 
       <q-table title="NOTICIAS" :rows="useApi.noticias" :columns="columns"
         :loading="useApi.noticias.length == 0 ? true : false" row-key="id">
