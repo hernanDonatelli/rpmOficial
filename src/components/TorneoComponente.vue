@@ -1,7 +1,7 @@
 <script setup>
 import CounterComponent from '../components/CounterComponent.vue'
 import { useApiStore } from 'src/stores/api'
-import { onMounted, onBeforeUnmount, onUnmounted } from 'vue'
+import { ref, onMounted, onBeforeUnmount, onUnmounted } from 'vue'
 import { useQuasar, QSpinnerGears } from 'quasar'
 import TorneoResultComponent from './TorneoResultComponent.vue'
 import FooterComponent from '../components/FooterComponent.vue'
@@ -112,7 +112,7 @@ const fechaCountdown = async () => {
     try {
         const fecha = await apiStore.proximaFechaApi(JSON.parse(localStorage.getItem('token')), route.params.id)
 
-        if(fecha){
+        if (fecha) {
             const arrFecha = fecha.date.split('-');
             const circuito = fecha.circuit
 
@@ -127,7 +127,7 @@ const fechaCountdown = async () => {
 
             apiStore.arrayFechasCounter.push((resultObj))
 
-        }else{
+        } else {
             return
         }
 
@@ -139,9 +139,22 @@ const fechaCountdown = async () => {
 
 }
 
+const posicion = ref(0)
+
+const onScroll = (params) => {
+
+    posicion.value = params.position.top
+}
+
+
+
 </script>
 
 <template>
+    <q-scroll-observer @scroll="onScroll" />
+    <!-- Button -->
+    <q-btn to="#torneo" :class="`${posicion > 300 ? 'upToVisible' : 'upTo'}`" round color="red-13" icon="las la-angle-up" />
+
     <section id="torneo">
         <div class="hero__champ" :style="{
             backgroundImage: `repeating-linear-gradient(#00000005, rgba(0, 0, 0, 0)),url(https://rpm.studioatlantic.com.ar/pezls/storage/app/public/images/tournament/${apiStore.torneo.image})`,
@@ -218,7 +231,7 @@ const fechaCountdown = async () => {
                     <!-- tabla de Posiciones -->
                     <div>
                         <h4
-                            class="text-uppercase text-weight-bolder text-blue-grey-8 text-center q-mt-lg q-mb-md montserratExtraBold">
+                            class="titles text-uppercase text-weight-bolder text-blue-grey-8 text-center q-mt-lg q-mb-md montserratExtraBold">
                             Campeonato </h4>
                         <q-markup-table flat dense>
                             <thead>
@@ -251,6 +264,24 @@ const fechaCountdown = async () => {
 
 
 <style lang="scss" scoped>
+.upTo {
+    position: fixed;
+    bottom: 7%;
+    right: 2%;
+    z-index: 9999;
+    opacity: 0;
+    transition: all .2s ease-in;
+}
+
+.upToVisible {
+    position: fixed;
+    bottom: 7%;
+    right: 2%;
+    z-index: 9999;
+    opacity: 1;
+    transition: all .2s ease-in;
+}
+
 #torneo {
     padding-bottom: 3rem;
     background-image: repeating-linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.7)),
@@ -261,7 +292,7 @@ const fechaCountdown = async () => {
 
     .calendario {
         width: 90%;
-        margin: -3.5rem auto 0;
+        margin: -4rem auto 0;
         background-color: rgba(255, 255, 255, 1);
         position: relative;
         z-index: 110;
@@ -270,6 +301,15 @@ const fechaCountdown = async () => {
         box-shadow: 3px 3px 10px -1px rgba(0, 0, 0, 0.25);
         -webkit-box-shadow: 3px 3px 10px -1px rgba(0, 0, 0, 0.25);
         -moz-box-shadow: 3px 3px 10px -1px rgba(0, 0, 0, 0.25);
+
+        .titles {
+            border-left: 10px solid $teal-13;
+            display: inline-block;
+            padding-left: 0.25rem;
+            position: relative;
+            left: 50%;
+            transform: translate(-50%, 0);
+        }
     }
 
 
@@ -285,12 +325,13 @@ const fechaCountdown = async () => {
 
     .hero__champ {
         position: relative;
-        min-height: 350px;
+        min-height: 450px;
 
         .container-champ {
-            height: 350px;
+            height: 450px;
 
             h3 {
+                font-size: 2.5rem;
                 margin-top: 2rem;
                 margin-bottom: 1.5rem;
                 position: relative;
@@ -323,6 +364,15 @@ const fechaCountdown = async () => {
     z-index: 110;
 }
 
+@media screen and (min-width: 599.98px) {
+
+    #torneo {
+        .calendario {
+            margin-top: -5rem;
+        }
+    }
+}
+
 @media screen and (min-width: 1023.98px) {
 
     #torneo {
@@ -333,23 +383,14 @@ const fechaCountdown = async () => {
 
                 h3 {
                     margin-top: 0;
+                    font-size: 3rem;
                 }
             }
         }
 
         .calendario {
-            width: 75%;
-            margin-top: -5.5rem;
-        }
-    }
-}
-
-@media screen and (min-width: 1279.98px) {
-
-    #torneo {
-
-        .calendario {
-            width: 75%;
+            width: 80%;
+            margin-top: -7rem;
         }
     }
 }

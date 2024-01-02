@@ -13,7 +13,7 @@ const openModalRegister = ref(false);
   </q-dialog>
   <q-btn
     @click="openModalRegister = true"
-    class="q-mr-sm btn-register"
+    class="btn-register"
     size="sm"
     color="blue-grey-7"
     style="color: lightgrey"

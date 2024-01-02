@@ -1,14 +1,26 @@
 <script setup>
+import { ref } from 'vue'
 import FooterComponent from "./FooterComponent.vue";
 import { useQuasar } from "quasar";
 import { useApiStore } from "src/stores/api";
 const $q = useQuasar();
 const useApi = useApiStore()
 
+const posicion = ref(0)
+
+const onScroll = (params) => {
+  posicion.value = params.position.top
+}
+
 
 </script>
 
 <template>
+  <q-scroll-observer @scroll="onScroll" />
+  <!-- Button -->
+  <q-btn to="#finalizados" :class="`${posicion > 300 ? 'upToVisible' : 'upTo'}`" round color="red-13"
+    icon="las la-angle-up" />
+
   <div class="wraper">
     <section id="finalizados">
       <div class="row">
@@ -47,6 +59,24 @@ const useApi = useApiStore()
 
 
 <style lang="scss">
+.upTo {
+  position: fixed;
+  bottom: 7%;
+  right: 2%;
+  z-index: 9999;
+  opacity: 0;
+  transition: all .2s ease-in;
+}
+
+.upToVisible {
+  position: fixed;
+  bottom: 7%;
+  right: 2%;
+  z-index: 9999;
+  opacity: 1;
+  transition: all .2s ease-in;
+}
+
 #main__container {
 
   .wraper {
@@ -56,10 +86,10 @@ const useApi = useApiStore()
     justify-content: space-between;
 
     #finalizados {
-      min-height: 65vh;
+      min-height: 150vh;
       margin-top: 1rem;
 
-      h4{
+      h4 {
         margin-top: 5rem;
       }
 
