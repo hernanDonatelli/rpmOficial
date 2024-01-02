@@ -311,7 +311,7 @@ export const useApiStore = defineStore('useApiStore', {
 
             if (data.success) {
               Notify.create({
-                color: "teal-14",
+                color: "teal-6",
                 textColor: "white",
                 icon: "cloud_done",
                 html: true,

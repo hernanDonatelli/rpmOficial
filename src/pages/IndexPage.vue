@@ -6,10 +6,19 @@ import FooterComponent from '../components/FooterComponent.vue';
 import { useApiStore } from 'src/stores/api'
 
 const useApi = useApiStore()
+const noFecha = ref('')
 
 onMounted(async () => {
-  await proximaFechaGlobal()
   await useApi.getNoticiasApi(JSON.parse(localStorage.getItem('token')))
+
+  if(useApi.proximaFechaGlobal == null){
+    noFecha.value = 'Buscando...'
+    await proximaFechaGlobal()
+
+    if(useApi.proximaFechaGlobal == null){
+      noFecha.value = 'No hay fecha programada'
+    }
+  }
 })
 
 
@@ -32,39 +41,37 @@ const proximaFechaGlobal = async () => {
 
   //Obtengo la proxima fecha y el ID del torneo
   const fecha = await useApi.proximaFechaGlobalApi(JSON.parse(localStorage.getItem('token')))
-  const torneo = fecha.league_info_id;
 
-  //Obtengo el Nombre del Torneo
-  const torneosApi = await useApi.getTorneosApi(JSON.parse((localStorage.getItem('token'))))
-  const match = torneosApi.find(item => item.id == torneo)
+  if(fecha){
+    const torneo = fecha.league_info_id;
 
-  //Obtengo el Date de la proxima fecha global
-  const arrFecha = fecha.date.split('-');
+    //Obtengo el Nombre del Torneo
+    const torneosApi = await useApi.getTorneosApi(JSON.parse((localStorage.getItem('token'))))
+    const match = torneosApi.find(item => item.id == torneo)
 
-  //Obtengo el circuito
-  const circuito = fecha.circuit
+    //Obtengo el Date de la proxima fecha global
+    const arrFecha = fecha.date.split('-');
 
-  resultObj = {
-    name: match.name,
-    year: parseInt(arrFecha[0]),
-    month: parseInt(arrFecha[1]),
-    day: parseInt(arrFecha[2]),
-    circuit: circuito,
-    simulator: match.simulator
+    //Obtengo el circuito
+    const circuito = fecha.circuit
+
+    resultObj = {
+      name: match.name,
+      year: parseInt(arrFecha[0]),
+      month: parseInt(arrFecha[1]),
+      day: parseInt(arrFecha[2]),
+      circuit: circuito,
+      simulator: match.simulator
+    }
+
+    useApi.proximaFechaGlobal = resultObj
+
+  }else{
+    return
   }
 
-  useApi.proximaFechaGlobal = resultObj
-
 }
 
-const colorCounter = (simulador) => {
-
-  if (simulador == 'Assetto Corsa') return 'counter-Assetto'
-  if (simulador == 'rFactor2') return 'counter-rFactor2'
-  if (simulador == 'Simulador TC') return 'counter-simuladorTC'
-  if (simulador == 'rFactor') return 'counter-rFactor'
-
-}
 
 </script>
 
@@ -95,6 +102,11 @@ const colorCounter = (simulador) => {
               :date="useApi.proximaFechaGlobal.day" :hour="22" :minutes="0" :seconds="0" />
           </div>
 
+        </template>
+        <template v-else>
+          <p class="text-h6 q-pb-lg text-white text-uppercase text-center montserratExtraBold">
+            {{ noFecha }}
+          </p>
         </template>
       </div>
     </div>
@@ -311,7 +323,7 @@ const colorCounter = (simulador) => {
 #youTube {
   padding-top: 2.5rem;
 
-  h3{
+  h3 {
     padding-top: 5rem;
   }
 
@@ -494,5 +506,4 @@ const colorCounter = (simulador) => {
 
   }
 }
-
 </style>

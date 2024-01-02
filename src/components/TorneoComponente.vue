@@ -112,19 +112,25 @@ const fechaCountdown = async () => {
     try {
         const fecha = await apiStore.proximaFechaApi(JSON.parse(localStorage.getItem('token')), route.params.id)
 
-        const arrFecha = fecha.date.split('-');
-        const circuito = fecha.circuit
+        if(fecha){
+            const arrFecha = fecha.date.split('-');
+            const circuito = fecha.circuit
 
-        //console.log(arrFecha);
-        resultObj = {
-            id: route.params.id,
-            year: arrFecha[0],
-            month: arrFecha[1],
-            day: arrFecha[2],
-            circuit: circuito
+            //console.log(arrFecha);
+            resultObj = {
+                id: route.params.id,
+                year: arrFecha[0],
+                month: arrFecha[1],
+                day: arrFecha[2],
+                circuit: circuito
+            }
+
+            apiStore.arrayFechasCounter.push((resultObj))
+
+        }else{
+            return
         }
 
-        apiStore.arrayFechasCounter.push((resultObj))
 
     } catch (error) {
         console.log(error);

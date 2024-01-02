@@ -22,25 +22,32 @@ const fechaCountdown = async () => {
   let resultObj = {}
 
   const torneos = await apiStore.getTorneosApi(JSON.parse(localStorage.getItem('token')))
+  
   try {
 
     torneos.forEach(async torneo => {
 
       const fecha = await apiStore.proximaFechaApi(JSON.parse(localStorage.getItem('token')), torneo.id)
 
-      const arrFecha = fecha.date.split('-');
-      const circuito = fecha.circuit
+      if(fecha){
 
-      //console.log(arrFecha);
-      resultObj = {
-        id: torneo.id,
-        year: arrFecha[0],
-        month: arrFecha[1],
-        day: arrFecha[2],
-        circuit: circuito
+        const arrFecha = fecha.date.split('-');
+        const circuito = fecha.circuit
+
+        //console.log(arrFecha);
+        resultObj = {
+          id: torneo.id,
+          year: arrFecha[0],
+          month: arrFecha[1],
+          day: arrFecha[2],
+          circuit: circuito
+        }
+
+        apiStore.arrayFechasCounter.push((resultObj))
+      }else{
+        return
       }
 
-      apiStore.arrayFechasCounter.push((resultObj))
 
     });
 

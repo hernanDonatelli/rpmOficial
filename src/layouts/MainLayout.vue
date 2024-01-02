@@ -109,7 +109,7 @@ const onScroll = (params) => {
             <q-btn v-if="databaseStore.documents != ''" @click="logout" class="q-mr-sm logout" color="red-13" size="sm"
               label="Salir" icon="las la-sign-out-alt" />
 
-            <p class="text-blue-grey-5 text-caption q-mb-none date">{{ fechaTop }}</p>
+            <p class="text-blue-grey-5 text-caption q-mb-none text-center date">{{ fechaTop }}</p>
           </div>
           <div v-else>
             <p class="text-caption text-white text-weight-normal text-grey-13 q-mb-none">
@@ -390,7 +390,7 @@ const onScroll = (params) => {
 
   .date {
     position: relative;
-    right: 7%;
+    // right: 7%;
   }
 }
 
