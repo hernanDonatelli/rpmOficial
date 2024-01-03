@@ -1,5 +1,18 @@
 <script setup>
+import { onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import FooterComponent from './FooterComponent.vue'
+
+const route = useRoute()
+const router = useRouter()
+
+onMounted(() => {
+    if(route.fullPath === '/error-404'){
+        setTimeout(() => {
+            router.push('/')
+        }, 3500);
+    }
+})
 </script>
 
 <template>
@@ -11,12 +24,8 @@ import FooterComponent from './FooterComponent.vue'
 
             <div class="text-h4 text-white" style="opacity:.6">
                 <p class="text-h6">Oops. Hubo un error al procesar la url!</p>
-                <p class="text-body2">Debes estar Registrado y Logueado con tus credenciales.</p>
+                <p class="text-body2">Debes estar Registrado y Logueado con tus credenciales para contactarnos.</p>
             </div>
-
-            <!-- <q-btn class="q-mr-sm bg-red-13" size="sm" style="color: lightgrey" label="Ir al Home" to="/"
-                @click="menu('home')" /> -->
-
         </div>
     </div>
 
