@@ -1,24 +1,19 @@
-# Quasar App (rpmracingleagueq)
+# RPM Racing League
 
-A Quasar Project
-
-## Install the dependencies
+## Instalar dependencias
 ```bash
 yarn
 # or
 npm install
 ```
 
-### Start the app in development mode (hot-code reloading, error reporting, etc.)
+### Correr aplicacion
 ```bash
 quasar dev
 ```
 
 
-### Build the app for production
+### Build para produccion
 ```bash
 quasar build
 ```
-
-### Customize the configuration
-See [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-vite/quasar-config-js).
