@@ -24,8 +24,7 @@ export const useApiStore = defineStore('useApiStore', {
     proximaFechaGlobal: null,
     sesionesVR: {},
     vueltasDriver: [],
-    sesionesVD: [],
-    url: 'https://rpm.studioatlantic.com.ar/pezls/public/api/v1'
+    sesionesVD: []
   }),
   actions: {
     async loginApi() {
@@ -38,7 +37,7 @@ export const useApiStore = defineStore('useApiStore', {
         body: '{"email":"organizacionrpm@gmail.com","password":"Mr*Charles-2023"}',
       };
 
-      const fetchLogin = await fetch(`https://rpm.studioatlantic.com.ar/pezls/public/api/v1/login`, optionsLogin);
+      const fetchLogin = await fetch(`${process.env.API_URL}/login`, optionsLogin);
       const response = await fetchLogin.json();
       const token = response.token;
 
@@ -60,7 +59,7 @@ export const useApiStore = defineStore('useApiStore', {
       };
 
       try {
-        const fetchGetUser = await fetch(`${this.url}/get-user`, optionsGetUser);
+        const fetchGetUser = await fetch(`${process.env.API_URL}/get-user`, optionsGetUser);
         const response = await fetchGetUser.json();
 
         return response;
@@ -81,7 +80,7 @@ export const useApiStore = defineStore('useApiStore', {
         body: `{"idTorneo": "${idTorneo}"}`,
       };
 
-      await fetch(`${this.url}/getCalendario`, optionsCalendario)
+      await fetch(`${process.env.API_URL}/getCalendario`, optionsCalendario)
         .then((res) => res.json())
         .then(response => {
 
@@ -116,7 +115,7 @@ export const useApiStore = defineStore('useApiStore', {
         body: `{"idTorneo": "${idTorneo}"}`,
       };
 
-      const getCalendar = await fetch(`https://rpm.studioatlantic.com.ar/pezls/public/api/v1/getCalendario`, optionsCalendario)
+      const getCalendar = await fetch(`${process.env.API_URL}/getCalendario`, optionsCalendario)
       const respuesta = await getCalendar.json()
 
       respuesta.data.sort((a, b) => a.order - b.order);
@@ -134,7 +133,7 @@ export const useApiStore = defineStore('useApiStore', {
           'X-Requested-With': 'XMLHttpRequest'
         }
       };
-      const traerTorneos = await fetch(`https://rpm.studioatlantic.com.ar/pezls/public/api/v1/mostrarTorneos`, optionsTorneos);
+      const traerTorneos = await fetch(`${process.env.API_URL}/mostrarTorneos`, optionsTorneos);
       const respuesta = await traerTorneos.json();
 
       return respuesta;
@@ -151,7 +150,7 @@ export const useApiStore = defineStore('useApiStore', {
         body: ''
       }
 
-      const fetchGetPlataforma = await fetch('https://rpm.studioatlantic.com.ar/pezls/public/api/v1/getPlataformas', optionsGetPlataforma);
+      const fetchGetPlataforma = await fetch(`${process.env.API_URL}/getPlataformas`, optionsGetPlataforma);
       const response = await fetchGetPlataforma.json();
       const plataformas = response.data;
 
@@ -170,7 +169,7 @@ export const useApiStore = defineStore('useApiStore', {
         body: datos
       };
 
-      await fetch('https://rpm.studioatlantic.com.ar/pezls/public/api/v1/consumirTorneo', optionsCreateTorneo)
+      await fetch(`${process.env.API_URL}/consumirTorneo`, optionsCreateTorneo)
         .then((res) => res.json())
         .then(response => {
 
@@ -214,7 +213,7 @@ export const useApiStore = defineStore('useApiStore', {
 
       try {
 
-        await fetch('https://rpm.studioatlantic.com.ar/pezls/public/api/v1/editarTorneo', optionsEditChamp)
+        await fetch(`${process.env.API_URL}/editarTorneo`, optionsEditChamp)
           .then((res) => res.json())
           .then(data => {
 
@@ -261,7 +260,7 @@ export const useApiStore = defineStore('useApiStore', {
         body: `{"idTorneo": "${idTorneo}"}`
       };
 
-      await fetch('https://rpm.studioatlantic.com.ar/pezls/public/api/v1/eliminarTorneo', optionsDeleteTorneo)
+      await fetch(`${process.env.API_URL}/eliminarTorneo`, optionsDeleteTorneo)
         .then((res) => res.json())
         .then(data => {
           if (data.success) {
@@ -303,7 +302,7 @@ export const useApiStore = defineStore('useApiStore', {
 
       try {
 
-        await fetch('https://rpm.studioatlantic.com.ar/pezls/public/api/v1/crearCalendario', optionsCreateCalendar)
+        await fetch(`${process.env.API_URL}/crearCalendario`, optionsCreateCalendar)
           .then((res) => res.json())
           .then(data => {
 
@@ -354,7 +353,7 @@ export const useApiStore = defineStore('useApiStore', {
         body: `{"idTorneo":"${idTorneo}","order":"${fecha}"}`
       };
 
-      await fetch(`https://rpm.studioatlantic.com.ar/pezls/public/api/v1/eliminarFecha`, optionsDeleteFecha)
+      await fetch(`${process.env.API_URL}/eliminarFecha`, optionsDeleteFecha)
         .then((res) => res.json())
         .then(data => {
           if (data.success) {
@@ -395,7 +394,7 @@ export const useApiStore = defineStore('useApiStore', {
         body: resultados
       }
 
-      fetch(`https://rpm.studioatlantic.com.ar/pezls/public/api/v1/consumirResultado`, optionsUploadResult)
+      fetch(`${process.env.API_URL}/consumirResultado`, optionsUploadResult)
         .then(res => res.json())
         .then(data => {
           if (data.success) {
@@ -435,7 +434,7 @@ export const useApiStore = defineStore('useApiStore', {
         body: `{"idTorneo": "${idTorneo}","orden": "${order}"}`,
       };
 
-      await fetch("https://rpm.studioatlantic.com.ar/pezls/public/api/v1/getResultadosFecha", optionsGetResult)
+      await fetch(`${process.env.API_URL}/getResultadosFecha`, optionsGetResult)
         .then(res => res.json())
         .then(info => {
           this.sesiones = []
@@ -492,7 +491,7 @@ export const useApiStore = defineStore('useApiStore', {
         body: `{"idDriverInfo": "${idDriver}","sancion": "${time}"}`,
       }
 
-      await fetch("https://rpm.studioatlantic.com.ar/pezls/public/api/v1/aplicarSancion", optionsAplicarSancion)
+      await fetch(`${process.env.API_URL}/aplicarSancion`, optionsAplicarSancion)
         .then(res => res.json())
         .then(data => {
           if (data.success) {
@@ -531,7 +530,7 @@ export const useApiStore = defineStore('useApiStore', {
         body: `{"idTorneo": "${idTorneo}"}`,
       }
 
-      await fetch("https://rpm.studioatlantic.com.ar/pezls/public/api/v1/finalizarTorneo", optionsFinalizarTorneo)
+      await fetch(`${process.env.API_URL}/finalizarTorneo`, optionsFinalizarTorneo)
         .then(res => res.json())
         .then(response => response)
 
@@ -548,7 +547,7 @@ export const useApiStore = defineStore('useApiStore', {
         body: `{"idTorneo": "${idTorneo}"}`
       }
 
-      await fetch('https://rpm.studioatlantic.com.ar/pezls/public/api/v1/posicionesTorneo', optionsPosiciones)
+      await fetch(`${process.env.API_URL}/posicionesTorneo`, optionsPosiciones)
         .then(res => res.json())
         .then(response => {
 
@@ -567,7 +566,7 @@ export const useApiStore = defineStore('useApiStore', {
         body: `{"idTorneo": "${idTorneo}"}`
       }
 
-      const traerPosiciones = await fetch(`https://rpm.studioatlantic.com.ar/pezls/public/api/v1/posicionesTorneo`, optionsPosiciones);
+      const traerPosiciones = await fetch(`${process.env.API_URL}/posicionesTorneo`, optionsPosiciones);
       const respuesta = await traerPosiciones.json();
 
       // this.posicionesTorneos.push(respuesta.data[0])
@@ -586,7 +585,7 @@ export const useApiStore = defineStore('useApiStore', {
         }
       }
 
-      const getTipoCarrera = await fetch(`https://rpm.studioatlantic.com.ar/pezls/public/api/v1/tiposDeCarrera`, optionsTipoCarrera);
+      const getTipoCarrera = await fetch(`${process.env.API_URL}/tiposDeCarrera`, optionsTipoCarrera);
       const respuesta = await getTipoCarrera.json();
 
       return respuesta;
@@ -603,7 +602,7 @@ export const useApiStore = defineStore('useApiStore', {
         }
       }
 
-      const getNoticias = await fetch(`https://rpm.studioatlantic.com.ar/pezls/public/api/v1/novedades`, optionsNoticias);
+      const getNoticias = await fetch(`${process.env.API_URL}/novedades`, optionsNoticias);
       const respuesta = await getNoticias.json();
 
       this.noticias = respuesta
@@ -621,7 +620,7 @@ export const useApiStore = defineStore('useApiStore', {
         body: data
       };
 
-      await fetch('https://rpm.studioatlantic.com.ar/pezls/public/api/v1/novedades', optionsCreateNoticia)
+      await fetch(`${process.env.API_URL}/novedades`, optionsCreateNoticia)
         .then((res) => res.json())
         .then(response => {
 
@@ -665,7 +664,7 @@ export const useApiStore = defineStore('useApiStore', {
 
       try {
 
-        await fetch(`https://rpm.studioatlantic.com.ar/pezls/public/api/v1/novedades/${id}`, optionsEditNews)
+        await fetch(`${process.env.API_URL}/novedades/${id}`, optionsEditNews)
           .then((res) => res.json())
           .then(data => {
 
@@ -712,7 +711,7 @@ export const useApiStore = defineStore('useApiStore', {
         // body: `{"id": "${id}"}`
       };
 
-      await fetch(`https://rpm.studioatlantic.com.ar/pezls/public/api/v1/novedades/${id}`, optionsDeleteNoticia)
+      await fetch(`${process.env.API_URL}/novedades/${id}`, optionsDeleteNoticia)
         .then((res) => res.json())
         .then(data => {
 
@@ -753,7 +752,7 @@ export const useApiStore = defineStore('useApiStore', {
         body: `{"idDriverInfo": "${idDriver}"}`,
       }
 
-      await fetch("https://rpm.studioatlantic.com.ar/pezls/public/api/v1/aplicarDQ", optionsAplicarDQ)
+      await fetch(`${process.env.API_URL}/aplicarDQ`, optionsAplicarDQ)
         .then(res => res.json())
         .then(data => {
           if (data.success) {
@@ -791,7 +790,7 @@ export const useApiStore = defineStore('useApiStore', {
         },
       }
 
-      const getProximaFecha = await fetch(`https://rpm.studioatlantic.com.ar/pezls/public/api/v1/proximaFecha/${idTorneo}`, optionsproximaFecha);
+      const getProximaFecha = await fetch(`${process.env.API_URL}/proximaFecha/${idTorneo}`, optionsproximaFecha);
       const respuesta = await getProximaFecha.json();
 
       return respuesta.data[0]
@@ -809,7 +808,7 @@ export const useApiStore = defineStore('useApiStore', {
         },
       }
 
-      const getProximaFecha = await fetch(`https://rpm.studioatlantic.com.ar/pezls/public/api/v1/proximaFecha`, optionsproximaFecha);
+      const getProximaFecha = await fetch(`${process.env.API_URL}/proximaFecha`, optionsproximaFecha);
       const respuesta = await getProximaFecha.json();
 
       return respuesta.data[0]
@@ -831,7 +830,7 @@ export const useApiStore = defineStore('useApiStore', {
 
       try {
 
-        await fetch("https://rpm.studioatlantic.com.ar/pezls/public/api/v1/enviarComunicacion", optionsSubirComunicacion)
+        await fetch(`${process.env.API_URL}/enviarComunicacion`, optionsSubirComunicacion)
           .then((res) => res.json())
           .then(data => {
 
@@ -878,7 +877,7 @@ export const useApiStore = defineStore('useApiStore', {
         body: `{"idTorneo": "${idTorneo}","orden": "${order}"}`,
       };
 
-      await fetch("https://rpm.studioatlantic.com.ar/pezls/public/api/v1/getVueltasRapidas", optionsGetVR)
+      await fetch(`${process.env.API_URL}/getVueltasRapidas`, optionsGetVR)
         .then(res => res.json())
         .then(info => { this.sesionesVR = info.data })
 
@@ -896,7 +895,7 @@ export const useApiStore = defineStore('useApiStore', {
         body: `{"idTorneo": ${idTorneo},"idSessionInfo": ${sesion},"idDriverInfo": ${driver}}`,
       };
 
-      await fetch("https://rpm.studioatlantic.com.ar/pezls/public/api/v1/getVueltasDriverSesion", optionsGetVD)
+      await fetch(`${process.env.API_URL}/getVueltasDriverSesion`, optionsGetVD)
         .then(res => res.json())
         .then(info => {
           this.vueltasDriver = info.data
@@ -916,7 +915,7 @@ export const useApiStore = defineStore('useApiStore', {
         body: `{"idTorneo": "${idTorneo}","orden": "${order}"}`,
       };
 
-      await fetch("https://rpm.studioatlantic.com.ar/pezls/public/api/v1/getResultadosFecha", optionsGetSession)
+      await fetch(`${process.env.API_URL}/getResultadosFecha`, optionsGetSession)
         .then(res => res.json())
         .then(info => {
           this.sesionesVD = info.data[0]
@@ -935,7 +934,7 @@ export const useApiStore = defineStore('useApiStore', {
         body: `{"idSessionInfo": "${idSesion}","bonus": "${bonus}"}`,
       };
 
-      await fetch("https://rpm.studioatlantic.com.ar/pezls/public/api/v1/aplicarBonus", optionsAplicarBonusSesion)
+      await fetch(`${process.env.API_URL}/aplicarBonusSesion`, optionsAplicarBonusSesion)
         .then(res => res.json())
         .then(info => info)
 
@@ -953,7 +952,7 @@ export const useApiStore = defineStore('useApiStore', {
         body: `{"idSessionInfo": "${idSesion}" }`,
       };
 
-      await fetch("https://rpm.studioatlantic.com.ar/pezls/public/api/v1/quitarBonus", optionsQuitarBonusSesion)
+      await fetch(`${process.env.API_URL}/quitarBonusSesion`, optionsQuitarBonusSesion)
         .then(res => res.json())
         .then(info => info)
 
@@ -971,7 +970,7 @@ export const useApiStore = defineStore('useApiStore', {
         body: `{"idDriverInfo": "${idDriver}","bonus": "${bonus}"}`,
       };
 
-      await fetch("https://rpm.studioatlantic.com.ar/pezls/public/api/v1/aplicarBonusPiloto", optionsAplicarBonusPiloto)
+      await fetch(`${process.env.API_URL}/aplicarBonusPiloto`, optionsAplicarBonusPiloto)
         .then(res => res.json())
         .then(info => info)
 
@@ -989,7 +988,7 @@ export const useApiStore = defineStore('useApiStore', {
         body: `{"idDriverInfo": "${idDriver}"}`,
       };
 
-      await fetch("https://rpm.studioatlantic.com.ar/pezls/public/api/v1/quitarBonusPiloto", optionsQuitarBonusPiloto)
+      await fetch(`${process.env.API_URL}/quitarBonusPiloto`, optionsQuitarBonusPiloto)
         .then(res => res.json())
         .then(info => info)
 

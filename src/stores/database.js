@@ -17,7 +17,7 @@ export const userDatabaseStore = defineStore('database', {
         const querySnapshot = await getDocs(q);
 
         querySnapshot.forEach((doc) => {
-          
+
           if (this.admin.length == 0) {
             this.admin.push({
               id: doc.id,
@@ -55,8 +55,6 @@ export const userDatabaseStore = defineStore('database', {
         })
       } catch (error) {
         console.log(error);
-      } finally {
-
       }
     },
 

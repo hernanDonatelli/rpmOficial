@@ -39,7 +39,7 @@ const onScroll = (params) => {
             <q-card class="my-card">
               <q-img
                 :src="`https://rpm.studioatlantic.com.ar/pezls/storage/app/public/images/tournament/${torneo.image}`">
-                <div class="absolute-bottom text-h6 text-center">
+                <div class="absolute-bottom text-h6 fontCustomTitle text-center">
                   {{ torneo.name }}
                 </div>
               </q-img>
@@ -86,7 +86,7 @@ const onScroll = (params) => {
     justify-content: space-between;
 
     #finalizados {
-      min-height: 150vh;
+      min-height: 70vh;
       margin-top: 1rem;
 
       h4 {

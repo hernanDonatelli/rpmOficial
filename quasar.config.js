@@ -61,7 +61,9 @@ module.exports = configure(function (/* ctx */) {
 
       // publicPath: '/',
       // analyze: true,
-      //env: {},
+      env: {
+        API_URL : 'https://rpm.studioatlantic.com.ar/pezls/public/api/v1'
+      },
       // rawDefine: {}
       // ignorePublicFolder: true,
       // minify: false,

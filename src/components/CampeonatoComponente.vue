@@ -22,14 +22,14 @@ const fechaCountdown = async () => {
   let resultObj = {}
 
   const torneos = await apiStore.getTorneosApi(JSON.parse(localStorage.getItem('token')))
-  
+
   try {
 
     torneos.forEach(async torneo => {
 
       const fecha = await apiStore.proximaFechaApi(JSON.parse(localStorage.getItem('token')), torneo.id)
 
-      if(fecha){
+      if (fecha) {
 
         const arrFecha = fecha.date.split('-');
         const circuito = fecha.circuit
@@ -44,7 +44,7 @@ const fechaCountdown = async () => {
         }
 
         apiStore.arrayFechasCounter.push((resultObj))
-      }else{
+      } else {
         return
       }
 
@@ -133,8 +133,7 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido, ni
   <h3 class="text-uppercase montserratExtraBold text-weight-bold text-center text-grey-5 q-mb-none q-pb-xl">
     Campeonatos</h3>
   <template v-for="(torneo, index) in apiStore.torneos" :key="index">
-    <div v-if="torneo.status == 1" class="torneo" :style="{
-      backgroundImage: `linear-gradient(135deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 1) 85%),url(https://rpm.studioatlantic.com.ar/pezls/storage/app/public/images/tournament/${torneo.image})`,
+    <div v-if="torneo.status == 1" class="torneo" :style="{ backgroundImage: `linear-gradient(135deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 1) 85%),url(https://rpm.studioatlantic.com.ar/pezls/storage/app/public/images/tournament/${torneo.image})`,
       backgroundRepeat: 'no-repeat',
       backgroundSize: 'cover',
       backgroundPosition: 'right'
@@ -168,8 +167,8 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido, ni
                   Pre-inscribite al Torneo {{ torneo.name }}
                 </q-tooltip>
               </q-btn>
-              <q-btn :href="`torneo/${torneo.id}`" class="q-mx-sm q-my-xs col-8 col-md-3"
-                icon="las la-trophy" style="background: #ffffff; color: #212121; font-weight: bold;" label="Campeonato">
+              <q-btn :href="`torneo/${torneo.id}`" class="q-mx-sm q-my-xs col-8 col-md-3" icon="las la-trophy"
+                style="background: #ffffff; color: #212121; font-weight: bold;" label="Campeonato">
                 <q-tooltip class="text-caption bg-blue-grey-11 text-black" transition-show="flip-right"
                   transition-hide="flip-left">
                   Fechas, resultados y estadísticas.
@@ -224,19 +223,19 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido, ni
 
     </div>
 
-    <div class="flex justify-center finalizados">
-      <h6 class="text-h6 q-my-md montserratExtraBold text-uppercase">
-        <q-btn :href="`torneos-finalizados`" class="col-md-3" :disable="torneo.status != 2" icon="las la-trophy"
-          style="font-weight: bold;" color="primary" label="Torneos Finalizados" :ripple="{ color: 'red' }">
-          <q-tooltip v-if="torneo.status == 1" style="background-color: transparent;"
-            class="text-caption text-regular text-white" transition-show="scale" transition-hide="scale">
-            Aún no hay Torneos Finalizados!
-          </q-tooltip>
-        </q-btn>
-      </h6>
-    </div>
 
   </template>
+  <!-- <div class="flex justify-center finalizados">
+    <h6 class="text-h6 q-my-md montserratExtraBold text-uppercase">
+      <q-btn :href="`torneos-finalizados`" class="col-md-3" :disable="torneo.status != 2" icon="las la-trophy"
+        style="font-weight: bold;" color="primary" label="Torneos Finalizados" :ripple="{ color: 'red' }">
+        <q-tooltip v-if="torneo.status == 1" style="background-color: transparent;"
+          class="text-caption text-regular text-white" transition-show="scale" transition-hide="scale">
+          Aún no hay Torneos Finalizados!
+        </q-tooltip>
+      </q-btn>
+    </h6>
+  </div> -->
 </template>
 
 <style lang="scss">
@@ -269,7 +268,7 @@ const inscripcionTorneo = async (precio, torneo, simulador, nombre, apellido, ni
 
 #campeonatos {
 
-  h3{
+  h3 {
     font-size: 2.5rem;
   }
 
