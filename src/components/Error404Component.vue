@@ -10,7 +10,7 @@ onMounted(() => {
     if(route.fullPath === '/error-404'){
         setTimeout(() => {
             router.push('/')
-        }, 3500);
+        }, 4500);
     }
 })
 </script>

@@ -172,17 +172,6 @@ const onScroll = (params) => {
           </q-item-section>
         </q-item>
 
-        <q-item clickable target="_blank" rel="noopener" href="https://www.youtube.com/@rpmracingleague7342/streams"
-          active-class="menu__link">
-          <q-item-section avatar>
-            <q-icon name="lab la-youtube" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>YouTube</q-item-label>
-            <q-item-label caption class="text-grey-6">@rpmracingleague7342</q-item-label>
-          </q-item-section>
-        </q-item>
-
         <q-item clickable to="/torneos-finalizados" v-ripple @click="menu('finalizados')" :active="link === 'finalizados'"
           active-class="bg-lime-11 text-black text-weight-bold">
           <q-item-section avatar>
