@@ -87,8 +87,8 @@ const onReset = () => {
           </q-input>
 
           <div class="btns-login q-ml-none">
+            <q-btn label="Limpiar" type="reset" color="red-13" class="q-ml-sm" />
             <q-btn label="Ingresar" type="submit" color="teal-6" />
-            <q-btn label="Limpiar Campos" type="reset" color="red-13" class="q-ml-sm" />
           </div>
 
           <div class="q-ml-none">
@@ -97,7 +97,7 @@ const onReset = () => {
             <q-dialog v-model="small">
               <q-card style="width: 400px">
                 <q-card-section>
-                  <div class="title-recupero montserratRegular">Recuperar Contraseña</div>
+                  <div class="text-body1 text-uppercase montserratExtraBold q-mb-none">Recuperar Contraseña</div>
                 </q-card-section>
 
                 <q-card-section class="q-pt-none">
@@ -106,7 +106,7 @@ const onReset = () => {
                 </q-card-section>
 
                 <q-card-actions align="right" class="bg-white text-teal">
-                  <q-btn @click="recuperoPassword" :disable="emailPassword === ''" flat label="Enviar email"
+                  <q-btn @click="recuperoPassword" :disable="emailPassword === ''" color="teal-6" label="Enviar email"
                     v-close-popup />
                 </q-card-actions>
               </q-card>

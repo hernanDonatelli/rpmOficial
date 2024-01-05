@@ -26,13 +26,10 @@ const nombreRules = [
 const apellidoRules = [
   (v) => !!v || "Apellido es requerido",
   (v) =>
-    (v && v.length <= 20) || "El apellido debe contener menos de 20 caracteres",
+    (v && v.length <= 30) || "El apellido debe contener menos de 30 caracteres",
 ];
 const mobileRules = [
   (v) => !!v || "El numero de móvil es requerido",
-  (v) =>
-    (v && v.length >= 1 && v.length <= 10) ||
-    "El movil debe ser de 10 caracteres",
 ];
 const emailRules = [
   (v) => !!v || "E-mail es requerido",
@@ -102,9 +99,9 @@ const onReset = () => {
           :rules="apellidoRules" />
       </div>
       <div>
-      <q-input dense color="cyan-6" v-model.trim="nickname" label="Nickname *" hint="Hasta 20 caracteres" lazy-rules
-        :rules="apellidoRules" />
-    </div>
+        <q-input dense color="cyan-6" v-model.trim="nickname" label="Nickname *" hint="Hasta 20 caracteres" lazy-rules
+          :rules="apellidoRules" />
+      </div>
     </div>
 
     <div class="row flex justify-between">
@@ -127,15 +124,15 @@ const onReset = () => {
           lazy-rules :rules="passwordRules" />
       </div>
     </div>
-      <div class="col-12 col-sm-3 flex justify-center">
+    <div class="col-12 col-sm-3 flex justify-center">
+      <q-btn label="Limpiar" type="reset" color="red-13" class="q-mr-md" />
       <q-btn :disabled="userStore.loadingUser" label="Registrarse" type="submit" color="teal-6" />
-      <q-btn label="Limpiar Formulario" type="reset" color="red-13" class="q-ml-sm q-ml-md" />
     </div>
   </q-form>
 </template>
 
 <style lang="scss" scoped>
-.separador{
+.separador {
   height: 3px;
   background-color: black;
 }
